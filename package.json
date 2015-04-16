@@ -1,0 +1,39 @@
+{
+  "name": "ls",
+  "version": "1.0.0",
+  "author": "Vigour.io <dev@vigour.io>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vigour-io/vigour-js.git",
+    "branch": "master"
+  },
+  "main": "lib/index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "test/test.js"
+  },
+  "description": "A javascript framework created and used by Vigour",
+  "bugs": {
+    "url": "https://github.com/vigour-io/vigour-js/issues"
+  },
+  "dependencies": {
+    "lodash": "3.6.x",
+    "promise":"6.x.x"
+  },
+  "homepage": "https://github.com/vigour-io/vigour-js-objects",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "keywords": [
+    "javascript", 
+    "framework",
+    "browserify",
+    "performance",
+    "crossplatform"
+  ],
+  "license": "GPL",
+  "devDependencies": {}
+}
