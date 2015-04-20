@@ -1,3 +1,18 @@
-var vObj = require('vigour-js-object')
+var vObj = require('vjs-object')
 
-console.log( new vObj() )
+var a = new vObj() //constructor always the same as a set???
+
+//$define is just a normal wrapped defineProperty , w some added convience
+a.$define({
+  myboo: {
+  	value:'mybooboo'
+  }
+})
+
+a.bla = true
+
+for(var key$ in a) {
+  console.log(key$)
+}
+
+console.log( 'hey!', a )
