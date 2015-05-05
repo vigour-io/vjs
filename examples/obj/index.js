@@ -2,7 +2,7 @@ var vObj = require('vjs-object')
 
 var a = new vObj() //constructor always the same as a set???
 
-//$define is just a normal wrapped defineProperty , w some added convience
+//$define is just a normal wrapped defineProperty , w some added convience also has flavourize
 a.$define({
   myboo: {
   	value:'mybooboo'
@@ -16,3 +16,4 @@ for(var key$ in a) {
 }
 
 console.log( 'hey!', a )
+
