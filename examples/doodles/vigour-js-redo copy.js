@@ -1,11 +1,92 @@
+
+Obj = vigour-object
+
+var Bla = new Obj({
+  $define: {
+    constructorThatIUseForMyChildren: Obj
+  },
+  $hello: {
+    $define: {
+      get:function() {
+        return 'world'
+      },
+      set:function(val) {
+        alert('cannot do set!')
+      }
+    }
+  },
+  $set: {
+    $define: {
+      method: {
+        flavour: function(flavours, stop){
+          flavours.push( function(val, args){
+            console.log('lol you want to set!')
+            stop(this)
+          })
+        }
+      }
+    }
+  }
+}).$Constructor
+
+
+
+
+
+
+//null
+
+var x = new Bla({
+  $hello: {
+    $define: {
+      get:{
+        flavourBreaker:'stop',
+        flavour:function(flavours) {
+          flavours.push(function(val) {
+            if(val==='world') {
+              return val + ' my bitch!'
+            }
+            return 'stop'
+          })
+        }
+      }
+    }
+  }
+})
+
+
+
+/*
+Bla.$define({
+
+})
+*/
+
+
+
+.extend()
+
+
+
+
+
+
+
+
+
+
+
+
+
 var bla = new Obj({
-  $type: {
+  $define: {
      constructor: Obj //'self' 
   },  
   $shawn: {
-     $type: {
-      $get:{ flavourize: function(inherits) {
-        inherits.unshift(function(val) {
+     $define: {
+       // update:
+       get:{ flavourize: function(flavours) {
+        flavours.unshift(function(val) {
           return val+ ' blurf'
         })
       } 
