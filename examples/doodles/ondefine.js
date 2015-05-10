@@ -17,8 +17,8 @@ var text = new Obj({
     } //hard overwrite
   },
   $children: {
-    constructor:'self' //can also pass a function to do custom stuff
-    id:'timestamp' //can pass a function
+    constructor:'self', //can also pass a function to do custom stuff
+    id:'timestamp' //can pass a function (for for example arrays)
   },
   $parent: { //ook level kunnen aangeven
     $on: {
@@ -33,7 +33,7 @@ var text = new Obj({
     new:{
       $flavour:function(flavours) {}
     } //dit is hoe een on('xxx') werkt mischien niet flavour maar add push of zoiets
-  }
+  },
   //val zo?
   $val:function() {
     $property: {
@@ -47,6 +47,9 @@ var text = new Obj({
   }
 })
 
+/*
+  get and path methods
+*/
 var speshMethod = new Obj({  
   //can also have property
   $method: {
@@ -80,15 +83,10 @@ bla.$set( bla, '$texting')
 bla.$add( new text.$Constructor({ $name: '$texting' }) )
 //add instead of push can choose a type
 
-
 //use this?
 // bla.$addProperty()
-
 //is
 //on
 
-
-
 //once
-
 
