@@ -21,10 +21,10 @@ if(!isNode) {
       document.body.appendChild(arg)
     }
   }
-
-   // document.body.appendChild(arg)
+  // document.body.appendChild(arg)
 }
 
+//-------------------------------------------------------------
 
 var Base = require('../lib/base')
 
@@ -37,16 +37,35 @@ for(var i = 0 ; i < 100; i++) {
   constructors.push(new Class(obj))
 }
 
+//-------------------------------------------------------------
+
 var a = new Base({
   name:'a',
   a:'a',
-  a2:'a'
+  a2:'a',
+  deep: {
+    level1: {
+      name:'a',
+      level2: {
+        name:'a',
+        level3: {
+          name:'a',
+          blurf:'a'
+        }
+      }
+    }
+  }
 })
 
 var b = new a.$Constructor({
   name:'b',
   b:'b',
-  a:'b'
+  a:'b',
+  deep: {
+    level1: {
+      name:'b'
+    }
+  }
 })
 
 var c = new b.$Constructor({
@@ -56,17 +75,24 @@ var c = new b.$Constructor({
   birthDay:false,
   img:false,
   pass:false,
-  email:false
+  email:false,
+  deep: {
+    level1: {
+      level2: {
+         name:'c'
+      }
+    }
+  }
 })
 
 console.log('a:',a.toString(),'\n\nb:',b.toString(),'\n\nc:',c.toString())
 
 
-console.log('--check for enums...')
-for(var i in c.c) {
-  //this is fucked --- how to do non-enum???
-  console.log('field:',i)
-}
+// console.log('--check for enums...')
+// for(var i in c.c) {
+//   //this is fucked --- how to do non-enum???
+//   console.log('field:',i)
+// }
 
 
 /*
@@ -93,7 +119,7 @@ var Class = c.$Constructor
 
 // console.error('?xxx')
 
-var n = 1000000
+var n = 100000
 
 perf({
   name:'perf test n='+n,
@@ -102,24 +128,31 @@ perf({
     for(var i = 0; i < n; i++) {
       // obj[i] = new Class()
 
-      // var content = {
-      //   name:i,
-      //   birthDay: '10-20-'+i,
-      //   img:'http://kittens.com?'+i,
-      //   pass:'xxxxx',
-      //   email:'james@james.com'+i
-      // }
+      var content = {
+        name:i,
+        birthDay: '10-20-'+i,
+        img:'http://kittens.com?'+i,
+        pass:'xxxxx',
+        email:'james@james.com'+i
+      }
       // content[i] = 'my field'
 
       //fields in vjs are ofc a lot slower then normal objects (an object is made for them)
-      // arr.push(new Class())
+      arr.push( new Class(content) )
       // arr.push({})
 
       // arr.push({name:i})
       // constructors[0][i] = i
       // arr.push({i:i}) //way more memory -- faster cpu (100% faster , requires 40% more mem)
-      //caching the getter saves a lot of speed .... (arround 40% in this case)
-      arr.push(new Class({name:i}))
+      // //caching the getter saves a lot of speed .... (arround 40% in this case)
+      // arr.push(new Class({
+      //   // name:i
+      //   deep: {
+      //     level1: {
+      //       name:i
+      //     }
+      //   }
+      // }))
     }
   
     // for(var i in arr) {
