@@ -3,19 +3,22 @@ var Base = require('../lib/base')
 var isNode = (typeof window === 'undefined')
 
 if(!isNode) {
-  document.body.style.fontFamily = 'courier'
+  document.body.style.fontFamily = 'andale mono'
   document.body.style.fontSize = '12px'
   document.body.style.lineHeight = '11px'
-
   window.gc()
-
   console.log = function() {
     document.scrollTop = -document.scrollHeight;
     var line = document.createElement('hr')
     document.body.appendChild(line)
     for(var i in arguments) {
       var arg = document.createElement('div')
-      arg.innerHTML = arguments[i].replace(/(\r)|(\n)/g,'<br/>')
+      arg.style.backgroundColor = '#eee'
+      arg.style.padding = '5px'
+
+      arg.innerHTML = typeof arguments[i] === 'string' 
+        ? arguments[i].replace(/(\r)|(\n)/g,'<br/>').replace(/ /g,'&nbsp;')
+        : arguments[i]
       document.body.appendChild(arg)
     }
   }
@@ -24,18 +27,18 @@ if(!isNode) {
 var constructors = []
 
 // Brick or Block
-for(var i = 0 ; i < 1000;i++) {
-  var obj = {
-    name:i,
-    // i:i
-    // yuzi:~~(Math.random()*5)
-  }
-  // obj[i] = i
+// for(var i = 0 ; i < 1000; i++) {
+//   var obj = {
+//     name:i,
+//     // i:i
+//     // yuzi:~~(Math.random()*5)
+//   }
+//   // obj[i] = i
 
-  var Class = constructors[i-1] && constructors[i-1].Class || Base 
+//   var Class = constructors[i-1] && constructors[i-1].$Constructor || Base 
 
-  constructors.push(new Class(obj))
-}
+//   constructors.push(new Class(obj))
+// }
 
 var a = new Base({
   name:'a',
@@ -43,20 +46,27 @@ var a = new Base({
   a2:'a'
 })
 
-var b = new a.Class({
+var b = new a.$Constructor({
   name:'b',
   b:'b',
   a:'b'
 })
 
-var c = new b.Class({
+var c = new b.$Constructor({
   name:'c',
   b:'c',
   c:'c'
 })
 
-
 console.log('a:',a.toString(),'\n\nb:',b.toString(),'\n\nc:',c.toString())
+
+
+console.log('--check for enums...')
+for(var i in c.c) {
+  //this is fucked --- how to do non-enum???
+  console.log('field:',i)
+}
+
 
 /*
   some standards --- $field is very important
@@ -66,12 +76,11 @@ console.log('a:',a.toString(),'\n\nb:',b.toString(),'\n\nc:',c.toString())
 
 var perf = require('../lib/util/perf')
 
-
  //new Array()
 
 var obj = {}
 
-var Class = c.Class
+var Class = c.$Constructor
 
 // var Class = constructors[constructors.length-1].Class
 
