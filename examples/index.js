@@ -1,5 +1,4 @@
 //index.js
-var Base = require('../lib/base')
 var isNode = (typeof window === 'undefined')
 
 if(!isNode) {
@@ -26,21 +25,17 @@ if(!isNode) {
    // document.body.appendChild(arg)
 }
 
+
+var Base = require('../lib/base')
+
 var constructors = []
-
-// Brick or Block
-// for(var i = 0 ; i < 1000; i++) {
-//   var obj = {
-//     name:i,
-//     // i:i
-//     // yuzi:~~(Math.random()*5)
-//   }
-//   // obj[i] = i
-
-//   var Class = constructors[i-1] && constructors[i-1].$Constructor || Base 
-
-//   constructors.push(new Class(obj))
-// }
+for(var i = 0 ; i < 100; i++) {
+  var obj = {
+    name:i,
+  }
+  var Class = constructors[i-1] && constructors[i-1].$Constructor || Base 
+  constructors.push(new Class(obj))
+}
 
 var a = new Base({
   name:'a',
@@ -84,9 +79,11 @@ var obj = {}
 
 var Class = c.$Constructor
 
-// var Class = constructors[constructors.length-1].Class
+// var Class = constructors[constructors.length-1].$Constructor
+//deeper lookup (e.g. 100 nested things make it a lot slower (obvioursly))
+//till 10 levels its only a very small amount extra (what we will use in the elements etc)
 
-// var Class = constructors[0].Class
+// var Class = constructors[0].$Constructor
 
 // window.constructors = constructors
 
@@ -95,12 +92,13 @@ var Class = c.$Constructor
 var n = 1000000
 
 perf({
-  // loop:10,
   name:'perf test n='+n,
   method:function() {
     var arr = []
     for(var i = 0; i < n; i++) {
       // obj[i] = new Class()
+
+      //fields in vjs are ofc a lot slower then normal objects (an object is made for them)
       arr.push(new Class({name:i}))
       // arr.push({name:i})
       // constructors[0][i] = i
