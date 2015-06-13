@@ -22,6 +22,8 @@ if(!isNode) {
       document.body.appendChild(arg)
     }
   }
+
+   // document.body.appendChild(arg)
 }
 
 var constructors = []
@@ -90,11 +92,14 @@ var Class = c.$Constructor
 
 // console.error('?xxx')
 
+var n = 1000000
+
 perf({
   // loop:10,
+  name:'perf test n='+n,
   method:function() {
     var arr = []
-    for(var i = 0; i < 1000000; i++) {
+    for(var i = 0; i < n; i++) {
       // obj[i] = new Class()
       arr.push(new Class({name:i}))
       // arr.push({name:i})
