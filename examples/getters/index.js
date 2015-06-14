@@ -42,6 +42,6 @@ var blurf = window.blurf = new bla.$Constructor({
   flups:'blurf'
 })
 
-blurf._name = 'blurf'
+blurf._name = 'blurf (instanceof bla)'
 
-console.log(blurf.toString(), blurf.$path, blurf.x.y.z.$path)
+console.log( blurf.$path, blurf.x.y.z.$path )
