@@ -78,6 +78,7 @@ var c = new b.$Constructor({
   birthDay:'',
   img:'',
   pass:'',
+  // gurken:'',
   email:'',
   deep: {
     level1: {
@@ -101,7 +102,7 @@ console.log('THIS SHOULD BE C!'
 
 var Class = c.$Constructor
 
-var n = 1000000
+var n = 100000
 
 perf({
   name:'perf test n='+n,
@@ -110,23 +111,30 @@ perf({
 
     for(var i = 0; i < n; i++) {
       
-      var content = {
-        // name:i,
-        // birthDay: '10-20-'+i,
-        // img:'http://kittens.com?'+i,
-        // pass:'xxxxx'+i,
-        // email:'james@james.com'+i,
-        gurken:true
-      }
-      var c = new Class(content)
+      // var content = {
+      //   // name:i,
+      //   // birthDay: '10-20-'+i,
+      //   // img:'http://kittens.com?'+i,
+      //   // pass:'xxxxx'+i,
+      //   // email:'james@james.com'+i,
+      //   _gurken:true
+      // }
+      // var c = new Class(content)
+
+
 
       //if you need to run stuff optimized do it like this
-      // var c = new Class()
+      var c = new Class()
       // c.$setKeyInternal( '_name', i, c._name)
       // c.$setKeyInternal( '_birthDay', '10-20-'+i, c._birthDay)
       // c.$setKeyInternal( '_img', 'http://kittens.com?'+i, c._img )
       // c.$setKeyInternal( '_pass', 'xxxxx'+i, c._pass)
       // c.$setKeyInternal( '_email', 'james@james.com'+i, c._email)
+
+      c.$setKeyInternal( 'gurken', i )
+
+      // var c = { gurken: i }
+      // c.gruken = i
 
       arr.push( c )
 
