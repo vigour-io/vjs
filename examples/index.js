@@ -101,7 +101,7 @@ console.log('THIS SHOULD BE C!'
 
 var Class = c.$Constructor
 
-var n = 100000
+var n = 1000000
 
 perf({
   name:'perf test n='+n,
@@ -111,11 +111,12 @@ perf({
     for(var i = 0; i < n; i++) {
       
       var content = {
-        name:i,
-        birthDay: '10-20-'+i,
-        img:'http://kittens.com?'+i,
-        pass:'xxxxx'+i,
-        email:'james@james.com'+i
+        // name:i,
+        // birthDay: '10-20-'+i,
+        // img:'http://kittens.com?'+i,
+        // pass:'xxxxx'+i,
+        // email:'james@james.com'+i,
+        gurken:true
       }
       var c = new Class(content)
 

@@ -36,7 +36,7 @@ var bla = new Base({
   },
   flups:'bla'
 })
-bla._$name = 'bla'
+bla._$key = 'bla'
 
 var blurf = window.blurf = new bla.$Constructor({
   flups:'blurf',
@@ -45,13 +45,7 @@ var blurf = window.blurf = new bla.$Constructor({
   // }
 })
 
-console.log(
-  blurf.$toString()
-)
-
-blurf._$name = 'blurf (instanceof bla)'
-
-console.log( blurf.$path )
+blurf._$key = 'blurf (instanceof bla)'
 
 console.log('---- this is my test ----')
 
@@ -63,7 +57,7 @@ var gurk = window.gurk = new blurf.$Constructor({
   flups:'gurk'
 })
 
-gurk._$name = 'gurk'
+gurk._$key = 'gurk'
 
 //overwrite!
 console.log( gurk.x.y.z.$path, '<---- my path' )
@@ -71,10 +65,19 @@ console.log( gurk.x.y.z.$path, '<---- my path' )
 var hurk = window.gurk = new blurf.$Constructor({
   flups:'hurk'
 })
-hurk._$name = 'hurk'
+hurk._$key = 'hurk'
 
 console.log( hurk.x.y.z.$path,  '<---- my path' )
 
+console.log(' setting a inheritable prop on blurf' )
+
+blurf.$set({
+  bitchez:{
+    aint:'shit'
+  }
+})
+
+console.log(gurk.bitchez.$toString(), gurk.bitchez.aint.$path)
 
 
 
