@@ -44,4 +44,10 @@ var blurf = window.blurf = new bla.$Constructor({
 
 blurf._name = 'blurf (instanceof bla)'
 
-console.log( blurf.$path, blurf.x.y.z.$path )
+console.log( blurf.$path )
+
+console.log('---- this is my test ----')
+
+//dit is kut --- y,z nog geen getters dus dit werkt never
+//proberen getters overal te doen? (nested dingen)
+console.log( blurf.x.y.z.$path )
