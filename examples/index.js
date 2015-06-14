@@ -68,14 +68,20 @@ var b = new a.$Constructor({
   }
 })
 
+b._$name = 'b'
+
+
+
+console.log('lets make C!')
+
 var c = new b.$Constructor({
   name:'c',
   b:'c',
   c:'c',
-  birthDay:false,
-  img:false,
-  pass:false,
-  email:false,
+  birthDay:'',
+  img:'',
+  pass:'',
+  email:'',
   deep: {
     level1: {
       level2: {
@@ -85,7 +91,8 @@ var c = new b.$Constructor({
   }
 })
 
-console.log('OBJECTS','a:',a.$toString(),'\n\nb:',b.$toString(),'\n\nc:',c.$toString())
+c._$name = 'c'
+
 
 // console.log('--check for enums...')
 // for(var i in c.c) {
@@ -103,7 +110,13 @@ var perf = require('../lib/util/perf')
 
 //new Array()
 
-console.log('THIS SHOULD BE C!', c.deep.level1.level2.level3.$parent.$parent.$parent.$toString())
+console.log('OBJECTS','a:',a.$toString(),'\n\nb:',b.$toString(),'\n\nc:',c.$toString())
+//need to add a reset!
+
+document.body.innerHTML = ''
+
+
+console.log('THIS SHOULD BE C!', c.deep.level1.level2.level3.$path)
 
 
 var Class = c.$Constructor

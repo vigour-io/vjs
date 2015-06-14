@@ -36,20 +36,20 @@ var bla = new Base({
   },
   flups:'bla'
 })
-bla._name = 'bla'
+bla._$name = 'bla'
 
 var blurf = window.blurf = new bla.$Constructor({
   flups:'blurf',
-  x: {
-    extraField:true
-  }
+  // x: {
+  //   extraField:true
+  // }
 })
 
 console.log(
   blurf.$toString()
 )
 
-blurf._name = 'blurf (instanceof bla)'
+blurf._$name = 'blurf (instanceof bla)'
 
 console.log( blurf.$path )
 
@@ -63,7 +63,7 @@ var gurk = window.gurk = new blurf.$Constructor({
   flups:'gurk'
 })
 
-gurk._name = 'gurk'
+gurk._$name = 'gurk'
 
 //overwrite!
 console.log( gurk.x.y.z.$path, '<---- my path' )
@@ -71,9 +71,9 @@ console.log( gurk.x.y.z.$path, '<---- my path' )
 var hurk = window.gurk = new blurf.$Constructor({
   flups:'hurk'
 })
-hurk._name = 'hurk'
+hurk._$name = 'hurk'
 
-console.log( hurk.x.y.z.$path, '<---- my path' )
+console.log( hurk.x.y.z.$path,  '<---- my path' )
 
 
 
