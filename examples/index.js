@@ -1,5 +1,6 @@
-//index.js
 var isNode = (typeof window === 'undefined')
+
+//-------------------------------------------------------------
 
 if(!isNode) {
   document.body.style.fontFamily = 'andale mono'
@@ -70,10 +71,6 @@ var b = new a.$Constructor({
 
 b._$name = 'b'
 
-
-
-console.log('lets make C!')
-
 var c = new b.$Constructor({
   name:'c',
   b:'c',
@@ -93,40 +90,16 @@ var c = new b.$Constructor({
 
 c._$name = 'c'
 
-
-// console.log('--check for enums...')
-// for(var i in c.c) {
-//   //this is fucked --- how to do non-enum???
-//   console.log('field:',i)
-// }
-
-/*
-  some standards --- $field is very important
-  just like operators and getters this all comes from the basic Fibre (no value, data, object)
-  only cloud-Fibre for example that rly does stuff dirrently
-*/
+//-------------------------------------------------------------
 
 var perf = require('../lib/util/perf')
 
-//new Array()
-
 console.log('OBJECTS','a:',a.$toString(),'\n\nb:',b.$toString(),'\n\nc:',c.$toString())
-//need to add a reset!
 
-document.body.innerHTML = ''
-
-
-console.log('THIS SHOULD BE C!', c.deep.level1.level2.level3.$path)
-
+console.log('THIS SHOULD BE C!'
+  , c.deep.level1.level2.level3.$parent.$parent.$parent.$parent.name._$val)
 
 var Class = c.$Constructor
-
-// var Class = constructors[constructors.length-1].$Constructor
-//deeper lookup (e.g. 100 nested things make it a lot slower (obvioursly))
-//till 10 levels its only a very small amount extra (what we will use in the elements etc)
-// var Class = constructors[0].$Constructor
-// window.constructors = constructors
-// console.error('?xxx')
 
 var n = 100000
 
@@ -134,8 +107,6 @@ perf({
   name:'perf test n='+n,
   method:function() {
     var arr = []
-
-    window.arr = arr
 
     for(var i = 0; i < n; i++) {
       
@@ -160,12 +131,7 @@ perf({
 
     }
 
-    console.log('CNTS!', window.cnt, window.setCnts)
-
-  
-    // for(var i in arr) {
-    //   console.log(arr[i].$toString())
-    // }
-
   }
 })
+
+//-------------------------------------------------------------
