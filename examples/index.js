@@ -7,7 +7,6 @@ if(!isNode) {
   document.body.style.lineHeight = '11px'
   window.gc()
   console.log = function() {
-    document.scrollTop = -document.scrollHeight;
     var line = document.createElement('hr')
     document.body.appendChild(line)
     for(var i in arguments) {
@@ -20,6 +19,7 @@ if(!isNode) {
         : arguments[i]
       document.body.appendChild(arg)
     }
+    document.scrollTop = document.scrollHeight;
   }
   // document.body.appendChild(arg)
 }
@@ -107,7 +107,7 @@ var perf = require('../lib/util/perf')
 
 //new Array()
 
-console.log('THIS SHOULD BE C!', c.deep.level1.level2.level3.$parent.$parent.$parent.$parent.$toString())
+console.log('THIS SHOULD BE C!', c.deep.level1.level2.level3.$parent.$parent.$parent.$toString())
 
 
 var Class = c.$Constructor
@@ -125,6 +125,9 @@ perf({
   name:'perf test n='+n,
   method:function() {
     var arr = []
+
+    window.arr = arr
+
     for(var i = 0; i < n; i++) {
       // obj[i] = new Class()
       var content = {
@@ -137,6 +140,7 @@ perf({
       // content[i] = 'my field'
       //fields in vjs are ofc a lot slower then normal objects (an object is made for them)
       arr.push( new Class(content) )
+
       // arr.push({})
 
       // arr.push({name:i})
@@ -152,6 +156,9 @@ perf({
       //   }
       // }))
     }
+
+    console.log('CNTS!', window.cnt, window.setCnts)
+
   
     // for(var i in arr) {
     //   console.log(arr[i].$toString())
