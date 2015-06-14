@@ -39,8 +39,15 @@ var bla = new Base({
 bla._name = 'bla'
 
 var blurf = window.blurf = new bla.$Constructor({
-  flups:'blurf'
+  flups:'blurf',
+  x: {
+    extraField:true
+  }
 })
+
+console.log(
+  blurf.$toString()
+)
 
 blurf._name = 'blurf (instanceof bla)'
 
@@ -51,3 +58,23 @@ console.log('---- this is my test ----')
 //dit is kut --- y,z nog geen getters dus dit werkt never
 //proberen getters overal te doen? (nested dingen)
 console.log( blurf.x.y.z.$path, '<---- my path' )
+
+var gurk = window.gurk = new blurf.$Constructor({
+  flups:'gurk'
+})
+
+gurk._name = 'gurk'
+
+//overwrite!
+console.log( gurk.x.y.z.$path, '<---- my path' )
+
+var hurk = window.gurk = new blurf.$Constructor({
+  flups:'hurk'
+})
+hurk._name = 'hurk'
+
+console.log( hurk.x.y.z.$path, '<---- my path' )
+
+
+
+

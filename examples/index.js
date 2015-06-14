@@ -87,7 +87,7 @@ var c = new b.$Constructor({
 
 
 
-console.log('OBJECTS','a:',a.toString(),'\n\nb:',b.toString(),'\n\nc:',c.toString())
+console.log('OBJECTS','a:',a.$toString(),'\n\nb:',b.$toString(),'\n\nc:',c.$toString())
 
 
 // console.log('--check for enums...')
@@ -107,7 +107,7 @@ var perf = require('../lib/util/perf')
 
 //new Array()
 
-console.log('THIS SHOULD BE C!', c.deep.level1.level2.level3.$parent.$parent.$parent.toString())
+console.log('THIS SHOULD BE C!', c.deep.level1.level2.level3.$parent.$parent.$parent.$parent.$toString())
 
 
 var Class = c.$Constructor
@@ -154,7 +154,7 @@ perf({
     }
   
     // for(var i in arr) {
-    //   console.log(arr[i].toString())
+    //   console.log(arr[i].$toString())
     // }
 
   }
