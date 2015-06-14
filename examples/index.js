@@ -126,41 +126,23 @@ perf({
 
     for(var i = 0; i < n; i++) {
       // obj[i] = new Class()
-      var content = {
-        name:i,
-        birthDay: '10-20-'+i,
-        img:'http://kittens.com?'+i,
-        pass:'xxxxx',
-        email:'james@james.com'+i
-      }
-
+      // var content = {
+      //   name:i,
+      //   birthDay: '10-20-'+i,
+      //   img:'http://kittens.com?'+i,
+      //   pass:'xxxxx'+i,
+      //   email:'james@james.com'+i
+      // }
       //zoveel faster om _ er alvast voor te hebben .... is kut!
+      var c = new Class()
 
-      var c = new Class(content)
-      // c.$setKey( '_name', i)
-      // c.$setKey( '_birthDay', '10-20-'+i)
-      // c.$setKey( '_img', 'http://kittens.com?'+i )
-      // c.$setKey( '_pass', 'xxxxx')
-      // c.$setKey( '_email', 'james@james.com'+i)
-
-      // content[i] = 'my field'
-      //fields in vjs are ofc a lot slower then normal objects (an object is made for them)
+      //if you need to run stuff optimized do it like this
+      c.$setKeyInternal( '_name', i, c._name)
+      c.$setKeyInternal( '_birthDay', '10-20-'+i, c._birthDay)
+      c.$setKeyInternal( '_img', 'http://kittens.com?'+i, c._img )
+      c.$setKeyInternal( '_pass', 'xxxxx', c._pass)
+      c.$setKeyInternal( '_email', 'james@james.com'+i, c._email)
       arr.push( c )
-
-      // arr.push({})
-
-      // arr.push({name:i})
-      // constructors[0][i] = i
-      // arr.push({i:i}) //way more memory -- faster cpu (100% faster , requires 40% more mem)
-      // //caching the getter saves a lot of speed .... (arround 40% in this case)
-      // arr.push(new Class({
-      //   // name:i
-      //   deep: {
-      //     level1: {
-      //       name:i
-      //     }
-      //   }
-      // }))
     }
 
     console.log('CNTS!', window.cnt, window.setCnts)
