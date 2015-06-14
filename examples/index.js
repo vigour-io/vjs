@@ -85,17 +85,13 @@ var c = new b.$Constructor({
   }
 })
 
-
-
 console.log('OBJECTS','a:',a.$toString(),'\n\nb:',b.$toString(),'\n\nc:',c.$toString())
-
 
 // console.log('--check for enums...')
 // for(var i in c.c) {
 //   //this is fucked --- how to do non-enum???
 //   console.log('field:',i)
 // }
-
 
 /*
   some standards --- $field is very important
