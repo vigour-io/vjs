@@ -29,13 +29,13 @@ if(!isNode) {
 var Base = require('../lib/base')
 
 var constructors = []
-for(var i = 0 ; i < 100; i++) {
-  var obj = {
-    name:i,
-  }
-  var Class = constructors[i-1] && constructors[i-1].$Constructor || Base 
-  constructors.push(new Class(obj))
-}
+// for(var i = 0 ; i < 100; i++) {
+//   var obj = {
+//     name:i,
+//   }
+//   var Class = constructors[i-1] && constructors[i-1].$Constructor || Base 
+//   constructors.push(new Class(obj))
+// }
 
 //-------------------------------------------------------------
 
@@ -85,7 +85,9 @@ var c = new b.$Constructor({
   }
 })
 
-console.log('a:',a.toString(),'\n\nb:',b.toString(),'\n\nc:',c.toString())
+
+
+console.log('OBJECTS','a:',a.toString(),'\n\nb:',b.toString(),'\n\nc:',c.toString())
 
 
 // console.log('--check for enums...')
@@ -103,20 +105,18 @@ console.log('a:',a.toString(),'\n\nb:',b.toString(),'\n\nc:',c.toString())
 
 var perf = require('../lib/util/perf')
 
- //new Array()
+//new Array()
 
-var obj = {}
+console.log('THIS SHOULD BE C!', c.deep.level1.level2.level3.$parent.$parent.$parent.toString())
+
 
 var Class = c.$Constructor
 
 // var Class = constructors[constructors.length-1].$Constructor
 //deeper lookup (e.g. 100 nested things make it a lot slower (obvioursly))
 //till 10 levels its only a very small amount extra (what we will use in the elements etc)
-
 // var Class = constructors[0].$Constructor
-
 // window.constructors = constructors
-
 // console.error('?xxx')
 
 var n = 100000
@@ -127,7 +127,6 @@ perf({
     var arr = []
     for(var i = 0; i < n; i++) {
       // obj[i] = new Class()
-
       var content = {
         name:i,
         birthDay: '10-20-'+i,
@@ -136,7 +135,6 @@ perf({
         email:'james@james.com'+i
       }
       // content[i] = 'my field'
-
       //fields in vjs are ofc a lot slower then normal objects (an object is made for them)
       arr.push( new Class(content) )
       // arr.push({})
