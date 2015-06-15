@@ -105,7 +105,7 @@ var gurk = new Base({
         $val:function() {
           return this.$path
         },
-        $getterContext:function() {
+        $bind:function() {
           return this.$parent.$parent.$parent
         }
       }
@@ -147,6 +147,7 @@ var blurf = new gurk.$Constructor({
 })
 
 log( 'blurf .$val', blurf.$val )
+log( 'blurf $origin', blurf.$origin )
 
 log( 'blurf a.b.c nested .$val', blurf.a.b.c.$val )
 
