@@ -58,7 +58,7 @@ log(gurk.bitchez.$toString(), gurk.bitchez.aint.$path)
 var util = require('../../lib/util')
 // var isPlainObj = require('lodash/lang/isPlainObject')
 
-var perf = require('../../lib/util/perf')
+// var perf = require('../../lib/util/perf')
 
 log('lets try some references!')
 
@@ -127,6 +127,13 @@ blurk._$key = 'blurk'
 log('gurk --> ', gurk.a.b.c.$val)
 
 log('blurk --> ', blurk.a.b.c.$val)
+
+
+var bitchez = new Base('bitchez')
+
+var blurf = new gurk.$Constructor(bitchez)
+
+log('blurf!', blurf.$val)
 
 //nu default fields die iets speciaals doen zonder dingen hevier te maken
 //e.g. transform etc etc (moet $bind of $context bind bij komen)
