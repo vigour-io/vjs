@@ -1,29 +1,6 @@
-var isNode = (typeof window === 'undefined')
-
 //-------------------------------------------------------------
 
-if(!isNode) {
-  document.body.style.fontFamily = 'andale mono'
-  document.body.style.fontSize = '12px'
-  document.body.style.lineHeight = '11px'
-  window.gc()
-  console.log = function() {
-    var line = document.createElement('hr')
-    document.body.appendChild(line)
-    for(var i in arguments) {
-      var arg = document.createElement('div')
-      arg.style.backgroundColor = '#eee'
-      arg.style.padding = '5px'
-
-      arg.innerHTML = typeof arguments[i] === 'string' 
-        ? arguments[i].replace(/(\r)|(\n)/g,'<br/>').replace(/ /g,'&nbsp;')
-        : arguments[i]
-      document.body.appendChild(arg)
-    }
-    document.scrollTop = document.scrollHeight;
-  }
-  // document.body.appendChild(arg)
-}
+var log = require('../lib/util/log')
 
 //-------------------------------------------------------------
 
@@ -78,7 +55,6 @@ var c = new b.$Constructor({
   birthDay:'',
   img:'',
   pass:'',
-  // gurken:'',
   email:'',
   deep: {
     level1: {
@@ -95,9 +71,9 @@ c._$name = 'c'
 
 var perf = require('../lib/util/perf')
 
-console.log('OBJECTS','a:',a.$toString(),'\n\nb:',b.$toString(),'\n\nc:',c.$toString())
+log('OBJECTS','a:',a.$toString(),'\n\nb:',b.$toString(),'\n\nc:',c.$toString())
 
-console.log('THIS SHOULD BE C!'
+log('THIS SHOULD BE C!'
   , c.deep.level1.level2.level3.$parent.$parent.$parent.$parent.name._$val)
 
 var Class = c.$Constructor
@@ -105,33 +81,35 @@ var Class = c.$Constructor
 var n = 100000
 
 perf({
+  log:log,
   name:'perf test n='+n,
   method:function() {
     var arr = []
 
     for(var i = 0; i < n; i++) {
       
-      // var content = {
-      //   // name:i,
-      //   // birthDay: '10-20-'+i,
-      //   // img:'http://kittens.com?'+i,
-      //   // pass:'xxxxx'+i,
-      //   // email:'james@james.com'+i,
-      //   _gurken:true
-      // }
-      // var c = new Class(content)
+      var content = {
+        name:i,
+        birthDay: '10-20-'+i,
+        img:'http://kittens.com?'+i,
+        pass:'xxxxx'+i,
+        email:'james@james.com'+i
+        // _gurken:true
+      }
 
-
+      var c = new Class( content )
 
       //if you need to run stuff optimized do it like this
-      var c = new Class()
+      
+      // var c = new Class()
+
       // c.$setKeyInternal( '_name', i, c._name)
       // c.$setKeyInternal( '_birthDay', '10-20-'+i, c._birthDay)
       // c.$setKeyInternal( '_img', 'http://kittens.com?'+i, c._img )
       // c.$setKeyInternal( '_pass', 'xxxxx'+i, c._pass)
       // c.$setKeyInternal( '_email', 'james@james.com'+i, c._email)
 
-      c.$setKeyInternal( 'gurken', i )
+      // c.$setKeyInternal( 'gurken', i )
 
       // var c = { gurken: i }
       // c.gruken = i
