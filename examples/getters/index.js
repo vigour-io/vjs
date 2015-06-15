@@ -71,6 +71,28 @@ c.name = 'c'
 
 log(c.$toString())
 
+var d = new Base(function() {
+  return Math.random()*9999
+})
+
+console.log(d)
+log('d', d)
+
+log('lets try value getters and instances!')
+
+var a = new Base(1)
+a.name = 'a'
+
+var b = new Base(a)
+b.name = 'b'
+
+var c = new Base(b)
+c.name = 'c'
+
+log(c.$toString())
+
+
+
 // perf({
 //   log:log,
 //   method:function() {
