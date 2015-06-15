@@ -83,7 +83,7 @@ log('d', d)
 log('lets try value getters and instances!')
 
 var a = new Base(function() {
-  return this.name + 'blurf'
+  return this.name.$val + ' blurf'
 })
 a.$set({
   name:'a'
@@ -95,7 +95,32 @@ b.$set({
   name:'b'
 })
 
-log('hello!', a.$val)
+log('a:', a.$val)
+
+log('b:', b.$val)
+
+var gurk = new Base({
+  a: {
+    b: {
+      c:function() {
+        return this.$path
+      }
+    }
+  }
+})
+
+gurk._$key = 'gurk'
+
+var blurk = new gurk.$Constructor()
+
+blurk._$key = 'blurk'
+
+
+log('gurk --> ', gurk.a.b.c.$val)
+
+log('blurk --> ', blurk.a.b.c.$val)
+
+
 
 // perf({
 //   log:log,
