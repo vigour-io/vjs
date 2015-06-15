@@ -102,8 +102,13 @@ log('b:', b.$val)
 var gurk = new Base({
   a: {
     b: {
-      c:function() {
-        return this.$path
+      c:{
+        $val:function() {
+          return this.$path
+        },
+        $getterContext:function() {
+          return this.$parent.$parent
+        }
       }
     }
   }
@@ -115,12 +120,12 @@ var blurk = new gurk.$Constructor()
 
 blurk._$key = 'blurk'
 
-
 log('gurk --> ', gurk.a.b.c.$val)
 
 log('blurk --> ', blurk.a.b.c.$val)
 
-
+//nu default fields die iets speciaals doen zonder dingen hevier te maken
+//e.g. transform etc etc (moet $bind of $context bind bij komen)
 
 // perf({
 //   log:log,
