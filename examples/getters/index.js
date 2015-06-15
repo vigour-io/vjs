@@ -77,8 +77,7 @@ var d = new Base(function() {
   return Math.random()*9999
 })
 
-console.log(d)
-log('d', d)
+log('d', d.$toString())
 
 log('lets try value getters and instances!')
 
