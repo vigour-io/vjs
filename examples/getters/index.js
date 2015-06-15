@@ -56,6 +56,8 @@ blurf.$set({
 log(gurk.bitchez.$toString(), gurk.bitchez.aint.$path)
 
 var util = require('../../lib/util')
+// var isPlainObj = require('lodash/lang/isPlainObject')
+
 var perf = require('../../lib/util/perf')
 
 log('lets try some references!')
@@ -80,24 +82,27 @@ log('d', d)
 
 log('lets try value getters and instances!')
 
-var a = new Base(1)
-a.name = 'a'
+var a = new Base(function() {
+  return this.name + 'blurf'
+})
+a.$set({
+  name:'a'
+})
 
-var b = new Base(a)
-b.name = 'b'
+//need $context : 'parent.parent' // funciton etc etc
+var b = new a.$Constructor()
+b.$set({
+  name:'b'
+})
 
-var c = new Base(b)
-c.name = 'c'
-
-log(c.$toString())
-
-
+log('hello!', a.$val)
 
 // perf({
 //   log:log,
 //   method:function() {
-//     for(var i = 0 ; i < 1; i++) {
-//       util.isObj(blurf)
+//     for(var i = 0; i < 100000000; i++) {
+//       util.isPlainObj(blurf)
+//       // var bla = isFunction(blurf)
 //     }
 //   }
 // })
