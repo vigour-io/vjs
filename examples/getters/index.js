@@ -131,9 +131,24 @@ log('blurk --> ', blurk.a.b.c.$val)
 
 var bitchez = new Base('bitchez')
 
-var blurf = new gurk.$Constructor(bitchez)
+var blurf = new gurk.$Constructor({
+  a: {
+    b: {
+      c: {
+        $val:function() {
+          //easy notation for this shit e.g.
+          //$parent(3).
+          return this.$val
+        }
+      }
+    }
+  },
+  $val:bitchez
+})
 
-log('blurf!', blurf.$val)
+log( 'blurf .$val', blurf.$val )
+
+log( 'blurf a.b.c nested .$val', blurf.a.b.c.$val )
 
 //nu default fields die iets speciaals doen zonder dingen hevier te maken
 //e.g. transform etc etc (moet $bind of $context bind bij komen)
