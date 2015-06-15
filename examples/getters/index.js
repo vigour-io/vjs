@@ -107,7 +107,7 @@ var gurk = new Base({
           return this.$path
         },
         $getterContext:function() {
-          return this.$parent.$parent
+          return this.$parent.$parent.$parent
         }
       }
     }
@@ -119,6 +119,11 @@ gurk._$key = 'gurk'
 var blurk = new gurk.$Constructor()
 
 blurk._$key = 'blurk'
+
+
+//add $origin 
+
+//add $val getter for references
 
 log('gurk --> ', gurk.a.b.c.$val)
 
