@@ -14,7 +14,7 @@ var bla = new Base({
 })
 bla._$key = 'bla'
 
-var blurf = window.blurf = new bla.$Constructor({
+var blurf = new bla.$Constructor({
   flups:'blurf',
   // x: {
   //   extraField:true
@@ -29,7 +29,7 @@ log('---- this is my test ----')
 //proberen getters overal te doen? (nested dingen)
 log( blurf.x.y.z.$path, '<---- my path' )
 
-var gurk = window.gurk = new blurf.$Constructor({
+var gurk = new blurf.$Constructor({
   flups:'gurk'
 })
 
@@ -38,7 +38,7 @@ gurk._$key = 'gurk'
 //overwrite!
 log( 'path: [', gurk.x.y.z.$path, ']' )
 
-var hurk = window.gurk = new blurf.$Constructor({
+var hurk = new blurf.$Constructor({
   flups:'hurk'
 })
 hurk._$key = 'hurk'
@@ -58,12 +58,25 @@ log(gurk.bitchez.$toString(), gurk.bitchez.aint.$path)
 var util = require('../../lib/util')
 var perf = require('../../lib/util/perf')
 
-perf({
-  log:log,
-  method:function() {
-    for(var i = 0 ; i < 100000000; i++) {
-      util.isObj(blurf)
-    }
-  }
-})
+log('lets try some references!')
+
+var a = new Base(1)
+a.name = 'a'
+
+var b = new Base(a)
+b.name = 'b'
+
+var c = new Base(b)
+c.name = 'c'
+
+log(c.$toString())
+
+// perf({
+//   log:log,
+//   method:function() {
+//     for(var i = 0 ; i < 1; i++) {
+//       util.isObj(blurf)
+//     }
+//   }
+// })
 
