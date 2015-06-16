@@ -125,7 +125,6 @@ blurk._$key = 'blurk'
 //add $val getter for references
 
 log('gurk --> ', gurk.a.b.c.$val)
-
 log('blurk --> ', blurk.a.b.c.$val)
 
 
@@ -148,7 +147,6 @@ var blurf = new gurk.$Constructor({
 
 log( 'blurf .$val', blurf.$val )
 log( 'blurf $origin', blurf.$origin )
-
 log( 'blurf a.b.c nested .$val', blurf.a.b.c.$val )
 
 //nu default fields die iets speciaals doen zonder dingen hevier te maken
