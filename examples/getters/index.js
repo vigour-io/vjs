@@ -113,6 +113,8 @@ var gurk = new Base({
   }
 })
 
+log('gurk wtf is up with $bind?', gurk)
+
 gurk._$key = 'gurk'
 
 var blurk = new gurk.$Constructor()
@@ -231,71 +233,9 @@ vv.$flags = {
   }
 }
 
-
-
-
-var Operator = new Base({
-  $useVal:true,
-  $bind:'$parent'
-}).$Constructor
-
-// Operator.prototype instanceof Base
-
-
-vv.$flags = {
-  andre:function(val) {
-    this.___ANDRE = Math.random()*999
-  },
-  $transform: Operator
-}
-
-vv.$flags = {
-  $transform: Operator
-}
-
-
-// vv.$set({
-//   $val:'hello!',
-//   $transform: function(val) {
-//     return val+' smuts'
-//   }
-// })
-
-// .$val
-
-
-/*
-vv.$set({
-  text: { useVal: new Property({
-    on:{ change: function()  {
-      this.node.$
-    } }
-  })}
-})
-*/
-
-/*
-vv.$properties = {
-  $transform: Operator,
-  default: Base
-}
-*/
-
-
-
-
-/*
-
-
-*/
-
-// vv.jim = 'xxxx!!!'
-
-// vv.youri = 'xxxxx'
-
 log(vv.$toString())
 
-document.body.innerHTML = ''
+// document.body.innerHTML = ''
 
 var X = new Base({
   $val:'x',
@@ -320,30 +260,34 @@ Z._$key = 'Z'
 
 log('X:',X,'Y:',Y,'Z:',Z)
 
-log('------ now some operators kind of flags things ------')
+log('------ now some fake operators ------')
 
-var Operator = new Base({
+var FakeOperator = new Base({
   $bind:'$parent',
-  huppeldepup:'<span>OPERATOR!</span>',
-  $val:'GHELLO IM AN OPERATOR!'
+  huppeldepup:'<span>fake OPERATOR!</span>',
+  $val:'GHELLO IM AN a fake OPERATOR!'
 }).$Constructor
 
 var gurk = new Base({
   $flags: {
-    $transform: new Operator({ TRANSFORMERS: '<span>YES</span>'}),
-    $add: Operator
+    $transformer: new FakeOperator({ TRANSFORMERS: '<span>YES</span>'}),
+    $add: FakeOperator
   }
 })
 
 gurk.$set({
   $val:'I AM GURK!',
-  $transform:function() {
+  $transformer:function() {
     return 'xxxx'
   },
   $add:Z
 })
 
 log(gurk)
+log('no transformer for me', new Base({$transformer:'bla'}))
+
+log('------ now some REAL operators ------')
+
 
 // vv2.youri = 'xxxxx'
 
