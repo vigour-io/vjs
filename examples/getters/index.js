@@ -324,7 +324,7 @@ log('------ now some operators kind of flags things ------')
 
 var Operator = new Base({
   $bind:'$parent',
-  huppeldepup:'im an operator!',
+  huppeldepup:'<span>im an operator!</span>',
   $val:'GHELLO IM AN OPERATOR!'
 })
 
