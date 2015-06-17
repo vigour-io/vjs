@@ -1,4 +1,4 @@
-var log = require('../../lib/util/log')
+var log = console.log = require('../../lib/util/log')
 
 //-------------------------------------------------------------
 
@@ -158,4 +158,15 @@ log( 'blurf a.b.c nested .$val', blurf.a.b.c.$val )
 //     }
 //   }
 // })
+
+log('---- test flag proto -----')
+
+var bla = new Base({
+  $flags: {
+    gurken: function(val) {
+
+    }
+  }
+})
+// bla.$flags
 
