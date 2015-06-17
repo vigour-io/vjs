@@ -134,7 +134,10 @@ var blurf = new gurk.$Constructor({
     },
     b: {
       testField:{
-        nope:true
+        nope:true,
+        testField2:{
+          thing2:'smurp'
+        }
       },
       c: {
         $val:function() {
@@ -146,7 +149,7 @@ var blurf = new gurk.$Constructor({
     },
     b2:{
       testField2:{
-        thing2:'smurp'
+        thing2:'lurf'
       }
     }
   },
@@ -156,9 +159,7 @@ var blurf = new gurk.$Constructor({
     }
   },
   d:{
-    $val:app.w,
-    $findAndBind:'$lookUp.w'
-    // $lookUp:'c'
+
   },
   $val:bitchez
 })
@@ -166,20 +167,20 @@ var blurf = new gurk.$Constructor({
 var f = new blurf.$Constructor()
 
 log('$lookUp( testField.thing )', blurf.a.b.c.$lookUp('testField.thing',true))
-log('$lookDown( testField2 )', blurf.$lookDown('testField2.thing2'))
+log('$lookDown( testField2 )', blurf.$lookDown('testField2.thing2','smurp'))
 
 //nu default fields die iets speciaals doen zonder dingen hevier te maken
 //e.g. transform etc etc (moet $bind of $context bind bij komen)
 
-  // perf({
-  //   log:log,
-  //   method:function() {
-  //     for(var i = 0; i < 1000000; i++) {
-  //       // f.a.b.c.$lookUp('testField')
-  //       blurf.$lookDown('testField2.thing2')
-  //     }
-  //   }
-  // })
+  perf({
+    log:log,
+    method:function() {
+      for(var i = 0; i < 1000000; i++) {
+        // f.a.b.c.$lookUp('testField')
+        blurf.$lookDown('testField2.thing2')
+      }
+    }
+  })
 
 // perf({
 //   log:log,
