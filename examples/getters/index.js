@@ -1,4 +1,4 @@
-var log = console.log = require('../../lib/util/log')
+var log = require('../../lib/util/log')
 
 //-------------------------------------------------------------
 
@@ -164,9 +164,27 @@ log('---- test flag proto -----')
 var bla = new Base({
   $flags: {
     gurken: function(val) {
-
+      log('hey its some gurky gurk'+val)
     }
   }
 })
+
+bla.$set({
+  gurken:' --->>>>?'
+})
+
+var vv = new bla.$Constructor({
+  $flags: {
+    xxx:function(val) {
+      log('hey its a xxxx!'+val)
+    }
+  }
+})
+
+var x = new Base()
+
+log( Object.keys( x.$flags) )
+
+log( Object.keys( vv.$flags), vv.$flags.$val, vv.$flags.gurken, vv.$flags.xxx, bla.$flags.xxx )
 // bla.$flags
 
