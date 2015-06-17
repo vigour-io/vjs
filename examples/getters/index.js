@@ -1,4 +1,4 @@
-var log = require('../../lib/util/log')
+var log = console.log = require('../../lib/util/log')
 
 //-------------------------------------------------------------
 
@@ -173,18 +173,59 @@ bla.$set({
   gurken:' --->>>>?'
 })
 
+var gurken = new Base({
+  poedel:'slap'
+})
+
 var vv = new bla.$Constructor({
   $flags: {
     xxx:function(val) {
       log('hey its a xxxx!'+val)
+    },
+    yuzi: function( val ) {
+      log( 'ITS YUZI!', val )
+      //easy interface maken voor half dingen
+
     }
-  }
+  },
+  yuzi:'hee!'
 })
+
+vv.$flags = {
+  guffel:function( val ) {
+    console.log('guffel!', val)
+  }
+}
+
+
+var xxx = new gurken.$Constructor()
+
+vv.$set({
+  hatsa:{ $override:new gurken.$Constructor() },
+  youri:{ $override: 'YOURI STRING!' },
+  hatsap: new gurken.$Constructor({blurf:'blargh'})
+})
+
+var vv2 = new vv.$Constructor()
+
+// vv.youri = 'xxxxx'
+
+log(vv.$toString())
+
+// vv2.youri = 'xxxxx'
+
+log(vv2.$toString())
+
+console.error('hatsa', vv.hatsa.$toString() )
+
 
 var x = new Base()
 
-log( Object.keys( x.$flags) )
+// log( Object.keys( x.$flags) )
 
-log( Object.keys( vv.$flags), vv.$flags.$val, vv.$flags.gurken, vv.$flags.xxx, bla.$flags.xxx )
 // bla.$flags
+
+
+log( 'my own keys!', Object.keys( vv.$flags), vv.$flags.$val, vv.$flags.gurken, vv.$flags.xxx, bla.$flags.xxx )
+
 
