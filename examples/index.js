@@ -17,7 +17,7 @@ var constructors = []
 
 //-------------------------------------------------------------
 
-var a = new Base({
+var a = window.a = new Base({
   name:'a',
   a:'a',
   a2:'a',
@@ -35,7 +35,9 @@ var a = new Base({
   }
 })
 
-var b = new a.$Constructor({
+a._$name = 'a'
+
+var b = window.b = new a.$Constructor({
   name:'b',
   b:'b',
   a:'b',
@@ -48,7 +50,7 @@ var b = new a.$Constructor({
 
 b._$name = 'b'
 
-var c = new b.$Constructor({
+var c = window.c = new b.$Constructor({
   name:'c',
   b:'c',
   c:'c',
@@ -78,7 +80,7 @@ log('THIS SHOULD BE C!'
 
 var Class = c.$Constructor
 
-var n = 100000
+var n = 200000
 
 perf({
   log:log,
