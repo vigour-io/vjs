@@ -119,14 +119,11 @@ var blurk = new gurk.$Constructor()
 
 blurk._$key = 'blurk'
 
-
 //add $origin 
-
 //add $val getter for references
 
 log('gurk --> ', gurk.a.b.c.$val)
 log('blurk --> ', blurk.a.b.c.$val)
-
 
 var bitchez = new Base('bitchez')
 
