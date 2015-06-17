@@ -324,13 +324,13 @@ log('------ now some operators kind of flags things ------')
 
 var Operator = new Base({
   $bind:'$parent',
-  huppeldepup:'<span>im an operator!</span>',
+  huppeldepup:'<span>OPERATOR!</span>',
   $val:'GHELLO IM AN OPERATOR!'
-})
+}).$Constructor
 
 var gurk = new Base({
   $flags: {
-    $transform: Operator,
+    $transform: new Operator({ TRANSFORMERS: '<span>YES</span>'}),
     $add: Operator
   }
 })
