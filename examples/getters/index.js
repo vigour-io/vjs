@@ -200,42 +200,46 @@ vv.$flags = {
 var xxx = new gurken.$Constructor()
 // xxx.$override = true
 
-var blaxxx = new gurken.$Constructor({
-  $override:true //
+var blaxxx = window.blaxxx = new gurken.$Constructor({
+  // $val:'hello!',
+  $useVal:true 
 })
+
+
+console.error(blaxxx)
 
 //mischien true vervangen met 'self' ofzo iig iets minder danger pakken
 
+var gggg = new gurken.$Constructor({blurf:'blargh'})
+gggg._$key = 'ggggg'
+
 vv.$set({
-  hatsa:new blaxxx.$Constructor(),
-  youri:{ $override: 'YOURI STRING!' },
-  hatsap: new gurken.$Constructor({blurf:'blargh'}),
+  // hatsa:new blaxxx.$Constructor(),
+  // youri:{ $useVal: 'YOURI STRING!' },
+  hatsap: gggg,
+  xxxx: new blaxxx.$Constructor()
 })
 
-vv.jim = 'xxxx!!!'
-
-var vv2 = new vv.$Constructor()
-
-vv2.jim = 'CCCC '
+// vv.jim = 'xxxx!!!'
 
 // vv.youri = 'xxxxx'
 
 log(vv.$toString())
 
-vv2.youri = 'xxxxx'
+// vv2.youri = 'xxxxx'
 
-log(vv2.$toString())
+// log(vv2.$toString())
 
-console.error('hatsa', vv.hatsa.$toString() )
-
-
-var x = new Base()
-
-// log( Object.keys( x.$flags) )
-
-// bla.$flags
+// console.error('hatsa', vv.hatsa.$toString() )
 
 
-log( 'my own keys!', Object.keys( vv.$flags), vv.$flags.$val, vv.$flags.gurken, vv.$flags.xxx, bla.$flags.xxx )
+// var x = new Base()
+
+// // log( Object.keys( x.$flags) )
+
+// // bla.$flags
+
+
+// log( 'my own keys!', Object.keys( vv.$flags), vv.$flags.$val, vv.$flags.gurken, vv.$flags.xxx, bla.$flags.xxx )
 
 
