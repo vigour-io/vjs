@@ -177,7 +177,7 @@ var gurken = new Base({
   poedel:'slap'
 })
 
-var vv = new bla.$Constructor({
+var vv = window.vv = new bla.$Constructor({
   $flags: {
     xxx:function(val) {
       log('hey its a xxxx!'+val)
@@ -197,22 +197,32 @@ vv.$flags = {
   }
 }
 
-
 var xxx = new gurken.$Constructor()
+// xxx.$override = true
 
-vv.$set({
-  hatsa:{ $override:new gurken.$Constructor() },
-  youri:{ $override: 'YOURI STRING!' },
-  hatsap: new gurken.$Constructor({blurf:'blargh'})
+var blaxxx = new gurken.$Constructor({
+  $override:true //
 })
 
+//mischien true vervangen met 'self' ofzo iig iets minder danger pakken
+
+vv.$set({
+  hatsa:new blaxxx.$Constructor(),
+  youri:{ $override: 'YOURI STRING!' },
+  hatsap: new gurken.$Constructor({blurf:'blargh'}),
+})
+
+vv.jim = 'xxxx!!!'
+
 var vv2 = new vv.$Constructor()
+
+vv2.jim = 'CCCC '
 
 // vv.youri = 'xxxxx'
 
 log(vv.$toString())
 
-// vv2.youri = 'xxxxx'
+vv2.youri = 'xxxxx'
 
 log(vv2.$toString())
 
