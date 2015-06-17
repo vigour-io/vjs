@@ -316,9 +316,34 @@ var Z = new Base({
   myX: Y.myX
 })
 
-Z._$key = 'Y'
+Z._$key = 'Z'
 
 log('X:',X,'Y:',Y,'Z:',Z)
+
+log('------ now some operators kind of flags things ------')
+
+var Operator = new Base({
+  $bind:'$parent',
+  huppeldepup:'im an operator!',
+  $val:'GHELLO IM AN OPERATOR!'
+})
+
+var gurk = new Base({
+  $flags: {
+    $transform: Operator,
+    $add: Operator
+  }
+})
+
+gurk.$set({
+  $val:'I AM GURK!',
+  $transform:function() {
+    return 'xxxx'
+  },
+  $add:Z
+})
+
+log(gurk)
 
 // vv2.youri = 'xxxxx'
 
