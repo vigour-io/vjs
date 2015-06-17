@@ -1,4 +1,4 @@
-var log = console.log = require('../../lib/util/log')
+var log = require('../../lib/util/log')
 
 //-------------------------------------------------------------
 
@@ -208,6 +208,9 @@ var blaxxx = window.blaxxx = new gurken.$Constructor({
 
 console.error(blaxxx)
 
+//settings reference will try to find it somehwere?
+//think of a smart universal way to sync this shit
+
 //mischien true vervangen met 'self' ofzo iig iets minder danger pakken
 
 var gggg = new gurken.$Constructor({blurf:'blargh'})
@@ -220,11 +223,102 @@ vv.$set({
   xxxx: new blaxxx.$Constructor()
 })
 
+
+vv.$flags = {
+  andre:function(val) {
+    alert(val)
+    this.__gurk__ = val
+  }
+}
+
+
+
+
+var Operator = new Base({
+  $useVal:true,
+  $bind:'$parent'
+}).$Constructor
+
+// Operator.prototype instanceof Base
+
+
+vv.$flags = {
+  andre:function(val) {
+    this.___ANDRE = Math.random()*999
+  },
+  $transform: Operator
+}
+
+vv.$flags = {
+  $transform: Operator
+}
+
+
+// vv.$set({
+//   $val:'hello!',
+//   $transform: function(val) {
+//     return val+' smuts'
+//   }
+// })
+
+// .$val
+
+
+/*
+vv.$set({
+  text: { useVal: new Property({
+    on:{ change: function()  {
+      this.node.$
+    } }
+  })}
+})
+*/
+
+/*
+vv.$properties = {
+  $transform: Operator,
+  default: Base
+}
+*/
+
+
+
+
+/*
+
+
+*/
+
 // vv.jim = 'xxxx!!!'
 
 // vv.youri = 'xxxxx'
 
 log(vv.$toString())
+
+document.body.innerHTML = ''
+
+var X = new Base({
+  $val:'x',
+  $useVal:true
+})
+
+X._$key = 'X'
+
+var Y = new Base({
+  $val:'y',
+  myX: X
+})
+
+Y._$key = 'Y'
+
+var Z = new Base({
+  $val:'z',
+  myX: Y.myX
+})
+
+Z._$key = 'Y'
+
+log('X:',X,'Y:',Y,'Z:',Z)
 
 // vv2.youri = 'xxxxx'
 
