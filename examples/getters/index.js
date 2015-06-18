@@ -284,12 +284,18 @@ gurk.$set({
 log(gurk.$toString())
 log('no transformer for me', new Base({$transformer:'bla'}).$toString())
 
+document.body.innerHTML = ''
+console.clear()
+
 log('------ now some REAL operators ------')
 
 
-var lezzgo = new Base({
+var lezzgo = window.lezzgo = new Base({
   $val:200,
-  $add:100
+  $add:{
+    $val:100,
+    $add:1000
+  }
 })
 
 
