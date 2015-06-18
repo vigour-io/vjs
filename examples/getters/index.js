@@ -289,7 +289,6 @@ console.clear()
 
 log('------ now some REAL operators ------')
 
-
 var a = new Base({
   $val:100,
   $add:200
@@ -299,11 +298,37 @@ var lezzgo = window.lezzgo = new Base({
   $val:200,
   $add:{
     $val:100,
-    $add:a
+    $add:a,
+    $transform:function(val) {
+      return val*2
+    }
   }
 })
 
 log(lezzgo.$val)
+
+var bla = new lezzgo.$Constructor({
+  $add: {
+    $val:500
+  }
+})
+
+log(bla.$val)
+
+var x = new Base({
+  a:'a',
+  b:'b',
+  c:'c',
+  $transform: function() {
+    var obj = this.$convert()
+    //make option in convert ignore function (e.g. ignore operators)
+    //add each util
+    delete obj.$transform
+    return obj
+  }
+})
+
+log( JSON.stringify( x.$val, false, 2 ) )
 
 // vv2.youri = 'xxxxx'
 
