@@ -172,15 +172,15 @@ log('$lookDown( testField2 )', blurf.$lookDown('testField2.thing2','smurp'))
 //nu default fields die iets speciaals doen zonder dingen hevier te maken
 //e.g. transform etc etc (moet $bind of $context bind bij komen)
 
-  perf({
-    log:log,
-    method:function() {
-      for(var i = 0; i < 1000000; i++) {
-        // f.a.b.c.$lookUp('testField')
-        blurf.$lookDown('testField2.thing2')
-      }
-    }
-  })
+  // perf({
+  //   log:log,
+  //   method:function() {
+  //     for(var i = 0; i < 1000000; i++) {
+  //       // f.a.b.c.$lookUp('testField')
+  //       blurf.$lookDown('testField2.thing2')
+  //     }
+  //   }
+  // })
 
 // perf({
 //   log:log,
