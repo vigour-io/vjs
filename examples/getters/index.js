@@ -290,14 +290,18 @@ console.clear()
 log('------ now some REAL operators ------')
 
 
+var a = new Base({
+  $val:100,
+  $add:200
+})
+
 var lezzgo = window.lezzgo = new Base({
   $val:200,
   $add:{
     $val:100,
-    $add:1000
+    $add:a
   }
 })
-
 
 log(lezzgo.$val)
 
