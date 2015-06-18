@@ -165,7 +165,6 @@ log("blurf.$find('c')", blurf.$find('c.testField',{conditions:{$equals:true}}))
   //   log:log,
   //   method:function() {
   //     for(var i = 0; i < 1000000; i++) {
-  //       blurf.a.b.c.$lookUp('a')
   //     }
   //   }
   // })
