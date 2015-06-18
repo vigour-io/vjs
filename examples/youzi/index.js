@@ -55,7 +55,6 @@ blurf.$set({
 
 log(gurk.bitchez.$toString(), gurk.bitchez.aint.$path)
 
-var util = require('../../lib/util')
 // var isPlainObj = require('lodash/lang/isPlainObject')
 
 // var perf = require('../../lib/util/perf')
@@ -166,8 +165,14 @@ var blurf = new gurk.$Constructor({
 
 var f = new blurf.$Constructor()
 
-log('$lookUp( testField.thing )', blurf.a.b.c.$lookUp('testField.thing',true))
-log('$lookDown( testField2 )', blurf.$lookDown('testField2.thing2','smurp'))
+// log("blurf.a.b.c.$lookUp('testField.thing.$lookUp.b.$lookDown.nope',true)", blurf.a.b.c.$lookUp('testField.thing.$lookUp.b.$lookDown',function(result){
+//   if(typeof result === 'function'){
+//     return true
+//   }
+// }))
+// log("$lookDown('testField2.thing2','smurp')", blurf.$lookDown('testField2.thing2','smurp'))
+// log("$get('$parent.$parent.$lookDown.c')", blurf.a.b.c.$get('$parent.$parent.$lookDown.c.$lookUp.testField.thing'))
+log("blurf.a.b.$get('c.hey',{createThis:true})", blurf.a.b.$get('c.hey',{createThis:true}))
 
 //nu default fields die iets speciaals doen zonder dingen hevier te maken
 //e.g. transform etc etc (moet $bind of $context bind bij komen)
@@ -175,15 +180,18 @@ log('$lookDown( testField2 )', blurf.$lookDown('testField2.thing2','smurp'))
   perf({
     log:log,
     method:function() {
-      blurf.$get = 'a.testField'
+      // blurf.$get = 'a.testField'
       // var index
       // var _ = '_'
-      for(var i = 0; i < 100000; i++) {
+      var path = 'a.testField.thing'
+      for(var i = 0; i < 2000000; i++) {
+        blurf.$keys
         // f.a.b.c.$lookUp('testField')
         // var check = typeof obj === 'object'
-        blurf.$lookDown('testField2.thing2')
+        // blurf.$lookDown('testField2.thing2')
         // var str = 'blurblur'
-        // var test = typeof str === 'string'
+        // var fn = {}
+        // var test =typeof fn === 'function'//fn instanceof Function
         // var test = arr[i] === '_'
       }
     }
