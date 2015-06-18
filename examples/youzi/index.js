@@ -157,7 +157,6 @@ log("blurf.a.b.c.$lookUp('a.testField')",blurf.a.b.c.$lookUp('a.testField'))
 console.log('----------')
 // log("blurf.a.b.$get('c.hey',{createThis:true})", blurf.a.b.$get('c.hey',{createThis:true}))
 log("blurf.$find('c')", blurf.$find('c.testField',function(result){
-  console.error('!',result)
   return true
 }))
 
