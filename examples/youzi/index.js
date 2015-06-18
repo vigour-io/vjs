@@ -55,12 +55,6 @@ blurf.$set({
 
 log(gurk.bitchez.$toString(), gurk.bitchez.aint.$path)
 
-// var isPlainObj = require('lodash/lang/isPlainObject')
-
-// var perf = require('../../lib/util/perf')
-
-log('lets try some references!')
-
 var a = new Base(1)
 a.name = 'a'
 
@@ -70,15 +64,10 @@ b.name = 'b'
 var c = new Base(b)
 c.name = 'c'
 
-log(c.$toString())
 
 var d = new Base(function() {
   return Math.random()*9999
 })
-
-log('d', d.$toString())
-
-log('lets try value getters and instances!')
 
 var a = new Base(function() {
   return this.name.$val + ' blurf'
@@ -92,10 +81,6 @@ var b = new a.$Constructor()
 b.$set({
   name:'b'
 })
-
-log('a:', a.$val)
-
-log('b:', b.$val)
 
 var gurk = new Base({
   a: {
@@ -118,11 +103,6 @@ var blurk = new gurk.$Constructor()
 
 blurk._$key = 'blurk'
 
-//add $origin 
-//add $val getter for references
-
-log('gurk --> ', gurk.a.b.c.$val)
-log('blurk --> ', blurk.a.b.c.$val)
 
 var bitchez = new Base('bitchez')
 
@@ -139,6 +119,7 @@ var blurf = new gurk.$Constructor({
         }
       },
       c: {
+        testField:true,
         $val:function() {
           //easy notation for this shit e.g.
           //$parent(3).
@@ -170,32 +151,23 @@ var f = new blurf.$Constructor()
 //     return true
 //   }
 // }))
+log("blurf.a.b.c.$lookUp('a.testField')",blurf.a.b.c.$lookUp('a.testField'))
 // log("$lookDown('testField2.thing2','smurp')", blurf.$lookDown('testField2.thing2','smurp'))
 // log("$get('$parent.$parent.$lookDown.c')", blurf.a.b.c.$get('$parent.$parent.$lookDown.c.$lookUp.testField.thing'))
-log("blurf.a.b.$get('c.hey',{createThis:true})", blurf.a.b.$get('c.hey',{createThis:true}))
+console.log('----------')
+// log("blurf.a.b.$get('c.hey',{createThis:true})", blurf.a.b.$get('c.hey',{createThis:true}))
+log("blurf.$find('c')", blurf.$find('c.testField',{conditions:{$equals:true}}))
 
 //nu default fields die iets speciaals doen zonder dingen hevier te maken
 //e.g. transform etc etc (moet $bind of $context bind bij komen)
 
-  perf({
-    log:log,
-    method:function() {
-      // blurf.$get = 'a.testField'
-      // var index
-      // var _ = '_'
-      var path = 'a.testField.thing'
-      for(var i = 0; i < 2000000; i++) {
-        blurf.$keys
-        // f.a.b.c.$lookUp('testField')
-        // var check = typeof obj === 'object'
-        // blurf.$lookDown('testField2.thing2')
-        // var str = 'blurblur'
-        // var fn = {}
-        // var test =typeof fn === 'function'//fn instanceof Function
-        // var test = arr[i] === '_'
-      }
-    }
-  })
+  // perf({
+  //   log:log,
+  //   method:function() {
+  //     for(var i = 0; i < 1000000; i++) {
+  //     }
+  //   }
+  // })
 
 // perf({
 //   log:log,
