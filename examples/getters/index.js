@@ -298,15 +298,22 @@ var lezzgo = window.lezzgo = new Base({
   $val:200,
   $add:{
     $val:100,
+    $add:a,
     $transform:function(val) {
-      console.error('val:', val)
       return val*2
-    },
-    $add:a
+    }
   }
 })
 
 log(lezzgo.$val)
+
+var bla = new lezzgo.$Constructor({
+  $add: {
+    $val:500
+  }
+})
+
+log(bla.$val)
 
 // vv2.youri = 'xxxxx'
 
