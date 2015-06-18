@@ -179,7 +179,7 @@ var gurken = new Base({
   poedel:'slap'
 })
 
-var vv = window.vv = new bla.$Constructor({
+var vv = new bla.$Constructor({
   $flags: {
     xxx:function(val) {
       log('hey its a xxxx!'+val)
@@ -202,13 +202,11 @@ vv.$flags = {
 var xxx = new gurken.$Constructor()
 // xxx.$override = true
 
-var blaxxx = window.blaxxx = new gurken.$Constructor({
+var blaxxx = new gurken.$Constructor({
   // $val:'hello!',
   $useVal:true 
 })
 
-
-console.error(blaxxx)
 
 //settings reference will try to find it somehwere?
 //think of a smart universal way to sync this shit
@@ -258,7 +256,7 @@ var Z = new Base({
 
 Z._$key = 'Z'
 
-log('X:',X,'Y:',Y,'Z:',Z)
+log('X:',X.$toString(),'Y:',Y.$toString(),'Z:',Z.$toString())
 
 log('------ now some fake operators ------')
 
@@ -283,11 +281,29 @@ gurk.$set({
   $add:Z
 })
 
-log(gurk)
-log('no transformer for me', new Base({$transformer:'bla'}))
+log(gurk.$toString())
+log('no transformer for me', new Base({$transformer:'bla'}).$toString())
+
+document.body.innerHTML = ''
+console.clear()
 
 log('------ now some REAL operators ------')
 
+
+var a = new Base({
+  $val:100,
+  $add:200
+})
+
+var lezzgo = window.lezzgo = new Base({
+  $val:200,
+  $add:{
+    $val:100,
+    $add:a
+  }
+})
+
+log(lezzgo.$val)
 
 // vv2.youri = 'xxxxx'
 
