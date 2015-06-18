@@ -172,30 +172,31 @@ var f = new blurf.$Constructor()
 // }))
 // log("$lookDown('testField2.thing2','smurp')", blurf.$lookDown('testField2.thing2','smurp'))
 // log("$get('$parent.$parent.$lookDown.c')", blurf.a.b.c.$get('$parent.$parent.$lookDown.c.$lookUp.testField.thing'))
+console.log('----------')
 log("blurf.a.b.$get('c.hey',{createThis:true})", blurf.a.b.$get('c.hey',{createThis:true}))
 
 //nu default fields die iets speciaals doen zonder dingen hevier te maken
 //e.g. transform etc etc (moet $bind of $context bind bij komen)
 
-  perf({
-    log:log,
-    method:function() {
-      // blurf.$get = 'a.testField'
-      // var index
-      // var _ = '_'
-      var path = 'a.testField.thing'
-      for(var i = 0; i < 2000000; i++) {
-        blurf.$keys
-        // f.a.b.c.$lookUp('testField')
-        // var check = typeof obj === 'object'
-        // blurf.$lookDown('testField2.thing2')
-        // var str = 'blurblur'
-        // var fn = {}
-        // var test =typeof fn === 'function'//fn instanceof Function
-        // var test = arr[i] === '_'
-      }
-    }
-  })
+  // perf({
+  //   log:log,
+  //   method:function() {
+  //     // blurf.$get = 'a.testField'
+  //     // var index
+  //     // var _ = '_'
+  //     var path = 'a.testField.thing'
+  //     for(var i = 0; i < 2000000; i++) {
+  //       blurf.$keys
+  //       // f.a.b.c.$lookUp('testField')
+  //       // var check = typeof obj === 'object'
+  //       // blurf.$lookDown('testField2.thing2')
+  //       // var str = 'blurblur'
+  //       // var fn = {}
+  //       // var test =typeof fn === 'function'//fn instanceof Function
+  //       // var test = arr[i] === '_'
+  //     }
+  //   }
+  // })
 
 // perf({
 //   log:log,
