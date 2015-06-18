@@ -315,6 +315,21 @@ var bla = new lezzgo.$Constructor({
 
 log(bla.$val)
 
+var x = new Base({
+  a:'a',
+  b:'b',
+  c:'c',
+  $transform: function() {
+    var obj = this.$convert()
+    //make option in convert ignore function (e.g. ignore operators)
+    //add each util
+    delete obj.$transform
+    return obj
+  }
+})
+
+log( JSON.stringify( x.$val, false, 2 ) )
+
 // vv2.youri = 'xxxxx'
 
 // log(vv2.$toString())
