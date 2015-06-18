@@ -156,7 +156,10 @@ log("blurf.a.b.c.$lookUp('a.testField')",blurf.a.b.c.$lookUp('a.testField'))
 // log("$get('$parent.$parent.$lookDown.c')", blurf.a.b.c.$get('$parent.$parent.$lookDown.c.$lookUp.testField.thing'))
 console.log('----------')
 // log("blurf.a.b.$get('c.hey',{createThis:true})", blurf.a.b.$get('c.hey',{createThis:true}))
-log("blurf.$find('c')", blurf.$find('c.testField',{conditions:{$equals:true}}))
+log("blurf.$find('c')", blurf.$find('c.testField',function(result){
+  console.error('!',result)
+  return true
+}))
 
 //nu default fields die iets speciaals doen zonder dingen hevier te maken
 //e.g. transform etc etc (moet $bind of $context bind bij komen)
