@@ -79,18 +79,36 @@ var xx = new bla.$Constructor({
 //added houd bij?
 //add is never voor nieuwe dingen internaly (e.g.) new bla({x,y}) als dit internal gebeurd
 
-// log('-----------now im just setting xx-------------')
+log('-----------now im just setting xx-------------')
 
-// xx.$set({
-
-//   //also fires hello listener ?????
-//   xxxxx:true
-// })
+xx.$set({
+  xxxxx:true
+})
 
 // log(xx.hello.$val)
 
+log('-----------references-------------')
 
-// log('-----------the nested merge test-------------')
+
+//dit heeft de listens array nodig (autoclean)
+
+var a = new Base('a')
+
+var b = new Base({
+  $key:'b',
+  $val:a,
+  $on: {
+    $change:function(event) {
+      log('REF CHANGE!', event)
+    }
+  }
+})
+
+
+console.info('0000000')
+
+a.$val = 'aa'
+
 
 // var a = new Base('a')
 // var b = new Base('b')
@@ -115,6 +133,7 @@ var xx = new bla.$Constructor({
 //   }
 // })
 
+// log('-----------the nested merge test-------------')
 
 
 // //zo fucked...
