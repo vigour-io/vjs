@@ -112,6 +112,28 @@ var b = new Base({
   }
 })
 
+var d = new Base({
+  $key:'d',
+  $val:b,
+  $add:b,
+  $on: {
+    $change:function(event) {
+      log('REF CHANGE D!', event, this.$val)
+    }
+  }
+})
+
+var e = new Base({
+  $key:'e',
+  $val:d,
+  $add:d,
+  $on: {
+    $change:function(event) {
+      log('REF CHANGE D!', event, this.$val)
+    }
+  }
+})
+
 
 console.info('0000000')
 
@@ -130,7 +152,7 @@ murder.$set({
   c:'cc'
 })
 
-log(b.$val)
+// log(b.$val)
 
 
 // var a = new Base('a')
