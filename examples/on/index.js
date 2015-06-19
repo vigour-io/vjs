@@ -128,46 +128,48 @@ var d = new Base({
   }
 })
 
-// var e = new Base({
-//   $key:'e',
-//   $val:d,
-//   $add:{ $val: d, $add: b },
-//   $on: {
-//     $change:function(event) {
-//       log('REF CHANGE E!', event, this.$val, 'MY PATH:', this.$path)
-//     }
-//   }
-// })
-
+var e = new Base({
+  $key:'e',
+  $val:d,
+  $add:{ $val: d, $add: b },
+  $on: {
+    $change:function(event) {
+      log('REF CHANGE E!', event, this.$val, 'MY PATH:', this.$path)
+    }
+  }
+})
 
 // //!!!!
 // //eerste grote extra ding is instances gaan handelen
 // //dit doet nu nog niks -- een handeler hij heeft schijt aan instances
-// var eInstance = new e.$Constructor({
-//   $key:'eInstance'
-// })
+
+//dit zou een change moeten forcen -- doe iets ook
+//met als origin eInstance (key word geset en listener op change en ik set key$)
+var eInstance = new e.$Constructor()
+eInstance._$key = 'eInstance'
+//holy shit dit gaat goed????
+
 // //fix de context
 
 //!!!!
 
-// console.info('0000000')
+console.info('0000000')
+log('update a')
 
-// log('update a')
-
-// a.$val = 'aa'
+a.$val = 'aa'
 
 
 // console.clear()
 
 
-// log('multi update')
-// console.info('0000001')
+log('multi update')
+console.info('0000001')
 
 
-// murder.$set({
-//   a:'aaa',
-//   c:'cc'
-// })
+murder.$set({
+  a:'aaa',
+  c:'cc'
+})
 
 // log(b.$val)
 
