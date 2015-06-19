@@ -49,7 +49,7 @@ bla.hello.$val = 'no'
 // //-------------------------------------------------------------
 
 console.info('\n\nthis is xx')
-log('-----------THIS IS XX-------------')
+log('-----------THIS IS XX------------- should get a listener (hello is changing)')
 
 
 var xx = new bla.$Constructor({
@@ -79,15 +79,42 @@ var xx = new bla.$Constructor({
 //added houd bij?
 //add is never voor nieuwe dingen internaly (e.g.) new bla({x,y}) als dit internal gebeurd
 
-log('-----------now im just setting xx-------------')
+// log('-----------now im just setting xx-------------')
 
-xx.$set({
+// xx.$set({
 
-  //also fires hello listener ?????
-  xxxxx:true
-})
+//   //also fires hello listener ?????
+//   xxxxx:true
+// })
 
-log(xx.hello.$val)
+// log(xx.hello.$val)
+
+
+// log('-----------the nested merge test-------------')
+
+// var a = new Base('a')
+// var b = new Base('b')
+
+// var bla = new Base({
+//   gurk: {
+//     $val:{$useVal:a},
+//     $add:b
+//   },
+//   $on:{
+//     $change:function(event) {
+//       log('hey im changing!', this.gurk.$val, event.$toString())
+//     }
+//   }
+// })
+
+// bla.$set({
+//   g:10,
+//   gurk: {
+//     $add:10,
+//     $val:20
+//   }
+// })
+
 
 
 // //zo fucked...
