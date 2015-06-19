@@ -101,6 +101,9 @@ var murder = new Base({
 var a = murder.a
 var c = murder.c
 
+//meeste nieuwe hoeven niks met updates te doen dnek ik?
+//ugh x 
+
 var b = new Base({
   $key:'b',
   $val:a,
@@ -111,6 +114,8 @@ var b = new Base({
     }
   }
 })
+
+log('hello')
 
 var d = new Base({
   $key:'d',
@@ -123,34 +128,46 @@ var d = new Base({
   }
 })
 
-var e = new Base({
-  $key:'e',
-  $val:d,
-  $add:d,
-  $on: {
-    $change:function(event) {
-      log('REF CHANGE D!', event, this.$val)
-    }
-  }
-})
+// var e = new Base({
+//   $key:'e',
+//   $val:d,
+//   $add:{ $val: d, $add: b },
+//   $on: {
+//     $change:function(event) {
+//       log('REF CHANGE E!', event, this.$val, 'MY PATH:', this.$path)
+//     }
+//   }
+// })
 
 
-console.info('0000000')
+// //!!!!
+// //eerste grote extra ding is instances gaan handelen
+// //dit doet nu nog niks -- een handeler hij heeft schijt aan instances
+// var eInstance = new e.$Constructor({
+//   $key:'eInstance'
+// })
+// //fix de context
 
-a.$val = 'aa'
+//!!!!
+
+// console.info('0000000')
+
+// log('update a')
+
+// a.$val = 'aa'
 
 
-console.clear()
+// console.clear()
 
 
-log('multi update')
-console.info('0000001')
+// log('multi update')
+// console.info('0000001')
 
 
-murder.$set({
-  a:'aaa',
-  c:'cc'
-})
+// murder.$set({
+//   a:'aaa',
+//   c:'cc'
+// })
 
 // log(b.$val)
 
