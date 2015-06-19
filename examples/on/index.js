@@ -40,9 +40,9 @@ var bla = new Base({
 
 console.info('\n\nthis is setting hello')
 
-// log('-----------THIS SHOULD BE HELLO!-------------')
+log('-----------THIS ScHOULD BE HELLO!-------------')
 
-// bla.hello.$val = 'no'
+bla.hello.$val = 'no'
 
 // log(bla)
 
