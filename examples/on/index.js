@@ -92,14 +92,22 @@ log('-----------references-------------')
 
 //dit heeft de listens array nodig (autoclean)
 
-var a = new Base('a')
+var murder = new Base({
+  $key:'murder',
+  a:'a',
+  c:'c'
+})
+
+var a = murder.a
+var c = murder.c
 
 var b = new Base({
   $key:'b',
   $val:a,
+  $add:c,
   $on: {
     $change:function(event) {
-      log('REF CHANGE!', event)
+      log('REF CHANGE!', event, this.$val)
     }
   }
 })
@@ -108,6 +116,21 @@ var b = new Base({
 console.info('0000000')
 
 a.$val = 'aa'
+
+
+console.clear()
+
+
+log('multi update')
+console.info('0000001')
+
+
+murder.$set({
+  a:'aaa',
+  c:'cc'
+})
+
+log(b.$val)
 
 
 // var a = new Base('a')
