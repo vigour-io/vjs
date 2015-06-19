@@ -115,7 +115,7 @@ var b = new Base({
   }
 })
 
-log('hello')
+// log('hello')
 
 var d = new Base({
   $key:'d',
@@ -147,7 +147,6 @@ var e = new Base({
 //met als origin eInstance (key word geset en listener op change en ik set key$)
 var eInstance = new e.$Constructor()
 eInstance._$key = 'eInstance'
-//holy shit dit gaat goed????
 
 // //fix de context
 
@@ -170,6 +169,8 @@ murder.$set({
   a:'aaa',
   c:'cc'
 })
+
+
 
 // log(b.$val)
 
