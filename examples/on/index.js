@@ -87,6 +87,8 @@ xx.$set({
   xxxxx:true
 })
 
+log(xx.hello.$val)
+
 
 // //zo fucked...
 // //hello is nog niet geresolved
