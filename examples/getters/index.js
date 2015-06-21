@@ -309,7 +309,7 @@ log(lezzgo.$val)
 
 var bla = new lezzgo.$Constructor({
   $add: {
-    $val:500
+    $val:1500
   }
 })
 
