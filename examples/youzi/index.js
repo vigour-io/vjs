@@ -97,45 +97,11 @@ log('blurf',blurf)
 
 //-----------------------------------------------------------------
 
-var Selection = new Base({
-
-}).$Constructor
-
-var selProto = Selection.prototype
-
-define( selProto , '$include', {
-  value:function( options ){
-    if(options === void 0){ // little slow
-      options = {}
-    }
-    options.results = this
-    return Base.prototype.$filter.call(this._$val, options)
-  }
-})
-
-// define( selProto , '$exclude', {
-//   value:function( options ){
-//     if(options === void 0){ // little slow
-//       options = {}
-//     }
-//     options.results = this
-//     return Base.prototype.$filter.call(this._$val, options)
-//   }
-// })
-
-define( selProto , '$query', {
-  value:function( options ){
-    if( options === void 0 ){ // little slow
-      options = {}
-    }
-    options.results = this
-    return Base.prototype.$find.call(this._$val, options)
-  }
-})
+var Selection = require('../selection')
 
 var searchableBlurf = new Selection(blurf)
 
-log('searchableBlurf filter',searchableBlurf.$filter(function( result ){
+log('searchableBlurf filter',searchableBlurf.$include(function( result ){
 
   if(result._$key === 'a'){
     return true
@@ -145,8 +111,10 @@ log('searchableBlurf filter',searchableBlurf.$filter(function( result ){
 
 log('searchableBlurf after filter', searchableBlurf)
 
-log('searchableBlurf filter',searchableBlurf.$filter(function( result ){
-
+log('searchableBlurf filter',searchableBlurf.$include(function( result ){
+  if(result._$key === 'c'){
+    return true
+  }
 }))
 
 log('searchableBlurf after filter', searchableBlurf)
