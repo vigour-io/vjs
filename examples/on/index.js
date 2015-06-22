@@ -146,6 +146,13 @@ var e = new Base({
 //dit zou een change moeten forcen -- doe iets ook
 //met als origin eInstance (key word geset en listener op change en ik set key$)
 var eInstance = new e.$Constructor()
+//dit is het ding nu moeten er meer updates worden gerunt
+
+//chnage dispatcher krijgt ding om te kijken of $val echt gechanged is
+//caching word veel midner complex
+
+//e.g x is gewoon een useVal ding op element met een change listener simple solid smooth
+
 eInstance._$key = 'eInstance'
 
 // //fix de context
