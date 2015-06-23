@@ -383,7 +383,13 @@ var a = new Base({
 
 var b = new Base({
   $val:'ughx ',
-  $add:{ $val: 2, $add: a },
+  $add:{ $val: 2, $add: a,
+    $on: {
+      $change:function(e) {
+        log('log it', e, this.$val)
+      }
+    }
+  },
   $on: {
     $change:function(e) {
       log('do b!', e, this.$val)
