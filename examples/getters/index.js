@@ -451,9 +451,7 @@ a.$set('!jokka!')
 console.info('\n\n',window.cnt, '$parsedValue executed')
 log(window.cnt, 'parsedValue executed')
 
-
 log('====on set , should not fire stuff====')
-
 
 a.$set({
   $on: {
@@ -466,7 +464,7 @@ a.$set({
   //beter bijhouden wat er changed...
 })
 
-log('====new dispacther type====')
+log('====new dispacther type==== (should not fire listeners -- remove later)')
 
 //dit fired for weirdness...
 var bb = new a.$Constructor({
@@ -476,6 +474,38 @@ var bb = new a.$Constructor({
 })
 //this works jeee!
 
+log('====new dispacther type 2====')
+
+var x = new Base({
+  $key:'x',
+  // gurk: {
+  //   $on: {
+  //     //$parent -- $new important!
+  //     $new:function(e) {
+  //       log('hey new!', this.$path)
+  //     },
+  //     $newParent:function(e) {
+  //       //dit is wat je wil voor x etc etc
+  //       log('hey parent! new!', this)
+  //     }
+  //   }
+  // }
+})
+
+var bla = new Base({
+  $val:'bla',
+  $on: {
+    $newParent:function(e) {
+      log('add bla')
+    }
+  }
+})
+
+var y = new x.$Constructor({
+  $key:'y',
+  x:{ $useVal: new bla.$Constructor() }
+  // gurk:'blurf' //dit is new voor deze
+})
 
 // a.$emit('$change') emit may be very nice!
 
