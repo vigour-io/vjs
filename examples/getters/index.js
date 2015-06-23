@@ -320,23 +320,43 @@ var bla = new lezzgo.$Constructor({
 
 log(bla.$val)
 
+//add Promises etc $update handelers
+//is
+//once
+//on
+//remove
+
+//event types
+
+//$new
+//$remove
+//$keys
+//$deep
+//$change
+
 var x = new Base({
   a:'a',
   b:'b',
   c:'c',
-  // $transform: function() {
-  //   var obj = this.$convert()
-  //   //make option in convert ignore function (e.g. ignore operators)
-  //   //add each util
-  //   // delete obj.$transform
-  //   return obj
-  // },
+  $transform: function(val) {
+    // var val = this.$convert()
+    //make option in convert ignore function (e.g. ignore operators)
+    //add each util
+    // delete obj.$transform
+    return val
+  },
   $key:'x',
   $add: {
     x:true,
-    hurk:{$val:'hurk ',$add:function() {
-      return this.$path  
-    }},
+    hurk:{
+      $val:bla,
+      $add:{
+        $val:'  --->  ',
+        $add:function() {
+          return this.$path  
+        }
+      }
+    },
     c:'dddd'
   }
 })
@@ -350,9 +370,40 @@ var xx = new x.$Constructor({
   }
 })
 
+//change needs to fire up the chain for operators only!
+//very important since operators need to send notice to things that use $val
 log('===x --> parsed====',x.$val.hurk.$val, '===x $add====', x.$add)
-
 log('===xx --> parsed====',xx.$val.hurk.$val, '===xx $add====', xx.$add)
+
+log('===on -- nested operators tests====')
+
+var a = new Base({
+  $val:1
+})
+
+var b = new Base({
+  $val:'ughx',
+  $add:{ $val: 2, $add: a },
+  $on: {
+    $change:function(e) {
+      log('do b!', e)
+    }
+  }
+})
+
+
+//why not instead of set call it merge? since it just merges...
+/*
+b.$merge({
+
+})
+*/
+
+log('NOW!!')
+
+a.$set(2)
+
+
 
 // log('?',xx.$val.$.on('$change', function() {
 
