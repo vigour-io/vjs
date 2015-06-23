@@ -383,11 +383,18 @@ console.clear()
 
 log('===on -- nested operators tests====')
 
-var x = new Base({
-  $key:'x',
+var y = new Base({
+  $key:'y',
   $val:3
 })
 
+
+var x = new Base({
+  $key:'x',
+  $val:3,
+  $add:y
+})
+//no these should not be called
 
 var a = new Base({
   $key:'a',
