@@ -378,23 +378,38 @@ log('===xx --> parsed====',xx.$val.hurk.$val, '===xx $add====', xx.$add)
 log('===on -- nested operators tests====')
 
 var a = new Base({
-  $val:1
+  $key:'a',
+  $val:1,
+  $on: {
+    $change:function(e){
+      log('AAAAA', e, this.$val)
+    }
+  }
 })
 
 var b = new Base({
+  $key:'b',
   $val:'ughx ',
-  $add:{ $val: 2, $add: a,
-    $on: {
-      $change:function(e) {
-        log('log it', e, this.$val)
-      }
-    }
+  $add:{ 
+    $val: a, 
+    $add: a,
+    // $on: {
+    //   $change:function(e) {
+    //     log('log it', e, this.$path)
+    //   }
+    // }
   },
   $on: {
     $change:function(e) {
       log('do b!', e, this.$val)
     }
   }
+})
+
+log('update a 1')
+a.$set({
+  //extra event??
+  $add:b
 })
 
 //why not instead of set call it merge? since it just merges...
@@ -404,11 +419,11 @@ b.$merge({
 })
 */
 
-log('update a')
+log('update a 2')
 
 a.$set(100)
 
-log('update a')
+log('update a 3')
 
 a.$set(10)
 
