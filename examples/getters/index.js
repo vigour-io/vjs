@@ -1,4 +1,4 @@
-var log = require('../../lib/util/log')
+var log = require('../../lib/dev/log')
 
 //-------------------------------------------------------------
 
@@ -320,6 +320,8 @@ var bla = new lezzgo.$Constructor({
 
 log(bla.$val)
 
+
+
 var x = new Base({
   a:'a',
   b:'b',
@@ -331,9 +333,12 @@ var x = new Base({
   //   // delete obj.$transform
   //   return obj
   // },
+  $key:'x',
   $add: {
     x:true,
-    hurk:true,
+    hurk:{$val:'hurk ',$add:function() {
+      return this.$path  
+    }},
     c:'dddd'
   }
 })
@@ -341,12 +346,13 @@ var x = new Base({
 log( x.$val )
 
 var xx = new x.$Constructor({
+  $key:'xx',
   $add: {
     d:'xxx'
   }
 })
 
-log('===xx====',xx.$val, '===orig====', xx.$add)
+log('===xx --> parsed====',xx.$val.hurk.$val, '===orig $add====', xx.$add)
 
 // log('?',xx.$val.$.on('$change', function() {
 
