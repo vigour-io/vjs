@@ -320,15 +320,20 @@ var xx = new bla.$Constructor({
   $key:'blaInstance',
   $transform: {
     //dit gaat helemaal mis maakt een ref naar $transform
-    blurk:1000
+    blurk:1000,
+    x:'HELLO!'
   }
 })
 
-log('bla comone!', bla.$val, 'this is bla!', bla)
+log( 'bla', bla.$val, 'normal', bla, 'transform', bla.$transform )
 
+log( 'xx', xx.$val, 'normal', xx, 'transform', xx.$transform )
 
-log('xx', xx.$val, 'normal', xx, 'transform', xx.$transform)
-
+//find a way to listen to xx.$val (faster ofcourse)
+//problem now is that it gets a false on it since its not rly an update ever..
+//however we may need to set stamp in objects -- so its clear what a $val update come from
+//or handle eveyrhting in results -- at least find something
+//maybe pass event as well on $val
 // log(murder.$val)
 
 // log(b.$val)

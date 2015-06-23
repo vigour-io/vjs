@@ -407,10 +407,14 @@ var b = new Base({
 })
 
 log('update a 1')
-a.$set({
-  //extra event??
-  $add:b
-})
+
+//this should not result in an update
+//empty objects etc
+//for change it needs to check if there really is a change somewhere
+// a.$set({
+//   //extra event??
+//   // $add:b
+// })
 
 //why not instead of set call it merge? since it just merges...
 /*
@@ -426,6 +430,13 @@ a.$set(100)
 log('update a 3')
 
 a.$set(10)
+//maybe call this $merge?
+
+log('FORCE update on a 4')
+
+a.$update('$change')
+
+// a.$emit('$change') emit may be very nice!
 
 
 // log('?',xx.$val.$.on('$change', function() {
