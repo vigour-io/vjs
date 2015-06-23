@@ -290,6 +290,8 @@ console.clear()
 
 log('------ now some REAL operators ------')
 
+// window.cnt = 0
+
 var a = new Base({
   $val:100,
   $add:200
@@ -375,14 +377,25 @@ var xx = new x.$Constructor({
 log('===x --> parsed====',x.$val.hurk.$val, '===x $add====', x.$add)
 log('===xx --> parsed====',xx.$val.hurk.$val, '===xx $add====', xx.$add)
 
+
+document.body.innerHTML = ''
+console.clear()
+
 log('===on -- nested operators tests====')
+
+var x = new Base({
+  $key:'x',
+  $val:3
+})
+
 
 var a = new Base({
   $key:'a',
   $val:1,
+  $add:x,
   $on: {
     $change:function(e){
-      log('AAAAA', e, this.$val)
+      log('AAAAA', e, this.$val, window.cnt)
     }
   }
 })
@@ -391,8 +404,8 @@ var b = new Base({
   $key:'b',
   $val:'ughx ',
   $add:{ 
-    $val: a, 
-    $add: a,
+    $val: a
+    // $add: a,
     // $on: {
     //   $change:function(e) {
     //     log('log it', e, this.$path)
@@ -401,12 +414,13 @@ var b = new Base({
   },
   $on: {
     $change:function(e) {
-      log('do b!', e, this.$val)
+      log('do b!', e, this.$val, window.cnt)
     }
   }
 })
 
-log('update a 1')
+log('update a 100')
+window.cnt = 0
 
 //this should not result in an update
 //empty objects etc
@@ -423,18 +437,22 @@ b.$merge({
 })
 */
 
-log('update a 2')
+// log('update a 2')
 
 a.$set(100)
 
-log('update a 3')
+log('update a !jokka!')
 
-a.$set(10)
+a.$set('!jokka!')
 //maybe call this $merge?
 
-log('FORCE update on a 4')
+// log('FORCE update on a 4')
 
-a.$update('$change')
+// a.$update('$change')
+
+
+console.info('\n\n',window.cnt, 'operators executed')
+log(window.cnt, 'operators executed')
 
 // a.$emit('$change') emit may be very nice!
 
