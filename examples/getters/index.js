@@ -382,15 +382,14 @@ var a = new Base({
 })
 
 var b = new Base({
-  $val:'ughx',
+  $val:'ughx ',
   $add:{ $val: 2, $add: a },
   $on: {
     $change:function(e) {
-      log('do b!', e)
+      log('do b!', e, this.$val)
     }
   }
 })
-
 
 //why not instead of set call it merge? since it just merges...
 /*
@@ -399,10 +398,14 @@ b.$merge({
 })
 */
 
-log('NOW!!')
+log('update a')
 
-a.$set(2)
+a.$set(100)
 
+log('update a')
+
+
+a.$set(10)
 
 
 // log('?',xx.$val.$.on('$change', function() {
