@@ -320,8 +320,6 @@ var bla = new lezzgo.$Constructor({
 
 log(bla.$val)
 
-
-
 var x = new Base({
   a:'a',
   b:'b',
@@ -352,7 +350,9 @@ var xx = new x.$Constructor({
   }
 })
 
-log('===xx --> parsed====',xx.$val.hurk.$val, '===orig $add====', xx.$add)
+log('===x --> parsed====',x.$val.hurk.$val, '===x $add====', x.$add)
+
+log('===xx --> parsed====',xx.$val.hurk.$val, '===xx $add====', xx.$add)
 
 // log('?',xx.$val.$.on('$change', function() {
 
