@@ -378,8 +378,8 @@ log('===x --> parsed====',x.$val.hurk.$val, '===x $add====', x.$add)
 log('===xx --> parsed====',xx.$val.hurk.$val, '===xx $add====', xx.$add)
 
 
-document.body.innerHTML = ''
-console.clear()
+// document.body.innerHTML = ''
+// console.clear()
 
 log('===on -- nested operators tests====')
 
@@ -410,15 +410,7 @@ var a = new Base({
 var b = new Base({
   $key:'b',
   $val:'ughx ',
-  $add:{ 
-    $val: a
-    // $add: a,
-    // $on: {
-    //   $change:function(e) {
-    //     log('log it', e, this.$path)
-    //   }
-    // }
-  },
+  $add:a,
   $on: {
     $change:function(e) {
       log('do b!', e, this.$val, window.cnt)
@@ -451,15 +443,39 @@ a.$set(100)
 log('update a !jokka!')
 
 a.$set('!jokka!')
+
 //maybe call this $merge?
-
 // log('FORCE update on a 4')
-
 // a.$update('$change')
 
+console.info('\n\n',window.cnt, '$parsedValue executed')
+log(window.cnt, 'parsedValue executed')
 
-console.info('\n\n',window.cnt, 'operators executed')
-log(window.cnt, 'operators executed')
+
+log('====on set , should not fire stuff====')
+
+
+a.$set({
+  $on: {
+    $new:function(e) {
+      log('hey new from', e, this.$keys, 'val:', this.$val, this.$path, 'fromBase:', this.$fromBase.$path)
+      //calcs work well
+    }
+  }
+  //deze set is super onbelangrijk voor listeners..
+  //beter bijhouden wat er changed...
+})
+
+log('====new dispacther type====')
+
+//dit fired for weirdness...
+var bb = new a.$Constructor({
+  $key:'bb',
+  $add:'xxxxxxxx' //works well
+  //this should nto update b....
+})
+//this works jeee!
+
 
 // a.$emit('$change') emit may be very nice!
 
