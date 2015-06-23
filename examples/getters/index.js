@@ -12,6 +12,7 @@ var bla = new Base({
   },
   flups:'bla'
 })
+
 bla._$key = 'bla'
 
 var blurf = new bla.$Constructor({
@@ -294,6 +295,8 @@ var a = new Base({
   $add:200
 })
 
+log('?')
+
 var lezzgo = window.lezzgo = new Base({
   $val:200,
   $add:{
@@ -304,6 +307,8 @@ var lezzgo = window.lezzgo = new Base({
     }
   }
 })
+
+log('?2')
 
 log(lezzgo.$val)
 
@@ -319,16 +324,33 @@ var x = new Base({
   a:'a',
   b:'b',
   c:'c',
-  $transform: function() {
-    var obj = this.$convert()
-    //make option in convert ignore function (e.g. ignore operators)
-    //add each util
-    delete obj.$transform
-    return obj
+  // $transform: function() {
+  //   var obj = this.$convert()
+  //   //make option in convert ignore function (e.g. ignore operators)
+  //   //add each util
+  //   // delete obj.$transform
+  //   return obj
+  // },
+  $add: {
+    x:true,
+    hurk:true,
+    c:'dddd'
   }
 })
 
-log( JSON.stringify( x.$val, false, 2 ) )
+log( x.$val )
+
+var xx = new x.$Constructor({
+  $add: {
+    d:'xxx'
+  }
+})
+
+log('===xx====',xx.$val, '===orig====', xx.$add)
+
+// log('?',xx.$val.$.on('$change', function() {
+
+// }))
 
 // vv2.youri = 'xxxxx'
 

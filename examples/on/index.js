@@ -8,12 +8,11 @@ var Base = require('../../lib/base')
 
 log('lets do this!')
 
-
 var perf = require('../../lib/util/perf')
 
 //-------------------------------------------------------------
 
-console.clear()
+// console.clear()
 
 var bla = new Base({
   $key:'bla',
@@ -26,6 +25,7 @@ var bla = new Base({
 
     //dit moet niet executen
     $on: {
+      // $socketIncoming:
       $change:function( event ) {
         console.error('THIS???', this, this.$path, event.$val)
         log('LISTENER FIRES - HELLO LISTENER! -', '$path:',this.$path, '$val:', this.$val, 'event:', event.$toString() )
@@ -98,6 +98,8 @@ var murder = new Base({
   c:'c'
 })
 
+
+
 var a = murder.a
 var c = murder.c
 
@@ -131,17 +133,12 @@ var d = new Base({
 var e = new Base({
   $key:'e',
   $val:d,
-  $add:{ $val: d, $add: b },
-  $on: {
-    $change:function(event) {
-      log('REF CHANGE E!', event, this.$val, 'MY PATH:', this.$path)
-    }
-  }
+  $add:{ $val: d, $add: b }
 })
 
-// //!!!!
-// //eerste grote extra ding is instances gaan handelen
-// //dit doet nu nog niks -- een handeler hij heeft schijt aan instances
+//!!!!
+//eerste grote extra ding is instances gaan handelen
+//dit doet nu nog niks -- een handeler hij heeft schijt aan instances
 
 //dit zou een change moeten forcen -- doe iets ook
 //met als origin eInstance (key word geset en listener op change en ik set key$)
@@ -155,6 +152,36 @@ var eInstance = new e.$Constructor()
 
 eInstance._$key = 'eInstance'
 
+//arghhh instances! so hard!
+
+
+  //defualt blijven listeners bestaan maar niet base listeners
+
+
+  //verzin hoe dispacther dit te latne doen zonder slow te worden
+
+
+  //listens
+
+
+  //maak 3 losse arrays 
+
+    //functions (basic)
+    //funcitons + bind
+    //bases
+
+  //los van dispatcher --- listens
+    //bases (pure)
+    
+
+    //bound methods -- supe chill om die in een listens array te kunnen doen
+    //multiple info opslaan
+
+
+    //je kan als je een + bind doet
+
+
+
 // //fix de context
 
 //!!!!
@@ -167,24 +194,140 @@ a.$val = 'aa'
 
 // console.clear()
 
-
 log('multi update')
 console.info('0000001')
 
 
+var bla = new Base({
+  x:a,
+  y:a,
+  $key:'marcus',
+  $map: function(field) {
+    return { 'ITSAKEY!': field._$key, x:a }     
+  }
+})
+
 murder.$set({
   a:'aaa',
-  c:'cc'
+  c:'cc',
+  //map ff wat beter
+  //filter als operator!!! fuck yeah killers
+  //find als operator
+  //toch op default $val object terug sturen?
+  //o yeah the solution for filters
+
+  // $transform:function( val ) {
+  //   var arr = []
+  //   this.$each(function(field, key) {
+  //     if(key[0] === 'a') {
+  //       arr.push(field)
+  //     }
+  //   })
+  //   return arr
+  // },
+  $condition: {
+
+  },
+  $map:function( field, key ) {
+    var obj = {}
+    //val moet eigenlijk de prev value zijn :/
+    obj.val = field.$val
+    obj.key = field._$key
+    return obj
+  },
+  $add:bla, //'marcus',
+  $on: {
+    $change:function() {
+
+      log('fire Listeners', 
+        this.$val
+      )
+
+      // console.warn('hello!', this.$val, false, 2)
+    }
+  }
+})
+
+// console.warn(murder.$val)
+
+murder.$set({
+  yuzi:true,
+  abba:'xxx'
+})
+
+murder.$set({
+  james:true,
+  ax:'this is ax'
+})
+
+murder.$set({
+  blurf:true,
+  aap:'aap!'
 })
 
 
+var bla = new Base({
+  a:'a',
+  b:'b',
+  $key:'blablabla'
+})
+
+var selection = new Base({
+  $val:bla,
+  $map:function(field) {
+    if(field.$val === 'a') {
+      return { haha: field, randomdweepish: Math.random()*99999 }
+    }
+  }
+})
+
+log('selection', selection.$val.$toString())
+
+
+bla.$set({
+  a:'b',
+  b:'a',
+  // $key:'BLABLA',
+  // $add: {
+  //   gurk: {
+  //     $x:10, //x,y zijn wel properties...
+  //     $y:10,
+  //     $text:{$BindAndlistenOnField:'$up.$data'}
+  //   },
+  //   kul: {
+  //     text:'bla'
+  //   }
+  //   // $transform:function(val) {
+  //   //   if(night) return val
+  //   // }
+  // },
+  $transform: {
+    //if(operator null e.g $has)
+    blur:10,
+    x:20,
+    y:20
+    // $has: bla.x //operator for truthy/falsy
+  }
+})
+
+var xx = new bla.$Constructor({
+  $key:'blaInstance',
+  $transform: {
+    //dit gaat helemaal mis maakt een ref naar $transform
+    blurk:1000
+  }
+})
+
+log('bla comone!', bla.$val, 'this is bla!', bla)
+
+
+log('xx', xx.$val, 'normal', xx, 'transform', xx.$transform)
+
+// log(murder.$val)
 
 // log(b.$val)
-
-
 // var a = new Base('a')
 // var b = new Base('b')
-
 // var bla = new Base({
 //   gurk: {
 //     $val:{$useVal:a},
@@ -196,7 +339,6 @@ murder.$set({
 //     }
 //   }
 // })
-
 // bla.$set({
 //   g:10,
 //   gurk: {
@@ -221,3 +363,11 @@ murder.$set({
 // })
 
 // xx.hello.$val = 'gurk2'
+
+// perf(function() {
+//   for(var i = 0 ; i < 1000000; i++) {
+//     murder.$each(function(e) {
+//       var bla = e
+//     })
+//   }
+// })
