@@ -1,4 +1,4 @@
-var log = console.log = require('../../lib/util/log')
+var log = console.log = require('../../lib/dev/log')
 
 //-------------------------------------------------------------
 
@@ -8,7 +8,7 @@ var Base = require('../../lib/base')
 
 log('lets do this!')
 
-var perf = require('../../lib/util/perf')
+var perf = require('../../lib/dev/perf')
 
 //-------------------------------------------------------------
 
@@ -103,6 +103,8 @@ var murder = new Base({
 var a = murder.a
 var c = murder.c
 
+log('--stamp should become 14----')
+
 //meeste nieuwe hoeven niks met updates te doen dnek ik?
 //ugh x 
 
@@ -195,6 +197,8 @@ a.$val = 'aa'
 // console.clear()
 
 log('multi update')
+log('--stamp should become 15----')
+
 console.info('0000001')
 
 
@@ -206,6 +210,8 @@ var bla = new Base({
     return { 'ITSAKEY!': field._$key, x:a }     
   }
 })
+
+log('--stamp should become 16----')
 
 murder.$set({
   a:'aaa',
