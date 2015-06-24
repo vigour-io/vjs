@@ -368,7 +368,8 @@ log( x.$val )
 var xx = new x.$Constructor({
   $key:'xx',
   $add: {
-    d:'xxx'
+    d:'xxx',
+    e:'yyy'
   }
 })
 
