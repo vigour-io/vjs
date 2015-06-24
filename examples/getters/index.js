@@ -297,22 +297,197 @@ var a = new Base({
   $add:200
 })
 
-log('?')
+log('?x')
+
 
 var lezzgo = window.lezzgo = new Base({
   $val:200,
+  marcus:true,
+  ttt:{ $useVal: 'marrrecus' },
+  bla:{ $useVal: new a.$Constructor() },
   $add:{
     $val:100,
     $add:a,
     $transform:function(val) {
       return val*2
+    },
+    $on: {
+      $change:function(event) {
+        // var element = new Base({
+        //   $css:'marcus',
+        //   $x:'jimex',
+        //   $h: {
+        //     $on: {
+        //       $change:function(event) {
+        //         // this.$node.style.height = this.$val
+        //       }
+        //     }
+        //   }
+        // }, event)
+
+
+      }
     }
   }
 })
 
+log('?')
+
+var myInstance = new lezzgo.$Constructor({lezzgo:'xxx', $key:'i am instance!'})
+
+log('!!!!MARCUS!', lezzgo.ttt, myInstance)
+
+
+var usemyown = new Base({
+  $useVal:true
+})
+
+
+var x = new Base('marcus')
+var y = new Base('jim')
+
+lezzgo.$flags = {
+  marcus: function( val, event ) {
+
+    log('o shit set some marcus!', val)
+
+    // var bla = 
+
+      this.$setKey('_marcus',val )
+    // }
+
+    // this.marcus.$set(val)
+
+  }
+}
+
+
+log('========21=======')
+
+// lezzgo.$set({
+//   // $transformertje:new bla(),
+//   marcus:'hey rgrggrrt',
+//   // $define: {
+//   //   $node: {
+//   //     set:function() {},
+//   //     get:function() {}
+//   //   }
+//   // },
+//   $flags: {
+//     $node:function() {
+
+//     }
+//   }
+// })
+
+log('xxx?')
+
+//====================
+
+/*
+
+var element = new Base({
+  $on: {
+    $new:function() {
+      this._$node = document.createElement('div')
+    }
+  }
+})
+
+define( element, '$node', {
+  set:function(val) {
+    // this._$node (div, etc etc)
+  },
+  get:function(val) {
+    return this._$node
+  }
+})
+
+var Element = element.$Constructor
+
+// Element.prototype === element
+
+var Property = new Base({
+  //$bindGetter
+  $useVal:true,
+  $bind:'$parent'
+}).$Constructor
+
+var Translation = new Property({
+  $on: {
+    $change:function(event) {
+      //check this.$val (transforms etc)
+      this.$parent.$node.style.matrix3d = 'x,x,x'
+    }
+  }
+})
+
+
+//Translation.$set({ x:10, y:10, scale:2})
+
+var TranslateProperty = new Property({
+  $on:{
+    $change:function(event) {
+      var obj = {}
+      obj[ this.$type || this.$key ] = this.$val
+      if(this.$parent.$translation) {
+        this.$parent.$translation.$set(obj)
+      } else {
+        this.$parent.$set({
+          $translation: new Translation(obj)
+        })
+      }
+    }
+  }
+}).$Constructor
+
+var Video = new Element({
+  // $translation: new Translation(),
+  $x:new TranslateProperty(),
+  $y:new TranslateProperty(),
+  $scale:new TranslateProperty(),
+  $src:new Property({
+    $on: {
+      $change:function(event) {
+        this.$parent.$node.src = this.$val
+      }
+    }
+  })
+}).$Constructor
+
+new Video({
+  $x:10,
+  $y:10,
+  $scale:0.2,
+  $translation: {
+    x:10
+  }
+})
+*/
+
+log(lezzgo)
+
+// lezzgo.$set({
+//   $flags: {
+
+//   }
+// })
+
+
+lezzgo.$flags = {
+  $x:x,
+  $y:y
+}
+
 log('?2')
 
 log(lezzgo.$val)
+
+log('instance', myInstance)
+
+
+throw('marrecus')
+
 
 var bla = new lezzgo.$Constructor({
   $add: {
