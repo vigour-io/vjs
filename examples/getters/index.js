@@ -370,6 +370,10 @@ var xx = new x.$Constructor({
   $add: {
     d:'xxx',
     e:'yyy'
+  },
+  $isFullscreen: {
+    d:'yy',
+    e:'3wer'
   }
 })
 
@@ -494,10 +498,11 @@ var x = new Base({
 })
 
 var bla = new Base({
+  $key:'bla',
   $val:'bla',
   $on: {
-    $newParent:function(e) {
-      log('add bla')
+    $new:function(e) {
+      log('new bla', e)
     }
   }
 })
