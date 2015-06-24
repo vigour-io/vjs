@@ -342,25 +342,18 @@ var usemyown = new Base({
   $useVal:true
 })
 
-
 var x = new Base('marcus')
 var y = new Base('jim')
 
 lezzgo.$flags = {
   marcus: function( val, event ) {
-
     log('o shit set some marcus!', val)
-
     // var bla = 
-
       this.$setKey('_marcus',val )
     // }
-
     // this.marcus.$set(val)
-
   }
 }
-
 
 log('========21=======')
 
@@ -486,7 +479,7 @@ log(lezzgo.$val)
 log('instance', myInstance)
 
 
-throw('marrecus')
+// throw('marrecus')
 
 
 var bla = new lezzgo.$Constructor({
