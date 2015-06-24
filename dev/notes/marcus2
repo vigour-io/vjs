@@ -1,0 +1,23 @@
+- Constructor
+- set
+- on
+	- new
+- flags
+
+
+a.on('change', function(event){
+	event.spesh = 1
+	b.set(2, event)
+})
+
+b.on('change', function(event){
+
+
+	event.$origin == a
+
+
+
+	a.set(4, event)
+})
+
+a = 1
