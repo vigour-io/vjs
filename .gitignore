@@ -9,6 +9,7 @@ docs/*
 
 bundle.css
 bundle.js
+bundle.map.js
 build.css
 build.js
 

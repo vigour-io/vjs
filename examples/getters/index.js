@@ -571,7 +571,7 @@ var x = new Base({
 
 var a = new Base({
   $key:'a',
-  $val:1,
+  $val:' yuzi ',
   $add:x,
   $on: {
     $change:function(e){
@@ -582,8 +582,11 @@ var a = new Base({
 
 var b = new Base({
   $key:'b',
-  $val:'ughx ',
-  $add:a,
+  $val:a,
+  $add:{
+    $val:a,
+    $add:a
+  },
   $on: {
     $change:function(e) {
       log('do b!', e, this.$val, window.cnt)
@@ -591,7 +594,7 @@ var b = new Base({
   }
 })
 
-log('update a 100')
+log('update a yuzi')
 window.cnt = 0
 
 //this should not result in an update
@@ -611,11 +614,13 @@ b.$merge({
 
 // log('update a 2')
 
-a.$set(100)
+a.$set('yuzi')
 
 log('update a !jokka!')
 
 a.$set('!jokka!')
+
+throw('stop')
 
 //maybe call this $merge?
 // log('FORCE update on a 4')
