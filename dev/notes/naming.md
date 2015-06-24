@@ -14,6 +14,8 @@ Also goes for compounds, e.g. "privateKey".
 - **field**
 - property
 
+done , and we have the event '$property' (fires when prop gets added removed'
+
 I feel "field" is ambiguous, could be misinterpreted as "key"
 
 ------------------------------------------------------------------
