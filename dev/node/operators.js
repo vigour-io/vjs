@@ -20,16 +20,19 @@ module.exports = function(repl, args){
       alsoaddthis: 'alsoaddedthis'
     },
     $map: function(key) {
-      console.log('map called for', key)
       var setobj = {}
       setobj[key] = 'ha mapped this!' + Math.random()
       return setobj
     }
   })
 
+  console.log('========================== 1')
+  console.log('got dat', ding1.$toString())
+  console.log('==========================')  
+
   var got = ding1.$val
 
-  console.log('==========================')
+  console.log('========================== 2')
   console.log('got dat', got.$toString())
   console.log('==========================')
   
