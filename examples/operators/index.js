@@ -4,43 +4,45 @@ var log = require('../../lib/dev/log')
 
 var Base = require('../../lib/base')
 
-log('test property event type')
-log('catch stamp!')
-
-var a = new Base({
-  $key:'a',
-  bla:true,
-  $on: {
-    $change:function(event) {
-      log('hello change', event)
-    },
-    $property: function(event, meta) {
-      //may need to add extra property info!
-      log('hello property update!', JSON.stringify(meta))
-    },
-    $new:function(event) {
-      log('hello! NEW')
+var ding1 = new Base({
+  path: {
+    naar: {
+      iets: 1
     }
   },
-  blax:true
+  $add: {
+    addthiskey: 'addthisvalue',
+    alsoaddthis: 'alsoaddedthis'
+  },
+  // $map: function(property, key) {
+  //   console.log('hurwex', key)
+  //   var setobj = {}
+  //   setobj[key] = 'ha mapped this!' + Math.random()
+  //   return Math.random()
+  // }
+  // $map: function(property, key){
+  //   console.log('key', property._$key, key)
+  // }
 })
 
-console.clear()
-log('once')
+console.log('========================== 1')
+console.log('got dat', ding1.$toString())
+console.log('==========================')  
 
-a.$set({
-  b:1
-})
+var got = ding1.$val
 
-log('twice')
+console.log('========================== 2')
+console.log('got dat', got.$toString())
+console.log('==========================')
 
-a.$set({
-  b:1,
-  c:2,
-  d:3,
-  g:5
-})
+console.log('whats in got', got.path.$toString())
 
-log('new')
+var t1 = new Base(1)
 
-var b = new a.$Constructor()
+var t2 = new Base(t1)
+
+
+
+console.log('normal ref?', t2.$toString())
+
+
