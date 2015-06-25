@@ -5,13 +5,14 @@ var log = require('../../lib/dev/log')
 var Base = require('../../lib/base')
 
 log('test property event type')
+log('catch stamp!')
 
 var a = new Base({
   $key:'a',
   bla:true,
   $on: {
     $change:function(event) {
-      log('hello change')
+      log('hello change', event)
     },
     $property: function(event, meta) {
       //may need to add extra property info!
@@ -20,10 +21,16 @@ var a = new Base({
   }
 })
 
+
+console.clear()
+log('once')
+
 a.$set({
   b:1
 })
 
+
+log('twice')
 
 a.$set({
   b:1,
