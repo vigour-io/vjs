@@ -12,22 +12,24 @@ var a = new Base({
   $key:'a',
   bla:true,
   $on: {
+    $new:function(event) {
+      log('hello! NEW')
+    },
     $change:function(event) {
       log('hello change', event)
     },
     $property: function(event, meta) {
       //may need to add extra property info!
       log('hello property update!', JSON.stringify(meta))
-    },
-    $new:function(event) {
-      log('hello! NEW')
     }
   },
   blax:true
 })
 
+log('\n\n\n\if fired fail!')
+
 // console.clear()
-log('once')
+log('once-----')
 
 a.$set({
   b:1
@@ -42,6 +44,6 @@ a.$set({
   g:5
 })
 
-log('new')
+log('newxxxx')
 
 var b = new a.$Constructor()

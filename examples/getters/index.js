@@ -298,13 +298,13 @@ var a = new Base({
 })
 
 log('?x')
-
+console.log('!')
 
 var lezzgo = window.lezzgo = new Base({
   $val:200,
-  marcus:true,
-  ttt:{ $useVal: 'marrrecus' },
-  bla:{ $useVal: new a.$Constructor() },
+  // marcus:true,
+  // ttt:{ $useVal: 'marrrecus' },
+  // bla:{ $useVal: new a.$Constructor() },
   $add:{
     $val:100,
     $add:a,
@@ -324,14 +324,15 @@ var lezzgo = window.lezzgo = new Base({
         //     }
         //   }
         // }, event)
-
-
       }
     }
   }
 })
+console.log('!')
 
-log('?')
+log('?', lezzgo.$val)
+
+// throw('xxx')
 
 var myInstance = new lezzgo.$Constructor({lezzgo:'xxx', $key:'i am instance!'})
 
@@ -357,21 +358,21 @@ lezzgo.$flags = {
 
 log('========21=======')
 
-// lezzgo.$set({
-//   // $transformertje:new bla(),
-//   marcus:'hey rgrggrrt',
-//   // $define: {
-//   //   $node: {
-//   //     set:function() {},
-//   //     get:function() {}
-//   //   }
-//   // },
-//   $flags: {
-//     $node:function() {
+lezzgo.$set({
+  // $transformertje:new bla(),
+  marcus:'hey rgrggrrt',
+  // $define: {
+  //   $node: {
+  //     set:function() {},
+  //     get:function() {}
+  //   }
+  // },
+  $flags: {
+    $node:function() {
 
-//     }
-//   }
-// })
+    }
+  }
+})
 
 log('xxx?')
 
@@ -467,14 +468,23 @@ log(lezzgo)
 // })
 
 
-lezzgo.$flags = {
-  $x:x,
-  $y:y
-}
+// lezzgo.$flags = {
+//   $x:x,
+//   $y:y
+// }
 
 log('?2')
 
 log(lezzgo.$val)
+
+
+// try {
+// } catch(e) {
+//   console.error(e.stack)
+//   throw('x')
+//   // throw(e)
+// }
+
 
 log('instance', myInstance)
 
@@ -620,7 +630,7 @@ log('update a !jokka!')
 
 a.$set('!jokka!')
 
-throw('stop')
+// throw('stop')
 
 //maybe call this $merge?
 // log('FORCE update on a 4')
