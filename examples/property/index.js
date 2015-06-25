@@ -8,23 +8,30 @@ log('test property event type')
 log('catch stamp!')
 console.log('\n\n\n\nCATCH IT')
 
+var burk = new Base({})
+
 var a = new Base({
   $key:'a',
   bla:true,
   $on: {
     $new:function(event) {
+      console.log('new go go1', this.$path)
       log('hello! NEW')
     },
     $change:function(event) {
+      console.log('change go go2', event.$stamp, event.$val)
       log('hello change', event)
     },
     $property: function(event, meta) {
+      console.log('property go go3', meta)
+
       //may need to add extra property info!
       log('hello property update!', JSON.stringify(meta))
     }
   },
   blax:true
-})
+}) //false
+
 
 log('\n\n\n\if fired fail!')
 
@@ -46,6 +53,11 @@ a.$set({
 
 log('newxxxx')
 
-var b = new a.$Constructor()
+var b = new a.$Constructor({
+  $key:'b',
+  ggg:true
+})
+
+// a.$emit('$change')
 
 //now lets work on instances!
