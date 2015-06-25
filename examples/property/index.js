@@ -6,6 +6,7 @@ var Base = require('../../lib/base')
 
 log('test property event type')
 log('catch stamp!')
+console.log('\n\n\n\nCATCH IT')
 
 var a = new Base({
   $key:'a',
@@ -25,7 +26,7 @@ var a = new Base({
   blax:true
 })
 
-console.clear()
+// console.clear()
 log('once')
 
 a.$set({
