@@ -17,10 +17,13 @@ var a = new Base({
     $property: function(event, meta) {
       //may need to add extra property info!
       log('hello property update!', JSON.stringify(meta))
+    },
+    $new:function(event) {
+      log('hello! NEW')
     }
-  }
+  },
+  blax:true
 })
-
 
 console.clear()
 log('once')
@@ -28,7 +31,6 @@ log('once')
 a.$set({
   b:1
 })
-
 
 log('twice')
 
@@ -38,3 +40,7 @@ a.$set({
   d:3,
   g:5
 })
+
+log('new')
+
+var b = new a.$Constructor()
