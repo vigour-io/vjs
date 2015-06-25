@@ -3,7 +3,7 @@ var describe = test.describe
 var it = test.it
 var expect = test.expect
 
-describe( 'test Base Constructor', function () {
+describe('Basic instances (inheritance, $parent & $path', function () {
   var Base
   it( 'require Base', function () {
     Base = require('../../lib/base')
@@ -28,6 +28,10 @@ describe( 'test Base Constructor', function () {
     expect(first.k3.k3_1.$val).to.equal('v3_1')
     expect(first.k3.k3_2.$val).to.equal('v3_2')
     
+    expect(first.k1.$parent).to.equal(first)
+    expect(first.k3.k3_3.k3_3_1.$parent.$parent.$parent)
+      .to.equal(first)
+
   })
 
 
@@ -46,6 +50,12 @@ describe( 'test Base Constructor', function () {
     expect(second.k2.$val).to.equal('c2')
     expect(second.k3.k3_1.$val).to.equal('v3_1')
     expect(second.k3.k3_2.$val).to.equal('c3_2')
+
+    expect(second.k1.$parent).to.equal(second)
+    expect(second.k3.k3_3.k3_3_1.$parent.$parent.$parent)
+      .to.equal(second)
+    expect(second.k2.$parent).to.equal(second)
+    expect(second.k3.k3_2.$parent.$parent).to.equal(second)
 
   })
 
@@ -82,13 +92,67 @@ describe( 'test Base Constructor', function () {
     first.$set({
       newfield: 'newvalue'
     })
-
     expect(first.newfield.$val).to.equal('newvalue')
   })
 
   it('change should reflect in second', function(){
     expect(second.newfield.$val).to.equal('newvalue')
-  })  
+  })
 
 })
 
+describe('References', function () {
+
+  var Base
+  it('require Base', function () {
+    Base = require('../../lib/base')
+  })
+
+  var first
+  it('make first, ', function () {
+    first = new Base('firstval')
+    expect(first.$val).to.equal('firstval')
+  })
+
+  var second
+  it('make second (reference to first)', function () {
+    second = new Base(first)
+    expect(second.$val).to.equal('firstval')
+  })
+
+  var third
+  it('make third (reference to second)', function () {
+    third = new Base(second)
+    expect(third.$val).to.equal('firstval')
+  })
+
+})
+
+
+describe('Bind', function(){
+
+var Base
+  it('require Base', function () {
+    Base = require('../../lib/base')
+  })
+
+  var first
+  it('make first, ', function () {
+    first = new Base({
+      a: {
+        b: {
+          c: {
+            $val: function() {
+              return this.$path
+            },
+            $bind: function() {
+              return this.$parent.$parent.$parent
+            }
+          }
+        }
+      }
+    })
+
+  })
+
+})
