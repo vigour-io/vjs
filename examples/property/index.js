@@ -47,3 +47,5 @@ a.$set({
 log('newxxxx')
 
 var b = new a.$Constructor()
+
+//now lets work on instances!
