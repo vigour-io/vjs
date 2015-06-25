@@ -16,14 +16,21 @@ module.exports = function(repl, args){
       }
     },
     $add: {
-      addthiskey: 'addthisvalue'
+      addthiskey: 'addthisvalue',
+      alsoaddthis: 'alsoaddedthis'
+    },
+    $map: function(key) {
+      console.log('map called for', key)
+      var setobj = {}
+      setobj[key] = 'ha mapped this!' + Math.random()
+      return setobj
     }
   })
 
   var got = ding1.$val
 
   console.log('==========================')
-  console.log('got dat', got)
+  console.log('got dat', got.$toString())
   console.log('==========================')
   
 }
