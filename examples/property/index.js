@@ -35,6 +35,7 @@ log('\n\n\n\if fired fail!')
 log('once----- a')
 
 a.$set({
+  $gg:true,
   b:1
 })
 
