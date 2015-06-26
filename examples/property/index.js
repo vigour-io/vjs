@@ -14,19 +14,18 @@ var a = new Base({
   $key:'a',
   bla:true,
   $on: {
-    $new:function(event) {
-      console.log('new go go1', this.$path)
-      log('hello! NEW')
-    },
     $change:function(event) {
       console.log('change go go2', event.$stamp, event.$val)
       log('hello change', event)
     },
     $property: function(event, meta) {
       console.log('property go go3', meta)
-
       //may need to add extra property info!
       log('hello property update!', JSON.stringify(meta))
+    },
+    $new:function(event) {
+      console.log('new go go1', this.$path, event)
+      log('NEW hello! NEW', event )
     }
   },
   blax:true
