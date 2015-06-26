@@ -12,8 +12,12 @@ var ding1 = new Base({
   },
   $add: {
     addthiskey: 'addthisvalue',
-    alsoaddthis: 'alsoaddedthis'
+    alsoaddthis: 'alsoaddedthis',
+    $add: {
+      shikstywas: 1
+    }
   },
+
   // $map: function(property, key) {
   //   console.log('hurwex', key)
   //   var setobj = {}
@@ -36,6 +40,8 @@ console.log('got dat', got.$toString())
 console.log('==========================')
 
 console.log('whats in got', got.path.$toString())
+
+console.log('')
 
 var t1 = new Base(1)
 
