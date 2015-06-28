@@ -17,6 +17,11 @@ bla._$key = 'bla'
 
 var blurf = new bla.$Constructor({
   flups:'blurf',
+  x: {
+    y: {
+      blurf:true
+    }
+  }
   // x: {
   //   extraField:true
   // }
@@ -294,19 +299,22 @@ log('------ now some REAL operators ------')
 
 var a = new Base({
   $val:100,
-  $add:200
+  $add:200,
+  xxx:true,
+  y:true
 })
 
-log('?x')
+log('?x', a.$val)
+
 console.log('!')
 
 var lezzgo = window.lezzgo = new Base({
-  $val:200,
+  $val:a,
   // marcus:true,
   // ttt:{ $useVal: 'marrrecus' },
   // bla:{ $useVal: new a.$Constructor() },
   $add:{
-    $val:100,
+    $val:a,
     $add:a,
     $transform:function(val) {
       return val*2
