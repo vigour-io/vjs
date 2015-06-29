@@ -3,156 +3,92 @@ var describe = test.describe
 var it = test.it
 var expect = test.expect
 
-describe('Basic instances (inheritance, $parent & $path', function () {
+describe('Operators', function() {
   var Base
-  it( 'require Base', function () {
+  it('require Base', function () {
     Base = require('../../lib/base')
   })
-  var first
-  it( 'make first instance', function () {
-    first = new Base({
-      k1: 'v1',
-      k2: 'v2',
-      k3:{
-        k3_1: 'v3_1',
-        k3_2: 'v3_2',
-        k3_3: {
-          k3_3_1: 'v3_3_1'
-        }
-      }
-    })
-    first._$key = 'first'
-    
-    expect(first.k1.$val).to.equal('v1')
-    expect(first.k2.$val).to.equal('v2')
-    expect(first.k3.k3_1.$val).to.equal('v3_1')
-    expect(first.k3.k3_2.$val).to.equal('v3_2')
-    
-    expect(first.k1.$parent).to.equal(first)
-    expect(first.k3.k3_3.k3_3_1.$parent.$parent.$parent)
-      .to.equal(first)
 
+  var first
+  it('use add on a number', function(){
+    first = new Base({
+      $val: 3,
+      $add: 5
+    })
+    expect(first.$val).to.equal(8)
   })
 
-
   var second
-  it( 'make second from first.$Constructor', function () {
-
-    second = new first.$Constructor({
-      k2: 'c2',
-      k3: {
-        k3_2: 'c3_2'
+  it('use add on an object', function(){
+    second = new Base({
+      key1: 'val1',
+      $add: {
+        addkey1: 'addval1',
+        addkey2: 'addval2',
+        $add: {
+          nestedaddkey: 'nestedaddval'
+        }
       }
     })
     second._$key = 'second'
 
-    expect(second.k1.$val).to.equal('v1')
-    expect(second.k2.$val).to.equal('c2')
-    expect(second.k3.k3_1.$val).to.equal('v3_1')
-    expect(second.k3.k3_2.$val).to.equal('c3_2')
+    var val = second.$val
 
-    expect(second.k1.$parent).to.equal(second)
-    expect(second.k3.k3_3.k3_3_1.$parent.$parent.$parent)
-      .to.equal(second)
-    expect(second.k2.$parent).to.equal(second)
-    expect(second.k3.k3_2.$parent.$parent).to.equal(second)
+    expect(val.key1.$val).to.equal('val1')
+    expect(val.addkey1.$val).to.equal('addval1')
+    expect(val.addkey2.$val).to.equal('addval2')
+    expect(val.nestedaddkey.$val).to.equal('nestedaddval')
 
+    expect(val.nestedaddkey.$path).to.deep.equal(['second', '$results', 'nestedaddkey'])
+    expect(val.nestedaddkey.$origin.$path).to.deep.equal(['second', '$add', '$add', 'nestedaddkey'])
   })
 
+  
+  it('use map', function(){
+    var third = new Base({
+      f1: 'val1',
+      f2: 'val2',
+      f3: 'val3',
+      $map: function(property, key) {
+        
 
-  it( 'path checks', function () {
-    var first_path1 = first.k3.k3_3.k3_3_1.$path
-    expect(first_path1).to.deep.equal(
-      ["first", "k3", "k3_3", "k3_3_1"]
-    )
-    var first_path2 = first.k2.$path
-    expect(first_path2).to.deep.equal(
-      ["first", "k2"]
-    )
-    var first_path3 = first.k1.$path
-    expect(first_path3).to.deep.equal(
-      ["first", "k1"]
-    )
-
-    var second_path1 = second.k3.k3_3.k3_3_1.$path
-    expect(second_path1).to.deep.equal(
-      ["second", "k3", "k3_3", "k3_3_1"]
-    )
-    var second_path2 = second.k2.$path
-    expect(second_path2).to.deep.equal(
-      ["second", "k2"]
-    )
-    var second_path3 = second.k1.$path
-    expect(second_path3).to.deep.equal(
-      ["second", "k1"]
-    )
-  })
-
-  it('set inheritable property on first', function(){
-    first.$set({
-      newfield: 'newvalue'
-    })
-    expect(first.newfield.$val).to.equal('newvalue')
-  })
-
-  it('change should reflect in second', function(){
-    expect(second.newfield.$val).to.equal('newvalue')
-  })
-
-})
-
-describe('References', function () {
-
-  var Base
-  it('require Base', function () {
-    Base = require('../../lib/base')
-  })
-
-  var first
-  it('make first, ', function () {
-    first = new Base('firstval')
-    expect(first.$val).to.equal('firstval')
-  })
-
-  var second
-  it('make second (reference to first)', function () {
-    second = new Base(first)
-    expect(second.$val).to.equal('firstval')
-  })
-
-  var third
-  it('make third (reference to second)', function () {
-    third = new Base(second)
-    expect(third.$val).to.equal('firstval')
-  })
-
-})
-
-
-describe('Bind', function(){
-
-var Base
-  it('require Base', function () {
-    Base = require('../../lib/base')
-  })
-
-  var first
-  it('make first, ', function () {
-    first = new Base({
-      a: {
-        b: {
-          c: {
-            $val: function() {
-              return this.$path
-            },
-            $bind: function() {
-              return this.$parent.$parent.$parent
+        switch(key) {
+          case 'f1':
+            return 1
+          break;
+          case 'f2':
+            return {$val: 2, $add: 4}
+          break;
+          case 'f3': 
+            return function(val) {
+              console.log('i now hold value', val, 'make me somethin?')
+              return 'fnresult'
             }
-          }
+          break;
         }
       }
     })
 
+
+    expect(third.f1.$val).to.equal('val1')
+
+    expect(third.$val.f2.$val).to.equal(6)
+
+    var val = third.$val
+
+
+
+    
+
+    console.log('?!?!?', third.f1.$val)
+
+    console.log('val', val.$toString())
+
   })
 
+
+
+
+
 })
+ 
