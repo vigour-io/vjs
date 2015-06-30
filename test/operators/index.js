@@ -16,7 +16,6 @@ describe('Operators', function() {
   Add combines extra values into the calculated result of a Base instance. This can take several forms:
   ### Adding numbers
   */
-
   it('use add on a number', function(){
     var base = new Base({
       $val: 3,
@@ -24,11 +23,9 @@ describe('Operators', function() {
     })
     expect(base.$val).to.equal(8)
   })
-
   /*
   ### Adding strings
   */
-
   it('use add on a string', function(){
     var base = new Base({
       $val: 'base value',
@@ -36,11 +33,9 @@ describe('Operators', function() {
     })
     expect(base.$val).to.equal('base value add this string')
   })
-
   /*
   ### Adding fields to an Object
   */
-
   var base
   it('use add on an object', function(){
     base = new Base({
@@ -59,6 +54,7 @@ describe('Operators', function() {
     var $val = base.$val
 
     // The added properties are Base instances.
+    
     expect($val.key1.$val).to.equal('val1')
     expect($val.addkey1.$val).to.equal('addval1')
     expect($val.addkey2.$val).to.equal('addval2')
@@ -80,13 +76,24 @@ describe('Operators', function() {
     expect($val.key1.$origin.$path).to.deep.equal(
       ['base', 'key1']
     )
-  })
 
+    // WIP
+    // if we set 
+    base.$add.$set({
+      $transform: function() {
+        return {lurfkey: 1}
+      }
+    })
+
+    // get 
+    $val = base.$val
+    console.log('------------------- > ?', $val.$toString())
+
+  })
   /*
   ## Map
   Map works in quite the same way as [Array.prototype.forEach()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach). The function in $map is called for every property in the Base instance and the result is stored in base.$results under the same key.
   */
-  
   it('use map', function(){
     var base = new Base({
       f1: 'val1',
