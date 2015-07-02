@@ -47,7 +47,6 @@ it('use add on an object', function(){
   var $val = base.$val
 
   // The added properties are Base instances.
-  
   expect($val.key1.$val).to.equal('val1')
   expect($val.addkey1.$val).to.equal('addval1')
   expect($val.addkey2.$val).to.equal('addval2')
@@ -70,17 +69,56 @@ it('use add on an object', function(){
     ['base', 'key1']
   )
 
-  // WIP
-  // if we set 
-  base.$add.$set({
-    $transform: function() {
-      return {lurfkey: 1}
+})
+```
+
+## Prepend
+Prepend adds a value to the start of something, where add appends it to the end,
+prepend prepends it to the beginning.
+
+### Prepending a string
+This use case is most often used when compounding a url to image or video assets
+from the app data. When all assets are stored at a certain domain (e.g. "http://assets.vigour.io/)", it makes sense to only store the end of the path (that which is unique for each piece of data), and prepend the same base domain everywhere to get the complete path.
+
+```javascript
+it('use prepend on string', function(){
+
+  var url = new Base({
+    $val: 'path/to/file',
+    $prepend: 'http://base.path.com/'
+  })
+
+  expect(url.$val).to.equal('http://base.path.com/path/to/file')
+
+  var actor = new Base({
+    name: 'Jhonny Dicaprio',
+    img: 'img/actors/15'
+  })
+
+  url.$val = actor.img
+  expect(url.$val).to.equal('http://base.path.com/img/actors/15')
+  
+})
+```
+
+### Prepending on an Object
+
+```javascript
+it('prepending properties to a Base instance', function(){
+  var base = new Base({
+    basekey: 'baseval',
+    $prepend: {
+      prepended: 'pepended'
     }
   })
 
-  // get 
-  $val = base.$val
-  console.log('------------------- > ?', $val.$toString())
+  var $val = base.$val
+  var cnt = 0
+  var expected = ['prepended', 'basekey']
+
+  $val.$each(function(value, key){
+    console.log('beng key', key)
+  })
 
 })
 ```
@@ -104,7 +142,6 @@ it('use map', function(){
         break;
         case 'f3': 
           return function(val) {
-            console.log('i now hold value', val, 'make me somethin?')
             return 'fnresult'
           }
         break;
@@ -126,7 +163,67 @@ it('use map', function(){
   expect($val.f3.$path).to.deep.equal(['base', '$results', 'f3'])
 
 })
+```
 
+## Updating operators
+When operators are updated we expect the $results to stay in sync with these changes.
+
+```javascript
+it('changing operators updates $results', function(){
+
+  base = new Base({
+    key1: 'val1',
+    $add: {
+      addkey1: 'addval1',
+      addkey2: 'addval2',
+      $add: {
+        nestedaddkey: 'nestedaddval'
+      }
+    }
+  })
+  base._$key = 'base'
+
+  var $val = base.$val
+
+  expect($val.nestedaddkey.$val).to.equal('nestedaddval')
+
+  // here we update the base.$add operator
+  base.$add.$set({
+    $transform: function() {
+      return { swank: 1 }
+    }
+  })
+
+  // $val should now be updated accordingly
+  expect($val).to.have.property('swank')
+    .which.has.property('$val')
+    .which.equals(1)
+
+  // these will not fulfill until we have $remove
+  expect($val).to.not.have.property('addkey1')
+  expect($val).to.not.have.property('addkey2')
+  expect($val).to.not.have.property('nestedaddkey')
+
+})
+```
+
+## Changing the type of base 
+How will operators behave when the type of their base instance changes?.
+
+```javascript
+it('change type of base instance', function(){
+
+  var base = new Base({
+    key1: true,
+    $add: {
+      addkey: true
+    }
+  })
+
+  base.$val = 'wext'
+
+  console.log('what do we expect to happen here?', base.$val)
+})
 
 
 ```
