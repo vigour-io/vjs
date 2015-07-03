@@ -27,6 +27,22 @@ define(list, '_A_push', {
 define(list, '$push', {
   value: function $push() {
 
+    event = new Event()
+    event.$val = arguments
+    event.$origin = this
+
+    var length = this.length
+
+    var newValues = arguments.length
+    var newLength = length + newValues
+
+    console.error('>>>>>>>>>>>>> push', arguments, arguments.length)
+    this._A_push.apply(this, arguments)    
+    // var newLength = this.length
+    // var newValues = newLength - length
+
+    var i = 0
+
   }
 })
 
@@ -40,17 +56,15 @@ define(list, '$unshift', {
     event.$val = arguments
     event.$origin = this
 
-    console.log('unshift!')
-
-    // var fixgetters = this.hasOwnProperty('_$Constructor')
-
     var length = this.length
 
-    console.error('<<<<<<<<<<<<< unshift!', arguments)
+    var newValues = arguments.length
+    var newLength = length + newValues
+    
+    console.error('<<<<<<<<<<<<< unshift', arguments, arguments.length)
     this._A_unshift.apply(this, arguments)
-
-    var newLength = this.length
-    var newValues = newLength - length
+    // var newLength = this.length
+    // var newValues = newLength - length
 
     var i = 0
 
