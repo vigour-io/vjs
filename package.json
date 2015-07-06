@@ -48,6 +48,7 @@
             "options": {}
         },
         "remote-logging": false,
-        "require-paths": {}
+        "require-paths": {},
+        "source-maps": true
     }
 }
