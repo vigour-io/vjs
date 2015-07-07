@@ -25,6 +25,14 @@ var list = List.prototype
 // =============================================================
 
 
+var list1 = new List()
+
+list1.$push(0,1,2,3,4)
+
+console.log('list1 \n', list1.$toString())
+
+console.log('list1', list1)
+
 throw 1
 
 
