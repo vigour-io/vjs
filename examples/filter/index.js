@@ -35,24 +35,30 @@ var $val = base.$val
 
 console.log('-------------- base:')
 base.$each(function(value, key){
-  console.log('>', key, value.$origin.$toString())
+  console.log('>', key, 'name', value.$origin.name.$val)
 })
 
 console.log('-------------- $val:')
 $val.$each(function(value, key){
-  console.log('>', key, value.$origin.$toString())
+  console.log('>', key, 'name', value.$origin.name.$val)
 })
 
-console.log('\n\n=============================== changing', base[0].name.$val)
-
-base[0].name.$val = 'durk'
-
+var changing = base[0].name
+console.log('\n \n=============================== changing', changing.$val)
+changing.$val = 'shushu'
 console.log('-------------- $val:')
 $val.$each(function(value, key){
-  console.log('>', key, value.$origin.$toString())
+  console.log('>', key, 'name', value.$origin.name.$val)
 })
 
 
+changing = base[2].name
+console.log('\n \n=============================== changing', changing.$val)
+changing.$val = 'burburbur'
+console.log('-------------- $val:')
+$val.$each(function(value, key){
+  console.log('>', key, 'name', value.$origin.name.$val)
+})
 
 throw new Error('wait')
 
