@@ -11,37 +11,50 @@ var List = require('../../lib/list')
 
 // =============================================================
 
-console.log('\n\n\n\n---------- mappings')
+console.log('\n\n\n\n---------- filterings')
 
-console.log('\n\n=============================== map dat')
 
-var base = new Base({
-  field1: 'val1',
-  field2: 'val2',
-  $map: function(value, key) {
-    if(value.$val.indexOf('1') !== -1) {
-      return 'mapped value 1'
-    } else {
-      return 'mapped value other'
-    }
-  }
-})
+console.log('\n\n===============================')
+
+var items = [
+  { name: 'burk', age: 100 }, 
+  { name: 'bur', age: 15 },
+  { name: 'brep', age: 150 }
+]
+
+items.$filter = {
+  name: {$contains: 'bur'}
+}
+items.$sort = {
+  by: 'age'
+}
+
+var base = new Base(items)
 
 var $val = base.$val
 
 console.log('-------------- base:')
 base.$each(function(value, key){
-  console.log('>', key, value.$origin.$val)
+  console.log('>', key, value.$origin.$toString())
 })
 
 console.log('-------------- $val:')
 $val.$each(function(value, key){
-  console.log('>', key, value.$origin.$val)
+  console.log('>', key, value.$origin.$toString())
+})
+
+console.log('\n\n=============================== changing', base[0].name.$val)
+
+base[0].name.$val = 'durk'
+
+console.log('-------------- $val:')
+$val.$each(function(value, key){
+  console.log('>', key, value.$origin.$toString())
 })
 
 
-throw new Error('wait')
 
+throw new Error('wait')
 
 // =============================================================
 
