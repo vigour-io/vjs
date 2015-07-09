@@ -1,7 +1,4 @@
-var test = require('../')
-var describe = test.describe
-var it = test.it
-var expect = test.expect
+require('tester')
 
 describe('Operators', function() {
   var Base

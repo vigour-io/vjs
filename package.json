@@ -1,54 +1,56 @@
 {
-    "name": "ls",
-    "version": "1.0.5",
-    "author": "Vigour.io <dev@vigour.io>",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/vigour-io/vjs.git"
+  "name": "ls",
+  "version": "1.0.5",
+  "author": "Vigour.io <dev@vigour.io>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vigour-io/vjs.git"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "test/test.js"
+  },
+  "description": "A javascript framework created and used by Vigour",
+  "bugs": {
+    "url": "https://github.com/vigour-io/vigour-js/issues"
+  },
+  "dependencies": {
+    "lodash": "3.6.x",
+    "promise": "6.x.x"
+  },
+  "homepage": "https://github.com/vigour-io/vigour-js-objects",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "keywords": [
+    "javascript",
+    "framework",
+    "browserify",
+    "performance",
+    "crossplatform"
+  ],
+  "license": "GPL",
+  "devDependencies": {
+    "mocha": "^2.2.5"
+  },
+  "gaston": {
+    "port": 8080,
+    "socket-port": 9000,
+    "no-auto-reload": false,
+    "no-package": false,
+    "bundle": "./",
+    "build": "./",
+    "browserify": {
+      "transforms": []
     },
-    "engines": {
-        "node": ">=0.10.0"
+    "less": {
+      "options": {}
     },
-    "scripts": {
-        "test": "test/test.js"
-    },
-    "description": "A javascript framework created and used by Vigour",
-    "bugs": {
-        "url": "https://github.com/vigour-io/vigour-js/issues"
-    },
-    "dependencies": {
-        "lodash": "3.6.x",
-        "promise": "6.x.x"
-    },
-    "homepage": "https://github.com/vigour-io/vigour-js-objects",
-    "directories": {
-        "example": "examples",
-        "test": "test"
-    },
-    "keywords": [
-        "javascript",
-        "framework",
-        "browserify",
-        "performance",
-        "crossplatform"
-    ],
-    "license": "GPL",
-    "devDependencies": {},
-    "gaston": {
-        "port": 8080,
-        "socket-port": 9000,
-        "no-auto-reload": false,
-        "no-package": false,
-        "bundle": "./",
-        "build": "./",
-        "browserify": {
-            "transforms": []
-        },
-        "less": {
-            "options": {}
-        },
-        "remote-logging": false,
-        "require-paths": {},
-        "source-maps": true
-    }
+    "remote-logging": false,
+    "require-paths": {},
+    "source-maps": true
+  }
 }
