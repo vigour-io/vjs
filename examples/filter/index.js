@@ -11,93 +11,94 @@ var List = require('../../lib/list')
 
 // =============================================================
 
-console.log('\n\n\n\n---------- filterings')
+function logList(base) {
+  console.log('--------------', base.$path)
+  base.$each(function(value, key) {
+    value = value.$origin
+    var str = '> '
+    value.$each(function(b, k){
+      var val = b.$val
+      if(val instanceof Object) {
 
-
-console.log('\n\n===============================')
-
-var items = [
-  { name: 'burk', age: 100 }, 
-  { name: 'bur', age: 15 },
-  { name: 'brep', age: 150 }
-]
-
-items.$filter = {
-  name: {$contains: 'bur'}
-}
-items.$sort = {
-  by: 'age'
+      }
+      str += k + ': ' + b.$val + ' '
+    })
+    console.log(str)
+  })
 }
 
-var base = new Base(items)
+function printObj(base, spaces) {
+  if(!spaces) spaces = 0
+  var str = ''
+  var indent = makeIndent(spaces)
+  base.$each(function(prop){
+    str += indent + key + ':'
+    var val = prop.$val
+    if(typeof val === 'object') {
+      str += printObj(val, spaces + 2)
+    } else {
+      str += val
+    }
+  })
+}
 
-var $val = base.$val
-
-console.log('-------------- base:')
-base.$each(function(value, key){
-  console.log('>', key, 'name', value.$origin.name.$val)
-})
-
-console.log('-------------- $val:')
-$val.$each(function(value, key){
-  console.log('>', key, 'name', value.$origin.name.$val)
-})
-
-var changing = base[0].name
-console.log('\n \n=============================== changing', changing.$val)
-changing.$val = 'shushu'
-console.log('-------------- $val:')
-$val.$each(function(value, key){
-  console.log('>', key, 'name', value.$origin.name.$val)
-})
-
-
-changing = base[2].name
-console.log('\n \n=============================== changing', changing.$val)
-changing.$val = 'burburbur'
-console.log('-------------- $val:')
-$val.$each(function(value, key){
-  console.log('>', key, 'name', value.$origin.name.$val)
-})
-
-throw new Error('wait')
+function makeIndent(spaces) {
+  var result = ''
+  while(spaces) {
+    result += ' '
+    spaces--
+  }
+}
 
 // =============================================================
 
-var n = 150
-var loop = 500
 
-var durk = new List()
+console.log('\n\n\n\n---------- filterings')
 
-perf({
-  log: console.log.bind(console),
-  name: 'sort self',
-  method: function(){
-    for(var i = 0 ; i < n ; i++) {
-      var list = new List()
-      list._$key = 'list'
-      list.$push('A', 'a', 'za', 'fr23', 'ZA', 'a')
-      list.$sort()
-    }
-  },
-  loop: loop
+
+console.log('\n\n=============================== filter 1')
+
+var refNest = new Base({
+  nk: 4
 })
 
+var items = [
+  { id: 0, name: 'burk', nest: {nk: 0}}, 
+  { id: 1, name: 'bur', nest: {nk: 1} },
+  { id: 2, name: 'frep', nest: {nk: 2} },
+  { id: 3, name: 'sneaky', nest: {nk: 3} },
+  { id: 4, name: 'REF G', nest: refNest }
+]
 
-list2 = new List()
+items.$filter = {
+  nest: {
+    nk: { $gte: 2}
+  }
+}
 
-perf({
-  log: console.log.bind(console),
-  name: 'sort key',
-  method: function(){
-    for(var i = 0 ; i < n ; i++) {
-      list2 = new List()
-      list2._$key = 'list'
-      list2.$push({name:'sjaak'}, {name: 'adrie'}, {name: 'fred'}, {name: 'joosje'})
-      list2.$sort({by: 'name'})
-    }
-  },
-  loop: loop
-})
+// items.$sort = {
+//   by: 'age'
+// }
 
-console.log('wurk?', list2.$toString())
+var base = new Base(items)
+base._$key = 'base'
+
+console.log('\n\n=============================== calculate value!')
+
+var $val = base.$val
+
+console.log('\n\n=============================== things now look like:')
+logList(base)
+logList($val)
+
+
+
+console.log('\n\n=============================== 1 --> normal value change')
+
+base[2].nest.nk.$val = 1
+logList($val)
+
+
+console.log('\n\n=============================== 1 --> reffed value change')
+refNest.nk.$val = 1
+logList($val)
