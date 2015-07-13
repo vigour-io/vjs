@@ -69,7 +69,7 @@ b.$set({
   blurx:'x',
   $on: {
     $reference:function( event, meta ) {
-      log('ref fires!', event, meta ) 
+      log('ref fires!', event, '------', meta ) 
     }
   }
 })
@@ -82,13 +82,13 @@ log('--- lets remove ref ------')
 
 b.$set(false)
 
-log('--- lets set normal ------')
+log('--- lets set normal  (ref should not fire) ------ (to marcus)')
 
 b.$set('marcus')
 
-log('--- lets set normal (ref should not fire) ------')
+log('--- lets set ref (ref should fire) ------', '?',b.$on.$reference._$meta)
 
-b.$set(new Base({$key:'ghello', $val:'bitchez'}))
+b.$set(new Base({$key:'ghello', $val:'this is something of a ref!'}))
 
 // log('fire both --')
 // a.$set({
