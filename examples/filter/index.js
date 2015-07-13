@@ -19,9 +19,11 @@ function logList(base) {
     value.$each(function(b, k){
       var val = b.$val
       if(val instanceof Object) {
-
+        str += k + ': ' + printObj(val) + ' '
+      } else {
+        str += k + ': ' + val + ' '
       }
-      str += k + ': ' + b.$val + ' '
+      
     })
     console.log(str)
   })
@@ -29,9 +31,9 @@ function logList(base) {
 
 function printObj(base, spaces) {
   if(!spaces) spaces = 0
-  var str = ''
+  var str = '{ '
   var indent = makeIndent(spaces)
-  base.$each(function(prop){
+  base.$each(function(prop, key){
     str += indent + key + ':'
     var val = prop.$val
     if(typeof val === 'object') {
@@ -40,6 +42,7 @@ function printObj(base, spaces) {
       str += val
     }
   })
+  return str + ' }'
 }
 
 function makeIndent(spaces) {
@@ -48,6 +51,7 @@ function makeIndent(spaces) {
     result += ' '
     spaces--
   }
+  return result
 }
 
 // =============================================================
@@ -80,7 +84,7 @@ items.$filter = {
 //   by: 'age'
 // }
 
-var base = new Base(items)
+var base = window.b = new Base(items)
 base._$key = 'base'
 
 console.log('\n\n=============================== calculate value!')
@@ -101,4 +105,8 @@ logList($val)
 
 console.log('\n\n=============================== 1 --> reffed value change')
 refNest.nk.$val = 1
+logList($val)
+
+console.log('\n\n=============================== 1 --> ref to normal value')
+base[4].nest.$val = {nk: 100}
 logList($val)
