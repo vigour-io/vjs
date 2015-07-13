@@ -74,11 +74,11 @@ b.$set({
   }
 })
 
-log('--- lets set some refs ------')
+log('--- lets set ref ------')
 
 b.$set(new Base({$key:'ghello', $val:'bitchez'}))
 
-log('--- lets set some refs ------')
+log('--- lets remove ref ------')
 
 b.$set(false)
 
@@ -86,11 +86,9 @@ log('--- lets set normal ------')
 
 b.$set('marcus')
 
-log('--- lets set normal ------')
+log('--- lets set normal (ref should not fire) ------')
 
 b.$set(new Base({$key:'ghello', $val:'bitchez'}))
-
-
 
 // log('fire both --')
 // a.$set({
