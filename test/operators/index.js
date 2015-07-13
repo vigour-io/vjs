@@ -13,7 +13,6 @@ describe('Operators', function() {
   Add combines extra values into the calculated result of a Base instance. This can take several forms:
   ### Adding numbers
   */
-
   it('use add on a number', function(){
     var base = new Base({
       $val: 3,
@@ -21,11 +20,9 @@ describe('Operators', function() {
     })
     expect(base.$val).to.equal(8)
   })
-
   /*
   ### Adding strings
   */
-
   it('use add on a string', function(){
     var base = new Base({
       $val: 'base value',
@@ -33,11 +30,9 @@ describe('Operators', function() {
     })
     expect(base.$val).to.equal('base value add this string')
   })
-
   /*
   ### Adding fields to an Object
   */
-
   var base
   it('use add on an object', function(){
     base = new Base({
@@ -77,13 +72,59 @@ describe('Operators', function() {
     expect($val.key1.$origin.$path).to.deep.equal(
       ['base', 'key1']
     )
-  })
 
+  })
+  /*
+  ## Prepend
+  Prepend adds a value to the start of something, where add appends it to the end,
+  prepend prepends it to the beginning.
+
+  ### Prepending a string
+  This use case is most often used when compounding a url to image or video assets
+  from the app data. When all assets are stored at a certain domain (e.g. "http://assets.vigour.io/)", it makes sense to only store the end of the path (that which is unique for each piece of data), and prepend the same base domain everywhere to get the complete path.
+  */
+  it('use prepend on string', function(){
+
+    var url = new Base({
+      $val: 'path/to/file',
+      $prepend: 'http://base.path.com/'
+    })
+
+    expect(url.$val).to.equal('http://base.path.com/path/to/file')
+
+    var actor = new Base({
+      name: 'Jhonny Dicaprio',
+      img: 'img/actors/15'
+    })
+
+    url.$val = actor.img
+    expect(url.$val).to.equal('http://base.path.com/img/actors/15')
+    
+  })
+  /*
+  ### Prepending on an Object
+  */
+  it('prepending properties to a Base instance', function(){
+    var base = new Base({
+      basekey: 'baseval',
+      $prepend: {
+        prepended: 'pepended'
+      }
+    })
+
+    var $val = base.$val
+    var cnt = 0
+    var expected = ['prepended', 'basekey']
+
+    $val.$each(function(value, key){
+      console.log('beng key', key)
+    })
+
+  })
   /*
   ## Map
   Map works in quite the same way as [Array.prototype.forEach()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach). The function in $map is called for every property in the Base instance and the result is stored in base.$results under the same key.
   */
-  
   it('use map', function(){
     var base = new Base({
       f1: 'val1',
@@ -99,7 +140,6 @@ describe('Operators', function() {
           break;
           case 'f3': 
             return function(val) {
-              console.log('i now hold value', val, 'make me somethin?')
               return 'fnresult'
             }
           break;
@@ -121,6 +161,62 @@ describe('Operators', function() {
     expect($val.f3.$path).to.deep.equal(['base', '$results', 'f3'])
 
   })
+  /*
+  ## Updating operators
+  When operators are updated we expect the $results to stay in sync with these changes.
+  */
+  it('changing operators updates $results', function(){
 
+    base = new Base({
+      key1: 'val1',
+      $add: {
+        addkey1: 'addval1',
+        addkey2: 'addval2',
+        $add: {
+          nestedaddkey: 'nestedaddval'
+        }
+      }
+    })
+    base._$key = 'base'
+
+    var $val = base.$val
+
+    expect($val.nestedaddkey.$val).to.equal('nestedaddval')
+
+    // here we update the base.$add operator
+    base.$add.$set({
+      $transform: function() {
+        return { swank: 1 }
+      }
+    })
+
+    // $val should now be updated accordingly
+    expect($val).to.have.property('swank')
+      .which.has.property('$val')
+      .which.equals(1)
+
+    // these will not fulfill until we have $remove
+    expect($val).to.not.have.property('addkey1')
+    expect($val).to.not.have.property('addkey2')
+    expect($val).to.not.have.property('nestedaddkey')
+
+  })
+  /*
+  ## Changing the type of base 
+  How will operators behave when the type of their base instance changes?.
+  */
+  it('change type of base instance', function(){
+
+    var base = new Base({
+      key1: true,
+      $add: {
+        addkey: true
+      }
+    })
+
+    base.$val = 'wext'
+
+    console.log('what do we expect to happen here?', base.$val)
+  })
 })
  
