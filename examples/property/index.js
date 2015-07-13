@@ -5,8 +5,6 @@ var log = require('../../lib/dev/log')
 var Base = require('../../lib/base')
 
 log('test property event type')
-log('catch stamp!')
-console.log('\n\n\n\nCATCH IT')
 
 var burk = new Base()
 
@@ -14,19 +12,21 @@ var a = new burk.$Constructor({
   $key:'a',
   bla:true,
   $on: {
-    $change: {
-      dom: function() {
+    // $change: {
+    //   dom: function() {
 
-      },
-      $val:function() {
+    //   },
+    //   $val:function() {
 
-      },
-      //flag to add a $base
-      $base: burk.receiver
-    },
-    // $change:function(event) {
-    //   log('a hello change', this.$path)
+    //   },
+    //   //flag to add a $base
+    //   $base: burk.receiver
     // },
+    //one function uses id generation?
+    //how to fix other stuff?
+    $change:function(event) {
+      log('a hello change', this.$path)
+    },
     $property: function(event, meta) {
       //may need to add extra property info!
       log('hello property update!', this.$path, JSON.stringify(meta))
@@ -66,8 +66,31 @@ var b = new a.$Constructor({
 log('property update on b')
 
 b.$set({
-  blurx:'x'
+  blurx:'x',
+  $on: {
+    $reference:function( event, meta ) {
+      log('ref fires!', event, meta ) 
+    }
+  }
 })
+
+log('--- lets set some refs ------')
+
+b.$set(new Base({$key:'ghello', $val:'bitchez'}))
+
+log('--- lets set some refs ------')
+
+b.$set(false)
+
+log('--- lets set normal ------')
+
+b.$set('marcus')
+
+log('--- lets set normal ------')
+
+b.$set(new Base({$key:'ghello', $val:'bitchez'}))
+
+
 
 // log('fire both --')
 // a.$set({
