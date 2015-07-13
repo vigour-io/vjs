@@ -90,6 +90,42 @@ log('--- lets set ref (ref should fire) ------', '?',b.$on.$reference._$meta)
 
 b.$set(new Base({$key:'ghello', $val:'this is something of a ref!'}))
 
+
+log('--- lets test some change caching of change (should not fire) --- ')
+
+
+var gurken = new Base({
+  $val:'marcus',
+  $on: {
+    $change:function( event, meta ) {
+      log('hey its a change!', event , meta)
+    }
+  }
+})
+
+
+gurken.$val = 'marcus'
+
+
+log('--- lets test some change caching of change (should fire) --- ')
+
+gurken.$val = {
+  blurf:'blax'
+}
+
+log('--- lets test some change caching of change (should not fire) ---')
+
+gurken.$val = {
+  blurf:'blax'
+}
+
+log('--- lets test some change caching of change (should not fire) ---')
+
+gurken.$val = {
+  blurf:'xxx'
+}
+
+
 // log('fire both --')
 // a.$set({
 //   blury:'y'
