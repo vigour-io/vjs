@@ -134,15 +134,27 @@ var blups2 = new Base({
   $key:'blups2',
   $on: {
     $change: {
-      bindit: [ function( event, meta, str, str2 ) {
-        //this is blups
-        //when blups gets removed will remove this listener
-        // str = gurken
-        // str2 = gurken
-        log('OK I CHANGE THE BINDIT!', Array.prototype.slice.call(arguments) )
-
-
-      }, blups, 'gurken', 'marcus', 'hurk' ]
+      bindit: [ 
+        function( event, meta, str, str2 ) {
+          //this is blups
+          //when blups gets removed will remove this listener
+          // str = gurken
+          // str2 = gurken
+          log(
+            'OK I CHANGE THE BINDIT!', 
+            'bound2:', 
+             this.$path, 
+             'event:', 
+             event, 
+             'args:', 
+             str, 
+             str2 
+           )
+        }, 
+        blups, 
+        'gurken', 
+        'marcus' 
+      ]
     }
   }
 })
