@@ -103,6 +103,7 @@ var smurt = new Base({
 })
 
 var glurps = new Base({
+  $key:'glurps',
   $val: smurt,
   $on: {
     $change:function() {
@@ -119,3 +120,33 @@ var xx = new glurps.$Constructor({
 smurt.$val = 'mups'
 
 console.log(smurt.$on.$change)
+
+console.log('LISTENS?', glurps)
+
+log('----bound----')
+
+var blups = new Base({
+  $key: 'blups',
+  $val: 'this is blups!'
+})
+
+var blups2 = new Base({
+  $key:'blups2',
+  $on: {
+    $change: {
+      bindit: [ function( event, meta, str, str2 ) {
+        //this is blups
+        //when blups gets removed will remove this listener
+        // str = gurken
+        // str2 = gurken
+        log('OK I CHANGE THE BINDIT!', Array.prototype.slice.call(arguments) )
+
+
+      }, blups, 'gurken', 'marcus', 'hurk' ]
+    }
+  }
+})
+
+blups2.$val = 'xxxxx'
+
+
