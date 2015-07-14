@@ -19,10 +19,8 @@ var bla = new Base({
   hello:{
     //this yes allready gets executed.. object before 
     //val is after fields ? flags should go first...
-
     //try to ignore $on.$change first set
     $val:'yes',
-
     //dit moet niet executen
     $on: {
       // $socketIncoming:
@@ -51,26 +49,20 @@ bla.hello.$val = 'no'
 console.info('\n\nthis is xx')
 log('-----------THIS IS XX------------- should get a listener (hello is changing)')
 
-
 var xx = new bla.$Constructor({
   $key:'XX',
   //hierover nadenken wil je dat ie hiervoor fired?
-
   //prop wel denk aan e.g. x
   hello: 'GURK!',
-
   //hello is nog niet geresolved door de on path is goed maar target is off!
-
   //now what hard is changing listers and making sure they dont overwrite
   //also other things then listener but just other values imporant for e.g. references!
-
   $on:{
     $change:function(event) {
       log('LISTENER FIRES - XX LISTENER -', this.$path, 'event:', event.$toString())
     }
   }
 })
-
 
 //added is ngo super iffy als event
 //moet beter gehandeked worden
@@ -360,14 +352,10 @@ log( 'xx', xx.$val, 'normal', xx, 'transform', xx.$transform )
 
 // log('-----------the nested merge test-------------')
 
-
 // //zo fucked...
 // //hello is nog niet geresolved
-
 // log(xx.hello.$val)
-
 // xx.hello.$val = 'murps'
-
 
 // xx.$set({
 //   bla:'hurky'

@@ -82,7 +82,7 @@ log('--- lets remove ref ------')
 
 b.$set(false)
 
-log('--- lets set normal  (ref should not fire) ------ (to marcus)')
+log('--- lets set normal (ref should not fire) ------ (to marcus)')
 
 b.$set('marcus')
 
@@ -90,9 +90,7 @@ log('--- lets set ref (ref should fire) ------', '?',b.$on.$reference._$meta)
 
 b.$set(new Base({$key:'ghello', $val:'this is something of a ref!'}))
 
-
 log('--- lets test some change caching of change (should not fire) --- ')
-
 
 var gurken = new Base({
   $val:'marcus',
