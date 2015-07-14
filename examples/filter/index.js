@@ -108,5 +108,9 @@ refNest.nk.$val = 1
 logList($val)
 
 console.log('\n\n=============================== 1 --> ref to normal value')
-base[4].nest.$val = {nk: 100}
+
+base[4].nest.$val = { $val: null, nk: 100 }
+
+
+
 logList($val)
