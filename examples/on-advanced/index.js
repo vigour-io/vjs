@@ -135,7 +135,7 @@ var blups2 = new Base({
   $on: {
     $change: {
       bindit: [ 
-        function( event, meta, str, str2 ) {
+        function( event, meta, base, str, str2 ) {
           //this is blups
           //when blups gets removed will remove this listener
           // str = gurken
@@ -144,6 +144,7 @@ var blups2 = new Base({
             'OK I CHANGE THE BINDIT!', 
             'bound2:', 
              this.$path, 
+             base.$path,
              'event:', 
              event, 
              'args:', 
