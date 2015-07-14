@@ -36,171 +36,171 @@ var b = new a.$Constructor({
 //deze is nog helemaal wrong bitches!
 
 
-log('make c dont fire!')
+// log('make c dont fire!')
 
-var c = new a.$Constructor({
-  $key:'c',
-  $on: {
-    $change:function(event) {
-      log('c hello change', this.$path)
-    }
-  },
-  $val:'marcus3'
-})
+// var c = new a.$Constructor({
+//   $key:'c',
+//   $on: {
+//     $change:function(event) {
+//       log('c hello change', this.$path)
+//     }
+//   },
+//   $val:'marcus3'
+// })
 
-console.log(
-  'a:',a.$on.$change, 
-  'c:',c.$on.$change, 
-  'c instanceof a:', c.$on.$change instanceof a.$on.$change.$Constructor
-)
+// console.log(
+//   'a:',a.$on.$change, 
+//   'c:',c.$on.$change, 
+//   'c instanceof a:', c.$on.$change instanceof a.$on.$change.$Constructor
+// )
 
-log('now fire c')
+// log('now fire c')
 
-c.$val = 'marcus'
+// c.$val = 'marcus'
 
-//-------------------------------------------------------------
+// //-------------------------------------------------------------
 
-log('----object notation---')
-console.log('\n\n object')
+// log('----object notation--- fire /w gurken')
+// console.log('\n\n object')
 
-var gurken = new Base({
-  $key:'gurken',
-  $on: {
-    $change: {
-      marcus: function() {
-        log('marcus fires', this.$path)
-      },
-      jim: function() {
-        log('jim fires', this.$path)
-      }
-    }
-  }
-})
+// var gurken = new Base({
+//   $key:'gurken',
+//   $on: {
+//     $change: {
+//       marcus: function() {
+//         log('marcus fires', this.$path)
+//       },
+//       jim: function() {
+//         log('jim fires', this.$path)
+//       }
+//     }
+//   }
+// })
 
-gurken.$val = 'clubs'
-console.log(gurken.$on.$change)
+// gurken.$val = 'clubs'
+// console.log(gurken.$on.$change)
 
-log('----new instance, only change jim--- should fire marcus since its not new...')
+// log('----new instance, only change jim--- should fire marcus since its not new...')
 
-var blurken = new gurken.$Constructor({
-  $key:'blurken',
-  $on: {
-    $change: {
-      jim:function() {
-        log('jim 2 fires (only for blurken', this.$path)
-      }
-    }
-  },
-  $val:'boeloe'
-})
+// var blurken = new gurken.$Constructor({
+//   $key:'blurken',
+//   $on: {
+//     $change: {
+//       jim:function() {
+//         log('jim 2 fires (only for blurken', this.$path)
+//       }
+//     }
+//   },
+//   $val:'boeloe'
+// })
 
-log('----fire both---')
+// log('----fire both--- fire with blurken')
 
-blurken.$val = 'boeloe2'
+// blurken.$val = 'boeloe2'
 
-log('----refs----')
+// log('----refs----')
 
-var smurt = new Base({
-  $key: 'smurt',
-  $val: 'this is smurt!'
-})
+// var smurt = new Base({
+//   $key: 'smurt',
+//   $val: 'this is smurt!'
+// })
 
-var glurps = new Base({
-  $key:'glurps',
-  $val: smurt,
-  $on: {
-    $change:function() {
-      log('glurps update', this.$val, this.$path)
-    }
-  }
-})
+// var glurps = new Base({
+//   $key:'glurps',
+//   $val: smurt,
+//   $on: {
+//     $change:function() {
+//       log('glurps update', this.$val, this.$path)
+//     }
+//   }
+// })
 
-// //dit is niet ok als glups een instance is zonder verschil doet ie niks met de listener :/
+// // //dit is niet ok als glups een instance is zonder verschil doet ie niks met de listener :/
 
-// log('update gets done since it has a set here...')
+// // log('update gets done since it has a set here...')
 
-// //not when setting change ....
+// // //not when setting change ....
 
-var xx = new glurps.$Constructor({
-  $key:'xx', 
-  $on: {
-    $change: {
-      spesh:function() {
-        log('im xx SPESH', this.$path)
-      }
-    }
-  }
-})
+// var xx = new glurps.$Constructor({
+//   $key:'xx', 
+//   $on: {
+//     $change: {
+//       spesh:function() {
+//         log('im xx SPESH', this.$path)
+//       }
+//     }
+//   }
+// })
 
-//eerste keer word ie gefired om dat de change vanuit xx komt...
+// //eerste keer word ie gefired om dat de change vanuit xx komt...
 
-// var xx = new glurps.$Constructor()
+// // var xx = new glurps.$Constructor()
 
-log('now fire both!')
+// log('now fire both!')
 
-console.log(xx.$on.$change === glurps.$on.$change)
+// console.log(xx.$on.$change === glurps.$on.$change)
 
-smurt.$val = 'mups'
+// smurt.$val = 'mups'
 
-log('now fire both again -- this is where it goes wrong')
+// log('now fire both again -- this is where it goes wrong')
 
-smurt.$val = 'mups2'
-
-
-log('now fire eveything in xx!')
-
-xx.$val = 'xxxx'
+// smurt.$val = 'mups2'
 
 
-// // debugger
-// // break;
+// log('now fire eveything in xx!')
 
-console.log( 'glurps:', glurps.$on.$change.$onFn, 'xx:',xx.$on.$change.$onFn)
-console.log('instanceof', xx.$on.$change instanceof glurps.$on.$change.$Constructor )
-console.log('instanceof onFn', xx.$on.$change.$onFn instanceof glurps.$on.$change.$onFn.$Constructor )
+// xx.$val = 'xxxx'
 
-console.log( glurps.$on._instances )
 
-console.log('LISTENS?', glurps)
+// // // debugger
+// // // break;
 
-log('----bound----')
+// console.log( 'glurps:', glurps.$on.$change.$onFn, 'xx:',xx.$on.$change.$onFn)
+// console.log('instanceof', xx.$on.$change instanceof glurps.$on.$change.$Constructor )
+// console.log('instanceof onFn', xx.$on.$change.$onFn instanceof glurps.$on.$change.$onFn.$Constructor )
 
-var blups = new Base({
-  $key: 'blups',
-  $val: 'this is blups!'
-})
+// console.log( glurps.$on._instances )
 
-var blups2 = new Base({
-  $key:'blups2',
-  $on: {
-    $change: {
-      bindit: [ 
-        function( event, meta, base, str, str2 ) {
-          //this is blups
-          //when blups gets removed will remove this listener
-          // str = gurken
-          // str2 = gurken
-          log(
-            'OK I CHANGE THE BINDIT!', 
-            'bound2:', 
-             this.$path, 
-             base.$path,
-             'event:', 
-             event, 
-             'args:', 
-             str, 
-             str2 
-           )
-        }, 
-        blups, 
-        'gurken', 
-        'marcus' 
-      ]
-    }
-  }
-})
+// console.log('LISTENS?', glurps)
 
-blups2.$val = 'xxxxx'
+// log('----bound----')
+
+// var blups = new Base({
+//   $key: 'blups',
+//   $val: 'this is blups!'
+// })
+
+// var blups2 = new Base({
+//   $key:'blups2',
+//   $on: {
+//     $change: {
+//       bindit: [ 
+//         function( event, meta, base, str, str2 ) {
+//           //this is blups
+//           //when blups gets removed will remove this listener
+//           // str = gurken
+//           // str2 = gurken
+//           log(
+//             'OK I CHANGE THE BINDIT!', 
+//             'bound2:', 
+//              this.$path, 
+//              base.$path,
+//              'event:', 
+//              event, 
+//              'args:', 
+//              str, 
+//              str2 
+//            )
+//         }, 
+//         blups, 
+//         'gurken', 
+//         'marcus' 
+//       ]
+//     }
+//   }
+// })
+
+// blups2.$val = 'xxxxx'
 
 } catch(e) {
   console.error(e.stack)
