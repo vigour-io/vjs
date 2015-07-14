@@ -34,7 +34,7 @@ adder.$set({
 console.log('------ get .$val 1')
 var $val = adder.$val
 console.log('$val', $val)
-console.log('------ get .$val 2 (server cached)')
+console.log('------ get .$val 2 (return cached)')
 $val = adder.$val
 console.log('$val', $val)
 
