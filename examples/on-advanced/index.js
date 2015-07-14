@@ -77,7 +77,7 @@ var gurken = new Base({
 gurken.$val = 'clubs'
 console.log(gurken.$on.$change)
 
-log('----new instance, only change jim---')
+log('----new instance, only change jim--- should fire marcus since its not new...')
 
 var blurken = new gurken.$Constructor({
   $key:'blurken',
@@ -87,7 +87,30 @@ var blurken = new gurken.$Constructor({
         log('jim 2 fires (only for blurken', this.$path)
       }
     }
+  },
+  $val:'boeloe'
+})
+
+log('----fire both---')
+
+blurken.$val = 'boeloe2'
+
+log('----refs----')
+
+var smurt = new Base({
+  $key: 'smurt',
+  $val: 'this is smurt!'
+})
+
+var glurps = new Base({
+  $val: smurt,
+  $on: {
+    $change:function() {
+      log('glurps update', this.$val)
+    }
   }
 })
 
-blurken.$val = 'boeloe'
+smurt.$val = 'mups'
+
+console.log(smurt.$on.$change)
