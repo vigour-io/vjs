@@ -114,11 +114,23 @@ var glurps = new Base({
 
 //dit is niet ok als glups een instance is zonder verschil doet ie niks met de listener :/
 
-var xx = new glurps.$Constructor({$key:'xx'})
+log('update gets done since it has a set here...')
 
+//not when setting change ....
+
+var xx = new glurps.$Constructor({$key:'xx', $on: {
+  $change: {
+    spesh:function() {
+      log('im xx', this.$path)
+    }
+  }
+}})
+
+//eerste keer word ie gefired om dat de change vanuit xx komt...
 
 // var xx = new glurps.$Constructor()
 
+log('now fire both!')
 
 console.log(xx.$on.$change === glurps.$on.$change)
 
@@ -129,10 +141,19 @@ log('now fire both again -- this is where it goes wrong')
 smurt.$val = 'mups2'
 
 
+log('now fire eveything in xx!')
+
+xx.$val = 'xxxx'
+
+
 // debugger
 // break;
 
-console.log(smurt.$on.$change)
+console.log( 'glurps:', glurps.$on.$change.$onFn, 'xx:',xx.$on.$change.$onFn)
+console.log('instanceof', xx.$on.$change instanceof glurps.$on.$change.$Constructor )
+console.log('instanceof onFn', xx.$on.$change.$onFn instanceof glurps.$on.$change.$onFn.$Constructor )
+
+
 
 console.log('LISTENS?', glurps)
 
