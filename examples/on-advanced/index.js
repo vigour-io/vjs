@@ -106,9 +106,14 @@ var glurps = new Base({
   $val: smurt,
   $on: {
     $change:function() {
-      log('glurps update', this.$val)
+      log('glurps update', this.$val, this.$path)
     }
   }
+})
+
+//dit is niet ok als glups een instance is zonder verschil doet ie niks met de listener :/
+var xx = new glurps.$Constructor({
+  $key:'xx'
 })
 
 smurt.$val = 'mups'
