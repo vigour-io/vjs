@@ -652,7 +652,7 @@ log('====on set , should not fire stuff====')
 a.$set({
   $on: {
     $new:function(e) {
-      log('hey new from', e, this.$keys, 'val:', this.$val, this.$path, 'fromBase:', this.$fromBase.$path)
+      log('hey new from', e, this.$keys, 'val:', this.$val, this.$path, 'fromBase:', this.__proto__.$path)
       //calcs work well
     }
   }
