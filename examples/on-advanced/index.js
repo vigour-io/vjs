@@ -33,8 +33,6 @@ var b = new a.$Constructor({
   $key:'b',
   $val:'marcus2'
 })
-//deze is nog helemaal wrong bitches!
-
 
 log('make c dont fire!')
 
