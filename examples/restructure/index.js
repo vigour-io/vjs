@@ -8,9 +8,9 @@ var bla = window.b = new Base({
   gurken:true
 })
 
-console.log(bla)
-
 Base.prototype.inject( require('../../lib/methods/toString') )
+
+window.bb = Base
 
 bla.inject(function(base) {
   console.log('ghello!', base)
@@ -113,19 +113,34 @@ bla.$set({
 //   marcus:'besjes'
 // })
 
-
 window.obs = obs
 
 log('--operators n shit-----')
 
 var gurk = new Observable({
-  $inject:require('../../lib/operator/add'),
+  $inject: require('../../lib/operator/add'),
   $val:10,
   $add:20
 })
 
 log(gurk.$val)
 
+console.error('--------')
+
+var blurf = new Observable({
+  $inject: require('../../lib/operator/add'),
+  marcus:true,
+  $add:{
+    jim:true
+  }
+})
+
+
+console.log('--------')
+
+log(blurf.$val)
+
+console.log(blurf.toString())
 // log('---crash it (set a method)---')
 
 // blurf.$set({

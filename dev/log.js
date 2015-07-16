@@ -24,8 +24,8 @@ if(!isNode) {
 
       var logit = arguments[i]
 
-      if(logit && logit.$toString ) {
-        logit = logit.$toString()
+      if(logit && logit.toString ) {
+        logit = logit.toString()
         // console.log(logit)
         // logit = logit.replace(/\s/g, '&nbsp;')
         // console.log(logit.replace(/\\n/g, '<br/>'))
