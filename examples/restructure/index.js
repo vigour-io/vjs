@@ -128,7 +128,12 @@ log(gurk.$val)
 console.error('--------')
 
 var blurf = new Observable({
-  $inject: require('../../lib/operator/add'),
+  $inject: [
+    require('../../lib/operator/add'),
+    require('../../lib/operator/filter'),
+    require('../../lib/operator/map'),
+    require('../../lib/operator/multiply')
+  ],
   marcus:true,
   $add:{
     jim:true
