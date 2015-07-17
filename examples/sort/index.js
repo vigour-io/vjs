@@ -36,6 +36,14 @@ $val.each(function(value, key){
   console.log('>', key, value.$origin.$val)
 })
 
+console.log('++++++++++++++ change some:')
+obs[0].$val = 'GOAN CHANGED'
+console.log('-------------- $val:')
+$val.each(function(value, key){
+  console.log('>', key, value.$origin.$val)
+})
+
+
 
 console.log('\n\n=============================== sort by key')
 
