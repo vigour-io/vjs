@@ -54,6 +54,7 @@ describe('$change emitter - instances', function() {
   })
 
   it( 'change a.$val', function() {
+    console.clear()
     a.$val = 'a change'
     expect( measure.a.val[1].a ).msg('a context').to.equal( 2 )
     expect( measure.a.val[1].b ).msg('b context').to.equal( 2 )
