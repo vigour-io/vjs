@@ -1,12 +1,6 @@
 //this can become something like gaston-testor what ever to make it clear that it comes from gaston
 require('tester')
 
-chai.use(function( _chai, _ ) {
-  _chai.Assertion.addMethod( 'msg', function(msg) {
-    _.flag( this, 'message', msg )
-  })
-})
-
 describe('$change emitter - no instances', function() {
 
   var Observable = require('../../lib/observable')
