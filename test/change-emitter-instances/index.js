@@ -11,11 +11,11 @@ describe('$change emitter - instances', function() {
 
   var Observable = require('../../lib/observable')
   var measure = {
-    a:{},
-    instanceOfObs:{}
+    a:{}
   }
   var a
   var b
+  var c
 
   it( 'create new observable (a), add $change listener', function() {    
     measure.a.val = [ 0, {} ]
@@ -41,9 +41,7 @@ describe('$change emitter - instances', function() {
   it( 'create new a.$Constructor (b), check if context is correct', function() {
     b = new a.$Constructor({
       $key:'b'
-      //does work when adding your own emitter...
     })  
-
     expect( a.$on._instances.length )
       .msg('a.$on._instances has correct length').to.equal(1)
     expect( a.$on._instances[0] )
@@ -54,11 +52,39 @@ describe('$change emitter - instances', function() {
   })
 
   it( 'change a.$val', function() {
-    console.clear()
     a.$val = 'a change'
     expect( measure.a.val[1].a ).msg('a context').to.equal( 2 )
     expect( measure.a.val[1].b ).msg('b context').to.equal( 2 )
     expect( measure.a.val[0] ).to.equal( 4 )
+  })
+
+  it( 'create new b.$Constructor (c), check if context is correct', function() {
+    console.log('?')
+    c = new b.$Constructor({
+      $key:'c'
+    }) 
+    expect( measure.a.val[1].a ).msg('a context').to.equal( 2 )
+    expect( measure.a.val[1].b ).msg('b context').to.equal( 2 )
+    expect( measure.a.val[1].c ).msg('c context').to.equal( 1 )
+    expect( measure.a.val[0] ).to.equal( 5 )
+  })
+
+  it( 'change a.$val', function() {
+    a.$val = 'a changes again'
+    expect( measure.a.val[1].a ).msg('a context').to.equal( 3 )
+    expect( measure.a.val[1].b ).msg('b context').to.equal( 3 )
+    expect( measure.a.val[1].c ).msg('c context').to.equal( 2 )
+    expect( measure.a.val[0] ).to.equal( 8 )
+  })
+
+  it( 'change b, add an extra property', function() {
+    b.$val = {
+      extraProperty:true
+    }
+    expect( measure.a.val[1].a ).msg('a context').to.equal( 3 )
+    expect( measure.a.val[1].b ).msg('b context').to.equal( 4 )
+    expect( measure.a.val[1].c ).msg('c context').to.equal( 3 )
+    expect( measure.a.val[0] ).to.equal( 10 )
   })
 
 })
