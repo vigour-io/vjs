@@ -82,9 +82,6 @@ describe('$change emitter - instances', function() {
   })
 
   it( 'add and extra change listener on b (bListener)', function() {
-
-    console.clear()
-
     measure.b.second = { total: 0 }
     b.$val = {
       $on: {
@@ -101,15 +98,39 @@ describe('$change emitter - instances', function() {
     //no update on a (since its out of the context of a)
     expect( measure.a.val.a ).msg('a context').to.equal( 3 )
     //updates since it has to create its own property .$on for b (and c)
+    //hard part here is that it has to resolve instances of b (from the instances of a)
     expect( measure.a.val.b ).msg('b context').to.equal( 5 )
-
-    //because i changed b's change listener this is broken...
-
-    //must be a problem in $onFn
     expect( measure.a.val.c ).msg('c context').to.equal( 4 )
-
     expect( measure.a.val.total ).to.equal( 12 )
   })
+
+  it( 'change a', function() {
+    a.$val = 'again a change!'
+    //no update on a (since its out of the context of a)
+    expect( measure.a.val.a ).msg('a context').to.equal( 4 )
+    expect( measure.a.val.b ).msg('b context').to.equal( 6 )
+    expect( measure.a.val.c ).msg('c context').to.equal( 5 )
+    expect( measure.a.val.total ).to.equal( 15 )
+  })
+
+  it( 'change b, add a second extra property', function() {
+    b.$val = {
+      extraProperty2:true
+    } 
+    //no update on a (since its out of the context of a)
+    expect( measure.a.val.a ).msg('a context').to.equal( 4 )
+    expect( measure.a.val.b ).msg('b context').to.equal( 7 )
+    expect( measure.a.val.c ).msg('c context').to.equal( 6 )
+    expect( measure.a.val.total ).to.equal( 17 )
+  })
+
+  //instance of c
+  
+  //extra listener op a
+
+  //changing val listener op c
+
+  //new instance extra field (extra field should not fire other should)
 
 })
 
