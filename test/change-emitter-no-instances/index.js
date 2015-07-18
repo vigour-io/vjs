@@ -10,7 +10,7 @@ chai.use(function( _chai, _ ) {
 describe('$change emitter - no instances', function() {
 
   var Observable = require('../../lib/observable')
-  var listenerCounters = {
+  var measure = {
     obs:{},
     obs2:{},
     obs3:{}
@@ -24,73 +24,73 @@ describe('$change emitter - no instances', function() {
 
   it('create new observable (obs), add $change listener', function() {
     
-    listenerCounters.obs.val = 0
+    measure.obs.val = 0
 
     obs = new Observable({
       $key:'obs',
       $on: {
         $change: function( event, meta ) {
-          listenerCounters.obs.val++
+          measure.obs.val++
         }
       }
     })
 
-    expect( listenerCounters.obs.val ).to.equal( 0 )
+    expect( measure.obs.val ).to.equal( 0 )
 
   })
 
   it('add extra $change listeners on obs ', function() {
     
-    listenerCounters.obs.second = 0
+    measure.obs.second = 0
 
     obs.$set({
       $on: {
         $change: {
           second: function() {
-            listenerCounters.obs.second++
+            measure.obs.second++
           }
         }
       }
     })
 
-    expect( listenerCounters.obs.val ).msg( 'val listener' ).to.equal( 0 )
-    expect( listenerCounters.obs.second ).msg( 'second listener' ).to.equal( 0 )
+    expect( measure.obs.val ).msg( 'val listener' ).to.equal( 0 )
+    expect( measure.obs.second ).msg( 'second listener' ).to.equal( 0 )
 
-    listenerCounters.obs.third = 0
+    measure.obs.third = 0
 
     obs.$set({
       $on: {
         $change: {
           third: function() {
-            listenerCounters.obs.third++
+            measure.obs.third++
           }
         }
       },
       $val:'a value'
     })
 
-    expect( listenerCounters.obs.val ).msg( 'val listener' ).to.equal( 1 )
-    expect( listenerCounters.obs.second ).msg( 'second listener' ).to.equal( 1 )
-    expect( listenerCounters.obs.third ).msg( 'third listener' ).to.equal( 0 )
+    expect( measure.obs.val ).msg( 'val listener' ).to.equal( 1 )
+    expect( measure.obs.second ).msg( 'second listener' ).to.equal( 1 )
+    expect( measure.obs.third ).msg( 'third listener' ).to.equal( 0 )
 
     obs.$val = 'value has changed'
 
-    expect( listenerCounters.obs.val ).msg( 'val listener' ).to.equal( 2 )
-    expect( listenerCounters.obs.second ).msg( 'second listener' ).to.equal( 2 )
-    expect( listenerCounters.obs.third ).msg( 'third listener' ).to.equal( 1 )
+    expect( measure.obs.val ).msg( 'val listener' ).to.equal( 2 )
+    expect( measure.obs.second ).msg( 'second listener' ).to.equal( 2 )
+    expect( measure.obs.third ).msg( 'third listener' ).to.equal( 1 )
 
     obs.$val = 'value has changed'
 
     //value is the same so expect zero changes
-    expect( listenerCounters.obs.val ).msg( 'val listener' ).to.equal( 2 )
-    expect( listenerCounters.obs.second ).msg( 'second listener' ).to.equal( 2 )
-    expect( listenerCounters.obs.third ).msg( 'third listener' ).to.equal( 1 )
+    expect( measure.obs.val ).msg( 'val listener' ).to.equal( 2 )
+    expect( measure.obs.second ).msg( 'second listener' ).to.equal( 2 )
+    expect( measure.obs.third ).msg( 'third listener' ).to.equal( 1 )
 
   })
 
   it('references tests on obs2', function() {
     
-    listenerCounters.obs2.val = 0
+    measure.obs2.val = 0
 
     referencedObs = new Observable({
       $key:'referencedObs',
@@ -107,14 +107,14 @@ describe('$change emitter - no instances', function() {
       $on: {
         $change: {
           val: function() {
-            listenerCounters.obs2.val++
+            measure.obs2.val++
           }
         }
       },
       $val: referencedObs
     })
 
-    expect( listenerCounters.obs2.val ).msg( 'val listener' ).to.equal( 0 )
+    expect( measure.obs2.val ).msg( 'val listener' ).to.equal( 0 )
 
     expect( obs2 ).to.have.property( '$listensOnBase' )
 
@@ -128,26 +128,26 @@ describe('$change emitter - no instances', function() {
 
     referencedObs.$val = 'changed a string'
 
-    expect( listenerCounters.obs2.val ).msg( 'val listener' ).to.equal( 1 )
+    expect( measure.obs2.val ).msg( 'val listener' ).to.equal( 1 )
 
     obs2.$val = referencedObs2
 
-    expect( listenerCounters.obs2.val ).msg( 'val listener' ).to.equal( 2 )
+    expect( measure.obs2.val ).msg( 'val listener' ).to.equal( 2 )
 
     obs2.$val = referencedObs2
 
     //value is the same so expect zero change
-    expect( listenerCounters.obs2.val ).msg( 'val listener' ).to.equal( 2 )
+    expect( measure.obs2.val ).msg( 'val listener' ).to.equal( 2 )
 
     referencedObs2.$val = 'changed a string'
 
-    expect( listenerCounters.obs2.val ).msg( 'val listener' ).to.equal( 3 )
+    expect( measure.obs2.val ).msg( 'val listener' ).to.equal( 3 )
 
   })
 
   it('passon tests on obs3', function() {
     
-    listenerCounters.obs3.val = 0
+    measure.obs3.val = 0
 
     obs3 = new Observable({
       $key: 'obs3',
@@ -155,7 +155,7 @@ describe('$change emitter - no instances', function() {
         $change: {
           val: [ 
             function( event, meta, base, extraArg1, extraArg2 ) {
-              listenerCounters.obs3.val++
+              measure.obs3.val++
               expect( extraArg1 ).to.equal( 'extra1' )
               expect( extraArg2 ).to.equal( 'extra2' )
             },
@@ -168,7 +168,7 @@ describe('$change emitter - no instances', function() {
     })
 
     referencedObs.$val = 'lets test passon'
-    expect( listenerCounters.obs3.val ).to.equal( 0 )
+    expect( measure.obs3.val ).to.equal( 0 )
 
     expect( referencedObs ).to.have.property( '$listensOnPasson' )
 
@@ -180,10 +180,10 @@ describe('$change emitter - no instances', function() {
     expect( referencedObs.$listensOnPasson ).to.have.property( 1 )
 
     obs3.$val = referencedObs
-    expect( listenerCounters.obs3.val ).to.equal( 1 )
+    expect( measure.obs3.val ).to.equal( 1 )
     
     referencedObs.$val = 'lets test passon, now it should fire'
-    expect( listenerCounters.obs3.val ).to.equal( 2 )
+    expect( measure.obs3.val ).to.equal( 2 )
 
   })
 
