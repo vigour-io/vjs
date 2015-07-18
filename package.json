@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "lodash": "3.6.x",
+    "mocha": "^2.2.5",
     "promise": "6.x.x"
   },
   "homepage": "https://github.com/vigour-io/vigour-js-objects",
@@ -34,7 +35,8 @@
   ],
   "license": "GPL",
   "devDependencies": {
-    "mocha": "^2.2.5"
+    "mocha": "*",
+    "gaston": "git://github.com/vigour-io/gaston#master"
   },
   "gaston": {
     "port": 8080,
