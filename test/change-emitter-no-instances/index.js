@@ -1,5 +1,3 @@
-//this can become something like gaston-testor what ever to make it clear that it comes from gaston
-require('tester')
 
 describe('$change emitter - no instances', function() {
 
