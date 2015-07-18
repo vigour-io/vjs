@@ -32,7 +32,7 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.total ).to.equal( 1 )
   })
 
-  it( 'create new a.$Constructor (b), check if context is correct', function() {
+  it( 'create new a.$Constructor (b)', function() {
     b = new a.$Constructor({
       $key:'b'
     })  
@@ -52,7 +52,7 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.total ).to.equal( 4 )
   })
 
-  it( 'create new b.$Constructor (c), check if context is correct', function() {
+  it( 'create new b.$Constructor (c)', function() {
     c = new b.$Constructor({
       $key:'c'
     }) 
@@ -82,6 +82,9 @@ describe('$change emitter - instances', function() {
   })
 
   it( 'add and extra change listener on b (bListener)', function() {
+
+    console.clear()
+
     measure.b.second = { total: 0 }
     b.$val = {
       $on: {
