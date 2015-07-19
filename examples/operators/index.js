@@ -14,17 +14,21 @@ var List = require('../../lib/list')
 
 // =============================================================
 
-console.log('\n\n\n\n---------- sorting!')
+console.log('\n\n=============================== primitive items')
 
+console.log('\n\n\n\n---------- filter > sort > add!')
 
 console.log('\n\n=============================== sort by self')
 
 var items = ['A', 'a', 'za', 'fr23', 'ZA', 'a']
+items.$filter = { $contains: 'za' }
 items.$sort = true
+items.$add = ['ADDED']
 
 var obs = new Observable(items)
 obs._$key = 'obs'
 
+console.log('\n\n=========== getting $val!')
 var $val = obs.$val
 
 console.log('-------------- obs:')
@@ -38,11 +42,48 @@ $val.each(function(value, key){
 })
 
 console.log('++++++++++++++ change some:')
-obs[0].$val = 'GOAN CHANGED'
+obs[0].$val = 'GOAN CHANGED za'
+
+console.log('-------------- obs.$filter._results:')
+obs.$filter._results.each(function(value, key){
+  console.log('>', key, value.$origin.$val)
+})
+console.log('-------------- obs.$sort._results:')
+obs.$sort._results.each(function(value, key){
+  console.log('>', key, value.$origin.$val)
+})
+
+
 console.log('-------------- $val:')
 $val.each(function(value, key){
   console.log('>', key, value.$origin.$val)
 })
+
+
+
+throw new Error('wait')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 console.clear()
 console.log('\n\n=============================== sort by self with add')
 
@@ -66,7 +107,7 @@ $val.each(function(value, key){
 })
 
 console.log('++++++++++++++ change some:')
-obs[0].$val = 'GOAN CHANGED'
+obs[0].$val = 'GOAN CHANGED za'
 
 console.log('-------------- obs.$sort._result:')
 obs.$sort._results.each(function(value, key){
@@ -78,7 +119,7 @@ $val.each(function(value, key){
   console.log('>', key, value.$origin.$val)
 })
 
-
+throw new Error('wait')
 
 console.clear()
 
