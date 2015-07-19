@@ -111,6 +111,11 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.b ).msg('b context').to.equal( 6 )
     expect( measure.a.val.c ).msg('c context').to.equal( 5 )
     expect( measure.a.val.total ).to.equal( 15 )
+
+    expect( measure.b.second.c ).msg('c context (b second)').to.equal( 2 )
+    expect( measure.b.second.b ).msg('b context (b second)').to.equal( 1 )
+    expect( measure.b.second.total ).to.equal( 3 )
+
   })
 
   it( 'change b, add a second extra property', function() {
@@ -122,6 +127,25 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.b ).msg('b context').to.equal( 7 )
     expect( measure.a.val.c ).msg('c context').to.equal( 6 )
     expect( measure.a.val.total ).to.equal( 17 )
+
+    expect( measure.b.second.c ).msg('c context (b second)').to.equal( 3 )
+    expect( measure.b.second.b ).msg('b context (b second)').to.equal( 2 )
+    expect( measure.b.second.total ).to.equal( 5 )
+  })
+
+  it( 'create new c.$Constructor (d) change c', function() {
+    d = c.$Constructor({
+      $key:'d'
+    })
+    //no update on a (since its out of the context of a)
+    expect( measure.a.val.a ).msg('a context').to.equal( 4 )
+    expect( measure.a.val.b ).msg('b context').to.equal( 7 )
+    expect( measure.a.val.c ).msg('c context').to.equal( 6 )
+    expect( measure.a.val.d ).msg('d context').to.equal( 1 )
+    expect( measure.a.val.total ).to.equal( 18 )
+
+    expect( measure.b.second.d ).msg('d context (b second)').to.equal( 1 )
+    expect( measure.b.second.total ).to.equal( 6 )
   })
 
   //instance of c
