@@ -15,7 +15,6 @@ describe('$change emitter - instances - references', function() {
   var c
 
   it( 'create new observable --> aRef', function() {    
-    //making new instances manges reference updates
      aRef = new Observable({
       $key:'aRef',
       $val:1
@@ -124,15 +123,11 @@ describe('$change emitter - instances - references', function() {
 
   it( 'create new aRef --> bRef', function() {
 
-    console.clear()
-
     bRef = new aRef.$Constructor({
       $key:'bRef'
     }) 
 
     aRef.$val = 'wow more change'
-
-    console.log(measure.a.val.origin)
 
     expect( measure.a.val.a ).msg('a context (a val)').to.equal( 5 )
     expect( measure.a.val.b ).msg('b context (a val)').to.equal( 6 )
