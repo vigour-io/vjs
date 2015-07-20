@@ -2,7 +2,10 @@ describe('remove', function() {
 
   var Observable = require('../../lib/observable')
   var util = require('../../lib/util')
-  var measure = {}
+  var setKeyInternal = Observable.prototype.$setKeyInternal
+  var measure = { 
+    a: {} 
+  }
   var a
 
   it( 'create new observable --> a and remove using method', function() {    
@@ -11,7 +14,8 @@ describe('remove', function() {
       $val:1
     })
     a.remove()
-    expect(a).to.be.empty
+    expect(a._$val).to.be.null;
+    expect(a).to.have.all.keys(['_$val']);
   })
 
   it( 'create new observable --> a and remove using a set with null', function() {    
@@ -20,16 +24,53 @@ describe('remove', function() {
       $val:1
     }) 
     a.$val = null  
-    expect(a).to.be.empty
+    expect(a._$val).to.be.null;
+    expect(a).to.have.all.keys(['_$val']);
   })
 
-  it( 'create new observable --> a and remove field blarf', function() {    
+  it( 'create new observable --> a and remove field prop1', function() {    
+    var cntKeySets = 0
     a = new Observable({
       $key:'a',
-      $blarf:true
+      prop1:{
+        $define:{
+          $setKeyInternal:function() {
+            cntKeySets++
+            return setKeyInternal.apply(this, arguments)
+          }
+        }
+      },
+      prop2:true
     }) 
-    a.$blarf.$val = null  
-    expect(a.$blarf).to.be.an('undefined');
+
+    a.prop1.$set({
+      firstProperty:true,
+      $val:null,
+      notImportant:true,
+      notImportant2:true
+    })
+
+    //using a set this should result in 1 key call (no more sets after remove)
+    expect(cntKeySets).to.equal(1)
+
+    expect(a.prop1).to.be.an('undefined');
+  })
+
+  it( 'add change listener to a', function() {   
+
+    measure.a.val = {
+      total:0
+    }
+
+    a = new Observable({
+      $key:'a',
+      $on: {
+        $change:function() {
+
+        }
+      }
+    }) 
+
   })
 
 })
