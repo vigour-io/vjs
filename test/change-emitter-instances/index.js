@@ -4,13 +4,14 @@ describe('$change emitter - instances', function() {
   var Observable = require('../../lib/observable')
   var measure = {
     a:{},
-    b:{}
+    b:{},
+    c:{}
   }
   var a
   var b
   var c
 
-  it( 'create new observable (a), add $change listener', function() {    
+  it( 'create new observable --> a, add change listener "val"', function() {    
     measure.a.val = { total: 0 }
 
     a = new Observable({
@@ -30,7 +31,7 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.total ).to.equal( 1 )
   })
 
-  it( 'create new a.$Constructor (b)', function() {
+  it( 'create new a --> b', function() {
     b = new a.$Constructor({
       $key:'b'
     })  
@@ -43,14 +44,14 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.total ).to.equal( 2 )
   })
 
-  it( 'change a.$val', function() {
+  it( 'change a', function() {
     a.$val = 'a change'
     expect( measure.a.val.a ).msg('a context').to.equal( 2 )
     expect( measure.a.val.b ).msg('b context').to.equal( 2 )
     expect( measure.a.val.total ).to.equal( 4 )
   })
 
-  it( 'create new b.$Constructor (c)', function() {
+  it( 'create new b --> c', function() {
     c = new b.$Constructor({
       $key:'c'
     }) 
@@ -60,7 +61,7 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.total ).to.equal( 5 )
   })
 
-  it( 'change a.$val', function() {
+  it( 'change a', function() {
     a.$val = 'a changes again'
     expect( measure.a.val.a ).msg('a context').to.equal( 3 )
     expect( measure.a.val.b ).msg('b context').to.equal( 3 )
@@ -68,9 +69,9 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.total ).to.equal( 8 )
   })
 
-  it( 'change b, add an extra property', function() {
+  it( 'change b, add property "prop1"', function() {
     b.$val = {
-      extraProperty:true
+      prop1:true
     } 
     //no update on a (since its out of the context of a)
     expect( measure.a.val.a ).msg('a context').to.equal( 3 )
@@ -79,7 +80,7 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.total ).to.equal( 10 )
   })
 
-  it( 'add and extra change listener on b (bListener)', function() {
+  it( 'add change listener "second" on b', function() {
     measure.b.second = { total: 0 }
     b.$val = {
       $on: {
@@ -100,6 +101,9 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.b ).msg('b context').to.equal( 5 )
     expect( measure.a.val.c ).msg('c context').to.equal( 4 )
     expect( measure.a.val.total ).to.equal( 12 )
+
+    expect( measure.b.second.total ).to.equal( 0 )
+
   })
 
   it( 'change a', function() {
@@ -110,15 +114,14 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.c ).msg('c context').to.equal( 5 )
     expect( measure.a.val.total ).to.equal( 15 )
 
-    expect( measure.b.second.c ).msg('c context (b second)').to.equal( 2 )
+    expect( measure.b.second.c ).msg('c context (b second)').to.equal( 1 )
     expect( measure.b.second.b ).msg('b context (b second)').to.equal( 1 )
-    expect( measure.b.second.total ).to.equal( 3 )
-
+    expect( measure.b.second.total ).to.equal( 2 )
   })
 
-  it( 'change b, add a second extra property', function() {
+  it( 'change b, add property "prop2"', function() {
     b.$val = {
-      extraProperty2:true
+      prop2:true
     } 
     //no update on a (since its out of the context of a)
     expect( measure.a.val.a ).msg('a context').to.equal( 4 )
@@ -126,13 +129,13 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.c ).msg('c context').to.equal( 6 )
     expect( measure.a.val.total ).to.equal( 17 )
 
-    expect( measure.b.second.c ).msg('c context (b second)').to.equal( 3 )
+    expect( measure.b.second.c ).msg('c context (b second)').to.equal( 2 )
     expect( measure.b.second.b ).msg('b context (b second)').to.equal( 2 )
-    expect( measure.b.second.total ).to.equal( 5 )
+    expect( measure.b.second.total ).to.equal( 4 )
   })
 
-  it( 'create new c.$Constructor (d) change c', function() {
-    d = c.$Constructor({
+  it( 'create new c --> d', function() {
+    d = new c.$Constructor({
       $key:'d'
     })
     //no update on a (since its out of the context of a)
@@ -143,16 +146,112 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.total ).to.equal( 18 )
 
     expect( measure.b.second.d ).msg('d context (b second)').to.equal( 1 )
-    expect( measure.b.second.total ).to.equal( 6 )
+    expect( measure.b.second.total ).to.equal( 5 )
   })
 
-  //instance of c
-  
-  //extra listener op a
+  it( 'overwrite change listener "val" on c', function() {
 
-  //changing val listener op c
+    measure.c.val = { total: 0 }
 
-  //new instance extra field (extra field should not fire other should)
+    c.$val = {
+      $on: {
+        $change:function( event, meta ) {
+          var keyCnt =  measure.c.val[this._$key] 
+          measure.c.val.total+=1
+          measure.c.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+        }
+      }
+    }
+
+    //no update on a (since its out of the context of a)
+    expect( measure.a.val.a ).msg('a context').to.equal( 4 )
+    expect( measure.a.val.b ).msg('b context').to.equal( 7 )
+    expect( measure.a.val.c ).msg('c context').to.equal( 6 )
+    expect( measure.a.val.d ).msg('d context').to.equal( 1 )
+    expect( measure.a.val.total ).to.equal( 18 )
+
+    expect( measure.b.second.c ).msg('c context (b second)').to.equal( 3 )
+    expect( measure.b.second.d ).msg('d context (b second)').to.equal( 2 )
+
+    expect( measure.b.second.total ).to.equal( 7 )
+
+    //this is still wrong
+    // expect( measure.c.val.d ).msg('d context (c val)').to.equal( 0 )
+
+  })
+
+  it( 'change c', function() {
+    c.$val = 'i am changing value to c'
+
+    //no update on a (since its out of the context of a)
+    expect( measure.a.val.a ).msg('a context').to.equal( 4 )
+    expect( measure.a.val.b ).msg('b context').to.equal( 7 )
+    expect( measure.a.val.c ).msg('c context').to.equal( 6 )
+    expect( measure.a.val.d ).msg('d context').to.equal( 1 )
+    expect( measure.a.val.total ).to.equal( 18 )  
+
+    expect( measure.c.val.c ).msg('c context (c val)').to.equal( 1 )
+    expect( measure.c.val.d ).msg('d context (c val)').to.equal( 1 )
+    expect( measure.c.val.total ).to.equal( 2 )
+
+    expect( measure.b.second.c ).msg('c context (b second)').to.equal( 4 )
+    expect( measure.b.second.d ).msg('d context (b second)').to.equal( 3 )
+    expect( measure.b.second.total ).to.equal( 9 )
+
+  })
+
+  it( 'add change passon listener "passon" on c', function() {
+
+    measure.c.passon = { total: 0 }
+
+    var passonTest = new Observable({
+      $key:'passonTest'
+    })
+
+    c.$val = {
+      $on: {
+        $change:{
+          passon: [
+            function( event, meta, base, arg ) {
+              var keyCnt =  measure.c.passon[this._$key] 
+              measure.c.passon.total+=1
+              measure.c.passon[this._$key] = keyCnt ? (keyCnt+1) : 1 
+            },  
+            passonTest,
+            'an argument!'
+          ]
+        }
+      }
+    }
+
+    expect( measure.c.val.c ).msg('c context (c val)').to.equal( 1 )
+    expect( measure.c.val.d ).msg('d context (c val)').to.equal( 1 )
+    expect( measure.c.val.total ).to.equal( 2 )
+
+    expect( measure.b.second.c ).msg('c context (b second)').to.equal( 4 )
+    expect( measure.b.second.d ).msg('d context (b second)').to.equal( 3 )
+    expect( measure.b.second.total ).to.equal( 9 )
+
+    expect( measure.c.passon.total ).to.equal( 0 )
+
+  })
+
+  it( 'change c', function() {
+    c.$val = 'i am changing value again'
+
+    expect( measure.c.val.c ).msg('c context (c val)').to.equal( 2 )
+    expect( measure.c.val.d ).msg('d context (c val)').to.equal( 2 )
+    expect( measure.c.val.total ).to.equal( 4 )
+
+    expect( measure.b.second.c ).msg('c context (b second)').to.equal( 5 )
+    expect( measure.b.second.d ).msg('d context (b second)').to.equal( 4 )
+    expect( measure.b.second.total ).to.equal( 11 )
+
+    expect( measure.c.passon.c ).msg('c context (c passon)').to.equal( 1 )
+    expect( measure.c.passon.d ).msg('d context (c passon)').to.equal( 1 )
+    expect( measure.c.passon.total ).to.equal( 2 )
+
+  })
 
 })
 
