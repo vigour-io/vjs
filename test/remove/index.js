@@ -1,5 +1,7 @@
 describe('remove', function() {
 
+  var Base = require('../../lib/base')
+  Base.prototype.inject(require('../../lib/methods/toString'))
   var Observable = require('../../lib/observable')
   var util = require('../../lib/util')
   var setKeyInternal = Observable.prototype.$setKeyInternal
@@ -56,20 +58,23 @@ describe('remove', function() {
     expect(a.prop1).to.be.an('undefined');
   })
 
-  it( 'add change listener to a', function() {   
+  it( 'add change listener to a and remove a', function() {   
 
     measure.a.val = {
       total:0
     }
 
-    a = new Observable({
-      $key:'a',
+    a.$set({
       $on: {
-        $change:function() {
-
+        $change:function( event, meta ) {
+          measure.a.val.total++
         }
       }
     }) 
+
+    a.$val = null
+
+    expect( measure.a.val.total ).to.equal(1)
 
   })
 
