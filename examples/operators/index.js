@@ -14,6 +14,28 @@ var List = require('../../lib/list')
 
 // =============================================================
 
+function raw(base) {
+  base = base.$origin
+  var result
+  base.each(function(value, key){
+    if(!result) {
+      result = {}
+      if(base._$val !== undefined) {
+        result.$val = base._$val
+      }
+    }
+    result[key] = raw(value)
+  })
+  if(!result) {
+    result = base._$val
+  }
+  return result
+}
+
+window.raw = raw
+
+
+
 console.log('\n\n=============================== primitive items')
 
 console.log('\n\n\n\n---------- filter > sort > add!')
