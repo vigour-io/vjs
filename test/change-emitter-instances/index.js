@@ -1,4 +1,3 @@
-
 describe('$change emitter - instances', function() {
 
   var Observable = require('../../lib/observable')
@@ -254,4 +253,3 @@ describe('$change emitter - instances', function() {
   })
 
 })
-
