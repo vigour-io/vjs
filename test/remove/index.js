@@ -61,7 +61,7 @@ describe('remove', function() {
   it( 'add change listener to a and remove a', function() {   
 
     measure.a.val = {
-      total:0
+      total: 0
     }
 
     a.$set({
