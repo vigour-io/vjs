@@ -97,11 +97,17 @@ describe('remove', function() {
       removed: 0
     }
 
+    //since we defined before that we want $on:{} (we are inteserted in instances)
+    //it will handle instances accordingly
+
+    //think about unifiying this system since it maye be super important for hub 
+    //(context)
+
     a.$set({
       $on: {
         $change:function( event, meta ) {
           var keyCnt =  measure.a.val[this._$key] 
-          console.error(this._$key, event.toString())
+          console.error( this._$key, event.toString(), meta )
           //second time is null should be b else things become very unclear
           measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
           measure.a.val.total++
@@ -114,13 +120,23 @@ describe('remove', function() {
       }
     }) 
 
-    console.log('set to null', a.$on._instances)
-    a.$val = null
+    try {
+      a.$val = null
+    } catch(e) {
+      console.error(e)
+    }
 
-    // expect( measure.a.val.removed ).to.equal(2)
     expect( measure.a.val.a ).msg('a val change context:a').to.equal(1)
     expect( measure.a.val.b ).msg('a val change context:b').to.equal(1)
     expect( measure.a.val.total ).to.equal(2)
+
+    expect(isRemoved(a)).msg('check if a is removed').to.be.true
+
+    console.log(b)
+
+    expect(isRemoved(b)).msg('check if b is removed').to.be.true
+
+    expect( measure.a.val.removed ).msg('correct removed count').to.equal(2)
 
   })
 
