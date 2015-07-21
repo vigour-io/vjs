@@ -5,6 +5,7 @@ describe('remove', function() {
   var Observable = require('../../lib/observable')
   var util = require('../../lib/util')
   var setKeyInternal = Observable.prototype.$setKeyInternal
+  var isRemoved = util.isRemoved
   var measure = { 
     a: {} 
   }
@@ -17,7 +18,7 @@ describe('remove', function() {
     })
     a.remove()
     expect(a._$val).to.be.null;
-    expect(a).to.have.all.keys(['_$val']);
+    expect( isRemoved(a) ).to.be.ok
   })
 
   it( 'create new observable --> a and remove using a set with null', function() {    
@@ -27,7 +28,7 @@ describe('remove', function() {
     }) 
     a.$val = null  
     expect(a._$val).to.be.null;
-    expect(a).to.have.all.keys(['_$val']);
+    expect( isRemoved(a) ).to.be.ok
   })
 
   it( 'create new observable --> a and remove field prop1', function() {    
@@ -42,7 +43,8 @@ describe('remove', function() {
           }
         }
       },
-      prop2:true
+      prop2:true,
+      prop3:true
     }) 
 
     a.prop1.$set({
@@ -54,8 +56,45 @@ describe('remove', function() {
 
     //using a set this should result in 1 key call (no more sets after remove)
     expect(cntKeySets).to.equal(1)
-
     expect(a.prop1).to.be.an('undefined');
+  })
+
+  it( 'new a --> "b", handle instances and nested fields ', function() {
+    var b = new a.$Constructor({
+      $key:'b'
+    })
+    
+    b.prop2.remove()
+
+    expect(a).to.have.property( 'prop2' )
+
+    console.error(b)
+
+    expect(b.prop2).to.be.null
+
+    b.prop3.remove( true )
+
+    expect(a).to.not.have.property( 'prop3' )
+    expect(b).to.not.have.property( 'prop3' )
+
+
+  })
+
+  it( 'add change listener and remove listener', function() {
+
+    a.$set({
+      $on: {
+        $change:function( event, meta ) {
+          //random change method
+        }
+      }
+    }) 
+
+    //removed 'val'
+    a.removeListener( '$change', 'val' )
+
+    //removeListener accepts 
+
   })
 
   it( 'add change listener to a and remove a', function() {   
@@ -79,3 +118,8 @@ describe('remove', function() {
   })
 
 })
+
+//instances
+//listeners
+//removeListener 
+
