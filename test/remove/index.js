@@ -31,7 +31,7 @@ describe('remove', function() {
     expect( isRemoved(a) ).to.be.ok
   })
 
-  it( 'create new observable --> a and remove field prop1', function() {    
+  it( 'create new observable --> a and remove field "prop1"', function() {    
     var cntKeySets = 0
     a = new Observable({
       $key:'a',
@@ -59,43 +59,37 @@ describe('remove', function() {
     expect(a.prop1).to.be.an('undefined');
   })
 
-  it( 'new a --> "b", handle instances and nested fields ', function() {
+  it( 'new a --> b, handle instances and nested fields ', function() {
     var b = new a.$Constructor({
       $key:'b'
     })
     
     b.prop2.remove()
-
     expect(a).to.have.property( 'prop2' )
-
-    console.error(b)
-
     expect(b.prop2).to.be.null
 
     b.prop3.remove( true )
-
     expect(a).to.not.have.property( 'prop3' )
     expect(b).to.not.have.property( 'prop3' )
-
-
   })
 
-  it( 'add change listener and remove listener', function() {
+  // it( 'add change listener and remove listener', function() {
 
-    a.$set({
-      $on: {
-        $change:function( event, meta ) {
-          //random change method
-        }
-      }
-    }) 
+  //   a.$set({
+  //     $on: {
+  //       $change:function( event, meta ) {
+  //         //random change method
+  //       }
+  //     }
+  //   }) 
 
-    //removed 'val'
-    a.removeListener( '$change', 'val' )
+  //   //removed 'val'
+  //   // a.removeListener( '$change', 'val' )
 
-    //removeListener accepts 
+  //   //removeListener accepts 
 
-  })
+  // })
+
 
   it( 'add change listener to a and remove a', function() {   
 
@@ -106,6 +100,10 @@ describe('remove', function() {
     a.$set({
       $on: {
         $change:function( event, meta ) {
+          var keyCnt =  measure.a.val[this._$key] 
+          console.error(this._$key)
+          //second time is null should be b else things become very unclear
+          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
           measure.a.val.total++
         }
       }
@@ -113,7 +111,9 @@ describe('remove', function() {
 
     a.$val = null
 
-    expect( measure.a.val.total ).to.equal(1)
+    expect( measure.a.val.a ).msg('a val change context:a').to.equal(1)
+    expect( measure.a.val.b ).msg('a val change context:b').to.equal(1)
+    expect( measure.a.val.total ).to.equal(2)
 
   })
 
