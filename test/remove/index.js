@@ -109,6 +109,7 @@ describe('remove', function() {
       }
     }) 
 
+    console.log('set to null')
     a.$val = null
 
     expect( measure.a.val.a ).msg('a val change context:a').to.equal(1)
