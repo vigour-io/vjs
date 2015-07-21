@@ -1,5 +1,9 @@
 describe('remove', function() {
 
+
+  var Event = window.xxx = require('../../lib/event')
+  Event.prototype.inject( require('../../lib/event/toString' ))
+
   var Base = require('../../lib/base')
   Base.prototype.inject(require('../../lib/methods/toString'))
   var Observable = require('../../lib/observable')
@@ -101,7 +105,7 @@ describe('remove', function() {
       $on: {
         $change:function( event, meta ) {
           var keyCnt =  measure.a.val[this._$key] 
-          console.error(this._$key)
+          console.error(this._$key, event.toString())
           //second time is null should be b else things become very unclear
           measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
           measure.a.val.total++
