@@ -290,12 +290,7 @@ describe('$change emitter - instances', function() {
 
     expect( a2.$on ).to.not.have.property( '_instances' )
 
-    // expect( a2.$on._instances.length )
-    //   .msg('a2.$on._instances has correct length').to.equal(1)
-    // expect( a2.$on._instances[0] )
-    //   .msg('b2 is a.$on._instances.total').to.equal(b2)
   })
-
 
   it( 'create new observable --> a3 --> b3, add listener on a3 (empty $on first)', function() {
 
@@ -307,6 +302,7 @@ describe('$change emitter - instances', function() {
       $key:'a2',
       //this defines that we are interested in instances and may update on later
       $on:{} 
+      //note this is pretty slow now (optmize later since element will have this construction)
     })
 
     b3 = new a3.$Constructor({
@@ -328,7 +324,5 @@ describe('$change emitter - instances', function() {
     expect( a3.$on._instances[0] )
       .msg('b3 is a3.$on._instances.total').to.equal(b3)
   })
-
-
 
 })
