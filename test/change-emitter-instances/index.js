@@ -4,11 +4,19 @@ describe('$change emitter - instances', function() {
   var measure = {
     a:{},
     b:{},
-    c:{}
+    c:{},
+    a2:{},
+    b2:{},
+    a3:{},
+    b3:{}
   }
   var a
   var b
   var c
+  var a2
+  var b2
+  var a3
+  var b3
 
   it( 'create new observable --> a, add change listener "val"', function() {    
     measure.a.val = { total: 0 }
@@ -251,5 +259,76 @@ describe('$change emitter - instances', function() {
     expect( measure.c.passon.total ).to.equal( 2 )
 
   })
+
+  it( 'create new observable --> a2 --> b2, add listener on a2', function() {
+
+    //this part of the flow is very confusing
+    //reason why b2 does not update is that we dont want to store _instances for eveything
+    //if you want this behaviour add an empty object for $on
+
+    measure.a2.val = {
+      total: 0
+    }
+
+    a2 = new Observable({
+      $key:'a2'
+    })
+
+    b2 = new a2.$Constructor({
+      $key:'b2'
+    })
+
+    a2.$set({
+      $on: {
+        $change:function( event, meta ) {
+          var keyCnt =  measure.a.val[this._$key] 
+          measure.a.val.total+=1
+          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+        }
+      }
+    })
+
+    expect( a2.$on ).to.not.have.property( '_instances' )
+
+    // expect( a2.$on._instances.length )
+    //   .msg('a2.$on._instances has correct length').to.equal(1)
+    // expect( a2.$on._instances[0] )
+    //   .msg('b2 is a.$on._instances.total').to.equal(b2)
+  })
+
+
+  it( 'create new observable --> a3 --> b3, add listener on a3 (empty $on first)', function() {
+
+    measure.a3.val = {
+      total: 0
+    }
+
+    a3 = new Observable({
+      $key:'a2',
+      //this defines that we are interested in instances and may update on later
+      $on:{} 
+    })
+
+    b3 = new a3.$Constructor({
+      $key:'b2'
+    })
+
+    a3.$set({
+      $on: {
+        $change:function( event, meta ) {
+          var keyCnt =  measure.a.val[this._$key] 
+          measure.a.val.total+=1
+          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+        }
+      }
+    })
+
+    expect( a3.$on._instances.length )
+      .msg('a3.$on._instances has correct length').to.equal(1)
+    expect( a3.$on._instances[0] )
+      .msg('b3 is a3.$on._instances.total').to.equal(b3)
+  })
+
+
 
 })
