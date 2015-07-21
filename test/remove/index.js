@@ -88,48 +88,43 @@ describe('remove', function() {
 
   })
 
-  // it( 'add change listener to a and remove a', function() {   
+  it( 'add change listener to a and remove a', function() {   
 
-  //   measure.a.val = {
-  //     total: 0,
-  //     removed: 0
-  //   }
+    console.clear()
 
-  //   a.$set({
-  //     $on: {
-  //       $change:function( event, meta ) {
-  //         var keyCnt =  measure.a.val[this._$key] 
-  //         console.error(this._$key, event.toString())
-  //         //second time is null should be b else things become very unclear
-  //         measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
-  //         measure.a.val.total++
+    measure.a.val = {
+      total: 0,
+      removed: 0
+    }
 
-  //         if( meta === true ) {
-  //           measure.a.val.removed++
-  //         }
+    a.$set({
+      $on: {
+        $change:function( event, meta ) {
+          var keyCnt =  measure.a.val[this._$key] 
+          console.error(this._$key, event.toString())
+          //second time is null should be b else things become very unclear
+          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+          measure.a.val.total++
 
-  //       }
-  //     }
-  //   }) 
+          if( meta === true ) {
+            measure.a.val.removed++
+          }
 
-  //   console.log('set to null', a.$on._instances)
-  //   a.$val = 'blaxxx'
+        }
+      }
+    }) 
 
-  //   // expect( measure.a.val.removed ).to.equal(2)
-  //   expect( measure.a.val.a ).msg('a val change context:a').to.equal(1)
-  //   expect( measure.a.val.b ).msg('a val change context:b').to.equal(1)
-  //   expect( measure.a.val.total ).to.equal(2)
+    console.log('set to null', a.$on._instances)
+    a.$val = null
 
-  // })
+    // expect( measure.a.val.removed ).to.equal(2)
+    expect( measure.a.val.a ).msg('a val change context:a').to.equal(1)
+    expect( measure.a.val.b ).msg('a val change context:b').to.equal(1)
+    expect( measure.a.val.total ).to.equal(2)
 
-})
-
-//instances
-//listeners
-//removeListener 
+  })
 
   // it( 'add change listener and remove listener', function() {
-
   //   a.$set({
   //     $on: {
   //       $change:function( event, meta ) {
@@ -137,10 +132,10 @@ describe('remove', function() {
   //       }
   //     }
   //   }) 
-
   //   //removed 'val'
   //   // a.removeListener( '$change', 'val' )
-
   //   //removeListener accepts 
-
   // })
+
+})
+
