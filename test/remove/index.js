@@ -308,7 +308,6 @@ describe('remove', function() {
       $key:'b'
     })
 
-
     console.error('\n\n\n\n')
 
     //no event since it on base (emitters are base...)
@@ -321,22 +320,28 @@ describe('remove', function() {
     expect( a.$on.$change ).to.be.ok
     expect( b.$on.$change ).to.be.null
 
-    //this is actually different since this would require you to remove $on
+    console.clear()
 
-    // var foundb
-    // for( var key$ in a.$on._instances ) {
-    //   if( a.$on._instances[key$] === b ) {
-    //     foundb = true
-    //   }
-    // }
 
-    // expect( foundb ).msg('removed b from instances').to.not.be.ok
+    b.$on.remove()    
+    expect( a.$on ).to.be.ok
+    expect( b.$on ).to.be.null
 
-    //add test to remove _instances completely
+    var foundb
+    for( var key$ in a.$on._instances ) {
+      if( a.$on._instances[key$] === b ) {
+        foundb = true
+      }
+    }
 
-    // expect( measure.a.val.total ).to.equal(2)
+    expect( foundb ).msg('removed b from instances (removed $on on b').to.not.be.ok
 
-    // b.$on.$change.remove()
+    // add test to remove _instances completely
+    // this is different since this requires you to remove $on
+
+    expect( measure.a.val.total ).to.equal(2)
+
+    b.$on.$change.remove()
 
 
   })
