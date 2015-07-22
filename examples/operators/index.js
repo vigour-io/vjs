@@ -45,7 +45,7 @@ console.log('\n\n=============================== sort by self')
 var items = ['A', 'a', 'za', 'fr23', 'ZA', 'a']
 items.$filter = { $contains: 'za' }
 items.$sort = true
-items.$add = ['ADDED']
+items.$add = ['ADDED', 'flap']
 
 var obs = new Observable(items)
 obs._$key = 'obs'
