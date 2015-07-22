@@ -14,19 +14,43 @@ describe('$change emitter - instances - listener - removal', function() {
   var b
   var c
 
-  it( 'create new observable --> a --> b --> c', function() {    
+  it( 'create new observable --> a, overwrite different types of keys', function() {    
+
+     aRef = new Observable({
+      $key: 'aRef',
+      $val: 'a value for aRef'
+     })
+
      a = new Observable({
-      $key:'aRef',
-      $val:1
+      $key: 'a',
+      $on: {
+        $change: {
+          other: function() {},
+          special: function() {}
+        }
+      },
+      $val: 1
      })
 
-     b = new a.$Constructor({
-      $key:'b'
+     a.$set({
+      $on: {
+        $change: {
+          special: [ function() {
+            console.log('passon!')
+          }, aRef ]
+        }
+      }
      })
 
-     c = new b.$Constructor({
-      $key:'c'
-     })
+     //same for passon and base
+     expect( a.$on.$change.$fn ).to.not.have.property( 'special' )
+
+     a.$on.$change.$special.$removeProperty( 'other' ) 
+
+     //remove fn if its completely empty
+     expect( a.$on.$change ).to.not.have.property( 'other' )
+    
+
   })
 
 })
