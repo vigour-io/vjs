@@ -217,19 +217,10 @@ describe('remove', function() {
       $key:'a'
     }) 
 
-    reffed.on('$change', [
-      function(){},
-      a
-    ])
+    reffed.on( '$change', [ function(){}, a ])
+    reffed2.on( '$change', [ function(){}, a ])
 
-    reffed2.on('$change', [
-      function(){},
-      a
-    ])
-
-    b = new a.$Constructor({ 
-      $key:'b' 
-    })
+    b = new a.$Constructor({ $key:'b' })
     
     var cnt = 0
     a.$listensOnPasson.each(function() {
@@ -245,7 +236,8 @@ describe('remove', function() {
       cnt++
     })
 
-    expect( cnt ).msg('listensOn in a (after remove)').to.equal(1)
+    expect( cnt )
+      .msg('listensOn in a (after remove)').to.equal(1)
 
     a.remove()
 
@@ -254,7 +246,8 @@ describe('remove', function() {
       cnt++
     })
 
-    expect( cnt ).msg('base listeners on reffed 2 (listens on reffed)').to.equal(0)
+    expect( cnt )
+      .msg('base listeners on reffed 2 (listens on reffed)').to.equal(0)
 
   })
 
