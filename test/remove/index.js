@@ -51,7 +51,20 @@ describe('remove', function() {
       },
       prop2:true,
       prop3:true,
-      prop4:true
+      prop4:true,
+      prop5: {
+        prop6: true
+      },
+      prop7: {
+        prop8: {
+          prop9: {
+            prop10:true
+          }
+        }
+      },
+      prop11: {
+        prop12: true
+      }
     }) 
 
     a.prop1.$set({
@@ -68,6 +81,8 @@ describe('remove', function() {
 
   it( 'new a --> b, handle instances and nested fields ', function() {
    
+    console.clear()
+
     b = new a.$Constructor({
       $key:'b',
       prop4:null
@@ -78,15 +93,15 @@ describe('remove', function() {
     
     b.prop2.remove()
     expect(a).to.have.property( 'prop2' )
-    expect(a.prop2).to.be.ok
-    expect(b.prop2).to.be.null
+    expect(a.prop2).msg('a.prop2').to.be.ok
+    expect(b.prop2).msg('b.prop2').to.be.null
 
     expect(isRemoved(b)).msg('check if b is not removed').to.be.false
 
     b.prop3.$clearContext().remove()
 
-    expect(a.prop3).to.be.null
-    expect(b.prop3).to.be.null
+    expect(a.prop3).msg('a.prop3').to.be.null
+    expect(b.prop3).msg('b.prop3').to.be.null
 
     expect(isRemoved(b))
       .msg('check if b still exists after instances removal of "prop3"')
@@ -97,6 +112,27 @@ describe('remove', function() {
    
     expect( a.prop4 ).msg('prop4 in a (reset)').to.be.ok
     expect( b.prop4 ).msg('prop4 in b (reset)').to.be.null
+
+    b.prop5.prop6.remove()
+    expect( a.prop5.prop6 ).msg('a.prop5.prop6').to.be.ok
+    expect( b.prop5.prop6 ).msg('b.prop5.prop6').to.be.null
+
+    b.prop7.prop8.prop9.remove()
+    expect( a.prop7.prop8.prop9.prop10 )
+      .msg('a.prop7.prop8.prop9.prop10').to.be.ok
+    expect( b.prop7.prop8.prop9)
+      .msg('a.prop7.prop8.prop9').to.be.null
+
+    //this test has to go to '.$set' test
+    b.prop11.prop12.$set({
+      prop13:true
+    })
+
+    expect( b.prop11.prop12 )
+      .msg('b.prop11.prop12').to.have.property('prop13')
+
+    expect( a.prop11.prop12 )
+      .msg('a.prop11.prop12').to.not.have.property('prop13')
 
   })
 
@@ -248,6 +284,60 @@ describe('remove', function() {
 
     expect( cnt )
       .msg('base listeners on reffed 2 (listens on reffed)').to.equal(0)
+
+  })
+
+  it('create new observable --> a --> b remove listeners from b', function() {
+    // console.clear()
+
+    measure.a.val = {
+      total: 0
+    }
+    
+    a = new Observable({
+      $key:'a',
+      $on: {
+        $change:function() {
+          measure.a.val.total++
+          console.log('lets change from a context:', this.$path)
+        }
+      }
+    }) 
+
+    b = new a.$Constructor({ 
+      $key:'b'
+    })
+
+
+    console.error('\n\n\n\n')
+
+    //no event since it on base (emitters are base...)
+    b.$on.$change.remove()
+
+    a.$set({
+      prop1:true
+    })
+
+    expect( a.$on.$change ).to.be.ok
+    expect( b.$on.$change ).to.be.null
+
+    //this is actually different since this would require you to remove $on
+
+    // var foundb
+    // for( var key$ in a.$on._instances ) {
+    //   if( a.$on._instances[key$] === b ) {
+    //     foundb = true
+    //   }
+    // }
+
+    // expect( foundb ).msg('removed b from instances').to.not.be.ok
+
+    //add test to remove _instances completely
+
+    // expect( measure.a.val.total ).to.equal(2)
+
+    // b.$on.$change.remove()
+
 
   })
 
