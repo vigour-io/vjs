@@ -43,14 +43,14 @@ describe('$change emitter - instances - listener - removal', function() {
      })
 
      //same for passon and base
-     expect( a.$on.$change.$fn ).to.not.have.property( 'special' )
+
+     expect( a.$on.$change.$fn.special ).to.not.be.null
 
      a.$on.$change.$special.$removeProperty( 'other' ) 
 
      //remove fn if its completely empty
-     expect( a.$on.$change ).to.not.have.property( 'other' )
+     expect( a.$on.$change.$fn ).to.be.null
     
-
   })
 
 })
