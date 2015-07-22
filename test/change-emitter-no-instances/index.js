@@ -5,12 +5,14 @@ describe('$change emitter - no instances', function() {
   var measure = {
     obs:{},
     obs2:{},
-    obs3:{}
+    obs3:{},
+    obs4:{}
   }
 
   var obs
   var obs2
   var obs3
+  var obs4
   var referencedObs
   var referencedObs2
 
@@ -177,6 +179,47 @@ describe('$change emitter - no instances', function() {
     
     referencedObs.$val = 'lets test passon, now it should fire'
     expect( measure.obs3.val ).to.equal( 2 )
+
+  })
+
+  it('use $block on a new observable --> obs4', function() {
+
+    var cnt = 0
+    var cnt2 = 0
+
+    var obs4 = new Observable({
+      $key:'obs4',
+      specialField: {
+        $on: {
+          $change:function() {
+            expect(this.$val).msg('specialField').to.equal('hello')
+            cnt2++
+          }
+        }
+      },
+      $on: {
+        $change:function(event) {
+          cnt++
+          event.$block = true
+
+          this.$set({
+            specialField:'xxxx',
+            letsSee: true
+          }, event )
+
+          this.$set({
+            specialField:'hello'
+          }, event )
+
+          event.$block = false
+        }
+      }
+    })
+
+    obs4.$set({ hello: true })
+
+    expect( cnt ).msg('obs4 listener fired').to.equal(1)
+    expect( cnt2 ).msg('specialField fired').to.equal(1)
 
   })
 
