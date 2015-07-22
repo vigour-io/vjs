@@ -114,9 +114,10 @@ describe('$change emitter - no instances', function() {
     obs2.$listensOnBase.each(function(property, key) {
       keyCount++
     })
+
     expect( keyCount ).msg('amount of listeners on listensOnBase').to.equal( 1 )
     
-    expect( obs2.$listensOnBase ).to.have.property( 1 )
+    expect( obs2.$listensOnBase ).to.have.property( 0 )
 
     referencedObs.$val = 'changed a string'
 
@@ -169,7 +170,7 @@ describe('$change emitter - no instances', function() {
       keyCount++
     })
     expect( keyCount ).msg('amount of listeners on listensOnPasson').to.equal( 1 )
-    expect( referencedObs.$listensOnPasson ).to.have.property( 1 )
+    expect( referencedObs.$listensOnPasson ).to.have.property( 0 )
 
     obs3.$val = referencedObs
     expect( measure.obs3.val ).to.equal( 1 )

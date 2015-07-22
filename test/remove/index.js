@@ -102,8 +102,6 @@ describe('remove', function() {
 
   it( 'add change listener to a and remove a', function() {   
 
-    // console.clear()
-
     measure.a.val = {
       total: 0,
       removed: 0
@@ -117,23 +115,24 @@ describe('remove', function() {
 
     a.$set({
       $on: {
-        $change:function( event, meta ) {
-          var keyCnt =  measure.a.val[this._$key] 
-          console.error( this._$key, event.toString(), meta )
-          //second time is null should be b else things become very unclear
-          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
-          measure.a.val.total++
-
-          if( meta === true ) {
-            measure.a.val.removed++
+        $change:{
+          $val: function( event, meta ) {
+            var keyCnt =  measure.a.val[this._$key] 
+            //second time is null should be b else things become very unclear
+            measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+            measure.a.val.total++
+            if( meta === true ) {
+              measure.a.val.removed++
+            }
           }
-
         }
       }
     }) 
 
     var changeEmitter = a.$on.$change
     var fn = changeEmitter.$fn
+
+    expect(fn).to.have.property( 'val' )
 
     a.$val = null
 
