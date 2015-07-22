@@ -68,14 +68,10 @@ describe('remove', function() {
 
   it( 'new a --> b, handle instances and nested fields ', function() {
    
-    console.clear()
-
     b = new a.$Constructor({
       $key:'b',
       prop4:null
     })
-
-    //b.prop4.remove works (constructor set something fishy going on)
 
     expect( a.prop4 ).msg('prop4 in a').to.be.ok
     expect( b.prop4 ).msg('prop4 in b').to.be.null
@@ -97,105 +93,88 @@ describe('remove', function() {
       .to.be.false
 
     a.$set({ prop4: null })
-    // a.prop4.remove() no difference
-
-    console.log('--- now reset ---')
-
-    try {
-      a.$set({ prop4: true })
-    } catch(e) {
-      console.error(e.stack)
-    }
-
-    console.log(a)
+    a.$set({ prop4: true })
+   
     expect( a.prop4 ).msg('prop4 in a (reset)').to.be.ok
     expect( b.prop4 ).msg('prop4 in b (reset)').to.be.null
 
   })
 
-  // it( 'add change listener to a and remove a', function() {   
+  it( 'add change listener to a and remove a', function() {   
 
-  //   // console.clear()
+    // console.clear()
 
-  //   measure.a.val = {
-  //     total: 0,
-  //     removed: 0
-  //   }
+    measure.a.val = {
+      total: 0,
+      removed: 0
+    }
 
-  //   //since we defined before that we want $on:{} (we are inteserted in instances)
-  //   //it will handle instances accordingly
+    //since we defined before that we want $on:{} (we are inteserted in instances)
+    //it will handle instances accordingly
 
-  //   //think about unifiying this system since it maye be super important for hub 
-  //   //(context)
+    //think about unifiying this system since it maye be super important for hub 
+    //(context)
 
-  //   a.$set({
-  //     $on: {
-  //       $change:function( event, meta ) {
-  //         var keyCnt =  measure.a.val[this._$key] 
-  //         console.error( this._$key, event.toString(), meta )
-  //         //second time is null should be b else things become very unclear
-  //         measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
-  //         measure.a.val.total++
+    a.$set({
+      $on: {
+        $change:function( event, meta ) {
+          var keyCnt =  measure.a.val[this._$key] 
+          console.error( this._$key, event.toString(), meta )
+          //second time is null should be b else things become very unclear
+          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+          measure.a.val.total++
 
-  //         if( meta === true ) {
-  //           measure.a.val.removed++
-  //         }
+          if( meta === true ) {
+            measure.a.val.removed++
+          }
 
-  //       }
-  //     }
-  //   }) 
+        }
+      }
+    }) 
 
-  //   var changeEmitter = a.$on.$change
-  //   var fn = changeEmitter.$fn
+    var changeEmitter = a.$on.$change
+    var fn = changeEmitter.$fn
 
-  //   a.$val = null
+    a.$val = null
 
-  //   expect(isRemoved(changeEmitter))
-  //     .msg('check if changeEmitter is removed').to.be.true
-  //    expect(isRemoved(fn))
-  //     .msg('check if fn is removed').to.be.true
+    expect(isRemoved(changeEmitter))
+      .msg('check if changeEmitter is removed').to.be.true
+     expect(isRemoved(fn))
+      .msg('check if fn is removed').to.be.true
 
 
-  //   expect( measure.a.val.a ).msg('a val change context:a').to.equal(1)
-  //   expect( measure.a.val.b ).msg('a val change context:b').to.equal(1)
-  //   expect( measure.a.val.total ).to.equal(2)
+    expect( measure.a.val.a ).msg('a val change context:a').to.equal(1)
+    expect( measure.a.val.b ).msg('a val change context:b').to.equal(1)
+    expect( measure.a.val.total ).to.equal(2)
 
-  //   expect(isRemoved(a)).msg('check if a is removed').to.be.true
-  //   expect(isRemoved(b)).msg('check if b is removed').to.be.true
+    expect(isRemoved(a)).msg('check if a is removed').to.be.true
+    expect(isRemoved(b)).msg('check if b is removed').to.be.true
 
-  //   expect( measure.a.val.removed ).msg('correct removed (meta) count').to.equal(2)
+    expect( measure.a.val.removed ).msg('correct removed (meta) count').to.equal(2)
 
-  // })
+  })
 
-  // it( 'create new observable --> a --> b, add change listener, remove listener', function() {
+  it( 'create new observable --> a --> b, add change listener, remove listener', function() {
 
-  //   a = new Observable({
-  //     $on: {
-  //       $change: function( event, meta ) {
-  //         //random change method
-  //       }
-  //     },
-  //     prop1: true
-  //   }) 
+    a = new Observable({
+      $on: {
+        $change: function( event, meta ) {
+          //random change method
+        }
+      }
+    }) 
 
-  //   //remove listener on b check if its really removed
-  //   b = new a.$Constructor({
-  //     prop1: null //this is what overwrite should do (perhaps just support $val:null)
-  //   })
+    //remove listener on b check if its really removed
+    b = new a.$Constructor()
 
-  //   a.$set({ prop1: null })
-  //   a.$set({ prop1: true })
+    //remove on on b check if its really disconneted
 
-  //   expect( b.prop1 ).to.be.null
+    //same with overwrite --- should disconnect (make a new prop)
 
-  //   //remove on on b check if its really disconneted
-
-  //   //same with overwrite --- should disconnect (make a new prop)
-
-  //   //removed 'val'
-  //   // a.removeListener( '$change', 'val' )
-  //   //removeListener accepts 
-  // })
+    //removed 'val'
+    a.removeListener( '$change', 'val' )
+    //removeListener accepts 
+  })
 
 })
 
