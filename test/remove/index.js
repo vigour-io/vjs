@@ -174,7 +174,7 @@ describe('remove', function() {
       $val: reffed
     }) 
 
-    reffed2.on('$change', a)
+    reffed2.on( '$change', a )
 
     b = new a.$Constructor({ 
       $key:'b' 
@@ -187,15 +187,8 @@ describe('remove', function() {
 
     expect( cnt ).msg('listensOn in a').to.equal(2)
 
-    console.clear()
-    console.log('--- remove reffed fire listeners ----')
-
-    try {
-      reffed.remove()
-    } catch(e) {
-      console.error(e.stack)
-    }
-
+    reffed.remove()
+   
     cnt = 0
     a.$listensOnBase.each(function() {
       cnt++
@@ -203,6 +196,19 @@ describe('remove', function() {
 
     expect( cnt ).msg('listensOn in a (after remove)').to.equal(1)
 
+    a.remove()
+
+    console.log(reffed2)
+    //!emitter word wegegooid!
+
+    cnt = 0
+    reffed2.$on.$change.$base.each(function() {
+      cnt++
+    })
+
+    console.log(cnt)
+
+    expect( cnt ).msg('base listeners on reffed 2 (listens on reffed)').to.equal(0)
 
   })
 
