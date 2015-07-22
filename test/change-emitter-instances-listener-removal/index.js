@@ -32,6 +32,8 @@ describe('$change emitter - instances - listener - removal', function() {
       $val: 1
      })
 
+     console.log(a.$on.$change.$fn)
+
      a.$set({
       $on: {
         $change: {
@@ -42,14 +44,15 @@ describe('$change emitter - instances - listener - removal', function() {
       }
      })
 
+     console.log('ghello why is it gone???!@#', a.$on.$change.$fn)
+
      //same for passon and base
-
-     expect( a.$on.$change.$fn.special ).to.not.be.null
-
-     a.$on.$change.$special.$removeProperty( 'other' ) 
+     expect( a.$on.$change.$fn.other ).msg('$fn.other').to.be.ok
+     expect( a.$on.$change.$fn.special ).msg('$fn.special').to.be.null
 
      //remove fn if its completely empty
-     expect( a.$on.$change.$fn ).to.be.null
+     a.$on.$change.$fn.$removeProperty( a.$on.$change.$fn.other, 'other' )
+     expect( a.$on.$change.$fn ).msg('$fn').to.be.null
     
   })
 
