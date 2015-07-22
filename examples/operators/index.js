@@ -50,7 +50,7 @@ items.$add = ['ADDED']
 var obs = new Observable(items)
 obs._$key = 'obs'
 
-console.log('\n\n=========== getting $val!')
+console.log('\n\n\n=========== getting $val!')
 var $val = obs.$val
 
 console.log('-------------- obs:')
@@ -63,7 +63,7 @@ $val.each(function(value, key){
   console.log('>', key, value.$origin.$val)
 })
 
-console.log('++++++++++++++ change some:')
+console.log('\n\n\n++++++++++++++ change some:')
 obs[0].$val = 'GOAN CHANGED za'
 
 console.log('-------------- obs.$filter._results:')
