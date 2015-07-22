@@ -120,38 +120,51 @@ describe('remove', function() {
       }
     }) 
 
-    try {
-      a.$val = null
-    } catch(e) {
-      console.error(e)
-    }
+    var changeEmitter = a.$on.$change
+    var fn = changeEmitter.$fn
+
+    a.$val = null
+
+    expect(isRemoved(changeEmitter))
+      .msg('check if changeEmitter is removed').to.be.true
+     expect(isRemoved(fn))
+      .msg('check if fn is removed').to.be.true
+
 
     expect( measure.a.val.a ).msg('a val change context:a').to.equal(1)
     expect( measure.a.val.b ).msg('a val change context:b').to.equal(1)
     expect( measure.a.val.total ).to.equal(2)
 
     expect(isRemoved(a)).msg('check if a is removed').to.be.true
-
-    console.log(b)
-
     expect(isRemoved(b)).msg('check if b is removed').to.be.true
 
-    expect( measure.a.val.removed ).msg('correct removed count').to.equal(2)
+    expect( measure.a.val.removed ).msg('correct removed (meta) count').to.equal(2)
 
   })
 
-  // it( 'add change listener and remove listener', function() {
-  //   a.$set({
-  //     $on: {
-  //       $change:function( event, meta ) {
-  //         //random change method
-  //       }
-  //     }
-  //   }) 
-  //   //removed 'val'
-  //   // a.removeListener( '$change', 'val' )
-  //   //removeListener accepts 
-  // })
+  it( 'create new observable --> a --> b, add change listener, remove listener', function() {
+
+    a = new Observable({
+      $on: {
+        $change: function( event, meta ) {
+          //random change method
+        }
+      },
+      prop1: true
+    }) 
+
+
+    //remove listener on b check if its really removed
+    b = new a.$Constructor({
+
+    })
+
+    //remove on on b check if its really disconneted
+
+    //removed 'val'
+    // a.removeListener( '$change', 'val' )
+    //removeListener accepts 
+  })
 
 })
 
