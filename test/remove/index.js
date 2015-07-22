@@ -149,11 +149,13 @@ describe('remove', function() {
     expect(isRemoved(a)).msg('check if a is removed').to.be.true
     expect(isRemoved(b)).msg('check if b is removed').to.be.true
 
+    //!!!this really has to be fixed!!!
+    //maybe just make a remove listener
     // expect( measure.a.val.removed ).msg('correct removed (meta) count').to.equal(2)
 
   })
 
-  it( 'create new observable --> a --> b, add change listener, remove listener', function() {
+  it( 'create new observable --> a --> b, add ref - change listener, remove listener, test listens and removal', function() {
 
     var reffed = new Observable({
       $key:'reffed'
@@ -165,12 +167,6 @@ describe('remove', function() {
 
     a = new Observable({
       $key:'a',
-      $on: {
-        $change: function( event, meta ) {
-          console.log('????', event.toString(), this.$path)
-          //random change method
-        }
-      },
       $val: reffed
     }) 
 
@@ -198,15 +194,65 @@ describe('remove', function() {
 
     a.remove()
 
-    console.log(reffed2)
-    //!emitter word wegegooid!
-
     cnt = 0
     reffed2.$on.$change.$base.each(function() {
       cnt++
     })
 
-    console.log(cnt)
+    expect( cnt ).msg('base listeners on reffed 2 (listens on reffed)').to.equal(0)
+
+  })
+
+  it( 'create new observable --> a --> b, add passon - change listener, remove listener, test listens and removal', function() {
+
+    var reffed = new Observable({
+      $key:'reffed'
+    })
+
+    var reffed2 = new Observable({
+      $key:'reffed2'
+    })
+
+    a = new Observable({
+      $key:'a'
+    }) 
+
+    reffed.on('$change', [
+      function(){},
+      a
+    ])
+
+    reffed2.on('$change', [
+      function(){},
+      a
+    ])
+
+    b = new a.$Constructor({ 
+      $key:'b' 
+    })
+    
+    var cnt = 0
+    a.$listensOnPasson.each(function() {
+      cnt++
+    })
+
+    expect( cnt ).msg('listensOn in a').to.equal(2)
+
+    reffed.remove()
+   
+    cnt = 0
+    a.$listensOnPasson.each(function( property ) {
+      cnt++
+    })
+
+    expect( cnt ).msg('listensOn in a (after remove)').to.equal(1)
+
+    a.remove()
+
+    cnt = 0
+    reffed2.$on.$change.$passon.each(function() {
+      cnt++
+    })
 
     expect( cnt ).msg('base listeners on reffed 2 (listens on reffed)').to.equal(0)
 
