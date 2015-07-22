@@ -149,29 +149,51 @@ describe('remove', function() {
     expect(isRemoved(a)).msg('check if a is removed').to.be.true
     expect(isRemoved(b)).msg('check if b is removed').to.be.true
 
-    expect( measure.a.val.removed ).msg('correct removed (meta) count').to.equal(2)
+    // expect( measure.a.val.removed ).msg('correct removed (meta) count').to.equal(2)
 
   })
 
   it( 'create new observable --> a --> b, add change listener, remove listener', function() {
 
+    var reffed = new Observable({
+      $key:'reffed'
+    })
+
     a = new Observable({
+      $key:'a',
       $on: {
         $change: function( event, meta ) {
+          console.log('????', event.toString(), this.$path)
           //random change method
         }
-      }
+      },
+      // $val: reffed
     }) 
 
     //remove listener on b check if its really removed
-    b = new a.$Constructor()
+    b = new a.$Constructor({ 
+      $key:'b' 
+    })
+    
+    reffed.$val = 'xxx'
+
+    console.clear()
+
+    // reffed.remove()
+    //!!!listenrs gets fired one to many!!!
+    
+    a.remove()
+    //needs to create event! (else wrong)
+
+    // a.$val = null
+  
 
     //remove on on b check if its really disconneted
 
     //same with overwrite --- should disconnect (make a new prop)
 
     //removed 'val'
-    a.removeListener( '$change', 'val' )
+    // a.removeListener( '$change', 'val' )
     //removeListener accepts 
   })
 
