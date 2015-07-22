@@ -50,7 +50,8 @@ describe('remove', function() {
         }
       },
       prop2:true,
-      prop3:true
+      prop3:true,
+      prop4:true
     }) 
 
     a.prop1.$set({
@@ -68,11 +69,16 @@ describe('remove', function() {
   it( 'new a --> b, handle instances and nested fields ', function() {
    
     b = new a.$Constructor({
-      $key:'b'
+      $key:'b',
+      prop4:null
     })
+
+    expect( a.prop4 ).msg('prop4 in a').to.be.ok
+    expect( b.prop4 ).msg('prop4 in b').to.be.null
     
     b.prop2.remove()
     expect(a).to.have.property( 'prop2' )
+    expect(a.prop2).to.be.ok
     expect(b.prop2).to.be.null
 
     expect(isRemoved(b)).msg('check if b is not removed').to.be.false
@@ -86,56 +92,119 @@ describe('remove', function() {
       .msg('check if b still exists after instances removal of "prop3"')
       .to.be.false
 
+    a.$set({ prop4: null })
+    a.$set({ prop4: true })
+   
+    expect( a.prop4 ).msg('prop4 in a (reset)').to.be.ok
+    expect( b.prop4 ).msg('prop4 in b (reset)').to.be.null
+
   })
 
   it( 'add change listener to a and remove a', function() {   
-
-    console.clear()
 
     measure.a.val = {
       total: 0,
       removed: 0
     }
 
+    //since we defined before that we want $on:{} (we are inteserted in instances)
+    //it will handle instances accordingly
+
+    //think about unifiying this system since it maye be super important for hub 
+    //(context)
+
     a.$set({
       $on: {
-        $change:function( event, meta ) {
-          var keyCnt =  measure.a.val[this._$key] 
-          console.error(this._$key, event.toString())
-          //second time is null should be b else things become very unclear
-          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
-          measure.a.val.total++
-
-          if( meta === true ) {
-            measure.a.val.removed++
+        $change:{
+          $val: function( event, meta ) {
+            var keyCnt =  measure.a.val[this._$key] 
+            //second time is null should be b else things become very unclear
+            measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+            measure.a.val.total++
+            if( meta === true ) {
+              measure.a.val.removed++
+            }
           }
-
         }
       }
     }) 
 
-    console.log('set to null', a.$on._instances)
+    var changeEmitter = a.$on.$change
+    var fn = changeEmitter.$fn
+
+    expect(fn).to.have.property( 'val' )
+
     a.$val = null
 
-    // expect( measure.a.val.removed ).to.equal(2)
+    expect(isRemoved(changeEmitter))
+      .msg('check if changeEmitter is removed').to.be.true
+     expect(isRemoved(fn))
+      .msg('check if fn is removed').to.be.true
+
+
     expect( measure.a.val.a ).msg('a val change context:a').to.equal(1)
     expect( measure.a.val.b ).msg('a val change context:b').to.equal(1)
     expect( measure.a.val.total ).to.equal(2)
 
+    expect(isRemoved(a)).msg('check if a is removed').to.be.true
+    expect(isRemoved(b)).msg('check if b is removed').to.be.true
+
+    // expect( measure.a.val.removed ).msg('correct removed (meta) count').to.equal(2)
+
   })
 
-  // it( 'add change listener and remove listener', function() {
-  //   a.$set({
-  //     $on: {
-  //       $change:function( event, meta ) {
-  //         //random change method
-  //       }
-  //     }
-  //   }) 
-  //   //removed 'val'
-  //   // a.removeListener( '$change', 'val' )
-  //   //removeListener accepts 
-  // })
+  it( 'create new observable --> a --> b, add change listener, remove listener', function() {
+
+    var reffed = new Observable({
+      $key:'reffed'
+    })
+
+    var reffed2 = new Observable({
+      $key:'reffed2'
+    })
+
+    a = new Observable({
+      $key:'a',
+      $on: {
+        $change: function( event, meta ) {
+          console.log('????', event.toString(), this.$path)
+          //random change method
+        }
+      },
+      $val: reffed
+    }) 
+
+    reffed2.on('$change', a)
+
+    b = new a.$Constructor({ 
+      $key:'b' 
+    })
+    
+    var cnt = 0
+    a.$listensOnBase.each(function() {
+      cnt++
+    })
+
+    expect( cnt ).msg('listensOn in a').to.equal(2)
+
+    console.clear()
+    console.log('--- remove reffed fire listeners ----')
+
+    try {
+      reffed.remove()
+    } catch(e) {
+      console.error(e.stack)
+    }
+
+    cnt = 0
+    a.$listensOnBase.each(function() {
+      cnt++
+    })
+
+    expect( cnt ).msg('listensOn in a (after remove)').to.equal(1)
+
+
+  })
 
 })
 
