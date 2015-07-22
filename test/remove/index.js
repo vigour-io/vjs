@@ -159,6 +159,10 @@ describe('remove', function() {
       $key:'reffed'
     })
 
+    var reffed2 = new Observable({
+      $key:'reffed2'
+    })
+
     a = new Observable({
       $key:'a',
       $on: {
@@ -167,34 +171,39 @@ describe('remove', function() {
           //random change method
         }
       },
-      // $val: reffed
+      $val: reffed
     }) 
 
-    //remove listener on b check if its really removed
+    reffed2.on('$change', a)
+
     b = new a.$Constructor({ 
       $key:'b' 
     })
     
-    reffed.$val = 'xxx'
+    var cnt = 0
+    a.$listensOnBase.each(function() {
+      cnt++
+    })
+
+    expect( cnt ).msg('listensOn in a').to.equal(2)
 
     console.clear()
+    console.log('--- remove reffed fire listeners ----')
 
-    // reffed.remove()
-    //!!!listenrs gets fired one to many!!!
-    
-    a.remove()
-    //needs to create event! (else wrong)
+    try {
+      reffed.remove()
+    } catch(e) {
+      console.error(e.stack)
+    }
 
-    // a.$val = null
-  
+    cnt = 0
+    a.$listensOnBase.each(function() {
+      cnt++
+    })
 
-    //remove on on b check if its really disconneted
+    expect( cnt ).msg('listensOn in a (after remove)').to.equal(1)
 
-    //same with overwrite --- should disconnect (make a new prop)
 
-    //removed 'val'
-    // a.removeListener( '$change', 'val' )
-    //removeListener accepts 
   })
 
 })
