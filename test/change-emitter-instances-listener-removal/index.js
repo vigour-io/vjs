@@ -1,6 +1,7 @@
 describe('$change emitter - instances - listener - removal', function() {
 
   var Observable = require('../../lib/observable')
+  var util = require('../../lib/util')
   var measure = {
     a:{},
     b:{},
@@ -44,7 +45,6 @@ describe('$change emitter - instances - listener - removal', function() {
       }
      })
 
-     console.log('ghello why is it gone???!@#', a.$on.$change.$fn)
 
      //same for passon and base
      expect( a.$on.$change.$fn.other ).msg('$fn.other').to.be.ok
@@ -52,6 +52,10 @@ describe('$change emitter - instances - listener - removal', function() {
 
      //remove fn if its completely empty
      a.$on.$change.$fn.$removeProperty( a.$on.$change.$fn.other, 'other' )
+
+     console.info('ghello why is it gone???!@#', a.$on.$change.$fn)
+     console.info(util.isEmpty(a.$on.$change.$fn))
+
      expect( a.$on.$change.$fn ).msg('$fn').to.be.null
     
   })

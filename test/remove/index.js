@@ -230,12 +230,8 @@ describe('remove', function() {
 
     a.remove()
 
-    cnt = 0
-    reffed2.$on.$change.$base.each(function() {
-      cnt++
-    })
-
-    expect( cnt ).msg('base listeners on reffed 2 (listens on reffed)').to.equal(0)
+    expect( reffed2.$on.$change.$base )
+      .msg('base listeners on reffed 2 (listens on reffed)').to.be.null
 
   })
 
@@ -265,7 +261,7 @@ describe('remove', function() {
     expect( cnt ).msg('listensOn in a').to.equal(2)
 
     reffed.remove()
-   
+
     cnt = 0
     a.$listensOnPasson.each(function( property ) {
       cnt++
@@ -274,15 +270,15 @@ describe('remove', function() {
     expect( cnt )
       .msg('listensOn in a (after remove)').to.equal(1)
 
-    a.remove()
-
     cnt = 0
     reffed2.$on.$change.$passon.each(function() {
       cnt++
     })
-
     expect( cnt )
-      .msg('base listeners on reffed 2 (listens on reffed)').to.equal(0)
+      .msg('base listeners on reffed 2 (listens on reffed)').to.equal(1)
+
+    a.remove()
+    expect(reffed2.$on.$change.$passon).to.be.null
 
   })
 
@@ -296,7 +292,7 @@ describe('remove', function() {
       $on: {
         $change:function() {
           measure.a.val.total++
-          console.log('lets change from a context:', this.$path)
+          // console.log('lets change from a context:', this.$path)
         }
       }
     }) 
