@@ -1,6 +1,6 @@
 describe('remove', function() {
 
-  var Event = window.xxx = require('../../lib/event')
+  var Event = require('../../lib/event')
   Event.prototype.inject( require('../../lib/event/toString' ) )
 
   var Base = require('../../lib/base')
