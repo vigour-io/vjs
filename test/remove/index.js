@@ -240,7 +240,6 @@ describe('remove', function() {
   })
 
   it( 'create new observable --> a --> b, add passon - change listener, remove listener, test listens and removal', function() {
-
     var reffed = new Observable({
       $key:'reffed'
     })
@@ -288,8 +287,6 @@ describe('remove', function() {
   })
 
   it('create new observable --> a --> b remove listeners from b', function() {
-    // console.clear()
-
     measure.a.val = {
       total: 0
     }
@@ -308,8 +305,6 @@ describe('remove', function() {
       $key:'b'
     })
 
-    console.error('\n\n\n\n')
-
     //no event since it on base (emitters are base...)
     b.$on.$change.remove()
 
@@ -319,11 +314,11 @@ describe('remove', function() {
 
     expect( a.$on.$change ).to.be.ok
     expect( b.$on.$change ).to.be.null
+  })
 
-    console.clear()
-
-
+  it( 'remove $on from b', function() {
     b.$on.remove()    
+    
     expect( a.$on ).to.be.ok
     expect( b.$on ).to.be.null
 
@@ -334,16 +329,11 @@ describe('remove', function() {
       }
     }
 
+    // this is different since this requires you to remove $on
     expect( foundb ).msg('removed b from instances (removed $on on b').to.not.be.ok
 
     // add test to remove _instances completely
-    // this is different since this requires you to remove $on
-
     expect( measure.a.val.total ).to.equal(2)
-
-    b.$on.$change.remove()
-
-
   })
 
 })

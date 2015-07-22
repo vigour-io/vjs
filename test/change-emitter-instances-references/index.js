@@ -29,8 +29,6 @@ describe('$change emitter - instances - references', function() {
       $on: {
         $change: function( event ) {
 
-          console.log('a', this.$path, event.$origin.$path)
-
           var originkeyCnt = measure.a.val.origin[event.$origin._$key]
           measure.a.val.origin[event.$origin._$key] = originkeyCnt ? (originkeyCnt+1) : 1 
 
