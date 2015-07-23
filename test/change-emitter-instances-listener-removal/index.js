@@ -138,11 +138,48 @@ describe('$change emitter - instances - listener - removal', function() {
     expect( a.$on.$change.$fn.weird ).to.be.null
   })
 
-  it('create new obserable a --> b --> c, findAndRemove removals of listeners with options objects', function() {
+  it('create new obserable a, findAndRemove removals of listeners with options objects', function() {
 
-    //option 1 $fn
-    //option 2 $base
+    function normal(){}
+    function passon(){}
 
+    var aRandomObs = new Observable({
+      $key: 'aRandomObs'
+    })
+
+    var a = new Observable({
+      $key: 'a',
+      $on: {
+        $change: {
+          fn: normal,
+          passon: [ normal ],
+          base: aRandomObs,
+          passon2: [ function(){} , aRandomObs ]
+        },
+        randomEmitter: {
+          fn:normal,
+          base: aRandomObs,
+          passon: [ normal ]
+        }
+      }
+    })
+
+    a.removeListener({
+      $fn: normal,
+      $base: aRandomObs
+    })
+
+    expect( a.$on.randomEmitter.$fn ).to.be.null
+    expect( a.$on.randomEmitter.$base ).to.be.null
+    expect( a.$on.$change.$fn ).to.be.null
+    expect( a.$on.$change.$base ).to.be.null
+
+    a.removeListener( '$change', {
+      $passon: aRandomObs
+    })
+    expect( a.$on.$change.$passon.passon2 ).to.be.null
+    expect( a.$on.$change.$passon.passon ).to.be.ok
+    expect( a.$on.randomEmitter.$passon.passon ).to.be.ok
 
   })
 
