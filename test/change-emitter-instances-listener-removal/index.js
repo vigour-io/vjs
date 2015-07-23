@@ -56,15 +56,20 @@ describe('$change emitter - instances - listener - removal', function() {
     
     function specialListener() {}
 
+    var ref = new Observable({
+      $key:'ref'
+    })
+
     a = new Observable({
       $key: 'a',
       $on: {
         $change: {
           other: function() {},
-          special: specialListener
+          special: specialListener,
+          passon: [ specialListener ]
         }
       },
-      $val: 1
+      $val: ref
     })
 
     b = new a.$Constructor({
@@ -79,6 +84,7 @@ describe('$change emitter - instances - listener - removal', function() {
     expect(b.$on.$change.$fn.special).to.equal( a.$on.$change.$fn.special )
     expect(b.$on.$change.$fn.other).to.not.equal( a.$on.$change.$fn.other )
     expect(b.$on).to.be.an.instanceof( a.$on.$Constructor )
+    
     expect(b.$on.$change.$fn).to.be.an.instanceof( a.$on.$change.$fn.$Constructor )
 
     a.removeListener( '$change', 'other' )
@@ -92,8 +98,18 @@ describe('$change emitter - instances - listener - removal', function() {
 
     c.removeListener( '$change', 'special' )
 
-    expect( b.$on.$change.$fn.special ).to.be.ok
-    expect( c.$on.$change.$fn.special ).to.be.null
+    expect( b.$on.$change.$fn.special )
+      .msg( 'b.$on.$change.$fn.special' ).to.be.ok
+    expect( c.$on.$change.$fn.special )
+      .msg('c.$on.$change.$fn.special').to.be.null
+    expect( c.$on ).to.be.an.instanceof( b.$on.$Constructor )
+
+    //removes both passon and fn (all ocurrences)
+    b.removeListener( '$change', specialListener )
+    expect( a.$on.$change.$fn.special ).to.be.ok
+    expect( b.$on.$change.$fn.special ).to.be.null
+    expect( a.$on.$change.$passon ).to.be.ok
+    expect( b.$on.$change.$passon ).to.be.null
 
   })
 
