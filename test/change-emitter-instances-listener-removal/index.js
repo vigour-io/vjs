@@ -33,8 +33,6 @@ describe('$change emitter - instances - listener - removal', function() {
       $val: 1
      })
 
-     console.log(a.$on.$change.$fn)
-
      a.$set({
       $on: {
         $change: {
@@ -45,7 +43,6 @@ describe('$change emitter - instances - listener - removal', function() {
       }
      })
 
-
      //same for passon and base
      expect( a.$on.$change.$fn.other ).msg('$fn.other').to.be.ok
      expect( a.$on.$change.$fn.special ).msg('$fn.special').to.be.null
@@ -53,11 +50,37 @@ describe('$change emitter - instances - listener - removal', function() {
      //remove fn if its completely empty
      a.$on.$change.$fn.$removeProperty( a.$on.$change.$fn.other, 'other' )
 
-     console.info('ghello why is it gone???!@#', a.$on.$change.$fn)
-     console.info(util.isEmpty(a.$on.$change.$fn))
-
      expect( a.$on.$change.$fn ).msg('$fn').to.be.null
     
+  })
+
+  it( 'new observable --> a --> b, overwrite listener on b', function() {
+
+    a = new Observable({
+      $key: 'a',
+      $on: {
+        $change: {
+          other: function() {},
+          special: function() {}
+        }
+      },
+      $val: 1
+    })
+
+    b = new a.$Constructor({
+      $key: 'b',
+      $on: {
+        $change: {
+          other:function() {}
+        }
+      }
+    })
+
+    expect(b.$on.$change.$fn.special).to.equal(a.$on.$change.$fn.special)
+    expect(b.$on.$change.$fn.other).to.not.equal(a.$on.$change.$fn.other)
+    expect(b.$on).to.be.an.instanceof( a.$on.$Constructor )
+    expect(b.$on.$change.$fn).to.be.an.instanceof(a.$on.$change.$fn.$Constructor)
+
   })
 
 })
