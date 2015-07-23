@@ -12,6 +12,10 @@ Observable.prototype.inject(
 
 var List = require('../../lib/list')
 
+var Event = require('../../lib/event')
+
+Event.prototype.inject(require('../../lib/event/toString'))
+
 // =============================================================
 
 function raw(base) {
@@ -60,6 +64,8 @@ console.log('-------------- $val:')
 $val.each(function(value, key){
   console.log('>', key, value.$origin.$val)
 })
+
+
 console.clear()
 console.log('\n\n\n++++++++++++++ set obs[0] to GOAN CHANGED:')
 obs[0].$val = 'GOAN CHANGED za'
@@ -80,7 +86,19 @@ $val.each(function(value, key){
 
 console.clear()
 
-console.log('??????', obs[2].$on.$change)
+var observable = Observable.prototype
+var _$emit = observable.$emit
+
+observable.define({
+  $emit: function(type, event, meta) {
+    console.log('emitting!',type, this.$path, arguments, event && event.$origin === this, event && event.$origin.$path)
+    console.log(event.toString())
+    _$emit.apply(this, arguments)
+
+  }
+})
+
+
 
 console.log('\n\n\n++++++++++++++ set za to blerkje:')
 obs[2].$val = 'blerkje'
