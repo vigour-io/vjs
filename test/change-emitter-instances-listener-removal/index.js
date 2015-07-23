@@ -14,6 +14,10 @@ describe('$change emitter - instances - listener - removal', function() {
   var a
   var b
   var c
+  var ref
+
+  function specialListener() {}
+  function weirdListener() {}
 
   it( 'create new observable --> a, overwrite different types of keys', function() {    
      aRef = new Observable({
@@ -54,11 +58,7 @@ describe('$change emitter - instances - listener - removal', function() {
 
   it( 'new observable --> a --> b --> c, overwrite listeners, remove listeners', function() {
     
-    function specialListener() {}
-
-    function weirdListener() {}
-
-    var ref = new Observable({
+    ref = new Observable({
       $key:'ref'
     })
 
@@ -107,6 +107,9 @@ describe('$change emitter - instances - listener - removal', function() {
       .msg('c.$on.$change.$fn.special').to.be.null
     expect( c.$on ).to.be.an.instanceof( b.$on.$Constructor )
 
+  })
+
+  it('findAndRemove removals of listeners', function() {
     //removes both passon and fn (all ocurrences)
     b.removeListener( '$change', specialListener )
     expect( a.$on.$change.$fn.special ).to.be.ok
@@ -119,6 +122,7 @@ describe('$change emitter - instances - listener - removal', function() {
         $change: [ function(){} , a ]
       }
     })
+
     expect( ref.$on.$change.$base ).to.be.ok
     expect( ref.$on.$change.$passon ).to.be.ok
     expect( util.isEmpty( a.$listensOnBase ) ).to.be.false
@@ -132,6 +136,13 @@ describe('$change emitter - instances - listener - removal', function() {
 
     a.removeListener( weirdListener )
     expect( a.$on.$change.$fn.weird ).to.be.null
+  })
+
+  it('create new obserable a --> b --> c, findAndRemove removals of listeners with options objects', function() {
+
+    //option 1 $fn
+    //option 2 $base
+
 
   })
 
