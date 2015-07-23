@@ -16,7 +16,6 @@ describe('$change emitter - instances - listener - removal', function() {
   var c
 
   it( 'create new observable --> a, overwrite different types of keys', function() {    
-
      aRef = new Observable({
       $key: 'aRef',
       $val: 'a value for aRef'
@@ -51,17 +50,18 @@ describe('$change emitter - instances - listener - removal', function() {
      a.$on.$change.$fn.$removeProperty( a.$on.$change.$fn.other, 'other' )
 
      expect( a.$on.$change.$fn ).msg('$fn').to.be.null
-    
   })
 
-  it( 'new observable --> a --> b, overwrite listener on b', function() {
+  it( 'new observable --> a --> b, overwrite listener on b, removeListener', function() {
+    
+    function specialListener() {}
 
     a = new Observable({
       $key: 'a',
       $on: {
         $change: {
           other: function() {},
-          special: function() {}
+          special: specialListener
         }
       },
       $val: 1
@@ -76,10 +76,12 @@ describe('$change emitter - instances - listener - removal', function() {
       }
     })
 
-    expect(b.$on.$change.$fn.special).to.equal(a.$on.$change.$fn.special)
-    expect(b.$on.$change.$fn.other).to.not.equal(a.$on.$change.$fn.other)
+    expect(b.$on.$change.$fn.special).to.equal( a.$on.$change.$fn.special )
+    expect(b.$on.$change.$fn.other).to.not.equal( a.$on.$change.$fn.other )
     expect(b.$on).to.be.an.instanceof( a.$on.$Constructor )
-    expect(b.$on.$change.$fn).to.be.an.instanceof(a.$on.$change.$fn.$Constructor)
+    expect(b.$on.$change.$fn).to.be.an.instanceof( a.$on.$change.$fn.$Constructor )
+
+    a.removeListener( '$change', 'other' )
 
   })
 
