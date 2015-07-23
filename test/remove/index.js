@@ -81,8 +81,6 @@ describe('remove', function() {
 
   it( 'new a --> b, handle instances and nested fields ', function() {
    
-    console.clear()
-
     b = new a.$Constructor({
       $key:'b',
       prop4:null

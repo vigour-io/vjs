@@ -52,7 +52,7 @@ describe('$change emitter - instances - listener - removal', function() {
      expect( a.$on.$change.$fn ).msg('$fn').to.be.null
   })
 
-  it( 'new observable --> a --> b, overwrite listener on b, removeListener', function() {
+  it( 'new observable --> a --> b --> c, overwrite listeners, remove listeners', function() {
     
     function specialListener() {}
 
@@ -82,6 +82,18 @@ describe('$change emitter - instances - listener - removal', function() {
     expect(b.$on.$change.$fn).to.be.an.instanceof( a.$on.$change.$fn.$Constructor )
 
     a.removeListener( '$change', 'other' )
+
+    expect( b.$on.$change.$fn.other ).to.be.ok
+    expect( a.$on.$change.$fn.other ).to.be.null
+
+    c = new b.$Constructor({
+      $key:'c'
+    })
+
+    c.removeListener( '$change', 'special' )
+
+    expect( b.$on.$change.$fn.special ).to.be.ok
+    expect( c.$on.$change.$fn.special ).to.be.null
 
   })
 
