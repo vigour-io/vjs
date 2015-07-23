@@ -40,8 +40,6 @@ console.log('\n\n=============================== primitive items')
 
 console.log('\n\n\n\n---------- filter > sort > add!')
 
-console.log('\n\n=============================== sort by self')
-
 var items = ['A', 'a', 'za', 'fr23', 'ZA', 'a']
 items.$filter = { $contains: 'za' }
 items.$sort = true
@@ -51,7 +49,7 @@ var obs = new Observable(items)
 obs._$key = 'obs'
 
 console.log('\n\n\n=========== getting $val!')
-var $val = obs.$val
+var $val = window.val = obs.$val
 
 console.log('-------------- obs:')
 obs.each(function(value, key){
@@ -62,8 +60,8 @@ console.log('-------------- $val:')
 $val.each(function(value, key){
   console.log('>', key, value.$origin.$val)
 })
-
-console.log('\n\n\n++++++++++++++ change some:')
+console.clear()
+console.log('\n\n\n++++++++++++++ set obs[0] to GOAN CHANGED:')
 obs[0].$val = 'GOAN CHANGED za'
 
 console.log('-------------- obs.$filter._results:')
@@ -75,7 +73,25 @@ obs.$sort._results.each(function(value, key){
   console.log('>', key, value.$origin.$val)
 })
 
+console.log('-------------- $val:')
+$val.each(function(value, key){
+  console.log('>', key, value.$origin.$val)
+})
 
+console.clear()
+
+console.log('??????', obs[2].$on.$change)
+
+console.log('\n\n\n++++++++++++++ set za to blerkje:')
+obs[2].$val = 'blerkje'
+console.log('-------------- obs.$filter._results:')
+obs.$filter._results.each(function(value, key){
+  console.log('>', key, value.$origin.$val)
+})
+console.log('-------------- obs.$sort._results:')
+obs.$sort._results.each(function(value, key){
+  console.log('>', key, value.$origin.$val)
+})
 console.log('-------------- $val:')
 $val.each(function(value, key){
   console.log('>', key, value.$origin.$val)
