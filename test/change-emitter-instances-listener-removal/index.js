@@ -111,6 +111,24 @@ describe('$change emitter - instances - listener - removal', function() {
     expect( a.$on.$change.$passon ).to.be.ok
     expect( b.$on.$change.$passon ).to.be.null
 
+    ref.$set({
+      $on: {
+        $change: [ function(){} , a ]
+      }
+    })
+
+    expect( ref.$on.$change.$base ).to.be.ok
+    expect( ref.$on.$change.$passon ).to.be.ok
+    expect( util.isEmpty( a.$listensOnBase ) ).to.be.false
+    expect( util.isEmpty( a.$listensOnPasson ) ).to.be.false
+
+    ref.removeListener( '$change', a )
+
+    expect( ref.$on.$change.$base ).to.be.null
+    expect( ref.$on.$change.$passon ).to.be.null
+    expect( util.isEmpty( a.$listensOnBase ) ).to.be.true
+    expect( util.isEmpty( a.$listensOnPasson ) ).to.be.true
+
   })
 
 })
