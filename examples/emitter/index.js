@@ -54,7 +54,7 @@ var element = new Observable({
         if(!this._$node)  {
           this._$node = document.createElement( 'div' )
           this._$node.$base = this
-          this._$node.style.border = '10px solid red'
+          this._$node.style.border = '10px solid orange'
         }
         return this._$node
       }
@@ -109,7 +109,7 @@ var Border = new Observable({
   $on: { 
     $change: function( event ) {
       console.error('\n\n\n\n\nblarf border', this.$val)
-      if(this.$parent) {
+      if(this._$parent && this.$parent) {
         this.$parent.$node.style.border = this.$val
       } 
     }
@@ -124,15 +124,10 @@ element.$flags = {
   } 
 }
 
-
-
-
-
-
 //-------- example implementation----------
 
 var app = new Element({
-  $key:'ghello',
+  $key:'app',
   $node: document.body
 })
 
@@ -153,7 +148,8 @@ var X = new Element({
 }).$Constructor
 
 app.$set({
-  xxxxxx:new X()
+  xxxxxx:new X(),
+  // y:{$border:'1px solid red'}
 })
 
 console.log( '?', app.xxxxxx._$parent )
