@@ -177,6 +177,7 @@ describe('$change emitter - instances - listener - removal', function() {
     a.removeListener( '$change', {
       $passon: aRandomObs
     })
+    
     expect( a.$on.$change.$passon.passon2 ).to.be.null
     expect( a.$on.$change.$passon.passon ).to.be.ok
     expect( a.$on.randomEmitter.$passon.passon ).to.be.ok
