@@ -71,4 +71,27 @@ describe('emitter - combined', function() {
 
   })
 
+  it( 'create new observable --> a --> change a val fire property', function() {    
+
+    //are we absolutely sure about this??
+    //it is not really a property (maybe just add an extra value listener if you want to know this)
+    a = new Observable({
+      $key: 'a',
+      $on: {
+        $change:function( event, meta ) {
+           measure.a.$change.val.total++
+        },
+        $reference: function( event, meta ) {
+          measure.a.$reference.val.total++
+        },
+        $property:function( event, meta ) {
+          measure.a.$property.val.total++
+        }
+      },
+      $val: aRef
+    })
+
+  })
+  
+
 })
