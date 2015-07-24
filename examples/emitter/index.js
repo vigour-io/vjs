@@ -23,7 +23,7 @@ var DomEmitter = new Emitter({
           document.body.addEventListener( val, function(e) {
             e.$stamp = (++cnt)
             var event
-            
+
             if(e.target.$base) {
               if(e.target.$base.$on && e.target.$base.$on[val] ) {
                 if(!event) {
@@ -123,25 +123,25 @@ element.define({
 
 //--------properties----------
 
-// var Border = new Observable({ 
-//   $useVal:true,
-//   $on: { 
-//     $change: function( event ) {
-//       console.error('\n\n\n\n\nblarf border', this.$val)
-//       if(this._$parent && this.$parent) {
-//         this.$parent.$node.style.border = this.$val
-//       } 
-//     }
-//   }
-// }).$Constructor
+var Border = new Observable({ 
+  $useVal:true,
+  $on: { 
+    $change: function( event ) {
+      console.error('\n\n\n\n\nblarf border', this.$val)
+      if(this._$parent && this.$parent) {
+        this.$parent.$node.style.border = this.$val
+      } 
+    }
+  }
+}).$Constructor
 
-// element.$flags = {
-//   $border: function(val, event) {     
-//     this.$setKeyInternal( '$border', new Border(), false)
-//     //TODO: event moet hier
-//     this.$border.$set(val)
-//   } 
-// }
+element.$flags = {
+  $border: function(val, event) {     
+    this.$setKeyInternal( '$border', new Border(), false)
+    //TODO: event moet hier
+    this.$border.$set(val)
+  } 
+}
 
 //-------- example implementation----------
 
@@ -163,7 +163,7 @@ app.$set({
 app.$node.style.border = '1px solid blue'
 
 var X = new Element({
-  // $border:'20px solid blue',
+  $border:'20px solid blue',
   $on: {
     click:function() {
       console.log(this.$path)
@@ -181,7 +181,7 @@ app.$set({
       }
     }
   },
-  // xxxxxx:new X(),
+  xxxxxx:new X(),
   xy:{
     $on: {
       click: function() {
@@ -189,6 +189,7 @@ app.$set({
       }
     },
     blurf: {
+      // $border:'200px solid red',
       $on: {
         click: function() {
           this.$node.style.marginTop = Math.random()*99+'px'

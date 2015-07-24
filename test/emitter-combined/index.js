@@ -2,6 +2,10 @@ describe('emitter - combined', function() {
 
   var Observable = require('../../lib/observable')
   var util = require('../../lib/util')
+
+  var On = require('../../lib/observable/onConstructor')
+
+  var Emitter = require('../../lib/emitter')
   
   var measure = {
     a:{}
@@ -10,6 +14,7 @@ describe('emitter - combined', function() {
   var a 
   var b
   var aRef
+  var bRef
 
 
   it( 'create new observable --> a --> use references change a', function() {    
@@ -71,27 +76,58 @@ describe('emitter - combined', function() {
 
   })
 
-  it( 'create new observable --> a --> change a val fire property', function() {    
-
+  it( 'create new observable --> aO --> a --> b references - remove aRef', function() {    
     //are we absolutely sure about this??
     //it is not really a property (maybe just add an extra value listener if you want to know this)
+    
+    bRef = new Observable({})
+
+    var SpecialEmitter = new Emitter().$Constructor
+
+    var aO = new Observable({
+      $flags: {
+        $on: new On({
+          $define: {
+            $ChildConstructor: SpecialEmitter
+          }
+        })
+      }
+    })
+
     a = new Observable({
       $key: 'a',
+      aNest: {}
+    })
+
+    aRef = new Observable({
       $on: {
-        $change:function( event, meta ) {
-           measure.a.$change.val.total++
-        },
-        $reference: function( event, meta ) {
-          measure.a.$reference.val.total++
-        },
-        $property:function( event, meta ) {
-          measure.a.$property.val.total++
+        $change: {
+          val:function( event ){
+            this.remove( event )
+          }
         }
       },
-      $val: aRef
+      $val:a.aNest
     })
+
+    var b = new Observable({
+      $on: {
+        $change: {
+          b:[ function(){}, a.aNest ],
+          a: a.aNest
+        }
+      },
+      $val: a.aNest
+    })
+
+    expect(a.aNest.$on.$change.$base).to.be.ok
+
+    a.aNest.$val = 'x'
+    expect(util.isRemoved(aRef)).to.be.true
+    // expect(a.aNest.$on.$change.$base[1]).to.be.null
+
+    // var bla = 
 
   })
   
-
 })
