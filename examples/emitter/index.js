@@ -23,6 +23,7 @@ var DomEmitter = new Emitter({
           document.body.addEventListener( val, function(e) {
             e.$stamp = (++cnt)
             var event
+            
             if(e.target.$base) {
               if(e.target.$base.$on && e.target.$base.$on[val] ) {
                 if(!event) {
@@ -54,7 +55,10 @@ var element = new Observable({
         if(!this._$node)  {
           this._$node = document.createElement( 'div' )
           this._$node.$base = this
-          this._$node.style.border = '10px solid orange'
+          this._$node.style.border = '40px solid orange'
+          this._$node.style.marginTop = '5px'
+          this._$node.style.background = '#eee'
+          this._$node.style.padding = '10px'
         }
         return this._$node
       }
@@ -67,6 +71,21 @@ var element = new Observable({
         }
         return Observable.apply( this, arguments )
       })
+    },
+    addNewProperty: function( key, val, property, event ) {
+      
+      var ret = Observable.prototype.addNewProperty.apply(this, arguments)
+
+      if( this[key] instanceof Element ) {
+        // console.log('xxxxxxxx', this[key], key, this, this._$key)
+
+        this.$node.appendChild( this[key].$node )
+
+        // this[key].$emit( '$addToParent', event )
+      }
+      
+      return ret
+
     }
   },
   $flags: {
@@ -80,20 +99,20 @@ var element = new Observable({
       }
     })
   },
-  $useVal:true,
-  $on: {
-    // $new: function( event, meta ) {
-    //   if(this._$node) {
-    //     this._$node = this._$node.cloneNode(true)
-    //     this._$node.$base = this
-    //   }
-    // },
-    $addToParent: function( event, meta ) {
-      if(this._$parent) {
-        this._$parent.$node.appendChild( this.$node )
-      }
-    }
-  }
+  $useVal:true
+  // $on: {
+  //   // $new: function( event, meta ) {
+  //   //   if(this._$node) {
+  //   //     this._$node = this._$node.cloneNode(true)
+  //   //     this._$node.$base = this
+  //   //   }
+  //   // },
+  //   $addToParent: function( event, meta ) {
+  //     if(this._$parent) {
+  //       this._$parent.$node.appendChild( this.$node )
+  //     }
+  //   }
+  // }
 })
 
 var Element = element.$Constructor
@@ -104,25 +123,25 @@ element.define({
 
 //--------properties----------
 
-var Border = new Observable({ 
-  $useVal:true,
-  $on: { 
-    $change: function( event ) {
-      console.error('\n\n\n\n\nblarf border', this.$val)
-      if(this._$parent && this.$parent) {
-        this.$parent.$node.style.border = this.$val
-      } 
-    }
-  }
-}).$Constructor
+// var Border = new Observable({ 
+//   $useVal:true,
+//   $on: { 
+//     $change: function( event ) {
+//       console.error('\n\n\n\n\nblarf border', this.$val)
+//       if(this._$parent && this.$parent) {
+//         this.$parent.$node.style.border = this.$val
+//       } 
+//     }
+//   }
+// }).$Constructor
 
-element.$flags = {
-  $border: function(val, event) {     
-    this.$setKeyInternal( '$border', new Border(), false)
-    //TODO: event moet hier
-    this.$border.$set(val)
-  } 
-}
+// element.$flags = {
+//   $border: function(val, event) {     
+//     this.$setKeyInternal( '$border', new Border(), false)
+//     //TODO: event moet hier
+//     this.$border.$set(val)
+//   } 
+// }
 
 //-------- example implementation----------
 
@@ -132,13 +151,19 @@ var app = new Element({
 })
 
 app.$set({
-  yuzi: {}
+  yuzi: {
+    // $on: {
+    //   click:function() {
+    //     this.$node.style.opacity = Math.random()
+    //   }
+    // }
+  }
 })
 
 app.$node.style.border = '1px solid blue'
 
 var X = new Element({
-  $border:'20px solid blue',
+  // $border:'20px solid blue',
   $on: {
     click:function() {
       console.log(this.$path)
@@ -148,11 +173,48 @@ var X = new Element({
 }).$Constructor
 
 app.$set({
-  xxxxxx:new X(),
-  // y:{$border:'1px solid red'}
+  y: {
+    // $border:'10px solid blue',
+    $on: {
+      mousemove:function() {
+        this.$node.style.opacity = Math.random()
+      }
+    }
+  },
+  // xxxxxx:new X(),
+  xy:{
+    $on: {
+      click: function() {
+        this.$node.style.opacity = Math.random()
+      }
+    },
+    blurf: {
+      $on: {
+        click: function() {
+          this.$node.style.marginTop = Math.random()*99+'px'
+        }
+      }
+    }
+  }
 })
 
-console.log( '?', app.xxxxxx._$parent )
+app.$set({
+  x:{
+    // $border:'100px solid pruple',
+    $on: {
+      click: function() {
+        this.$node.style.opacity = Math.random()
+      }
+    }
+  }
+})
+
+
+
+
+
+
+// console.log( '?', app.xxxxxx._$parent )
 
 // console.log( app.xxx)
 
