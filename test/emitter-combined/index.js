@@ -16,7 +16,6 @@ describe('emitter - combined', function() {
   var aRef
   var bRef
 
-
   it( 'create new observable --> a --> use references change a', function() {    
 
     measure.a.$reference = {
@@ -100,6 +99,7 @@ describe('emitter - combined', function() {
     })
 
     aRef = new Observable({
+      $key:'aRef',
       $on: {
         $change: {
           val:function( event ){
@@ -111,6 +111,7 @@ describe('emitter - combined', function() {
     })
 
     var b = new Observable({
+      $key:'b',
       $on: {
         $change: {
           b:[ function(){}, a.aNest ],
@@ -120,13 +121,36 @@ describe('emitter - combined', function() {
       $val: a.aNest
     })
 
-    expect(a.aNest.$on.$change.$base).to.be.ok
+    expect(a.aNest.$on.$change.$base[1]).to.be.ok
 
     a.aNest.$val = 'x'
     expect(util.isRemoved(aRef)).to.be.true
-    // expect(a.aNest.$on.$change.$base[1]).to.be.null
+    expect(a.aNest.$on.$change.$base[1]).to.be.null
 
-    // var bla = 
+  })
+  
+  it( 'test $new emitter', function() {
+
+    a = new Observable({
+      $key: 'a',
+      $on: {
+        $addToParent: function() {
+          console.log( 'im adding to parent', arguments )
+        }
+        // $new: function( event ) {
+        //   console.log( 'new', this.$path )
+        // }
+      },
+      $useVal:true
+    })
+
+    var b = new a.$Constructor({ $key: 'b' })
+    var c = new b.$Constructor({ $key: 'c' })
+    var bla = new Observable({ $key:'bla' })
+
+    bla.$set({
+      x: new a.$Constructor()
+    })
 
   })
   
