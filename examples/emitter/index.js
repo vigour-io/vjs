@@ -82,15 +82,12 @@ var element = new Observable({
   $on: {
     $new: function( event, meta ) {
       if(this._$node && !this._$nodeSet ) {
-        console.error('NEW ???', this.$path, meta.$path, this._$node)
         this._$node = this._$node.cloneNode(true)
         this._$node.$base = this
       }
     },
     $addToParent: function( event, meta ) {
-      console.error('parent --- XXX')
       if(this._$parent && this instanceof Element) {
-        console.log('??!@#', this._$parent.$node)
         this._$parent.$node.appendChild( this.$node )
       }
     }
@@ -191,6 +188,11 @@ app.$set({
   xx: new extraSpesh.$Constructor(),
   yy: new extraSpesh.$Constructor()
 })
+
+
+console.log(app.xx.a.b.c.d.$node)
+
+console.log(app.xx.a.$node.$base._$parent.$node === app.xx.$node)
 
 app.$node.style.border = '1px solid black'
 
