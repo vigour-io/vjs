@@ -147,7 +147,8 @@ var element = new Observable({
   },
   $flags: {
     $node:function( val ) {
-      console.log('set node flag')
+      //check hier voor strings!!!
+      // console.log('set node flag')
       this._$node = val
       this._$node.$base = this
     },
@@ -160,11 +161,11 @@ var element = new Observable({
   $useVal:true,
   $on: {
     $addToParent: function( event, meta ) {
-      console.error('?xxxxx??', this.$path)
+      // console.error('?xxxxx??', this.$path)
 
       if(this.$parent && this instanceof Element) {
-        console.log('hello')
-        console.log(this.$parent.$node)
+        // console.log('hello')
+        // console.log(this.$parent.$node)
         this.$parent.$node.appendChild( this.$node )
       }
     }
@@ -287,9 +288,19 @@ console.log( app.yus.a.b === YUZI.a.b )
 
 console.clear()
 
-// app.yus.a.b.c.$set({
-//   flups: {}
-// })
-
+app.yus.a.b.c.$set({
+  flups: {}
+})
 
 app.$node.style.border = '1px solid black'
+
+var perf = require('../../dev/perf')
+
+perf(function() {
+  var holder = new Element({})
+  for(var i = 0 ; i < 10000; i++) {
+    var obj = {}
+    obj[i] = new YUZI.$Constructor()
+    holder.$set(obj)
+  }
+})
