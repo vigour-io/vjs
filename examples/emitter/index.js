@@ -64,16 +64,6 @@ var element = new Observable({
         }
         return this._$node
       }
-    },
-    addNewProperty: function( key, val, property, event ) { 
-      var ret = Observable.prototype.addNewProperty.apply(this, arguments)
-      if( Element && ( this[key] instanceof Element ) ) {
-        // console.log('xxxxxxxx', this[key], key, this, this._$key)
-        console.log('lezzadd it', this.$path, key)
-        this.$node.appendChild( this[key].$node )
-        // this[key].$emit( '$addToParent', event )
-      }
-      return ret
     }
   },
   $flags: {
@@ -146,6 +136,39 @@ var app = new Element({
   $node: document.body
 })
 
+var aa = new Element()
+
+aa.define({
+  $node: {
+    get:function() {
+     if(!this._$node)  {
+        this._$node = document.createElement( 'div' )
+        this._$node.$base = this
+        this._$node.style.border = '4px solid purple'
+        this._$node.style.background = 'pink'
+        this._$node.style.padding = '4px'
+        this._$node.style.borderRadius = '50%'
+      }
+      return this._$node
+    }
+  },
+  $ChildConstructor: aa.$Constructor
+})
+
+// aa.$node.style.borderRadius = '50%'
+// aa.$node.style.padding = '10px'
+
+var extraSpesh = new aa.$Constructor({
+  a: {
+    b: {
+      c: {
+        d:{}
+      }
+    }
+  }
+})
+
+
 app.$set({
   yuzi: {
     $border:'10px solid blue',
@@ -155,10 +178,18 @@ app.$set({
       }
     },
     blurf:{
-      blaps:{}
+      // $border:'10px solid blue',
+      blaps:{
+        bloeps: {
+          blurf:{},
+            smuts: new extraSpesh.$Constructor()
+        }
+      }
     }
   },
-  james: true
+  james: true,
+  xx: new extraSpesh.$Constructor(),
+  yy: new extraSpesh.$Constructor()
 })
 
 app.$node.style.border = '1px solid black'
@@ -213,11 +244,6 @@ app.$node.style.border = '1px solid black'
 //     }
 //   }
 // })
-
-
-
-
-
 
 // console.log( '?', app.xxxxxx._$parent )
 

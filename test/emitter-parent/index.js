@@ -19,16 +19,26 @@ describe('emitter - combined', function() {
   it( 'create element', function() {
     var element = new Observable({
       $on: {
+        $addToParent:function() {
+          console.log('add to parent!', this.$path)
+        },
         $new:function() {
-          console.log('new element!')
+          console.log( 'new element!', this.$path )
         }
-      }
+      },
+      $useVal:true
     })
     Element = element.$Constructor
   })
 
   it( 'create new observables, add to parent', function() {    
-    var holder = new Element()
+    var holder = new Element({ $key: 'holder' })
+
+    holder.$set({
+      a: new Element(),
+      b: new Element(),
+      c: new Element()
+    })
 
   })
 
