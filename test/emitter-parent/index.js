@@ -1,5 +1,8 @@
 describe('emitter - parent', function() {
 
+  var Event = require('../../lib/event')
+  Event.prototype.inject( require('../../lib/event/toString' ))
+
   var Observable = require('../../lib/observable')
   var util = require('../../lib/util')
 
@@ -51,6 +54,7 @@ describe('emitter - parent', function() {
 
     holder = new Element({ $key: 'holder' })
 
+    console.clear()
     holder.$set({
       a: new Element(),
       b: new Element(),
