@@ -295,12 +295,15 @@ app.yus.a.b.c.$set({
 app.$node.style.border = '1px solid black'
 
 var perf = require('../../dev/perf')
-
+var holder 
 perf(function() {
-  var holder = new Element({})
+  holder = new Element({})
   for(var i = 0 ; i < 10000; i++) {
     var obj = {}
     obj[i] = new YUZI.$Constructor()
     holder.$set(obj)
   }
+  app.$set({
+    h: holder
+  })
 })
