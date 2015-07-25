@@ -131,14 +131,22 @@ describe('emitter - combined', function() {
   
   it( 'test $new emitter', function() {
 
+    measure.a.$new = {
+      val: {
+        total: 0,
+        b: 0,
+        c: 0,
+        x: 0,
+        y: 0
+      }
+    }
+
     a = new Observable({
       $key: 'a',
       $on: {
-        $addToParent: function() {
-          console.log( 'im adding to parent', arguments )
-        },
         $new: function( event ) {
-          console.log( 'new', this.$path )
+          measure.a.$new.val.total++
+          measure.a.$new.val[this._$key]++
         }
       },
       $useVal:true
@@ -146,11 +154,18 @@ describe('emitter - combined', function() {
 
     var b = new a.$Constructor({ $key: 'b' })
     var c = new b.$Constructor({ $key: 'c' })
-    var bla = new Observable({ $key:'bla' })
+    var holder = new Observable({ $key:'holder' })
 
-    bla.$set({
-      x: new a.$Constructor()
+    holder.$set({
+      x: new a.$Constructor({ $key:'x' }),
+      y: new a.$Constructor({ $key:'y' })
     })
+
+    expect( measure.a.$new.val.total ).to.equal( 4 )
+    expect( measure.a.$new.val.b ).to.equal( 1 )    
+    expect( measure.a.$new.val.c ).to.equal( 1 )    
+    expect( measure.a.$new.val.x ).to.equal( 1 )    
+    expect( measure.a.$new.val.y ).to.equal( 1 ) 
 
   })
   

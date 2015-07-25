@@ -48,6 +48,8 @@ var DomEmitter = new Emitter({
 
 //------element---------
 
+var Element
+
 var element = new Observable({
   $define: {
     $node: {
@@ -63,35 +65,22 @@ var element = new Observable({
         return this._$node
       }
     },
-    // $generateConstructor: function() {
-    //   return (function ElementDerived() {
-    //     if(this._$node) {
-    //       this._$node = this._$node.cloneNode(true)
-    //       this._$node.$base = this
-    //     }
-    //     return Observable.apply( this, arguments )
-    //   })
-    // },
-    // addNewProperty: function( key, val, property, event ) {
-      
-    //   var ret = Observable.prototype.addNewProperty.apply(this, arguments)
-
-    //   if( this[key] instanceof Element ) {
-    //     // console.log('xxxxxxxx', this[key], key, this, this._$key)
-
-    //     this.$node.appendChild( this[key].$node )
-
-    //     // this[key].$emit( '$addToParent', event )
-    //   }
-      
-    //   return ret
-
-    // }
+    addNewProperty: function( key, val, property, event ) { 
+      var ret = Observable.prototype.addNewProperty.apply(this, arguments)
+      if( Element && ( this[key] instanceof Element ) ) {
+        // console.log('xxxxxxxx', this[key], key, this, this._$key)
+        console.log('lezzadd it', this.$path, key)
+        this.$node.appendChild( this[key].$node )
+        // this[key].$emit( '$addToParent', event )
+      }
+      return ret
+    }
   },
   $flags: {
     $node:function( val ) {
       this._$node = val
       this._$node.$base = this
+      this._$nodeSet = true
     },
     $on: new On({
       $define: {
@@ -102,22 +91,23 @@ var element = new Observable({
   $useVal:true,
   $on: {
     $new: function( event, meta ) {
-      console.error('???')
-      if(this._$node) {
+      if(this._$node && !this._$nodeSet ) {
+        console.error('NEW ???', this.$path, meta.$path, this._$node)
         this._$node = this._$node.cloneNode(true)
         this._$node.$base = this
       }
     },
     $addToParent: function( event, meta ) {
-      console.error('XXX')
+      console.error('parent --- XXX')
       if(this._$parent && this instanceof Element) {
+        console.log('??!@#', this._$parent.$node)
         this._$parent.$node.appendChild( this.$node )
       }
     }
   }
 })
 
-var Element = element.$Constructor
+Element = element.$Constructor
 
 element.define({
   $ChildConstructor: Element
@@ -158,66 +148,71 @@ var app = new Element({
 
 app.$set({
   yuzi: {
-    // $on: {
-    //   click:function() {
-    //     this.$node.style.opacity = Math.random()
-    //   }
-    // }
-  }
-})
-
-app.$node.style.border = '1px solid blue'
-
-var X = new Element({
-  $border:'20px solid blue',
-  $on: {
-    click:function() {
-      console.log(this.$path)
-      console.log(this._$parent)
-    }
-  }
-}).$Constructor
-
-app.$set({
-  y: {
-    // $border:'10px solid blue',
+    $border:'10px solid blue',
     $on: {
-      mousemove:function() {
-        this.$node.style.opacity = Math.random()
-      }
-    }
-  },
-  xxxxxx:new X(),
-  yyy:new X(),
-  zzz:new X(),
-  xy:{
-    // $border:'10px solid red',
-    $on: {
-      click: function() {
+      click:function() {
         this.$node.style.opacity = Math.random()
       }
     },
-    blurf: {
-      // $border:'200px solid red',
-      $on: {
-        click: function() {
-          this.$node.style.marginTop = Math.random()*99+'px'
-        }
-      }
+    blurf:{
+      blaps:{}
     }
-  }
+  },
+  james: true
 })
 
-app.$set({
-  x:{
-    // $border:'100px solid pruple',
-    $on: {
-      click: function() {
-        this.$node.style.opacity = Math.random()
-      }
-    }
-  }
-})
+app.$node.style.border = '1px solid black'
+
+// var X = new Element({
+//   $border:'20px solid blue',
+//   $on: {
+//     click:function() {
+//       console.log(this.$path)
+//       console.log(this._$parent)
+//     }
+//   }
+// }).$Constructor
+
+// app.$set({
+//   y: {
+//     // $border:'10px solid blue',
+//     $on: {
+//       mousemove:function() {
+//         this.$node.style.opacity = Math.random()
+//       }
+//     }
+//   },
+//   xxxxxx:new X(),
+//   yyy:new X(),
+//   zzz:new X(),
+//   xy:{
+//     // $border:'10px solid red',
+//     $on: {
+//       click: function() {
+//         this.$node.style.opacity = Math.random()
+//       }
+//     },
+//     blurf: {
+//       // $border:'200px solid red',
+//       $on: {
+//         click: function() {
+//           this.$node.style.marginTop = Math.random()*99+'px'
+//         }
+//       }
+//     }
+//   }
+// })
+
+// app.$set({
+//   x:{
+//     // $border:'100px solid pruple',
+//     $on: {
+//       click: function() {
+//         this.$node.style.opacity = Math.random()
+//       }
+//     }
+//   }
+// })
 
 
 
