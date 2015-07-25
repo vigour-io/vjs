@@ -15,12 +15,19 @@ describe('emitter - parent', function() {
 
   var Element
   var holder
+  var holder2
   var element
   var a 
 
   it( 'create element, add to a parent', function() {
 
     measure.element.$addToParent = {
+      val: {
+        total:0
+      }
+    }
+
+    measure.element.$new = {
       val: {
         total:0
       }
@@ -34,14 +41,15 @@ describe('emitter - parent', function() {
           measure.element.$addToParent.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
         },
         $new:function() {
-          console.log( 'new element!', this.$path )
+          //fire for nested things as well
+          measure.element.$new.val.total+=1
         }
       },
       $useVal:true
     })
     Element = element.$Constructor
 
-    var holder = new Element({ $key: 'holder' })
+    holder = new Element({ $key: 'holder' })
 
     holder.$set({
       a: new Element(),
@@ -49,13 +57,19 @@ describe('emitter - parent', function() {
       c: new Element()
     })
 
+    expect( measure.element.$new.val.total ).to.equal(4)
+
     expect( measure.element.$addToParent.val.total ).to.equal(3)
     expect( measure.element.$addToParent.val.a ).to.equal(1)
     expect( measure.element.$addToParent.val.b ).to.equal(1)
     expect( measure.element.$addToParent.val.c ).to.equal(1)
 
-
   })
 
-  
+  it( 'create new holder --> holder2', function() {
+    holder2 = new holder.$Constructor()
+    expect( measure.element.$new.val.total ).to.equal(5)
+    expect( measure.element.$addToParent.val.total ).to.equal(3)
+  })
+
 })
