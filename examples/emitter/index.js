@@ -165,7 +165,6 @@ var extraSpesh = new aa.$Constructor({
   }
 })
 
-
 app.$set({
   yuzi: {
     $border:'10px solid blue',
