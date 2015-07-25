@@ -63,30 +63,30 @@ var element = new Observable({
         return this._$node
       }
     },
-    $generateConstructor: function() {
-      return (function ElementDerived() {
-        if(this._$node) {
-          this._$node = this._$node.cloneNode(true)
-          this._$node.$base = this
-        }
-        return Observable.apply( this, arguments )
-      })
-    },
-    addNewProperty: function( key, val, property, event ) {
+    // $generateConstructor: function() {
+    //   return (function ElementDerived() {
+    //     if(this._$node) {
+    //       this._$node = this._$node.cloneNode(true)
+    //       this._$node.$base = this
+    //     }
+    //     return Observable.apply( this, arguments )
+    //   })
+    // },
+    // addNewProperty: function( key, val, property, event ) {
       
-      var ret = Observable.prototype.addNewProperty.apply(this, arguments)
+    //   var ret = Observable.prototype.addNewProperty.apply(this, arguments)
 
-      if( this[key] instanceof Element ) {
-        // console.log('xxxxxxxx', this[key], key, this, this._$key)
+    //   if( this[key] instanceof Element ) {
+    //     // console.log('xxxxxxxx', this[key], key, this, this._$key)
 
-        this.$node.appendChild( this[key].$node )
+    //     this.$node.appendChild( this[key].$node )
 
-        // this[key].$emit( '$addToParent', event )
-      }
+    //     // this[key].$emit( '$addToParent', event )
+    //   }
       
-      return ret
+    //   return ret
 
-    }
+    // }
   },
   $flags: {
     $node:function( val ) {
@@ -99,20 +99,22 @@ var element = new Observable({
       }
     })
   },
-  $useVal:true
-  // $on: {
-  //   // $new: function( event, meta ) {
-  //   //   if(this._$node) {
-  //   //     this._$node = this._$node.cloneNode(true)
-  //   //     this._$node.$base = this
-  //   //   }
-  //   // },
-  //   $addToParent: function( event, meta ) {
-  //     if(this._$parent) {
-  //       this._$parent.$node.appendChild( this.$node )
-  //     }
-  //   }
-  // }
+  $useVal:true,
+  $on: {
+    $new: function( event, meta ) {
+      console.error('???')
+      if(this._$node) {
+        this._$node = this._$node.cloneNode(true)
+        this._$node.$base = this
+      }
+    },
+    $addToParent: function( event, meta ) {
+      console.error('XXX')
+      if(this._$parent && this instanceof Element) {
+        this._$parent.$node.appendChild( this.$node )
+      }
+    }
+  }
 })
 
 var Element = element.$Constructor
@@ -120,6 +122,8 @@ var Element = element.$Constructor
 element.define({
   $ChildConstructor: Element
 })
+
+// Element = new Element().$Constructor
 
 //--------properties----------
 
@@ -137,7 +141,9 @@ var Border = new Observable({
 
 element.$flags = {
   $border: function(val, event) {     
-    this.$setKeyInternal( '$border', new Border(), false)
+    if(!this.$border) {
+      this.$setKeyInternal( '$border', new Border(), false)
+    }
     //TODO: event moet hier
     this.$border.$set(val)
   } 
@@ -182,7 +188,10 @@ app.$set({
     }
   },
   xxxxxx:new X(),
+  yyy:new X(),
+  zzz:new X(),
   xy:{
+    // $border:'10px solid red',
     $on: {
       click: function() {
         this.$node.style.opacity = Math.random()

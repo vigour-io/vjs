@@ -185,7 +185,7 @@ describe('remove', function() {
 
     //!!!this really has to be fixed!!!
     //maybe just make a remove listener
-    // expect( measure.a.val.removed ).msg('correct removed (meta) count').to.equal(2)
+    expect( measure.a.val.removed ).msg('correct removed (meta) count').to.equal(2)
 
   })
 

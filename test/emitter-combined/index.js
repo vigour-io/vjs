@@ -136,10 +136,10 @@ describe('emitter - combined', function() {
       $on: {
         $addToParent: function() {
           console.log( 'im adding to parent', arguments )
+        },
+        $new: function( event ) {
+          console.log( 'new', this.$path )
         }
-        // $new: function( event ) {
-        //   console.log( 'new', this.$path )
-        // }
       },
       $useVal:true
     })
