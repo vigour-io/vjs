@@ -44,7 +44,6 @@ describe('emitter - parent', function() {
           measure.element.$addToParent.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
         },
         $new:function() {
-          //fire for nested things as well
           measure.element.$new.val.total+=1
         }
       },
@@ -54,7 +53,6 @@ describe('emitter - parent', function() {
 
     holder = new Element({ $key: 'holder' })
 
-    console.clear()
     holder.$set({
       a: new Element(),
       b: new Element(),
