@@ -7,12 +7,14 @@ var On = require('../../lib/observable/onConstructor')
 
 var DOMEVENTS = {}
 
-var cnt = 0
+var cnt = 123123
 
 var Event = require('../../lib/event')
 Event.prototype.inject( require('../../lib/event/toString' ))
 
 //--------events----------
+
+//origin type!!!!super important
 
 var DomEmitter = new Emitter({
   $define: {
@@ -21,7 +23,10 @@ var DomEmitter = new Emitter({
         if(!DOMEVENTS[val]) {
           console.error( 'should add to dom event' , val )
           document.body.addEventListener( val, function(e) {
-            e.$stamp = (++cnt)
+
+            // console.error('click click')
+
+            // e.$stamp = (++cnt)
             var event
 
             if(e.target.$base) {
@@ -30,7 +35,11 @@ var DomEmitter = new Emitter({
                   event = new Event( e.target.$base )
                   event.domEvent = e
                 }
-                e.target.$base.$emit( val, event, e )
+                console.log('emit!', e.target)
+
+                console.log( '???', e.target.$base.$node === e.target)
+
+                e.target.$base.$emit( val, event )
               }
             }
 
@@ -68,6 +77,7 @@ var element = new Observable({
   },
   $flags: {
     $node:function( val ) {
+      console.log('set node flag')
       this._$node = val
       this._$node.$base = this
       this._$nodeSet = true
@@ -81,14 +91,17 @@ var element = new Observable({
   $useVal:true,
   $on: {
     $new: function( event, meta ) {
-      if(this._$node && !this._$nodeSet ) {
+      if(this._$node && !this._$nodeSet) {
+        console.log('new', this.$path)
         this._$node = this._$node.cloneNode(true)
         this._$node.$base = this
+        // console.log('?!!#@!@#?')
       }
     },
     $addToParent: function( event, meta ) {
-      if(this._$parent && this instanceof Element) {
-        this._$parent.$node.appendChild( this.$node )
+      if(this.$parent && this instanceof Element) {
+        console.log(this.$parent.$node)
+        this.$parent.$node.appendChild( this.$node )
       }
     }
   }
@@ -104,27 +117,27 @@ element.define({
 
 //--------properties----------
 
-var Border = new Observable({ 
-  $useVal:true,
-  $on: { 
-    $change: function( event ) {
-      console.error('\n\n\n\n\nblarf border', this.$val)
-      if(this._$parent && this.$parent) {
-        this.$parent.$node.style.border = this.$val
-      } 
-    }
-  }
-}).$Constructor
+// var Border = new Observable({ 
+//   $useVal:true,
+//   $on: { 
+//     $change: function( event ) {
+//       console.error('\n\n\n\n\nblarf border', this.$val)
+//       if(this._$parent && this.$parent) {
+//         this.$parent.$node.style.border = this.$val
+//       } 
+//     }
+//   }
+// }).$Constructor
 
-element.$flags = {
-  $border: function(val, event) {     
-    if(!this.$border) {
-      this.$setKeyInternal( '$border', new Border(), false)
-    }
-    //TODO: event moet hier
-    this.$border.$set(val)
-  } 
-}
+// element.$flags = {
+//   $border: function(val, event) {     
+//     if(!this.$border) {
+//       this.$setKeyInternal( '$border', new Border(), false)
+//     }
+//     //TODO: event moet hier
+//     this.$border.$set(val)
+//   } 
+// }
 
 //-------- example implementation----------
 
@@ -133,43 +146,50 @@ var app = new Element({
   $node: document.body
 })
 
-var aa = new Element()
+// var aa = new Element()
 
-aa.define({
-  $node: {
-    get:function() {
-     if(!this._$node)  {
-        this._$node = document.createElement( 'div' )
-        this._$node.$base = this
-        this._$node.style.border = '4px solid purple'
-        this._$node.style.background = 'pink'
-        this._$node.style.padding = '4px'
-        this._$node.style.borderRadius = '50%'
-      }
-      return this._$node
-    }
-  },
-  $ChildConstructor: aa.$Constructor
-})
+// aa.define({
+//   $node: {
+//     get:function() {
+//      if(!this._$node)  {
+//         this._$node = document.createElement( 'div' )
+//         this._$node.$base = this
+//         this._$node.style.border = '4px solid purple'
+//         this._$node.style.background = 'pink'
+//         this._$node.style.padding = '4px'
+//         this._$node.style.borderRadius = '50%'
+//       }
+//       return this._$node
+//     }
+//   },
+//   $ChildConstructor: aa.$Constructor
+// })
 
-// aa.$node.style.borderRadius = '50%'
-// aa.$node.style.padding = '10px'
+// // aa.$node.style.borderRadius = '50%'
+// // aa.$node.style.padding = '10px'
 
-var extraSpesh = new aa.$Constructor({
-  a: {
-    b: {
-      c: {
-        d:{}
-      }
-    }
-  }
-})
+// var extraSpesh = new aa.$Constructor({
+//   a: {
+//     b: {
+//       c: {
+//         d:{}
+//       }
+//     }
+//   }
+// })
 
 app.$set({
   yuzi: {
-    $border:'10px solid blue',
+    // $border:'100px solid blue',
     $on: {
       click:function() {
+        console.log(this.$path, this.$node)
+        console.log( this._$node === Object.getPrototypeOf(this)._$node )
+
+        console.log(this.$parent.$node)
+
+        // if()
+
         this.$node.style.opacity = Math.random()
       }
     },
@@ -178,20 +198,18 @@ app.$set({
       blaps:{
         bloeps: {
           blurf:{},
-            smuts: new extraSpesh.$Constructor()
+          // smuts: new extraSpesh.$Constructor()
         }
       }
     }
   },
   james: true,
-  xx: new extraSpesh.$Constructor(),
-  yy: new extraSpesh.$Constructor()
+  // xx: new extraSpesh.$Constructor(),
+  // yy: new extraSpesh.$Constructor()
 })
 
-
-console.log(app.xx.a.b.c.d.$node)
-
-console.log(app.xx.a.$node.$base._$parent.$node === app.xx.$node)
+// console.log(app.xx.a.b.c.d.$node)
+// console.log(app.xx.a.$node.$base._$parent.$node === app.xx.$node)
 
 app.$node.style.border = '1px solid black'
 
