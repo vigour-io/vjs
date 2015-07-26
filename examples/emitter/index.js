@@ -216,7 +216,7 @@ var YUZI = new Element({
       c: {
         d: {
           $on: {
-            mousemove:function( event ) {
+            click:function( event ) {
               // console.log(event.toString())
               this.$node.style.opacity = Math.random()
             }
@@ -236,8 +236,6 @@ app.$set({
 })
 
 console.log( YUZI )
-
-
 
 console.log( app.yus )
 
@@ -296,7 +294,9 @@ app.$node.style.border = '1px solid black'
 
 var perf = require('../../dev/perf')
 var holder 
-perf(function() {
+perf({
+  name:'50k divs',
+  method:function() {
   holder = new Element({})
   for(var i = 0 ; i < 10000; i++) {
     var obj = {}
@@ -306,4 +306,17 @@ perf(function() {
   app.$set({
     h: holder
   })
-})
+}})
+
+// perf({
+//   name:'50k divs',
+//   method:function() {
+//   holder = document.createElement('div')
+//   for(var i = 0 ; i < 50000; i++) {
+//     var top = document.createElement('div')
+//     top.innerHTML = 'xxx'
+//     holder.appendChild(top)
+//   }
+//   document.body.appendChild(holder)
+
+// }})
