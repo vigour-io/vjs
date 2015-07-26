@@ -64,6 +64,15 @@ describe('remove', function() {
       },
       prop11: {
         prop12: true
+      },
+      prop13: {
+        prop14: {
+          prop15: {
+            $on: {
+              $change: function() {}
+            }
+          }
+        }
       }
     }) 
 
@@ -131,6 +140,40 @@ describe('remove', function() {
 
     expect( a.prop11.prop12 )
       .msg('a.prop11.prop12').to.not.have.property('prop13')
+
+
+    b.prop13.prop14.prop15.remove()
+
+    expect( a.prop13.prop14.prop15 ).to.be.ok
+    expect( b.prop13.prop14.prop15 ).to.be.null
+
+  })
+
+  it('remove tests with a nested on on an instance', function() {
+
+    console.clear()
+
+    var Original = new Observable({
+      $on: {
+        $change:function( event ) {
+          
+        }
+      }
+    }).$Constructor
+
+    Original.prototype.define({
+      $ChildConstructor: Original
+    })
+
+    var bla2 = new Original({
+      a: {
+        b: {
+          c:{}
+        }
+      }
+    })
+
+    console.error(bla2)
 
   })
 
