@@ -156,7 +156,7 @@ describe('remove', function() {
     var Original = new Observable({
       $on: {
         $change:function( event ) {
-          
+
         }
       }
     }).$Constructor
@@ -165,13 +165,17 @@ describe('remove', function() {
       $ChildConstructor: Original
     })
 
-    var bla2 = new Original({
-      a: {
-        b: {
-          c:{}
+    try {
+      var bla2 = new Original({
+        a: {
+          b: {
+            c:{}
+          }
         }
-      }
-    })
+      })
+    } catch(e) {
+      console.error('?##$@', e.stack)
+    }
 
     console.error(bla2)
 
