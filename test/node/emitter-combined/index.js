@@ -1,11 +1,11 @@
 describe('emitter - combined', function() {
 
-  var Observable = require('../../lib/observable')
-  var util = require('../../lib/util')
+  var Observable = require('../../../lib/observable')
+  var util = require('../../../lib/util')
 
-  var On = require('../../lib/observable/onConstructor')
+  var On = require('../../../lib/observable/onConstructor')
 
-  var Emitter = require('../../lib/emitter')
+  var Emitter = require('../../../lib/emitter')
   
   var measure = {
     a:{}

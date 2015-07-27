@@ -1,7 +1,7 @@
 describe('$change emitter - instances - listener - removal', function() {
 
-  var Observable = require('../../lib/observable')
-  var util = require('../../lib/util')
+  var Observable = require('../../../lib/observable')
+  var util = require('../../../lib/util')
   var measure = {
     a:{},
     b:{},

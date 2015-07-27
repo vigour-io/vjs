@@ -1,6 +1,6 @@
 describe('$change emitter - instances - references', function() {
 
-  var Observable = require('../../lib/observable')
+  var Observable = require('../../../lib/observable')
   var measure = {
     a:{},
     b:{},

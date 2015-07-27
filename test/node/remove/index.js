@@ -1,13 +1,13 @@
 describe('remove', function() {
 
-  var Event = require('../../lib/event')
-  Event.prototype.inject( require('../../lib/event/toString' ) )
+  var Event = require('../../../lib/event')
+  Event.prototype.inject( require('../../../lib/event/toString' ) )
 
-  var Base = require('../../lib/base')
-  Base.prototype.inject( require('../../lib/methods/toString') )
+  var Base = require('../../../lib/base')
+  Base.prototype.inject( require('../../../lib/methods/toString') )
 
-  var Observable = require('../../lib/observable')
-  var util = require('../../lib/util')
+var Observable = require('../../../lib/observable')
+  var util = require('../../../lib/util')
   var setKeyInternal = Observable.prototype.$setKeyInternal
   var isRemoved = util.isRemoved
   var measure = { 
