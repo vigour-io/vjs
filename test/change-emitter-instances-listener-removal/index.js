@@ -90,7 +90,7 @@ describe('$change emitter - instances - listener - removal', function() {
     
     expect(b.$on.$change.$fn).to.be.an.instanceof( a.$on.$change.$fn.$Constructor )
 
-    a.removeListener( '$change', 'other' )
+    a.off( '$change', 'other' )
 
     expect( b.$on.$change.$fn.other ).to.be.ok
     expect( a.$on.$change.$fn.other ).to.be.null
@@ -99,7 +99,7 @@ describe('$change emitter - instances - listener - removal', function() {
       $key:'c'
     })
 
-    c.removeListener( '$change', 'special' )
+    c.off( '$change', 'special' )
 
     expect( b.$on.$change.$fn.special )
       .msg( 'b.$on.$change.$fn.special' ).to.be.ok
@@ -111,7 +111,7 @@ describe('$change emitter - instances - listener - removal', function() {
 
   it('findAndRemove removals of listeners', function() {
     //removes both passon and fn (all ocurrences)
-    b.removeListener( '$change', specialListener )
+    b.off( '$change', specialListener )
     expect( a.$on.$change.$fn.special ).to.be.ok
     expect( b.$on.$change.$fn.special ).to.be.null
     expect( a.$on.$change.$passon ).to.be.ok
@@ -128,13 +128,13 @@ describe('$change emitter - instances - listener - removal', function() {
     expect( util.isEmpty( a.$listensOnBase ) ).to.be.false
     expect( util.isEmpty( a.$listensOnPasson ) ).to.be.false
 
-    ref.removeListener( '$change', a )
+    ref.off( '$change', a )
     expect( ref.$on.$change.$base ).to.be.null
     expect( ref.$on.$change.$passon ).to.be.null
     expect( util.isEmpty( a.$listensOnBase ) ).to.be.true
     expect( util.isEmpty( a.$listensOnPasson ) ).to.be.true
 
-    a.removeListener( weirdListener )
+    a.off( weirdListener )
     expect( a.$on.$change.$fn.weird ).to.be.null
   })
 
@@ -164,7 +164,7 @@ describe('$change emitter - instances - listener - removal', function() {
       }
     })
 
-    a.removeListener({
+    a.off({
       $fn: normal,
       $base: aRandomObs
     })
@@ -174,7 +174,7 @@ describe('$change emitter - instances - listener - removal', function() {
     expect( a.$on.$change.$fn ).to.be.null
     expect( a.$on.$change.$base ).to.be.null
 
-    a.removeListener( '$change', {
+    a.off( '$change', {
       $passon: aRandomObs
     })
     

@@ -67,7 +67,7 @@ b.on('$change', function() {
 //off is nice
 
 //val
-b.removeListener('$change', 'shawn' )
+b.off('$change', 'shawn' )
 console.log( b.$on.$change )
 
 b.$val = false
