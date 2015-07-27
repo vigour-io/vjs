@@ -151,7 +151,7 @@ describe('remove', function() {
 
   it('remove tests with a nested on on an instance', function() {
 
-    console.clear()
+    //create nested removes on instances
 
     var Original = new Observable({
       $on: {
@@ -165,19 +165,13 @@ describe('remove', function() {
       $ChildConstructor: Original
     })
 
-    try {
-      var bla2 = new Original({
-        a: {
-          b: {
-            c:{}
-          }
+    var bla2 = new Original({
+      a: {
+        b: {
+          c:{}
         }
-      })
-    } catch(e) {
-      console.error('?##$@', e.stack)
-    }
-
-    console.error(bla2)
+      }
+    })
 
   })
 
