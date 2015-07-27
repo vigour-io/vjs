@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "test/test.js",
-    "doc": "jsdoc2md lib/**/*.js > vjs.wiki/Classes.md"
+    "doc": "node documentation.js"
   },
   "description": "A javascript framework created and used by Vigour",
   "bugs": {
@@ -35,6 +35,7 @@
   ],
   "license": "GPL",
   "devDependencies": {
+    "dmd": "^1.1.1",
     "jsdoc-to-markdown": "^1.1.1"
   },
   "gaston": {
