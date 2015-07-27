@@ -83,3 +83,38 @@ var results = objObservable.$val
 for(var i in results) {
   console.log(results[i].$origin)
 }
+
+// var perf = require('../../../dev/perf')
+// var util = require('../../../lib/util')
+
+// var map = Array.prototype.map
+
+// var slice = Array.prototype.slice
+
+
+// var convert = util.convertToArray
+
+// function keyit(key) {
+//     return key
+//   }
+
+// // var fn = function() {
+// //   var arr = map.call(arguments, keyit )
+// // }
+
+// var fn = function() {
+//   return slice.call(arguments)
+// }
+
+
+// var utilconvert = function() {
+//   return convert( arguments )
+// }
+
+// var arrs = []
+
+// perf(function() {
+//   for(var i = 0 ; i < 100000000; i++) {
+//     arrs = utilconvert( 1, 2, 3, 4, 5 )
+//   }
+// })
