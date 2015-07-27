@@ -1,7 +1,7 @@
 
 describe('$change emitter - no instances', function() {
 
-  var Observable = require('../../lib/observable')
+  var Observable = require('../../../lib/observable')
   var measure = {
     obs:{},
     obs2:{},
