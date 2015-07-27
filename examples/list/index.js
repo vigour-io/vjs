@@ -45,9 +45,27 @@ l.on('$property', function(event, delta){
 console.log('length', l.length)
 
 console.log('\n\n=============================== splice dat buy')
-l.$splice(2,4,'HANEW', 'jeejnewi')
-
+l.$splice(2,4,'HANEW', 'jeejnewi', 'ha1', 'ha12', 'ha2')
 console.log('?E?E?E listenin', l)
-
 console.log('', l.length, l)
 
+console.clear()
+
+l.each(function(value, key){
+  console.log('>', key, value.$origin.$val)
+})
+console.log('\n++++++++++ splice')
+
+l.$splice(1, 0, 'SPLICED')
+
+l.each(function(value, key){
+  console.log('>', key, value.$origin.$val)
+})
+
+console.log('\n++++++++++ sort')
+
+console.log(l.sort(true) )
+
+l.each(function(value, key){
+  console.log('>', key, value.$origin.$val)
+})

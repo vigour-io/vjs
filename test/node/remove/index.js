@@ -81,8 +81,6 @@ var Observable = require('../../../lib/observable')
 
   it( 'new a --> b, handle instances and nested fields ', function() {
    
-    console.clear()
-
     b = new a.$Constructor({
       $key:'b',
       prop4:null
@@ -187,7 +185,7 @@ var Observable = require('../../../lib/observable')
 
     //!!!this really has to be fixed!!!
     //maybe just make a remove listener
-    // expect( measure.a.val.removed ).msg('correct removed (meta) count').to.equal(2)
+    expect( measure.a.val.removed ).msg('correct removed (meta) count').to.equal(2)
 
   })
 

@@ -1,6 +1,6 @@
 {
-  "name": "ls",
-  "version": "1.0.5",
+  "name": "vjs",
+  "version": "0.1.1",
   "author": "Vigour.io <dev@vigour.io>",
   "repository": {
     "type": "git",
@@ -10,7 +10,8 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "test/test.js"
+    "test": "test/test.js",
+    "doc": "jsdoc2md lib/**/*.js > vjs.wiki/Classes.md"
   },
   "description": "A javascript framework created and used by Vigour",
   "bugs": {
@@ -34,7 +35,7 @@
   ],
   "license": "GPL",
   "devDependencies": {
-    
+    "jsdoc-to-markdown": "^1.1.1"
   },
   "gaston": {
     "port": 8080,
