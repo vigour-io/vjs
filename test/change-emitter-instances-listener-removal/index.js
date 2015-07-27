@@ -20,6 +20,7 @@ describe('$change emitter - instances - listener - removal', function() {
   function weirdListener() {}
 
   it( 'create new observable --> a, overwrite different types of keys', function() {    
+      
      aRef = new Observable({
       $key: 'aRef',
       $val: 'a value for aRef'

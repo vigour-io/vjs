@@ -36,7 +36,7 @@ function _test(method, name, complete, call, args, nolog, logger) {
     , time
     , end
     , sub 
-  if (!name) name = 'TEST PERFORMANCE'
+  if (!name) name = 'gaston performance test:'
   if (call) {
     sub = method.apply(call, args)
   } 
@@ -107,7 +107,7 @@ module.exports = exports = function (params, fn) {
     return _test(params)
   } 
   else if (params instanceof Object) {
-    if(!params.name) params.name = 'performance test'
+    if(!params.name) params.name = 'gaston performance test:'
 
     if (params.loop) {
 
