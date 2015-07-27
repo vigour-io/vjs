@@ -1,11 +1,16 @@
 var Observable = require('../../../lib/observable')
 
 Observable.prototype
-  .inject( require('../../../lib/operator/transform') )
+  .inject( 
+    require('../../../lib/operator/transform'),
+    require('../../../lib/operator/add')  
+  )
+
+// var Operator = require()
 
 var a = new Observable({
   $key:'a',
-  $val: 1
+  $val: 10
 })
 
 //$parseValue()
@@ -24,9 +29,10 @@ var b = new Observable({
 var c = new Observable({
   $key:'c',
   $val: b,
+  $transform: function( val ) {
+    return val.toUpperCase()
+  },
   d:true
 })
 
-// this._$val -- instanceof obs -- return obj.$val
-console.log( c.$val, c.$origin, c.d.$parent, c )
-
+console.log( c.$val )
