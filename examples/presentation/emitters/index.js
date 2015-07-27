@@ -1,26 +1,47 @@
 var Observable = require('../../../lib/observable')
-
 var Emitter = require('../../../lib/emitter')
 
-var Base = require('../../../lib/base')
+var Event = require('../../../lib/event')
 
-//$ChildConstructor
-var ARandomConstructor = new Base({
-  hello:true
-})
-var bla = new Observable({
+
+var emit = Emitter.prototype.$emit
+
+var blurfEmitter = new Emitter({
   $define: {
-    $ChildConstructor: ARandomConstructor.$Constructor
+    $emit: function( event, bind, context ) {
+      console.log('hey an emit in blurfEmitter', arguments)
+
+      // var metaObj = arguments
+
+      return emit.call(this, event, bind, context, arguments )
+    }
   }
 })
 
-// Object.defineProperty( bla, '$ChildConstructor', {
-//   value: ARandomConstructor.$Constructor,
-//   configurable: true
-// })
-// console.log( bla, Object.getPrototypeOf( bla ) === ARandomConstructor )
-var blaInstance = new bla.$Constructor({
-  specialField: true
+var a = new Observable({
+  $define: {
+    $val: {
+      set: function( val ) {
+        var event = new Event( this )
+        console.log('???')
+        this.$emit( '$blurfEmitter', event, val, 'x', 'y', 'z' )
+        this.$set( val )
+      }
+    }
+  },
+  $on: {
+    $flags: {
+      $blurfEmitter : blurfEmitter
+    }
+  }
 })
 
-console.log(blaInstance)
+var b = new a.$Constructor({
+  $on: {
+    $blurfEmitter: function() {
+      console.log( arguments )
+    }
+  }
+})
+
+b.$val = 'xxxx'
