@@ -21,7 +21,7 @@ describe('operator', function() {
     c: {}
   }
 
-  it( 'create new observable --> a and remove using method', function() {    
+  it( 'operators fire change on parents', function() {    
 
     measure.c = {
       val: {
