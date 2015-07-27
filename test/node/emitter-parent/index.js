@@ -1,14 +1,14 @@
 describe('emitter - parent', function() {
 
-  var Event = require('../../lib/event')
-  Event.prototype.inject( require('../../lib/event/toString' ))
+  var Event = require('../../../lib/event')
+  Event.prototype.inject( require('../../../lib/event/toString' ))
 
-  var Observable = require('../../lib/observable')
-  var util = require('../../lib/util')
+  var Observable = require('../../../lib/observable')
+  var util = require('../../../lib/util')
 
-  var On = require('../../lib/observable/onConstructor')
+  var On = require('../../../lib/observable/onConstructor')
 
-  var Emitter = require('../../lib/emitter')
+  var Emitter = require('../../../lib/emitter')
   
   var measure = {
     a:{},
