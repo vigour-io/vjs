@@ -3,36 +3,83 @@ var Observable = require('../../../lib/observable')
 Observable.prototype
   .inject( 
     require('../../../lib/operator/transform'),
-    require('../../../lib/operator/add')  
+    require('../../../lib/operator/add'), //rename to append
+    require('../../../lib/operator/prepend')    
   )
+
+var Operator = require('../../../lib/operator')
+
+Observable.prototype.$flags = {
+  $date: new Operator({
+    $key:'$date',
+    $operator:function( val, operator, origin ) {
+
+      console.log( operator._$val )
+
+      var parsed = operator.$parseValue( val, origin )
+      if( parsed > 0 ) {
+        return (new Date(parsed)).toString()
+      }
+      return parsed 
+    }
+  })
+}
 
 // var Operator = require()
 
 var a = new Observable({
   $key:'a',
-  $val: 10
+  $val: ' this is a '
 })
 
-//$parseValue()
-
-//returns this._$val
-console.log( a.$val )
-
 var b = new Observable({
-  $key: 'b',
-  $transform: function( val ) {
-    return val + ' ghello!'
-  },
-  $val: a
+  $key:'b',
+  $val: ' this is b '
+})
+
+var b2 = new Observable({
+  $key:'b2',
+  $val: ' STRING: '
 })
 
 var c = new Observable({
-  $key:'c',
-  $val: b,
-  $transform: function( val ) {
-    return val.toUpperCase()
+  $key: 'c',
+  $val: a,
+  $add: { 
+    $prepend: b2,
+    $val: b
   },
-  d:true
+  $on: {
+    $change: function() {
+      console.log( this.$val )
+    }
+  }
 })
 
-console.log( c.$val )
+a.$val = ' this a changed '
+b.$val = ' this is b changed '
+b2.$val = ' change it b2 : '
+
+var athingWithADate = new Observable({
+  $val: Date.now(),
+  $date: true //different formats?
+})
+
+console.log( athingWithADate.$val )
+
+var objObservable = new Observable({
+  a: true,
+  b: true,
+  c: true,
+  $prepend: {
+    d: a
+  }
+})
+
+console.log( objObservable.$val )
+
+var results = objObservable.$val
+
+for(var i in results) {
+  console.log(results[i].$origin)
+}
