@@ -130,5 +130,36 @@ describe('contexts and stuff...', function() {
 
 })
 
+console.clear()
+var Observable = require('../../../lib/observable')
 
 
+var fn = Observable.prototype
+  .$generateConstructor.apply(Observable.prototype, arguments)
+
+
+
+var a = new Observable({
+  $key:'a',
+  $define: {
+    $generateConstructor: function() {
+      function speshFunction() {
+        console.log('hello!')
+        fn.apply(this, arguments)
+      }
+      return speshFunction
+    }
+  },
+  $on: {
+    $new: function() {
+      console.log('new a!', this._$key)
+    }
+  }
+})
+
+
+
+
+var b = new a.$Constructor({
+  $key:'b'
+})
