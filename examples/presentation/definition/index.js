@@ -64,14 +64,28 @@ var aModule = function( base ) {
 }
 
 
+observable.inject(
+  require('../../../lib/methods/lookUp'),
+  require('../../../lib/methods/convert'),
+  require('../../../lib/methods/toString')
+)
+
 var b = new Observable({})
-b.inject( aModule )
+b.inject( 
+  aModule,
+  require('../../../lib/methods/get'),
+  // require('../../../lib/methods/find'),
+  require('../../../lib/methods/keys')
+)
 
 b.$set({
-  hello:true,
+  hello:true
+})
+
+b.$set({
   $on: {
     andrew:function( event ) {
-      console.log('fire andrew!', event)
+      // console.log('fire andrew!', event, this.keys(), this.lookUp('hello'))
     }
   }
 })
@@ -84,9 +98,21 @@ b.$val = {
   }
 }
 
+// console.log( b..lookUp('hello') )
+
+
+// b.aObservable.shawn
+console.log( 'shawn: ', b.get('a.b.c.d.e', {}), b.a.b.c.lookUp('hello') )
+
+// console.log( 'find shawn: ', b.find( 'shawn' ) )
+
+
 // b.andrew = 'xxx'
+
+console.error( b.convert() )
 
 console.log( b.aObservable )
 console.log( b.aObservable.shawn instanceof aObservable.$Constructor )
 
 
+console.error( b.toString() )
