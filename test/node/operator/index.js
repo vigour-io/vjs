@@ -21,7 +21,7 @@ describe('operator', function() {
     c: {}
   }
 
-  it( 'operators fire change on parents', function() {    
+  it( 'operators fire change on parents', function( done ) {    
 
     measure.c = {
       val: {
@@ -50,10 +50,32 @@ describe('operator', function() {
     })
 
     a.$val = 'x'
-
     b.$val = 'y'
 
     expect(measure.c.val.total).to.equal(2)
+
+    done()
+
+    // expect(
+    //   function() {
+    //     var arr = []
+    //     for(var i = 0 ; i < 10000000; i++) {
+    //       // arr.push(i)
+    //     }
+    //   }
+    // ).msg('number')
+    //   .performance( 100 )
+
+
+      //args example
+
+    // expect( function() {
+    //   for(var i = 10000000000 ; i > 0; i--) {
+    //   }
+    // }).msg('method compare').to.performance( function() {
+    //   for(var i = 10000000000 ; i > 0; i--) {
+    //   }
+    // }, done )
 
   })
 
