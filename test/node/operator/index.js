@@ -11,6 +11,17 @@ describe('operator', function() {
     require('../../../lib/operator/add')
   )
 
+  var Operator = require('../../../lib/operator')
+
+  Observable.prototype.$flags = {
+    $concat: new Operator({
+      $key:'$concat',
+      $operator:function( val ) { 
+        return val + " it works!"
+      }
+    })
+  }
+
   var util = require('../../../lib/util')
 
   var a
@@ -21,7 +32,7 @@ describe('operator', function() {
     c: {}
   }
 
-  it( 'operators fire change on parents', function( done ) {    
+  it( 'Operators fire change on parents', function( done ) {    
 
     measure.c = {
       val: {
@@ -78,6 +89,38 @@ describe('operator', function() {
     // }, done )
 
   })
+ 
+  it ( 'Working with a custom operator', function(done){
+    var a = new Observable({
+      $val: "Yes",
+      $concat: true
+    })
 
+    expect(a.$val).to.equal("Yes it works!")
+    done()
+
+  })
+
+  it ( 'Changing the parent should update the child', function(done){
+    var b = new Observable({
+      $val: "Yes",
+      $concat: true
+    })
+    b.$val = "Sure"
+
+    expect(b.$val).to.equal("Sure it works!")
+    done()
+
+  })
+
+  it ( 'Should not call the operator function if its not been used', function(done){
+    var c = new Observable({
+      $val: "Yes"
+    })
+
+    expect(c.$val).to.equal("Yes")
+    done()
+
+  }) 
 })
 
