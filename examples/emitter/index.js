@@ -196,10 +196,10 @@ element.define({
 // element.$flags = {
 //   $border: function(val, event) {     
 //     if(!this.$border) {
-//       this.$setKeyInternal( '$border', new Border(), false)
+//       this.setKeyInternal( '$border', new Border(), false)
 //     }
 //     //TODO: event moet hier
-//     this.$border.$set(val)
+//     this.$border.set(val)
 //   } 
 // }
 //-------- example implementation----------
@@ -229,7 +229,7 @@ var YUZI = new Element({
 
 console.log('???', YUZI.$node)
 
-app.$set({
+app.set({
   yus: new YUZI.$Constructor(),
   xyus: new YUZI.$Constructor(),
   xx:  new YUZI.$Constructor()
@@ -276,7 +276,7 @@ console.log( app.yus.a.b === YUZI.a.b )
 
 
   //new node moet zoeken of er al een parent node is en resolven
-  a.b.c.d.$set({x:true})
+  a.b.c.d.set({x:true})
   
   a is context (is real )
   //er word al van alles gedaan
@@ -286,7 +286,7 @@ console.log( app.yus.a.b === YUZI.a.b )
 
 console.clear()
 
-app.yus.a.b.c.$set({
+app.yus.a.b.c.set({
   flups: {}
 })
 
@@ -301,9 +301,9 @@ perf({
   for(var i = 0 ; i < 10000; i++) {
     var obj = {}
     obj[i] = new YUZI.$Constructor()
-    holder.$set(obj)
+    holder.set(obj)
   }
-  app.$set({
+  app.set({
     h: holder
   })
 }})

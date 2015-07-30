@@ -37,7 +37,7 @@ describe('$change emitter - no instances', function() {
     
     measure.obs.second = 0
 
-    obs.$set({
+    obs.set({
       $on: {
         $change: {
           second: function() {
@@ -52,7 +52,7 @@ describe('$change emitter - no instances', function() {
 
     measure.obs.third = 0
 
-    obs.$set({
+    obs.set({
       $on: {
         $change: {
           third: function() {
@@ -140,7 +140,7 @@ describe('$change emitter - no instances', function() {
 
   })
 
-  it('passon tests on obs3', function() {
+  it('attach tests on obs3', function() {
     
     measure.obs3.val = 0
 
@@ -162,22 +162,22 @@ describe('$change emitter - no instances', function() {
       }
     })
 
-    referencedObs.$val = 'lets test passon'
+    referencedObs.$val = 'lets test attach'
     expect( measure.obs3.val ).to.equal( 0 )
 
-    expect( referencedObs ).to.have.property( '$listensOnPasson' )
+    expect( referencedObs ).to.have.property( '$listensOnattach' )
 
     var keyCount = 0
-    referencedObs.$listensOnPasson.each(function( property, key ) {
+    referencedObs.$listensOnattach.each(function( property, key ) {
       keyCount++
     })
-    expect( keyCount ).msg('amount of listeners on listensOnPasson').to.equal( 1 )
-    expect( referencedObs.$listensOnPasson ).to.have.property( 1 )
+    expect( keyCount ).msg('amount of listeners on listensOnattach').to.equal( 1 )
+    expect( referencedObs.$listensOnattach ).to.have.property( 1 )
 
     obs3.$val = referencedObs
     expect( measure.obs3.val ).to.equal( 1 )
     
-    referencedObs.$val = 'lets test passon, now it should fire'
+    referencedObs.$val = 'lets test attach, now it should fire'
     expect( measure.obs3.val ).to.equal( 2 )
 
   })
@@ -202,12 +202,12 @@ describe('$change emitter - no instances', function() {
           cnt++
           event.$block = true
 
-          this.$set({
+          this.set({
             specialField:'xxxx',
             letsSee: true
           }, event )
 
-          this.$set({
+          this.set({
             specialField:'hello'
           }, event )
 
@@ -216,7 +216,7 @@ describe('$change emitter - no instances', function() {
       }
     })
 
-    obs4.$set({ hello: true })
+    obs4.set({ hello: true })
 
     expect( cnt ).msg('obs4 listener fired').to.equal(1)
     expect( cnt2 ).msg('specialField fired').to.equal(1)

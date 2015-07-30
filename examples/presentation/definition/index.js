@@ -15,7 +15,7 @@ var setObj = {
 }
 
 var a = new Observable(setObj)
-a.$set( setObj )
+a.set( setObj )
 a.$val = setObj
 
 var iNeedThisModule = {
@@ -28,9 +28,9 @@ var iNeedThisModule = {
 
 var aObservable =  new Observable({
   $define: {
-    $set: function() {
+    set: function() {
       console.log('hello!')
-      return Observable.prototype.$set.apply(this, arguments)
+      return Observable.prototype.set.apply(this, arguments)
     }
   }
 })
@@ -40,10 +40,10 @@ aObservable.define({
 })
 
 var aModule = function( base ) {
-  var setMethod = base.$set
+  var setMethod = base.set
   var setobj = {
     $define: {
-      $set: function(val) {
+      set: function(val) {
         console.log('hello! amodule', val)
         return setMethod.apply(this, arguments)
       },
@@ -60,7 +60,7 @@ var aModule = function( base ) {
     },
     $inject: [ iNeedThisModule ]
   }
-  base.$set(setobj)
+  base.set(setobj)
 }
 
 
@@ -78,11 +78,11 @@ b.inject(
   require('../../../lib/methods/keys')
 )
 
-b.$set({
+b.set({
   hello:true
 })
 
-b.$set({
+b.set({
   $on: {
     andrew:function( event ) {
       // console.log('fire andrew!', event, this.keys(), this.lookUp('hello'))

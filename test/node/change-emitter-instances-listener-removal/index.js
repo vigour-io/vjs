@@ -37,17 +37,17 @@ describe('$change emitter - instances - listener - removal', function() {
       $val: 1
      })
 
-     a.$set({
+     a.set({
       $on: {
         $change: {
           special: [ function() {
-            console.log('passon!')
+            console.log('attach!')
           }, aRef ]
         }
       }
      })
 
-     //same for passon and base
+     //same for attach and base
      expect( a.$on.$change.$fn.other ).msg('$fn.other').to.be.ok
      expect( a.$on.$change.$fn.special ).msg('$fn.special').to.be.null
 
@@ -69,7 +69,7 @@ describe('$change emitter - instances - listener - removal', function() {
         $change: {
           other: function() {},
           special: specialListener,
-          passon: [ specialListener ],
+          attach: [ specialListener ],
           weird: weirdListener
         }
       },
@@ -111,29 +111,29 @@ describe('$change emitter - instances - listener - removal', function() {
   })
 
   it('findAndRemove removals of listeners', function() {
-    //removes both passon and fn (all ocurrences)
+    //removes both attach and fn (all ocurrences)
     b.off( '$change', specialListener )
     expect( a.$on.$change.$fn.special ).to.be.ok
     expect( b.$on.$change.$fn.special ).to.be.null
-    expect( a.$on.$change.$passon ).to.be.ok
-    expect( b.$on.$change.$passon ).to.be.null
+    expect( a.$on.$change.$attach ).to.be.ok
+    expect( b.$on.$change.$attach ).to.be.null
 
-    ref.$set({
+    ref.set({
       $on: {
         $change: [ function(){} , a ]
       }
     })
 
     expect( ref.$on.$change.$base ).to.be.ok
-    expect( ref.$on.$change.$passon ).to.be.ok
+    expect( ref.$on.$change.$attach ).to.be.ok
     expect( util.isEmpty( a.$listensOnBase ) ).to.be.false
-    expect( util.isEmpty( a.$listensOnPasson ) ).to.be.false
+    expect( util.isEmpty( a.$listensOnattach ) ).to.be.false
 
     ref.off( '$change', a )
     expect( ref.$on.$change.$base ).to.be.null
-    expect( ref.$on.$change.$passon ).to.be.null
+    expect( ref.$on.$change.$attach ).to.be.null
     expect( util.isEmpty( a.$listensOnBase ) ).to.be.true
-    expect( util.isEmpty( a.$listensOnPasson ) ).to.be.true
+    expect( util.isEmpty( a.$listensOnattach ) ).to.be.true
 
     a.off( weirdListener )
     expect( a.$on.$change.$fn.weird ).to.be.null
@@ -142,7 +142,7 @@ describe('$change emitter - instances - listener - removal', function() {
   it('create new obserable a, findAndRemove removals of listeners with options objects', function() {
 
     function normal(){}
-    function passon(){}
+    function attach(){}
 
     var aRandomObs = new Observable({
       $key: 'aRandomObs'
@@ -153,14 +153,14 @@ describe('$change emitter - instances - listener - removal', function() {
       $on: {
         $change: {
           fn: normal,
-          passon: [ normal ],
+          attach: [ normal ],
           base: aRandomObs,
-          passon2: [ function(){} , aRandomObs ]
+          attach2: [ function(){} , aRandomObs ]
         },
         randomEmitter: {
           fn:normal,
           base: aRandomObs,
-          passon: [ normal ]
+          attach: [ normal ]
         }
       }
     })
@@ -176,12 +176,12 @@ describe('$change emitter - instances - listener - removal', function() {
     expect( a.$on.$change.$base ).to.be.null
 
     a.off( '$change', {
-      $passon: aRandomObs
+      $attach: aRandomObs
     })
     
-    expect( a.$on.$change.$passon.passon2 ).to.be.null
-    expect( a.$on.$change.$passon.passon ).to.be.ok
-    expect( a.$on.randomEmitter.$passon.passon ).to.be.ok
+    expect( a.$on.$change.$attach.attach2 ).to.be.null
+    expect( a.$on.$change.$attach.attach ).to.be.ok
+    expect( a.$on.randomEmitter.$attach.attach ).to.be.ok
 
   })
 

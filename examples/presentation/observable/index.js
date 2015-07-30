@@ -10,7 +10,7 @@ var a = window.aa = new Observable({
         console.log('a change!', this, event, delta )
 
         // event.$postponed = null
-        // this.$set( Math.random()*9999, event )
+        // this.set( Math.random()*9999, event )
       },
       b: function( event, delta ) {
         console.log('whats happening????', event)
@@ -43,7 +43,7 @@ var aFunction = function( event, meta, thisisB, anotherArg ) {
   console.error('hey !!!!!', thisisB, anotherArg )
 }
 
-a.$set({
+a.set({
   $on: {
     $change: {
       a: [ aFunction , 'xxx', 'weewwe' ],

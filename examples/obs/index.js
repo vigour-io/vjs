@@ -22,7 +22,7 @@ describe('super test for observebles', function() {
         $change: function( event ) {
           console.log( 'IM A LISTENER ON C', event.toString() )
         
-          b.$set({x:true}, event)
+          b.set({x:true}, event)
         }
       }
     })
@@ -37,7 +37,7 @@ describe('super test for observebles', function() {
       $on: {
         $change:function( event ) {
           console.log('fire listener on b!', this.$val, event.toString() )
-          c.$set({
+          c.set({
             $val:Math.random()*9999
           }, event)
         }

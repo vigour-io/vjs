@@ -25,7 +25,7 @@ var a = new Observable({
         var event = new Event( this )
         console.log('???')
         this.$emit( '$blurfEmitter', event, val, 'x', 'y', 'z' )
-        this.$set( val )
+        this.set( val )
       }
     }
   },

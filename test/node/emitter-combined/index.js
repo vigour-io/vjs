@@ -63,7 +63,7 @@ describe('emitter - combined', function() {
     expect( measure.a.$change.val.total ).to.equal( 2 )
     expect( measure.a.$property.val.total ).to.equal( 0 )
 
-    a.$set({
+    a.set({
       $val: aRef,
       prop1:true
     })
@@ -156,7 +156,7 @@ describe('emitter - combined', function() {
     var c = new b.$Constructor({ $key: 'c' })
     var holder = new Observable({ $key:'holder' })
 
-    holder.$set({
+    holder.set({
       x: new a.$Constructor({ $key:'x' }),
       y: new a.$Constructor({ $key:'y' })
     })
