@@ -8,7 +8,6 @@ describe( 'on test', function() {
     // this.timeout(5000)
     //require gaston for node fix it!
 
-
     var a = new Obs({
       $key:'a',
       $on: {
@@ -21,10 +20,26 @@ describe( 'on test', function() {
     var amount = 1000
     var arr = []
 
-    for(var i = 0; i < amount; i++) {
-      arr.push( new a.$Constructor() ) 
-    }
+    expect(function() {
+      for( var i = 0; i < amount; i++ ) {
+        arr.push( new a.$Constructor() )
+      }
+    }).performance( 30 )
 
+    arr = []
+
+    expect(function() {
+      for( var i = 0; i < amount; i++ ) {
+        arr.push( new a.$Constructor({
+          i: i
+        }) ) 
+      }
+    }).msg('setting i').performance( 300, done )
+
+
+    // expect(function() {
+     
+    // }).performance( 300 )
 
 
   })
