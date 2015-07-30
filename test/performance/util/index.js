@@ -5,13 +5,11 @@ describe( 'util test', function() {
   var util = require('../../../lib/util')
 
   it('convertToArray vs Array.prototype.slice', function( done ) {
-
     this.timeout(5000)
-
     var convertToArray = util.convertToArray
     var slice = Array.prototype.slice
     var amount = 1000000
-
+    
     expect( function() {
       function fn() {
         var arr = convertToArray(arguments)
