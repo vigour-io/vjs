@@ -1,5 +1,6 @@
 describe( 'instances set, and change listeners', function() {
 
+  console.clear()
   //this is buggy shit
   var Obs = require('../../../lib/observable')
   var util = require('../../../lib/util')
@@ -27,8 +28,7 @@ describe( 'instances set, and change listeners', function() {
   })
 
   //a.$val = somthing.media
-  var amount = 100e3
-
+  var amount = 10e3
   var instances = []
 
   var Obs2 = new Obs({
@@ -45,7 +45,7 @@ describe( 'instances set, and change listeners', function() {
       }
       console.log(arr[0])
       // expect(measure).to.equal(amount+1)
-    }).performance({ 
+    }).performance({
       method: function() {
         var arr = []
         for( var i = 0; i < amount; i++ ) {
@@ -57,61 +57,59 @@ describe( 'instances set, and change listeners', function() {
         }
       },
       margin: 1.1
+    }, done )
+  })
+
+  it( 'on multiple instances', function( done ) {
+    this.timeout(5000)
+    expect(function() {
+      var arr = instances
+      var event = new Event( a )
+      for( var i = 0; i < amount; i++ ) {
+        arr.push( new a.$Constructor( { i: i }, event ) )
+      }
+      a.$emit( '$change', event )
+      // expect(measure).to.equal(amount+1)
+    }).performance({
+      method: function() {
+        var arr = []
+        for( var i = 0; i < amount; i++ ) {
+          arr.push( new b.$Constructor({ i: i }) )
+        }
+      },
+      margin: 6
     }, done)
   })
 
-  // it( 'on multiple instances', function( done ) {
-  //   this.timeout(50000)
-  //   expect(function() {
-  //     var arr = instances
-  //     var event = new Event( a )
-  //     for( var i = 0; i < amount; i++ ) {
-  //       arr.push( new a.$Constructor( { i: i }, event ) )
-  //     }
-  //     a.$emit( '$change', event )
-  //     // expect(measure).to.equal(amount+1)
-  //   }).performance({ 
-  //     method: function() {
-  //       var arr = []
-  //       for( var i = 0; i < amount; i++ ) {
-  //         arr.push( new b.$Constructor({ i: i }) )
-  //       }
-  //     },
-  //     margin: 6
-  //   }, done)
-  // })
+  it( 'update a', function( done ) {
+    expect(function() {
+      a.$val = 'x'
+    }).performance({
+      margin: 30,
+      method: function() {
+        var cnt = 0
+        var fn = function(i) {
+          cnt++
+          return { i: cnt }
+        }
+        var arr = []
+        for( var i = 0; i < amount; i++ ) {
+          arr.push(fn(i))
+        }
+        console.log( arr.length )
+      }
+    }, function() {
+      expect(measure).to.equal( (amount+1)*2 )
+      done()
+    })
+  })
 
-  // it( 'update a', function( done ) {
-  //   expect(function() {
-  //     a.$val = 'x'
-  //   }).performance({ 
-  //     margin: 3,
-  //     method: function() {
-  //       var cnt = 0
-  //       var fn = function(i) {
-  //         cnt++
-  //         return { i: cnt }
-  //       }
-  //       var arr = []
-  //       for( var i = 0; i < amount; i++ ) {
-  //         arr.push(fn(i))
-  //       }
-  //       console.log( arr.length )
-  //     }
-  //   }, function() {
-  //     expect(measure).to.equal( (amount+1)*2 )
-  //     done()
-  //   })
-  // })
-
-  // it( 'update a instance[0]', function( done ) {
-  //   // expect(function() {
-  //   //   instances[0].$val = 'y'
-  //   // }).performance(10, done)
-
-  //   //this is the issue -- instances[0] should not update everything else!!!
-
-  //   // expect(measure).to.equal( (amount+1)*2+1 )
-  // })
+  it( 'update a instance[0]', function( done ) {
+    expect(function() {
+      instances[0].$val = 'y'
+    }).performance(10, done)
+    //this is the issue -- instances[0] should not update everything else!!!
+    // expect(measure).to.equal( (amount+1)*2+1 )
+  })
 
 })
