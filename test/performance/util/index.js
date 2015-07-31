@@ -1,5 +1,6 @@
 describe( 'util test', function() {
 
+  console.clear()
   //this is buggy shit
   var Base = require('../../../lib/base')
   var util = require('../../../lib/util')
@@ -9,7 +10,7 @@ describe( 'util test', function() {
     var convertToArray = util.convertToArray
     var slice = Array.prototype.slice
     var amount = 1000000
-    
+
     expect( function() {
       function fn() {
         var arr = convertToArray(arguments)
@@ -25,7 +26,6 @@ describe( 'util test', function() {
         fn2(1,2,3,4,5,6)
       }
     }, done )
-
   })
-
+  
 })
