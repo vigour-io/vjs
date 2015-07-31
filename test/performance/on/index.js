@@ -10,27 +10,25 @@ describe( 'set method', function() {
 
   it( 'nested fields - using set against baseline', function( done ) {
     this.timeout(50000)
-    var Obs2 = new Obs().$Constructor
-    var ObsWithI = new Obs({
-      i:false
-    }).$Constructor
 
     expect(function() {
       var arr = []
+      var Obs2 = new Obs().$Constructor
       for( var i = 0; i < amount; i++ ) {
         arr.push( new Obs2({ i: i }) )
       }
     }).performance({
       loop: 100,
-      margin: 2,
-      method: function baseLine() {
+      margin: 2.5,
+      method: function() {
+        var Obs2 = new Obs().$Constructor
         var arr = []
         for( var i = 0; i < amount; i++ ) {
           var obs = new Obs2()
           obs.i = new Obs2(i)
           obs.i._$key = 'i'
           obs.i._$parent = obs
-          arr.push(obs)
+          arr.push( obs )
         }
       }
     }, done )
@@ -43,13 +41,14 @@ describe( 'set method', function() {
       i:false
     }).$Constructor
 
-    expect( function setProtypeKey() {
+    expect( function() {
         var arr = []
         for( var i = 0; i < amount; i++ ) {
           arr.push( new ObsWithI({ i: i }) )
         }
       }).performance({
       loop: 100,
+      margin:2,
       method: function() {
         var arr = []
         for( var i = 0; i < amount; i++ ) {
@@ -67,28 +66,20 @@ describe( 'on change emitters', function() {
 
   var measure = 0
   var amount = 1e3
-
-  var a = new Obs({
-    $key:'a',
-    $on: {
-      $change:function() {
-        measure++
-        // console.log('xx', this.i.$val)
-      }
-    }
-  })
-
-  var b = new Obs({
-    $key:'b'
-  })
-
-  //a.$val = somthing.media
   var instances = []
 
   it( 'on multiple instances', function( done ) {
     var amount = 1e3
     this.timeout(5000)
     expect(function() {
+      var a = new Obs({
+        $key:'a',
+        $on: {
+          $change:function() {
+            measure++
+          }
+        }
+      })
       var arr = instances
       var event = new Event( a )
       for( var i = 0; i < amount; i++ ) {
@@ -97,13 +88,17 @@ describe( 'on change emitters', function() {
       a.$emit( '$change', event )
       // expect(measure).to.equal(amount+1)
     }).performance({
+      loop: 100,
+      margin:2,
       method: function() {
+        var b = new Obs({
+          $key:'b'
+        })
         var arr = []
         for( var i = 0; i < amount; i++ ) {
           arr.push( new b.$Constructor({ i: i }) )
         }
-      },
-      margin: 6
+      }
     }, done)
   })
 

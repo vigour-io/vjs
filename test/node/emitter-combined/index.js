@@ -6,21 +6,21 @@ describe('emitter - combined', function() {
   var On = require('../../../lib/observable/onConstructor')
 
   var Emitter = require('../../../lib/emitter')
-  
+
   var measure = {
     a:{}
   }
 
-  var a 
+  var a
   var b
   var aRef
   var bRef
 
-  it( 'create new observable --> a --> use references change a', function() {    
+  it( 'create new observable --> a --> use references change a', function() {
 
     measure.a.$reference = {
       val: { total: 0 }
-    }   
+    }
 
     measure.a.$change = {
       val: { total: 0 }
@@ -30,10 +30,15 @@ describe('emitter - combined', function() {
       val: { total: 0 }
     }
 
+    console.clear()
+
     aRef = new Observable({
       $key: 'aRef',
       $val: 'a value for aRef'
     })
+
+
+    console.log('???', aRef)
 
     a = new Observable({
       $key: 'a',
@@ -50,6 +55,11 @@ describe('emitter - combined', function() {
       },
       $val: aRef
     })
+
+    console.log('???2', a)
+
+
+
 
     expect( aRef.$on.$change.$base[1] ).to.equal( a )
 
@@ -75,10 +85,10 @@ describe('emitter - combined', function() {
 
   })
 
-  it( 'create new observable --> aO --> a --> b references - remove aRef', function() {    
+  it( 'create new observable --> aO --> a --> b references - remove aRef', function() {
     //are we absolutely sure about this??
     //it is not really a property (maybe just add an extra value listener if you want to know this)
-    
+
     bRef = new Observable({})
 
     var SpecialEmitter = new Emitter().$Constructor
@@ -128,7 +138,7 @@ describe('emitter - combined', function() {
     expect(a.aNest.$on.$change.$base[1]).to.be.null
 
   })
-  
+
   it( 'test $new emitter', function() {
 
     measure.a.$new = {
@@ -162,11 +172,11 @@ describe('emitter - combined', function() {
     })
 
     expect( measure.a.$new.val.total ).to.equal( 4 )
-    expect( measure.a.$new.val.b ).to.equal( 1 )    
-    expect( measure.a.$new.val.c ).to.equal( 1 )    
-    expect( measure.a.$new.val.x ).to.equal( 1 )    
-    expect( measure.a.$new.val.y ).to.equal( 1 ) 
+    expect( measure.a.$new.val.b ).to.equal( 1 )
+    expect( measure.a.$new.val.c ).to.equal( 1 )
+    expect( measure.a.$new.val.x ).to.equal( 1 )
+    expect( measure.a.$new.val.y ).to.equal( 1 )
 
   })
-  
+
 })
