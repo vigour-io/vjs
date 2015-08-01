@@ -1,4 +1,4 @@
-console.clear()
+console.clear()//do this in atom plugin
 
 var Obs = require('../../../lib/observable')
 var util = require('../../../lib/util')
@@ -6,7 +6,7 @@ var Event = require('../../../lib/event')
 
 describe( 'set method', function() {
 
-  var amount = 10e3
+  var amount = 100e3
 
   it( 'nested fields - using set against baseline', function( done ) {
     this.timeout(50000)
@@ -18,8 +18,8 @@ describe( 'set method', function() {
         arr.push( new Obs2({ i: i }) )
       }
     }).performance({
-      // loop: 1,
-      margin: 2.5,
+      // loop: 100,
+      margin: 4,
       method: function() {
         var Obs2 = new Obs().$Constructor
         var arr = []
@@ -48,7 +48,7 @@ describe( 'set method', function() {
         }
       }).performance({
       // loop: 1,
-      margin:2,
+      // margin:2,
       method: function() {
         var arr = []
         for( var i = 0; i < amount; i++ ) {
@@ -69,7 +69,7 @@ describe( 'on change emitters', function() {
   var instances = []
 
   it( 'on multiple instances', function( done ) {
-    var amount = 100e3
+    var amount = 10e3
     this.timeout(5000)
     expect(function() {
       var a = new Obs({
