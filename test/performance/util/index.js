@@ -18,7 +18,7 @@ describe( 'util test', function() {
       for(var i = 0; i < amount; i++ ) {
         fn(1,2,3,4,5,6)
       }
-    }).performance(function() {
+    }).performance( function() {
       function fn2() {
         var arr = slice.apply( arguments )
       }
@@ -27,5 +27,5 @@ describe( 'util test', function() {
       }
     }, done )
   })
-  
+
 })

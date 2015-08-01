@@ -8,7 +8,7 @@ describe('remove', function() {
 
 var Observable = require('../../../lib/observable')
   var util = require('../../../lib/util')
-  var setKeyInternal = Observable.prototype.setKeyInternal
+  var $setKeyInternal = Observable.prototype.$setKeyInternal
   var isRemoved = util.isRemoved
   var measure = { 
     a: {} 
@@ -43,9 +43,9 @@ var Observable = require('../../../lib/observable')
       $on:{}, //defines that we are interested in instances
       prop1:{
         $define:{
-          setKeyInternal:function() {
+          $setKeyInternal:function() {
             cntKeySets++
-            return setKeyInternal.apply(this, arguments)
+            return $setKeyInternal.apply(this, arguments)
           }
         }
       },

@@ -40,6 +40,8 @@ describe('emitter - combined', function() {
 
     console.log('???', aRef)
 
+
+    try {
     a = new Observable({
       $key: 'a',
       $on: {
@@ -55,6 +57,9 @@ describe('emitter - combined', function() {
       },
       $val: aRef
     })
+  } catch(e) {
+      console.error(e.stack)
+  }
 
     console.log('???2', a)
 

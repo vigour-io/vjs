@@ -196,7 +196,7 @@ element.define({
 // element.$flags = {
 //   $border: function(val, event) {     
 //     if(!this.$border) {
-//       this.setKeyInternal( '$border', new Border(), false)
+//       this.$setKeyInternal( '$border', new Border(), false)
 //     }
 //     //TODO: event moet hier
 //     this.$border.set(val)

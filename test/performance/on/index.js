@@ -18,7 +18,7 @@ describe( 'set method', function() {
         arr.push( new Obs2({ i: i }) )
       }
     }).performance({
-      loop: 100,
+      // loop: 1,
       margin: 2.5,
       method: function() {
         var Obs2 = new Obs().$Constructor
@@ -47,7 +47,7 @@ describe( 'set method', function() {
           arr.push( new ObsWithI({ i: i }) )
         }
       }).performance({
-      loop: 100,
+      // loop: 1,
       margin:2,
       method: function() {
         var arr = []
@@ -69,11 +69,11 @@ describe( 'on change emitters', function() {
   var instances = []
 
   it( 'on multiple instances', function( done ) {
-    var amount = 1e3
+    var amount = 100e3
     this.timeout(5000)
     expect(function() {
       var a = new Obs({
-        $key:'a',
+      $key:'a',
         $on: {
           $change:function() {
             measure++
@@ -88,7 +88,7 @@ describe( 'on change emitters', function() {
       a.$emit( '$change', event )
       // expect(measure).to.equal(amount+1)
     }).performance({
-      loop: 100,
+      // loop: 100,
       margin:2,
       method: function() {
         var b = new Obs({
