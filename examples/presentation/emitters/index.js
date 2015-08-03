@@ -3,14 +3,13 @@ var Emitter = require('../../../lib/emitter')
 
 var Event = require('../../../lib/event')
 
-
 var emit = Emitter.prototype.$emit
 
 var blurfEmitter = new Emitter({
   $define: {
     $emit: function( event, bind, context ) {
-      console.log('hey an emit in blurfEmitter', arguments)
 
+      // console.log('hey an emit in blurfEmitter', arguments)
       // var metaObj = arguments
 
       return emit.call(this, event, bind, context, arguments )
@@ -38,8 +37,10 @@ var a = new Observable({
 
 var b = new a.$Constructor({
   $on: {
-    $blurfEmitter: function() {
-      console.log( arguments )
+    $blurfEmitter: {
+      bbb: function() {
+        console.log( arguments )
+      }
     }
   }
 })

@@ -9,7 +9,7 @@ describe( 'set method', function() {
   var amount = 100e3
 
   it( 'nested fields - using set against baseline', function( done ) {
-    this.timeout(50000)
+    this.timeout(50e3)
 
     expect(function() {
       var arr = []
@@ -35,7 +35,7 @@ describe( 'set method', function() {
   })
 
   it( 'using set against using set, with key in prototype', function( done ) {
-    this.timeout(50000)
+    this.timeout(50e3)
     var Obs2 = new Obs().$Constructor
     var ObsWithI = new Obs({
       i:false
@@ -48,7 +48,7 @@ describe( 'set method', function() {
         }
       }).performance({
       // loop: 1,
-      // margin:2,
+      margin:1,
       method: function() {
         var arr = []
         for( var i = 0; i < amount; i++ ) {

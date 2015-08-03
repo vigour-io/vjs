@@ -9,7 +9,7 @@ describe( 'util test', function() {
     this.timeout(5000)
     var convertToArray = util.convertToArray
     var slice = Array.prototype.slice
-    var amount = 1000000
+    var amount = 1000e3
 
     expect( function() {
       function fn() {
