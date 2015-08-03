@@ -207,24 +207,24 @@ describe('$change emitter - instances', function() {
 
   })
 
-  it( 'add change passon listener "passon" on c', function() {
+  it( 'add change attach listener "attach" on c', function() {
 
-    measure.c.passon = { total: 0 }
+    measure.c.attach = { total: 0 }
 
-    var passonTest = new Observable({
-      $key:'passonTest'
+    var attachTest = new Observable({
+      $key:'attachTest'
     })
 
     c.$val = {
       $on: {
         $change:{
-          passon: [
+          attach: [
             function( event, meta, base, arg ) {
-              var keyCnt =  measure.c.passon[this._$key] 
-              measure.c.passon.total+=1
-              measure.c.passon[this._$key] = keyCnt ? (keyCnt+1) : 1 
+              var keyCnt =  measure.c.attach[this._$key] 
+              measure.c.attach.total+=1
+              measure.c.attach[this._$key] = keyCnt ? (keyCnt+1) : 1 
             },  
-            passonTest,
+            attachTest,
             'an argument!'
           ]
         }
@@ -239,7 +239,7 @@ describe('$change emitter - instances', function() {
     expect( measure.b.second.d ).msg('d context (b second)').to.equal( 3 )
     expect( measure.b.second.total ).to.equal( 9 )
 
-    expect( measure.c.passon.total ).to.equal( 0 )
+    expect( measure.c.attach.total ).to.equal( 0 )
 
   })
 
@@ -254,9 +254,9 @@ describe('$change emitter - instances', function() {
     expect( measure.b.second.d ).msg('d context (b second)').to.equal( 4 )
     expect( measure.b.second.total ).to.equal( 11 )
 
-    expect( measure.c.passon.c ).msg('c context (c passon)').to.equal( 1 )
-    expect( measure.c.passon.d ).msg('d context (c passon)').to.equal( 1 )
-    expect( measure.c.passon.total ).to.equal( 2 )
+    expect( measure.c.attach.c ).msg('c context (c attach)').to.equal( 1 )
+    expect( measure.c.attach.d ).msg('d context (c attach)').to.equal( 1 )
+    expect( measure.c.attach.total ).to.equal( 2 )
 
   })
 
@@ -278,7 +278,7 @@ describe('$change emitter - instances', function() {
       $key:'b2'
     })
 
-    a2.$set({
+    a2.set({
       $on: {
         $change:function( event, meta ) {
           var keyCnt =  measure.a.val[this._$key] 
@@ -309,7 +309,7 @@ describe('$change emitter - instances', function() {
       $key:'b2'
     })
 
-    a3.$set({
+    a3.set({
       $on: {
         $change:function( event, meta ) {
           var keyCnt =  measure.a.val[this._$key] 

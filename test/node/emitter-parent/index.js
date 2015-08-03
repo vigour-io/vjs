@@ -53,7 +53,7 @@ describe('emitter - parent', function() {
 
     holder = new Element({ $key: 'holder' })
 
-    holder.$set({
+    holder.set({
       a: new Element(),
       b: new Element(),
       c: new Element()

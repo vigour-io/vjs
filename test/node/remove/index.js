@@ -8,7 +8,7 @@ describe('remove', function() {
 
 var Observable = require('../../../lib/observable')
   var util = require('../../../lib/util')
-  var setKeyInternal = Observable.prototype.$setKeyInternal
+  var $setKeyInternal = Observable.prototype.$setKeyInternal
   var isRemoved = util.isRemoved
   var measure = { 
     a: {} 
@@ -45,7 +45,7 @@ var Observable = require('../../../lib/observable')
         $define:{
           $setKeyInternal:function() {
             cntKeySets++
-            return setKeyInternal.apply(this, arguments)
+            return $setKeyInternal.apply(this, arguments)
           }
         }
       },
@@ -64,10 +64,19 @@ var Observable = require('../../../lib/observable')
       },
       prop11: {
         prop12: true
+      },
+      prop13: {
+        prop14: {
+          prop15: {
+            $on: {
+              $change: function() {}
+            }
+          }
+        }
       }
     }) 
 
-    a.prop1.$set({
+    a.prop1.set({
       firstProperty:true,
       $val:null,
       notImportant:true,
@@ -105,8 +114,8 @@ var Observable = require('../../../lib/observable')
       .msg('check if b still exists after instances removal of "prop3"')
       .to.be.false
 
-    a.$set({ prop4: null })
-    a.$set({ prop4: true })
+    a.set({ prop4: null })
+    a.set({ prop4: true })
    
     expect( a.prop4 ).msg('prop4 in a (reset)').to.be.ok
     expect( b.prop4 ).msg('prop4 in b (reset)').to.be.null
@@ -121,8 +130,8 @@ var Observable = require('../../../lib/observable')
     expect( b.prop7.prop8.prop9)
       .msg('a.prop7.prop8.prop9').to.be.null
 
-    //this test has to go to '.$set' test
-    b.prop11.prop12.$set({
+    //this test has to go to '.set' test
+    b.prop11.prop12.set({
       prop13:true
     })
 
@@ -131,6 +140,38 @@ var Observable = require('../../../lib/observable')
 
     expect( a.prop11.prop12 )
       .msg('a.prop11.prop12').to.not.have.property('prop13')
+
+
+    b.prop13.prop14.prop15.remove()
+
+    expect( a.prop13.prop14.prop15 ).to.be.ok
+    expect( b.prop13.prop14.prop15 ).to.be.null
+
+  })
+
+  it('remove tests with a nested on on an instance', function() {
+
+    //create nested removes on instances
+
+    var Original = new Observable({
+      $on: {
+        $change:function( event ) {
+
+        }
+      }
+    }).$Constructor
+
+    Original.prototype.define({
+      $ChildConstructor: Original
+    })
+
+    var bla2 = new Original({
+      a: {
+        b: {
+          c:{}
+        }
+      }
+    })
 
   })
 
@@ -147,7 +188,7 @@ var Observable = require('../../../lib/observable')
     //think about unifiying this system since it maye be super important for hub 
     //(context)
 
-    a.$set({
+    a.set({
       $on: {
         $change:{
           $val: function( event, meta ) {
@@ -233,7 +274,7 @@ var Observable = require('../../../lib/observable')
 
   })
 
-  it( 'create new observable --> a --> b, add passon - change listener, remove listener, test listens and removal', function() {
+  it( 'create new observable --> a --> b, add attach - change listener, remove listener, test listens and removal', function() {
     var reffed = new Observable({
       $key:'reffed'
     })
@@ -252,7 +293,7 @@ var Observable = require('../../../lib/observable')
     b = new a.$Constructor({ $key:'b' })
     
     var cnt = 0
-    a.$listensOnPasson.each(function() {
+    a.$listensOnattach.each(function() {
       cnt++
     })
 
@@ -261,7 +302,7 @@ var Observable = require('../../../lib/observable')
     reffed.remove()
 
     cnt = 0
-    a.$listensOnPasson.each(function( property ) {
+    a.$listensOnattach.each(function( property ) {
       cnt++
     })
 
@@ -269,14 +310,14 @@ var Observable = require('../../../lib/observable')
       .msg('listensOn in a (after remove)').to.equal(1)
 
     cnt = 0
-    reffed2.$on.$change.$passon.each(function() {
+    reffed2.$on.$change.$attach.each(function() {
       cnt++
     })
     expect( cnt )
       .msg('base listeners on reffed 2 (listens on reffed)').to.equal(1)
 
     a.remove()
-    expect(reffed2.$on.$change.$passon).to.be.null
+    expect(reffed2.$on.$change.$attach).to.be.null
 
   })
 
@@ -302,7 +343,7 @@ var Observable = require('../../../lib/observable')
     //no event since it on base (emitters are base...)
     b.$on.$change.remove()
 
-    a.$set({
+    a.set({
       prop1:true
     })
 
