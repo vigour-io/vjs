@@ -24,7 +24,7 @@ var mysmutch = new Observable({
   hurk:true
 })
 
-// mysmutch.$set({
+// mysmutch.set({
 //   $on: {
 //     $property: function(event, meta) {
 //       log('FIRE PROP', JSON.stringify(meta))
@@ -32,7 +32,7 @@ var mysmutch = new Observable({
 //   }
 // })
 
-mysmutch.$set({
+mysmutch.set({
   $on: {
     $change: function(event, meta) {
       log('FIRE change', JSON.stringify(meta))
@@ -58,7 +58,7 @@ mysmutch.$set({
 
 // log('--- now log change and property ------')
 
-// obs.$set({
+// obs.set({
 //   x:true
 // })
 

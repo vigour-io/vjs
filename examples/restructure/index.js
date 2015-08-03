@@ -86,7 +86,7 @@ var obs = new Observable({
   }
 })
 
-obs.$set({
+obs.set({
   x:true
 })
 
@@ -104,7 +104,7 @@ var bla = new obs.$Constructor({
 
 log('------')
 
-bla.$set({
+bla.set({
   nee:true
 })
 
@@ -148,7 +148,7 @@ log(blurf.$val)
 console.log(blurf.toString())
 // log('---crash it (set a method)---')
 
-// blurf.$set({
+// blurf.set({
 //   marcus:100
 // })
 
