@@ -88,7 +88,7 @@ describe('operator', function() {
       $add: b
     })
 
-    expect(measure.c.val.total).to.equal(1)
+    expect(measure.c.val.total).to.equal(2)
 
     done()
   })
