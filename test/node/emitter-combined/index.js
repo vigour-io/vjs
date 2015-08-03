@@ -204,7 +204,7 @@ describe('emitter - combined', function() {
             total++
           },
           1: function() {
-
+            total++
           }
         }
       }
@@ -215,7 +215,7 @@ describe('emitter - combined', function() {
     })
 
     obs.$val = 2
-    expect( total ).to.equal( 1 )
+    expect( total ).to.equal( 2 )
 
   })
 
