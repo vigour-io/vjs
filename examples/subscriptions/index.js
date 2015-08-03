@@ -2,7 +2,7 @@ var define = Object.defineProperty
 
 var Observable = require('../../lib/observable')
 
-var MetaEmitter = require('../../lib/observable/subscriptions/subsemitter')
+var MetaEmitter = require('../../lib/observable/subscriptions/emitter')
 
 var subsEmitter = new MetaEmitter({
   hopla: function(event, meta) {

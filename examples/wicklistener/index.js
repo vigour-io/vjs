@@ -12,7 +12,7 @@ purk.key1.on('$change', function(){
 
 console.log('---> knal die boi')
 // purk.key1.$val = 'shine'
-purk.$set({
+purk.set({
   key1: 'no shine'
 })
 console.log('<--- die boi is geknalt')
