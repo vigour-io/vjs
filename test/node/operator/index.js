@@ -147,7 +147,6 @@ describe('operator', function() {
   })
 
   it ( 'custom operator', function(){
-
     Observable.prototype.$flags = {
       $concat: new Operator({
         $key:'$concat',
