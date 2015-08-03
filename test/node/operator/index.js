@@ -15,15 +15,6 @@ describe('operator', function() {
 
   var Operator = require('../../../lib/operator')
 
-  Observable.prototype.$flags = {
-    $concat: new Operator({
-      $key:'$concat',
-      $operator:function( val ) {
-        return val + " it works!"
-      }
-    })
-  }
-
   var util = require('../../../lib/util')
 
   var a
@@ -115,6 +106,7 @@ describe('operator', function() {
     })
 
     expect( ftotal ).msg('ftotal').to.equal( 1 )
+
   })
 
   it( 'check if on fires when using custom flags', function() {
@@ -140,10 +132,31 @@ describe('operator', function() {
         $add: 20
       }
     })
+
     expect( ftotal ).msg('ftotal').to.equal( 1 )
+
+    var g = new d.$Constructor({
+      $f: {
+        $val:20,
+        $add:10
+      }
+    })
+
+    expect( ftotal ).msg('ftotal').to.equal( 2 )
+
   })
 
   it ( 'custom operator', function(){
+
+    Observable.prototype.$flags = {
+      $concat: new Operator({
+        $key:'$concat',
+        $operator:function( val ) {
+          return val + " it works!"
+        }
+      })
+    }
+
     var a = new Observable({
       $val: "Yes",
       $concat: true
@@ -160,4 +173,10 @@ describe('operator', function() {
     expect(b.$val).to.equal("Sure it works!")
   })
 
+  it ( 'do not call operator function if its not been used', function(){
+    var c = new Observable({
+      $val: "Yes"
+    })
+    expect(c.$val).to.equal("Yes")
+  })
 })
