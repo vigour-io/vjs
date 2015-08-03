@@ -2,15 +2,11 @@ describe('emitter - combined', function() {
 
   var Observable = require('../../../lib/observable')
   var util = require('../../../lib/util')
-
   var On = require('../../../lib/observable/onConstructor')
-
   var Emitter = require('../../../lib/emitter')
-
   var measure = {
     a:{}
   }
-
   var a
   var b
   var aRef
@@ -18,30 +14,23 @@ describe('emitter - combined', function() {
 
   it( 'create new observable --> a --> use references change a', function() {
 
-    measure.a.$reference = {
-      val: { total: 0 }
+    measure.a = {
+      $reference: {
+        val: { total: 0 }
+      },
+      $change: {
+        val: { total: 0 }
+      },
+      $property: {
+        val: { total: 0 }
+      }
     }
-
-    measure.a.$change = {
-      val: { total: 0 }
-    }
-
-    measure.a.$property = {
-      val: { total: 0 }
-    }
-
-    console.clear()
 
     aRef = new Observable({
       $key: 'aRef',
       $val: 'a value for aRef'
     })
 
-
-    console.log('???', aRef)
-
-
-    try {
     a = new Observable({
       $key: 'a',
       $on: {
@@ -57,14 +46,6 @@ describe('emitter - combined', function() {
       },
       $val: aRef
     })
-  } catch(e) {
-      console.error(e.stack)
-  }
-
-    console.log('???2', a)
-
-
-
 
     expect( aRef.$on.$change.$base[1] ).to.equal( a )
 
@@ -94,7 +75,7 @@ describe('emitter - combined', function() {
     //are we absolutely sure about this??
     //it is not really a property (maybe just add an extra value listener if you want to know this)
 
-    bRef = new Observable({})
+    bRef = new Observable()
 
     var SpecialEmitter = new Emitter().$Constructor
 
@@ -181,6 +162,41 @@ describe('emitter - combined', function() {
     expect( measure.a.$new.val.c ).to.equal( 1 )
     expect( measure.a.$new.val.x ).to.equal( 1 )
     expect( measure.a.$new.val.y ).to.equal( 1 )
+
+  })
+
+  it( 'test custom emitter base type listener', function() {
+    var total = 0
+    var total2 = 0
+    var listener = new Observable({
+      $key:'listener',
+      $on: {
+        someKindOfEvent: function() {
+          total2++
+        }
+      }
+    })
+    var obs = new Observable({
+      $key:'obs',
+      $on: {
+        someKindOfEvent: {
+          a: function() {
+            total++
+          },
+          b: listener
+        }
+      }
+    })
+
+    obs.$emit('someKindOfEvent')
+    expect( total ).to.equal( 1 )
+    expect( total2 ).to.equal( 1 )
+
+  })
+
+  it( 'guard emitter base type listener for noExec emitters as property', function() {
+
+
 
   })
 
