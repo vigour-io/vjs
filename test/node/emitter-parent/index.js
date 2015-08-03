@@ -6,7 +6,7 @@ describe('emitter - parent', function() {
   var Observable = require('../../../lib/observable')
   var util = require('../../../lib/util')
 
-  var On = require('../../../lib/observable/onConstructor')
+  var On = require('../../../lib/observable/on/class')
 
   var Emitter = require('../../../lib/emitter')
   
