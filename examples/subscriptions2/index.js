@@ -2,40 +2,58 @@ var define = Object.defineProperty
 
 var Observable = require('../../lib/observable')
 
-console.log('\n\n-------------- create those things!')
+var SubsEmitter = require('../../lib/observable/subscriptions/subsemitter')
 
-var subsPassonBase = new Observable()
-subsPassonBase._$key = 'subsPassonBase'
 
-var subsBase = new Observable()
-subsBase._$key = 'subsBase'
-subsBase.on(function(){
-  console.error('subsBase change fired!')
+var ding1 = new Observable({
+  key1: 'val1',
+  $on: {}
 })
+ding1._$key = 'ding1'
 
-var obs = new Observable({
-  key1: 'value1',
-  $subscriptions: {
-    flapflap: {
-      fafafa: function(event, meta){
-        console.error('SUBSCRIPTION! fafafa handler function!')
-      },
-      bla: [
-        function(event, meta, passon){
-          console.error('SUBSCRIPTION! bla passon', passon.$path)
-        },
-        subsPassonBase
-      ],
-      kurkn: subsBase,
-      $pattern: {
-        $: true
-      }
-    }
+var subsEmitter = new SubsEmitter({
+  hopla: function(event, meta) {
+    console.group()
+    console.error('SUBSEMITTER HANDLER FIRED!', meta)
+    console.log('this:', this, '\n')
+    console.log('meta:', meta, '\n')
+    console.groupEnd()
+  },
+  $pattern: {
+    key1: true,
+    key2: true
+  }
+}, false, ding1.$on)
+
+ding1.$set({
+  $on: {
+    durps: subsEmitter
   }
 })
 
-console.log('\n\n-------------- go fire dat boy')
+console.log('\n\n-------------- change key1!')
 
-obs.$set({
-  ha: true
+ding1.$set({
+  key1: 'chainge',
+  key2: 'chainge2'
 })
+
+console.log('\n\n-------------- change key2!')
+
+// ding1.key1.$val = 'lurk'
+
+ding1.$set({
+  key1: 'lurk',
+  key2: 'lark',
+  // wex: true
+})
+
+
+
+// ding1.key1.$val = false
+
+// console.log('\n\n-------------- go fire dat boy')
+
+// ding1.$set({
+//   ha: true
+// })

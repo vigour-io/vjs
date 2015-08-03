@@ -2,19 +2,19 @@ var define = Object.defineProperty
 
 var Observable = require('../../lib/observable')
 
-var MetaEmitter = require('../../lib/observable/on/metaemitter')
+var MetaEmitter = require('../../lib/observable/subscriptions/subsemitter')
 
 var subsEmitter = new MetaEmitter({
   hopla: function(event, meta) {
     console.error('SUBSEMITTER HANDLER FIRED!', meta)
   },
   $pattern: {
-
+    key1: true
   }
 })
 
-
 var ding1 = new Observable({
+  key1: 'val1',
   $on: {
     durps: subsEmitter,
     $change: function(event) {
@@ -36,7 +36,6 @@ var ding1 = new Observable({
   }
 })
 ding1._$key = 'ding1'
-
 
 console.log('\n\n-------------- go fire dat boy')
 
