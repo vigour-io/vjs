@@ -35,7 +35,6 @@ describe('operator', function() {
   }
 
   it( 'Operators fire change on parents', function() {
-
     measure.c = {
       val: {
         total: 0
@@ -67,7 +66,6 @@ describe('operator', function() {
   })
 
   it( 'first set on operator, fires change on parent', function() {
-
     measure.c = {
       val: {
         total: 0
@@ -104,6 +102,7 @@ describe('operator', function() {
         $on: {
           $change: function() {
             ftotal++
+            expect( this.$val ).to.equal( 3 )
           }
         }
     }).$Constructor
@@ -116,10 +115,35 @@ describe('operator', function() {
     })
 
     expect( ftotal ).msg('ftotal').to.equal( 1 )
-
   })
 
-  it ( 'Working with a custom operator', function(){
+  it( 'check if on fires when using custom flags', function() {
+    var ftotal = 0
+    var F = new Observable({
+        $on: {
+          $change: function() {
+            ftotal++
+            expect( this.$val ).to.equal( 30 )
+          }
+        }
+    }).$Constructor
+
+    var e = new Observable({
+      $flags: {
+        $f: F
+      }
+    })
+
+    var d = new e.$Constructor({
+      $f: {
+        $val: 10,
+        $add: 20
+      }
+    })
+    expect( ftotal ).msg('ftotal').to.equal( 1 )
+  })
+
+  it ( 'custom operator', function(){
     var a = new Observable({
       $val: "Yes",
       $concat: true
@@ -127,7 +151,7 @@ describe('operator', function() {
     expect(a.$val).to.equal("Yes it works!")
   })
 
-  it ( 'Changing the parent should update the child', function(){
+  it ( 'parent should update the child', function(){
     var b = new Observable({
       $val: "Yes",
       $concat: true
@@ -136,10 +160,4 @@ describe('operator', function() {
     expect(b.$val).to.equal("Sure it works!")
   })
 
-  it ( 'Should not call the operator function if its not been used', function(){
-    var c = new Observable({
-      $val: "Yes"
-    })
-    expect(c.$val).to.equal("Yes")
-  })
 })
