@@ -194,9 +194,28 @@ describe('emitter - combined', function() {
 
   })
 
-  it( 'guard emitter base type listener for noExec emitters as property', function() {
+  it( 'using numbers as keys, id counter for addListener global', function() {
+    var total = 0
+    var obs = new Observable({
+      $key:'obs',
+      $on: {
+        $change: {
+          0: function() {
+            total++
+          },
+          1: function() {
+            total++
+          }
+        }
+      }
+    })
 
+    obs.on(function() {
+      //now dont overwrite 1!
+    })
 
+    obs.$val = 2
+    expect( total ).to.equal( 2 )
 
   })
 
