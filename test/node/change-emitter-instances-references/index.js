@@ -124,7 +124,7 @@ describe('$change emitter - instances - references', function() {
   })
 
   it( 'create new aRef --> bRef', function() {
-    
+
     console.log(measure.a.val.a)
 
     bRef = new aRef.$Constructor({

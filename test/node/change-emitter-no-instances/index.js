@@ -1,5 +1,8 @@
 
-describe('$change emitter - no instances', function() {
+describe( '$change emitter - no instances', function() {
+
+  var Event = require( '../../../lib/event' )
+  Event.prototype.inject( require( '../../../lib/event/toString' ) )
 
   var Observable = require('../../../lib/observable')
   var measure = {
@@ -17,7 +20,7 @@ describe('$change emitter - no instances', function() {
   var referencedObs2
 
   it('create new observable (obs), add $change listener', function() {
-    
+
     measure.obs.val = 0
 
     obs = new Observable({
@@ -34,7 +37,7 @@ describe('$change emitter - no instances', function() {
   })
 
   it('add extra $change listeners on obs ', function() {
-    
+
     measure.obs.second = 0
 
     obs.set({
@@ -83,7 +86,7 @@ describe('$change emitter - no instances', function() {
   })
 
   it('references tests on obs2', function() {
-    
+
     measure.obs2.val = 0
 
     referencedObs = new Observable({
@@ -118,7 +121,7 @@ describe('$change emitter - no instances', function() {
     })
 
     expect( keyCount ).msg('amount of listeners on listensOnBase').to.equal( 1 )
-    
+
     expect( obs2.$listensOnBase ).to.have.property( 1 )
 
     referencedObs.$val = 'changed a string'
@@ -141,14 +144,14 @@ describe('$change emitter - no instances', function() {
   })
 
   it('attach tests on obs3', function() {
-    
+
     measure.obs3.val = 0
 
     obs3 = new Observable({
       $key: 'obs3',
       $on: {
         $change: {
-          val: [ 
+          val: [
             function( event, meta, base, extraArg1, extraArg2 ) {
               measure.obs3.val++
               expect( extraArg1 ).to.equal( 'extra1' )
@@ -176,7 +179,7 @@ describe('$change emitter - no instances', function() {
 
     obs3.$val = referencedObs
     expect( measure.obs3.val ).to.equal( 1 )
-    
+
     referencedObs.$val = 'lets test attach, now it should fire'
     expect( measure.obs3.val ).to.equal( 2 )
 
@@ -221,6 +224,34 @@ describe('$change emitter - no instances', function() {
     expect( cnt ).msg('obs4 listener fired').to.equal(1)
     expect( cnt2 ).msg('specialField fired').to.equal(1)
 
+  })
+
+  it( 'change nested fields , fire correct emitters', function() {
+    console.clear()
+    var measure = {
+      a: 0,
+      x: 0
+    }
+    var a = new Observable({
+      $key:'a',
+      $on: {
+        $change: function() {
+          measure.a++
+        }
+      },
+      x: {
+        $on: {
+          $change: function( event, meta ) {
+            measure.x++
+          }
+        }
+      }
+    })
+    a.set({
+      x: true
+    })
+    expect( measure.a ).to.equal(0)
+    expect( measure.x ).to.equal(1)
   })
 
 })

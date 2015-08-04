@@ -56,6 +56,7 @@ describe( 'on change emitters', function() {
     for(var i = 0 ; i < amount; i++) {
       instances.push( new A() )
     }
+
     expect(function() {
       instances[0].$val = 'y'
     }).performance({
