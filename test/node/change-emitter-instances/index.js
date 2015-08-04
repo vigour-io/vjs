@@ -24,6 +24,7 @@ describe('$change emitter - instances', function() {
       $key:'a',
       $on: {
         $change: function( event, meta ) {
+          console.log('fire', this.$path)
           var keyCnt =  measure.a.val[this._$key]
           measure.a.val.total+=1
           measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1
@@ -37,13 +38,20 @@ describe('$change emitter - instances', function() {
   })
 
   it( 'create new a --> b', function() {
+    console.clear()
+
+    console.log('hey new')
     b = new a.$Constructor({
-      $key:'b'
+      $key:'b',
+      // $val:true
     })
+
     expect( a._$instances.length )
-      .msg('a.$on._instances has correct length').to.equal(1)
+      .msg('a._$instances has correct length').to.equal(1)
     expect( a._$instances[0] )
-      .msg('b is a.$on._instances.total').to.equal(b)
+      .msg('b is a._$instances.total').to.equal(b)
+
+    console.error(measure.a.val.b, measure.a)
 
     expect( measure.a.val.b ).to.equal( 1 )
     expect( measure.a.val.total ).to.equal( 2 )

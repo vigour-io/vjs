@@ -207,7 +207,7 @@ describe('base', function() {
       expect(setSpy).to.have.returned(undefined);
     });
 
-    xit('Should return base for $set when there are changes', function() {
+    it('Should return undefined for $set when there are only deep changes', function() {
       var setSpy = sinon.spy(c, 'set');
 
       c.set({
@@ -216,7 +216,7 @@ describe('base', function() {
         }
       });
 
-      expect(setSpy).to.have.returned(c);
+      expect(setSpy).to.have.returned(void 0);
     });
 
     it('Should return base for $set property when there are changes', function() {
