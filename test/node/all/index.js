@@ -1,3 +1,4 @@
+require('../base')
 require('../emitter-combined')
 require('../change-emitter-instances')
 require('../change-emitter-instances-references')
