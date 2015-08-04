@@ -1,9 +1,15 @@
+var s = {
+  title: 'margin: 5px; color:blue; font-size: 16pt'
+}
+
+// ==============================
+
 var define = Object.defineProperty
 
 var Observable = require('../../lib/observable')
-
 var SubsEmitter = require('../../lib/observable/subscribe/emitter')
 
+// ==============================
 
 var ding1 = new Observable({
   key1: 'val1',
@@ -30,22 +36,22 @@ ding1.set({
   }
 })
 
-console.log('\n\n-------------- change key1!')
+console.log('%c-------------- change 1!', s.title)
 
 ding1.set({
   key1: 'chainge',
   key2: 'chainge2'
 })
 
-console.log('\n\n-------------- change key2!')
+console.log('%c-------------- change 2!', s.title)
 
-// ding1.key1.$val = 'lurk'
+ding1.key2.$val = 'lufe'
 
-ding1.set({
-  // key1: 'lurk',
-  key2: 'lark',
-  // wex: true
-})
+// ding1.set({
+//   // key1: 'lurk',
+//   key2: 'lark',
+//   // wex: true
+// })
 
 
 
