@@ -1,4 +1,5 @@
 describe('emitter - combined', function() {
+  console.clear()
 
   var Observable = require('../../../lib/observable')
   var util = require('../../../lib/util')
@@ -35,7 +36,8 @@ describe('emitter - combined', function() {
       $key: 'a',
       $on: {
         $change:function( event, meta ) {
-           measure.a.$change.val.total++
+          console.log('hey---')
+          measure.a.$change.val.total++
         },
         $reference: function( event, meta ) {
           measure.a.$reference.val.total++
@@ -51,6 +53,7 @@ describe('emitter - combined', function() {
 
     a.$val = 10
     expect( aRef.$on.$change.$base ).to.be.null
+
     expect( measure.a.$reference.val.total ).to.equal( 1 )
     expect( measure.a.$change.val.total ).to.equal( 1 )
 
@@ -70,7 +73,7 @@ describe('emitter - combined', function() {
     expect( aRef.$on.$change.$base[2] ).to.equal( a )
 
   })
-
+  //
   it( 'create new observable --> aO --> a --> b references - remove aRef', function() {
     //are we absolutely sure about this??
     //it is not really a property (maybe just add an extra value listener if you want to know this)
