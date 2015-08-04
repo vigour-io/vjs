@@ -18,21 +18,19 @@ describe('$change emitter - instances', function() {
   var a3
   var b3
 
-  it( 'create new observable --> a, add change listener "val"', function() {    
+  it( 'create new observable --> a, add change listener "val"', function() {
     measure.a.val = { total: 0 }
-
     a = new Observable({
       $key:'a',
       $on: {
         $change: function( event, meta ) {
-          var keyCnt =  measure.a.val[this._$key] 
+          var keyCnt =  measure.a.val[this._$key]
           measure.a.val.total+=1
-          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1
         }
       }
     })
     expect( measure.a.val.total ).to.equal( 0 )
-
     a.$val = 'a value'
     expect( measure.a.val.a ).to.equal( 1 )
     expect( measure.a.val.total ).to.equal( 1 )
@@ -41,10 +39,10 @@ describe('$change emitter - instances', function() {
   it( 'create new a --> b', function() {
     b = new a.$Constructor({
       $key:'b'
-    })  
-    expect( a.$on._instances.length )
+    })
+    expect( a._$instances.length )
       .msg('a.$on._instances has correct length').to.equal(1)
-    expect( a.$on._instances[0] )
+    expect( a._$instances[0] )
       .msg('b is a.$on._instances.total').to.equal(b)
 
     expect( measure.a.val.b ).to.equal( 1 )
@@ -61,7 +59,7 @@ describe('$change emitter - instances', function() {
   it( 'create new b --> c', function() {
     c = new b.$Constructor({
       $key:'c'
-    }) 
+    })
     expect( measure.a.val.a ).msg('a context').to.equal( 2 )
     expect( measure.a.val.b ).msg('b context').to.equal( 2 )
     expect( measure.a.val.c ).msg('c context').to.equal( 1 )
@@ -79,7 +77,7 @@ describe('$change emitter - instances', function() {
   it( 'change b, add property "prop1"', function() {
     b.$val = {
       prop1:true
-    } 
+    }
     //no update on a (since its out of the context of a)
     expect( measure.a.val.a ).msg('a context').to.equal( 3 )
     expect( measure.a.val.b ).msg('b context').to.equal( 4 )
@@ -93,13 +91,13 @@ describe('$change emitter - instances', function() {
       $on: {
         $change: {
           second: function() {
-            var keyCnt =  measure.b.second[this._$key] 
+            var keyCnt =  measure.b.second[this._$key]
             measure.b.second.total+=1
-            measure.b.second[this._$key] = keyCnt ? (keyCnt+1) : 1 
+            measure.b.second[this._$key] = keyCnt ? (keyCnt+1) : 1
           }
         }
       }
-    } 
+    }
 
     //no update on a (since its out of the context of a)
     expect( measure.a.val.a ).msg('a context').to.equal( 3 )
@@ -129,7 +127,7 @@ describe('$change emitter - instances', function() {
   it( 'change b, add property "prop2"', function() {
     b.$val = {
       prop2:true
-    } 
+    }
     //no update on a (since its out of the context of a)
     expect( measure.a.val.a ).msg('a context').to.equal( 4 )
     expect( measure.a.val.b ).msg('b context').to.equal( 7 )
@@ -163,9 +161,9 @@ describe('$change emitter - instances', function() {
     c.$val = {
       $on: {
         $change:function( event, meta ) {
-          var keyCnt =  measure.c.val[this._$key] 
+          var keyCnt =  measure.c.val[this._$key]
           measure.c.val.total+=1
-          measure.c.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+          measure.c.val[this._$key] = keyCnt ? (keyCnt+1) : 1
         }
       }
     }
@@ -195,7 +193,7 @@ describe('$change emitter - instances', function() {
     expect( measure.a.val.b ).msg('b context').to.equal( 7 )
     expect( measure.a.val.c ).msg('c context').to.equal( 6 )
     expect( measure.a.val.d ).msg('d context').to.equal( 1 )
-    expect( measure.a.val.total ).to.equal( 18 )  
+    expect( measure.a.val.total ).to.equal( 18 )
 
     expect( measure.c.val.c ).msg('c context (c val)').to.equal( 1 )
     expect( measure.c.val.d ).msg('d context (c val)').to.equal( 1 )
@@ -220,10 +218,10 @@ describe('$change emitter - instances', function() {
         $change:{
           attach: [
             function( event, meta, base, arg ) {
-              var keyCnt =  measure.c.attach[this._$key] 
+              var keyCnt =  measure.c.attach[this._$key]
               measure.c.attach.total+=1
-              measure.c.attach[this._$key] = keyCnt ? (keyCnt+1) : 1 
-            },  
+              measure.c.attach[this._$key] = keyCnt ? (keyCnt+1) : 1
+            },
             attachTest,
             'an argument!'
           ]
@@ -281,9 +279,9 @@ describe('$change emitter - instances', function() {
     a2.set({
       $on: {
         $change:function( event, meta ) {
-          var keyCnt =  measure.a.val[this._$key] 
+          var keyCnt =  measure.a.val[this._$key]
           measure.a.val.total+=1
-          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1
         }
       }
     })
@@ -301,7 +299,7 @@ describe('$change emitter - instances', function() {
     a3 = new Observable({
       $key:'a2',
       //this defines that we are interested in instances and may update on later
-      $on:{} 
+      $on:{}
       //note this is pretty slow now (optmize later since element will have this construction)
     })
 
@@ -312,16 +310,16 @@ describe('$change emitter - instances', function() {
     a3.set({
       $on: {
         $change:function( event, meta ) {
-          var keyCnt =  measure.a.val[this._$key] 
+          var keyCnt =  measure.a.val[this._$key]
           measure.a.val.total+=1
-          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1
         }
       }
     })
 
-    expect( a3.$on._instances.length )
+    expect( a3._$instances.length )
       .msg('a3.$on._instances has correct length').to.equal(1)
-    expect( a3.$on._instances[0] )
+    expect( a3._$instances[0] )
       .msg('b3 is a3.$on._instances.total').to.equal(b3)
   })
 
