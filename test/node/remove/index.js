@@ -2,11 +2,9 @@ describe('remove', function() {
 
   var Event = require('../../../lib/event')
   Event.prototype.inject( require('../../../lib/event/toString' ) )
-
   var Base = require('../../../lib/base')
   Base.prototype.inject( require('../../../lib/methods/toString') )
-
-var Observable = require('../../../lib/observable')
+  var Observable = require('../../../lib/observable')
   var util = require('../../../lib/util')
   var $setKeyInternal = Observable.prototype.$setKeyInternal
   var isRemoved = util.isRemoved
@@ -373,7 +371,6 @@ var Observable = require('../../../lib/observable')
   })
 
   it( 'remove an instance expect listener to fire', function() {
-      console.clear()
       var cnt = 0
       var a = new Observable({
         $key:'a',

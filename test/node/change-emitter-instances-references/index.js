@@ -127,6 +127,8 @@ describe('$change emitter - instances - references', function() {
     
     console.log(measure.a.val.a)
 
+    console.log(measure.a.val.a)
+
     bRef = new aRef.$Constructor({
       $key:'bRef'
     })
