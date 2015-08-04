@@ -4,7 +4,7 @@ var Emitter = require('../../lib/emitter')
 
 var Observable = require('../../lib/observable')
 
-var On = require('../../lib/observable/onConstructor')
+var On = require('../../lib/observable/on/class')
 
 var DOMEVENTS = {}
 

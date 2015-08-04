@@ -2,21 +2,19 @@ describe('remove', function() {
 
   var Event = require('../../../lib/event')
   Event.prototype.inject( require('../../../lib/event/toString' ) )
-
   var Base = require('../../../lib/base')
   Base.prototype.inject( require('../../../lib/methods/toString') )
-
-var Observable = require('../../../lib/observable')
+  var Observable = require('../../../lib/observable')
   var util = require('../../../lib/util')
   var $setKeyInternal = Observable.prototype.$setKeyInternal
   var isRemoved = util.isRemoved
-  var measure = { 
-    a: {} 
+  var measure = {
+    a: {}
   }
   var a
   var b
 
-  it( 'create new observable --> a and remove using method', function() {    
+  it( 'create new observable --> a and remove using method', function() {
     a = new Observable({
       $key:'a',
       $val:1
@@ -26,17 +24,17 @@ var Observable = require('../../../lib/observable')
     expect( isRemoved(a) ).to.be.ok
   })
 
-  it( 'create new observable --> a and remove using a set with null', function() {    
+  it( 'create new observable --> a and remove using a set with null', function() {
     a = new Observable({
       $key:'a',
       $val:1
-    }) 
-    a.$val = null  
+    })
+    a.$val = null
     expect(a._$val).to.be.null;
     expect( isRemoved(a) ).to.be.ok
   })
 
-  it( 'create new observable --> a and remove field "prop1"', function() {    
+  it( 'create new observable --> a and remove field "prop1"', function() {
     var cntKeySets = 0
     a = new Observable({
       $key:'a',
@@ -74,7 +72,7 @@ var Observable = require('../../../lib/observable')
           }
         }
       }
-    }) 
+    })
 
     a.prop1.set({
       firstProperty:true,
@@ -89,7 +87,7 @@ var Observable = require('../../../lib/observable')
   })
 
   it( 'new a --> b, handle instances and nested fields ', function() {
-   
+
     b = new a.$Constructor({
       $key:'b',
       prop4:null
@@ -97,7 +95,7 @@ var Observable = require('../../../lib/observable')
 
     expect( a.prop4 ).msg('prop4 in a').to.be.ok
     expect( b.prop4 ).msg('prop4 in b').to.be.null
-    
+
     b.prop2.remove()
     expect(a).to.have.property( 'prop2' )
     expect(a.prop2).msg('a.prop2').to.be.ok
@@ -116,7 +114,7 @@ var Observable = require('../../../lib/observable')
 
     a.set({ prop4: null })
     a.set({ prop4: true })
-   
+
     expect( a.prop4 ).msg('prop4 in a (reset)').to.be.ok
     expect( b.prop4 ).msg('prop4 in b (reset)').to.be.null
 
@@ -175,7 +173,7 @@ var Observable = require('../../../lib/observable')
 
   })
 
-  it( 'add change listener to a and remove a', function() {   
+  it( 'add change listener to a and remove a', function() {
 
     measure.a.val = {
       total: 0,
@@ -185,16 +183,16 @@ var Observable = require('../../../lib/observable')
     //since we defined before that we want $on:{} (we are inteserted in instances)
     //it will handle instances accordingly
 
-    //think about unifiying this system since it maye be super important for hub 
+    //think about unifiying this system since it maye be super important for hub
     //(context)
 
     a.set({
       $on: {
         $change:{
           $val: function( event, meta ) {
-            var keyCnt =  measure.a.val[this._$key] 
+            var keyCnt =  measure.a.val[this._$key]
             //second time is null should be b else things become very unclear
-            measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+            measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1
             measure.a.val.total++
             if( meta === true ) {
               measure.a.val.removed++
@@ -202,7 +200,7 @@ var Observable = require('../../../lib/observable')
           }
         }
       }
-    }) 
+    })
 
     var changeEmitter = a.$on.$change
     var fn = changeEmitter.$fn
@@ -210,6 +208,7 @@ var Observable = require('../../../lib/observable')
     expect(fn).to.have.property( 'val' )
 
     a.$val = null
+    //remove all instances as well
 
     expect(isRemoved(changeEmitter))
       .msg('check if changeEmitter is removed').to.be.true
@@ -243,14 +242,14 @@ var Observable = require('../../../lib/observable')
     a = new Observable({
       $key:'a',
       $val: reffed
-    }) 
+    })
 
     reffed2.on( '$change', a )
 
-    b = new a.$Constructor({ 
-      $key:'b' 
+    b = new a.$Constructor({
+      $key:'b'
     })
-    
+
     var cnt = 0
     a.$listensOnBase.each(function() {
       cnt++
@@ -259,7 +258,7 @@ var Observable = require('../../../lib/observable')
     expect( cnt ).msg('listensOn in a').to.equal(2)
 
     reffed.remove()
-   
+
     cnt = 0
     a.$listensOnBase.each(function() {
       cnt++
@@ -285,13 +284,13 @@ var Observable = require('../../../lib/observable')
 
     a = new Observable({
       $key:'a'
-    }) 
+    })
 
     reffed.on( '$change', [ function(){}, a ])
     reffed2.on( '$change', [ function(){}, a ])
 
     b = new a.$Constructor({ $key:'b' })
-    
+
     var cnt = 0
     a.$listensOnattach.each(function() {
       cnt++
@@ -325,7 +324,7 @@ var Observable = require('../../../lib/observable')
     measure.a.val = {
       total: 0
     }
-    
+
     a = new Observable({
       $key:'a',
       $on: {
@@ -334,9 +333,9 @@ var Observable = require('../../../lib/observable')
           // console.log('lets change from a context:', this.$path)
         }
       }
-    }) 
+    })
 
-    b = new a.$Constructor({ 
+    b = new a.$Constructor({
       $key:'b'
     })
 
@@ -352,8 +351,8 @@ var Observable = require('../../../lib/observable')
   })
 
   it( 'remove $on from b', function() {
-    b.$on.remove()    
-    
+    b.$on.remove()
+
     expect( a.$on ).to.be.ok
     expect( b.$on ).to.be.null
 
@@ -371,5 +370,46 @@ var Observable = require('../../../lib/observable')
     expect( measure.a.val.total ).to.equal(2)
   })
 
-})
+  it( 'remove an instance expect listener to fire', function() {
+      var cnt = 0
+      var a = new Observable({
+        $key:'a',
+        $on: {
+          $change:function( event, meta ) {
+            cnt++
+          }
+        }
+      })
+      a.remove()
+      expect(cnt).to.equal(1)
+  })
 
+  it( 'create instances, remove count instances array', function() {
+    var cnt = 0
+    var a = new Observable({
+      $key:'a',
+      $on: {
+        $change: function( event, meta ) {
+          cnt++
+        }
+      }
+    })
+    var instances = []
+    var derivedInstances = []
+    for(var i = 0; i < 10; i++ ) {
+      instances[i] = new a.$Constructor({ $key:'instanceofA'+i })
+      derivedInstances[i] = new instances[i].$Constructor({ $key:'derived'+i })
+    }
+    expect( cnt ).to.equal( 20 )
+    a.remove()
+    expect( isRemoved(a)).msg('a is removed').to.be.true
+    for(var i = 0; i < instances.length; i++ ) {
+      expect( isRemoved( instances[i] ) ).msg('instance '+ i).to.be.true
+    }
+    for(var i = 0; i < derivedInstances.length; i++ ) {
+      expect( isRemoved( derivedInstances[i] ) ).msg('instance '+ i).to.be.true
+    }
+    expect( cnt ).to.equal( 41 )
+  })
+
+})
