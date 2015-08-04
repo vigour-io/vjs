@@ -9,7 +9,7 @@ var ding1 = new Observable({
   key1: 'val1',
   $on: {}
 })
-ding1._$key = 'ding1'
+ding1._$key = 'rootding'
 
 var subsEmitter = new SubsEmitter({
   hopla: function(event, meta) {
@@ -20,8 +20,7 @@ var subsEmitter = new SubsEmitter({
     console.groupEnd()
   },
   $pattern: {
-    key1: true,
-    key2: true
+    any$: true
   }
 }, false, ding1.$on)
 
@@ -43,7 +42,7 @@ console.log('\n\n-------------- change key2!')
 // ding1.key1.$val = 'lurk'
 
 ding1.set({
-  key1: 'lurk',
+  // key1: 'lurk',
   key2: 'lark',
   // wex: true
 })
