@@ -5,14 +5,14 @@ describe('subsemitter-emitloop', function() {
 	var SubsEmitter
 	var Observable
 
-	it.should('require', function(){
-		Event = require( '../lib/event' )
-		Emitter = require( '../lib/emitter' )
-		SubsEmitter = require( '../lib/observable/subscribe/emitter' )
-		Observable = require( '../lib/observable' )
+	it('requires', function(){
+		Event = require( '../../../../lib/event' )
+		Emitter = require( '../../../../lib/emitter' )
+		SubsEmitter = require( '../../../../lib/observable/subscribe/emitter' )
+		Observable = require( '../../../../lib/observable' )
 	})
 
-	it.skip('emits on SubsEmitter are meta-postponed ', function() {
+	it('emits on SubsEmitter are meta-postponed ', function() {
 
 		var obs = new Observable()
 
@@ -44,7 +44,7 @@ describe('subsemitter-emitloop', function() {
 		var e = new Event()
 
 		emitterB.$emit(e, obs)
-		
+
 
 
 
