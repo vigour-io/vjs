@@ -19,6 +19,7 @@ describe( 'on change emitters', function() {
           }
         }
       }).$Constructor
+
       var arr = []
       for( var i = 0; i < amount; i++ ) {
         arr.push( new A({ i: i } ) )
@@ -42,6 +43,7 @@ describe( 'on change emitters', function() {
     this.timeout(5000)
     var amount = 1e5
     var measure = 0
+
     var instances = []
     var a = new Obs({
     $key:'a',
