@@ -412,4 +412,48 @@ describe('remove', function() {
     expect( cnt ).to.equal( 41 )
   })
 
+  it( 'remove a nested field fire listener', function() {
+    var change = 0
+    var propertyChange = 0
+    var a = new Observable({
+      $key:'a',
+      $on: {
+        $change:function() {
+          change++
+        },
+        $property: function() {
+          propertyChange++
+        }
+      },
+      b: true
+    })
+    a.b.remove()
+    expect( change ).to.equal(1)
+    expect( propertyChange ).to.equal(1)
+    expect( a.b ).to.be.null
+  })
+
+  it( 'instances - remove a nested field fire listener', function() {
+    var change = 0
+    var propertyChange = 0
+    var a = new Observable({
+      $key:'a',
+      $on: {
+        $change:function() {
+          change++
+        },
+        $property: function() {
+          propertyChange++
+        }
+      },
+      b: true
+    })
+    var aInstance = new a.$Constructor()
+    aInstance.b.remove()
+    expect( change ).to.equal(1)
+    expect( propertyChange ).to.equal(1)
+    expect( aInstance.b ).to.be.null
+    expect( a.b ).to.be.ok
+  })
+
 })
