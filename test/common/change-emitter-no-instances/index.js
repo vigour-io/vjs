@@ -1,3 +1,4 @@
+
 describe( '$change emitter - no instances', function() {
 
   var Event = require( '../../../lib/event' )

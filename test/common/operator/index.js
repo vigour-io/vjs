@@ -1,5 +1,7 @@
 describe('operator', function() {
 
+  console.clear()
+
   var Event = require('../../../lib/event')
   Event.prototype.inject( require('../../../lib/event/toString' ) )
 

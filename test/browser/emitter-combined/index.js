@@ -1,4 +1,5 @@
 describe('emitter - combined', function() {
+  console.clear()
 
   var Observable = require('../../../lib/observable')
   var util = require('../../../lib/util')
