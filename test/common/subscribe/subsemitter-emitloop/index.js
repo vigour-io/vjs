@@ -14,37 +14,51 @@ describe('subsemitter-emitloop', function() {
 
 	it('emits on SubsEmitter are meta-postponed ', function() {
 
-		var obs = new Observable()
+		var timeline = []
+
+		var obsA = new Observable()
+		obsA._$key = 'obsA'
+		var obsB = new Observable()
+		obsB._$key = 'obsB'
 
 		var subsemitter = new SubsEmitter({
-			listener: function( ) {
-				console.log('subscription handler fired!')
+			handler1: function(event) {
+				console.error('xxxxxxxxxxxxxx obsB property handler', event.$stamp)
+				timeline.push('B-subscribe')
 			}
+		}, void 0, obsB, 'subsemitter')
+
+
+		obsA.on('$change', function(event) {
+			console.error('------------ obsA change handler', event.$stamp)
+			timeline.push('A-change')
+			subsemitter.$emit(event, obsB)
 		})
 
-		var emitterA = new Emitter({
-			$change: {
-				$val: function(event) {
-					console.log('emitterA is fired')
-				}
-			}
+		obsB.on('$change', function(event) {
+			console.error('------------ obsB change handler', event.$stamp)
+			timeline.push('B-change')
+			subsemitter.$emit(event, obsB)
+			obsA.set( 'chainge!' )
 		})
 
-		var emitterB = new Emitter({
-			$change: {
-				$val: function(event) {
-					console.log('emitterB is fired')
-					subsemitter.$emit(event, obs)
-					emitterA.$emit(event, obs)
-					console.log('check out dat event!', event.$postponed)
-				}
-			}
+		obsB.on('$property', function(event) {
+			console.error('------------ obsB property handler', event.$stamp)
+			timeline.push('B-property')
+			subsemitter.$emit(event, obsB)
 		})
 
-		var e = new Event()
+		obsB.set({
+			newkey: 'val'
+		})
 
-		emitterB.$emit(e, obs)
+		console.log('>>>>', timeline)
+		// logs:
+		// ["B-change", "A-change", "B-property", "B-subscribe", "B-subscribe"]
 
+		expect(timeline).to.deep.equal(
+			[ 'B-change', 'A-change', 'B-property', 'B-subscribe', 'B-subscribe' ]
+		)
 
 
 
