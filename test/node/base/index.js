@@ -136,15 +136,116 @@ describe('base', function() {
     it('Resolve context set should be triggered', function() {
       var zResolveContextSetSpy = sinon.spy(b.x.y.z, "$resolveContextSet");
 
-      expect(zResolveContextSetSpy).to.not.have.been.called;
       b.x.y.z.$val = 'rahh!';
-      expect(zResolveContextSetSpy).to.have.been.calledWith('rahh!', undefined);
+
+      expect(zResolveContextSetSpy).to.have.been.called;
+      expect(zResolveContextSetSpy).to.have.returned(b.x.y.z);
     });
 
     it('After resolve context it _$context and _$contextLevel should be cleared', function () {
       b.x.y.z.$val = 'rahh!';
       expect(b.x.y.z._$context).to.be.null;
       expect(b.x.y.z._$contextLevel).to.be.null;
+    });
+
+    it('When set same value (no changes), it should return undefined and do not resolve the context', function () {
+      var spy = sinon.spy(a.x.y.z, 'set');
+      b.x.y.z.$val = true;
+      expect(spy).to.have.returned(undefined);
+
+      expect(b.x.y.z).not.to.be.instanceOf(a.x.y.z.$Constructor);
+      expect(b.x._$parent === a).to.be.true;
+    });
+
+    it('When set different value should return base after context has been resolved', function () {
+      var spy = sinon.spy(a.x.y.z, 'set');
+      b.x.y.z.$val = 123;
+
+      expect(spy).to.have.returned(b.x.y.z);
+      expect(b.x.y.z).to.be.instanceOf(a.x.y.z.$Constructor);
+      expect(b.x._$parent !== a).to.be.true;
+    });
+
+  });
+
+  describe('Changing stuff', function () {
+    var c, setSpy, setValueSpy, setKeySpy, setKeyInternalSpy;
+
+    beforeEach(function() {
+      c = new Base({
+        $val: 'rahh',
+        x: {
+          x1: 1,
+          x2: 2,
+          x3: {
+            y: 123
+          }
+        }
+      });
+
+      setValueSpy = sinon.spy(c, '$setValue');
+    });
+
+    it('Should return undefined when there are no/same changes for $value', function () {
+      c.$val = 'rahh';
+      expect(setValueSpy).to.have.returned(undefined);
+    });
+
+    it('Should return base when there are changes for $value', function() {
+      c.$val = 'rehh';
+      expect(setValueSpy).not.to.have.returned(undefined);
+    });
+
+    it('Should return undefined for $set when there are no/same changes', function() {
+      var setSpy = sinon.spy(c, 'set');
+      c.set({
+        x: {
+          x1: 1
+        }
+      });
+
+      expect(setSpy).to.have.returned(undefined);
+    });
+
+    it('Should return undefined for $set when there are only deep changes', function() {
+      var setSpy = sinon.spy(c, 'set');
+
+      c.set({
+        x: {
+          x1: 2
+        }
+      });
+
+      expect(setSpy).to.have.returned(void 0);
+    });
+
+    it('Should return base for $set property when there are changes', function() {
+      var setSpy = sinon.spy(c.x.x1, 'set');
+
+      var a = c.x.x1.set(2);
+      expect(setSpy).to.have.been.called;
+    });
+
+    it('Should return base for $set $val when there are changes', function() {
+      var setSpy = sinon.spy(c.x.x1, 'set');
+
+      c.x.x1.$val = 2;
+
+      expect(setSpy).to.have.returned(c.x.x1);
+    });
+
+    it('Should not return undefined for $setKey when there are changes', function() {
+      var setKeySpy = sinon.spy(c, 'setKey');
+      c.setKey('test', 1);
+      expect(setKeySpy).not.to.have.returned(undefined);
+    });
+
+    it('Should return undefined for $setKey when there are no/same changes', function() {
+      c.setKey('test', 1);
+
+      var setKeySpy = sinon.spy(c, 'setKey');
+      c.setKey('test', 1);
+      expect(setKeySpy).to.have.returned(undefined);
     });
 
   });

@@ -7,5 +7,6 @@
 "laxbreak": true,
 "laxcomma": true,
 "node": true,
-"maxlen":80
+"maxlen":80,
+"indent":2
 }

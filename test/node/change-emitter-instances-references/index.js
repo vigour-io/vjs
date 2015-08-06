@@ -14,14 +14,14 @@ describe('$change emitter - instances - references', function() {
   var b
   var c
 
-  it( 'create new observable --> aRef', function() {    
+  it( 'create new observable --> aRef', function() {
      aRef = new Observable({
       $key:'aRef',
       $val:1
      })
   })
 
-  it( 'create new observable --> a, add change listener "val", set val to aRef', function() {    
+  it( 'create new observable --> a, add change listener "val", set val to aRef', function() {
     measure.a.val = { total: 0, origin:{} }
 
     a = new Observable({
@@ -30,11 +30,11 @@ describe('$change emitter - instances - references', function() {
         $change: function( event ) {
 
           var originkeyCnt = measure.a.val.origin[event.$origin._$key]
-          measure.a.val.origin[event.$origin._$key] = originkeyCnt ? (originkeyCnt+1) : 1 
+          measure.a.val.origin[event.$origin._$key] = originkeyCnt ? (originkeyCnt+1) : 1
 
-          var keyCnt =  measure.a.val[this._$key] 
+          var keyCnt =  measure.a.val[this._$key]
           measure.a.val.total+=1
-          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1
         }
       }
     })
@@ -48,7 +48,7 @@ describe('$change emitter - instances - references', function() {
   it( 'create new a --> b', function() {
     b = new a.$Constructor({
       $key:'b'
-    })  
+    })
     expect( measure.a.val.b ).to.equal( 1 )
     expect( measure.a.val.total ).to.equal( 2 )
   })
@@ -72,15 +72,15 @@ describe('$change emitter - instances - references', function() {
         $change: {
           second: function( event ) {
             var originkeyCnt = measure.b.second.origin[event.$origin._$key]
-            measure.b.second.origin[event.$origin._$key] = originkeyCnt ? (originkeyCnt+1) : 1 
+            measure.b.second.origin[event.$origin._$key] = originkeyCnt ? (originkeyCnt+1) : 1
 
-            var keyCnt =  measure.b.second[this._$key] 
+            var keyCnt =  measure.b.second[this._$key]
             measure.b.second.total+=1
-            measure.b.second[this._$key] = keyCnt ? (keyCnt+1) : 1 
+            measure.b.second[this._$key] = keyCnt ? (keyCnt+1) : 1
           }
         }
       }
-    } 
+    }
 
     expect( measure.a.val.a ).msg('a context').to.equal( 2 )
     expect( measure.a.val.b ).msg('b context').to.equal( 3 )
@@ -96,7 +96,7 @@ describe('$change emitter - instances - references', function() {
     a.$val = {
       prop1:true
     }
-   
+
     expect( measure.a.val.a ).msg('a context').to.equal( 3 )
     expect( measure.a.val.b ).msg('b context').to.equal( 4 )
     expect( measure.a.val.total ).to.equal( 7 )
@@ -107,8 +107,9 @@ describe('$change emitter - instances - references', function() {
 
   it( 'change aRef', function() {
     aRef.$val = 'another change'
-    
+
     expect( measure.a.val.a ).msg('a context (a val)').to.equal( 4 )
+
     expect( measure.a.val.b ).msg('b context (a val)').to.equal( 5 )
     expect( measure.a.val.total ).to.equal( 9 )
 
@@ -117,15 +118,24 @@ describe('$change emitter - instances - references', function() {
 
     expect( measure.a.val.origin.aRef ).msg('aRef origin (a val)').to.equal( 4 )
     expect( measure.b.second.origin.aRef ).msg('aRef origin )(b context)').to.equal( 1 )
+
+    console.log(measure.a.val.a)
+
   })
 
   it( 'create new aRef --> bRef', function() {
+    
+    console.log(measure.a.val.a)
+
+    console.log(measure.a.val.a)
 
     bRef = new aRef.$Constructor({
       $key:'bRef'
-    }) 
+    })
 
+    console.log(measure.a.val.a)
     aRef.$val = 'wow more change'
+    console.log(measure.a.val.a)
 
     expect( measure.a.val.a ).msg('a context (a val)').to.equal( 5 )
     expect( measure.a.val.b ).msg('b context (a val)').to.equal( 6 )
