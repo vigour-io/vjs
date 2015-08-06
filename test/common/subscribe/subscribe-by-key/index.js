@@ -40,7 +40,7 @@ describe('subscribe-by-key', function() {
 		// ======================
 
 		it('should fire when property is changed with .$val', function(){
-			L = 1
+			L = 0
 			log.header('11111111111')
 			var h_self
 			var h_event
@@ -60,7 +60,7 @@ describe('subscribe-by-key', function() {
 		})
 
 		it('should fire when property is changed with .$set', function(){
-			L = 1
+			L = 0
 			log.header('22222222222')
 			var h_self
 			var h_event
@@ -78,7 +78,7 @@ describe('subscribe-by-key', function() {
 			// 	key1: 'dursh'
 			// })
 			expect(h_self).to.equal(obs)
-			console.log('?!?!?!', counter)
+
 			expect(counter).to.equal(1)
 			obs.set({
 				key1: 'shurkeeke'
