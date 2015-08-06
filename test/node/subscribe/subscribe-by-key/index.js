@@ -25,7 +25,8 @@ describe('subscribe-by-key', function() {
 		  	log.event(this, event, meta)
 		  	counter++
 		  	if(handler) {
-		  		handler(event, meta)
+		  		log.header('boom ok do handler')
+		  		handler(this, event, meta)
 		  	}
 		  },
 		  $pattern: $pattern
@@ -40,23 +41,49 @@ describe('subscribe-by-key', function() {
 
 		it('should fire when property is changed with .$val', function(){
 			L = 1
-			handler = function() {
-				log.error('---->>> do some checks!')
+			log.header('11111111111')
+			var h_self
+			var h_event
+			var h_meta
+			handler = function(self, event, meta) {
+				h_self = self
+				h_event = event
+				h_meta = meta
 			}
+			
 			obs.key1.$val = 'heee'
 			expect(counter).to.equal(1)
+			expect(h_self).to.equal(obs)
+
 			obs.key1.$val = 'ha'
 			expect(counter).to.equal(2)
 		})
+
 		it('should fire when property is changed with .$set', function(){
-			obs.set({
-				key1: 'dursh'
-			})
-			expect(counter).to.equal(3)
+			L = 1
+			log.header('22222222222')
+			var h_self
+			var h_event
+			var h_meta
+			handler = function(self, event, meta) {
+				h_self = self
+				h_event = event
+				h_meta = meta
+			}
+			
+			counter = 0
+			obs.key1.$val = 'dursh'
+
+			// obs.set({
+			// 	key1: 'dursh'
+			// })
+			expect(h_self).to.equal(obs)
+			console.log('?!?!?!', counter)
+			expect(counter).to.equal(1)
 			obs.set({
 				key1: 'shurkeeke'
 			})
-			expect(counter).to.equal(4)
+			expect(counter).to.equal(2)
 		})
 
 	})
@@ -81,7 +108,7 @@ describe('subscribe-by-key', function() {
 		  	logSubsEvent(event, meta)
 		  	counter++
 		  	if(handler) {
-		  		handler(event, meta)
+		  		handler(this, event, meta)
 		  	}
 		  },
 		  $pattern: $pattern

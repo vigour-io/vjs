@@ -12,7 +12,7 @@ describe('subsemitter-emitloop', function() {
 		Observable = require( '../../../../lib/observable' )
 	})
 
-	it.skip('emits on SubsEmitter are meta-postponed ', function() {
+	it('emits on SubsEmitter are meta-postponed ', function() {
 
 		var timeline = []
 
@@ -26,7 +26,8 @@ describe('subsemitter-emitloop', function() {
 				console.error('xxxxxxxxxxxxxx obsB property handler', event.$stamp)
 				timeline.push('B-subscribe')
 			}
-		}, void 0, obsB)
+		}, void 0, obsB, 'subsemitter')
+
 
 		obsA.on('$change', function(event) {
 			console.error('------------ obsA change handler', event.$stamp)
@@ -38,7 +39,7 @@ describe('subsemitter-emitloop', function() {
 			console.error('------------ obsB change handler', event.$stamp)
 			timeline.push('B-change')
 			subsemitter.$emit(event, obsB)
-			obsA.$val = 'chainge!'
+			obsA.set( 'chainge!' )
 		})
 
 		obsB.on('$property', function(event) {
@@ -56,7 +57,7 @@ describe('subsemitter-emitloop', function() {
 		// ["B-change", "A-change", "B-property", "B-subscribe", "B-subscribe"]
 
 		expect(timeline).to.deep.equal(
-			[ 'B-change', 'A-change', 'B-subscribe', 'B-property', 'B-subscribe' ]
+			[ 'B-change', 'A-change', 'B-property', 'B-subscribe', 'B-subscribe' ]
 		)
 
 
