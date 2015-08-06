@@ -260,10 +260,12 @@ describe('remove', function() {
     reffed.remove()
 
     cnt = 0
-    a.$listensOnBase.each(function() {
+    a.$listensOnBase.each(function( prop, key ) {
+      // console.log('key!', key)
       cnt++
     })
 
+    // console.log('-----', a.)
     expect( cnt ).msg('listensOn in a (after remove)').to.equal(1)
 
     a.remove()
