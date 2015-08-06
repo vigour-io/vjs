@@ -1,5 +1,4 @@
 describe('emitter - combined', function() {
-  console.clear()
 
   var Observable = require('../../../lib/observable')
   var util = require('../../../lib/util')
@@ -36,7 +35,6 @@ describe('emitter - combined', function() {
       $key: 'a',
       $on: {
         $change:function( event, meta ) {
-          console.log('hey---')
           measure.a.$change.val.total++
         },
         $reference: function( event, meta ) {

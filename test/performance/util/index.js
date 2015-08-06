@@ -1,6 +1,5 @@
 describe( 'util test', function() {
 
-  console.clear()
   //this is buggy shit
   var Base = require('../../../lib/base')
   var util = require('../../../lib/util')
