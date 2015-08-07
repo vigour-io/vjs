@@ -1,7 +1,7 @@
 describe('utils', function() {
 
-  var Base = require('../../lib/base')
-  var utils = require('../../lib/util')
+  var Base = require('../../../lib/base')
+  var utils = require('../../../lib/util')
 
   describe('isNumber', function() {
     it('should check if parameter is a number and return a boolean value', function() {
