@@ -2,11 +2,9 @@ describe('remove', function() {
 
   var Event = require('../../../lib/event')
   Event.prototype.inject( require('../../../lib/event/toString' ) )
-
   var Base = require('../../../lib/base')
   Base.prototype.inject( require('../../../lib/methods/toString') )
-
-var Observable = require('../../../lib/observable')
+  var Observable = require('../../../lib/observable')
   var util = require('../../../lib/util')
   var $setKeyInternal = Observable.prototype.$setKeyInternal
   var isRemoved = util.isRemoved
@@ -124,7 +122,6 @@ var Observable = require('../../../lib/observable')
     expect( a.prop5.prop6 ).msg('a.prop5.prop6').to.be.ok
     expect( b.prop5.prop6 ).msg('b.prop5.prop6').to.be.null
 
-    expect( a.prop7.prop8 ).to.equal( b.prop7.prop8 )
     b.prop7.prop8.prop9.remove()
     expect( a.prop7.prop8.prop9.prop10 )
       .msg('a.prop7.prop8.prop9.prop10').to.be.ok
@@ -211,6 +208,7 @@ var Observable = require('../../../lib/observable')
     expect(fn).to.have.property( 'val' )
 
     a.$val = null
+    //remove all instances as well
 
     expect(isRemoved(changeEmitter))
       .msg('check if changeEmitter is removed').to.be.true
@@ -262,10 +260,12 @@ var Observable = require('../../../lib/observable')
     reffed.remove()
 
     cnt = 0
-    a.$listensOnBase.each(function() {
+    a.$listensOnBase.each(function( prop, key ) {
+      // console.log('key!', key)
       cnt++
     })
 
+    // console.log('-----', a.)
     expect( cnt ).msg('listensOn in a (after remove)').to.equal(1)
 
     a.remove()
@@ -370,6 +370,92 @@ var Observable = require('../../../lib/observable')
 
     // add test to remove _instances completely
     expect( measure.a.val.total ).to.equal(2)
+  })
+
+  it( 'remove an instance expect listener to fire', function() {
+      var cnt = 0
+      var a = new Observable({
+        $key:'a',
+        $on: {
+          $change:function( event, meta ) {
+            cnt++
+          }
+        }
+      })
+      a.remove()
+      expect(cnt).to.equal(1)
+  })
+
+  it( 'create instances, remove count instances array', function() {
+    var cnt = 0
+    var a = new Observable({
+      $key:'a',
+      $on: {
+        $change: function( event, meta ) {
+          cnt++
+        }
+      }
+    })
+    var instances = []
+    var derivedInstances = []
+    for(var i = 0; i < 10; i++ ) {
+      instances[i] = new a.$Constructor({ $key:'instanceofA'+i })
+      derivedInstances[i] = new instances[i].$Constructor({ $key:'derived'+i })
+    }
+    expect( cnt ).to.equal( 20 )
+    a.remove()
+    expect( isRemoved(a)).msg('a is removed').to.be.true
+    for(var i = 0; i < instances.length; i++ ) {
+      expect( isRemoved( instances[i] ) ).msg('instance '+ i).to.be.true
+    }
+    for(var i = 0; i < derivedInstances.length; i++ ) {
+      expect( isRemoved( derivedInstances[i] ) ).msg('instance '+ i).to.be.true
+    }
+    expect( cnt ).to.equal( 41 )
+  })
+
+  it( 'remove a nested field fire listener', function() {
+    var change = 0
+    var propertyChange = 0
+    var a = new Observable({
+      $key:'a',
+      $on: {
+        $change:function() {
+          change++
+        },
+        $property: function() {
+          propertyChange++
+        }
+      },
+      b: true
+    })
+    a.b.remove()
+    expect( change ).to.equal(1)
+    expect( propertyChange ).to.equal(1)
+    expect( a.b ).to.be.null
+  })
+
+  it( 'instances - remove a nested field fire listener', function() {
+    var change = 0
+    var propertyChange = 0
+    var a = new Observable({
+      $key:'a',
+      $on: {
+        $change:function() {
+          change++
+        },
+        $property: function() {
+          propertyChange++
+        }
+      },
+      b: true
+    })
+    var aInstance = new a.$Constructor()
+    aInstance.b.remove()
+    expect( change ).to.equal(1)
+    expect( propertyChange ).to.equal(1)
+    expect( aInstance.b ).to.be.null
+    expect( a.b ).to.be.ok
   })
 
 })

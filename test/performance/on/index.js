@@ -1,4 +1,3 @@
-console.clear()//do this in atom plugin
 
 var Obs = require('../../../lib/observable')
 var util = require('../../../lib/util')
@@ -9,7 +8,7 @@ describe( 'on change emitters', function() {
   it( 'on multiple instances', function( done ) {
     var amount = 1e4
     var measure = 0
-    this.timeout(5000)
+    this.timeout(50000)
     expect(function() {
       var A = new Obs({
       $key:'a',
@@ -40,7 +39,7 @@ describe( 'on change emitters', function() {
   })
 
   it( 'update a', function( done ) {
-    this.timeout(5000)
+    this.timeout(50000)
     var amount = 1e5
     var measure = 0
 

@@ -119,23 +119,15 @@ describe('$change emitter - instances - references', function() {
     expect( measure.a.val.origin.aRef ).msg('aRef origin (a val)').to.equal( 4 )
     expect( measure.b.second.origin.aRef ).msg('aRef origin )(b context)').to.equal( 1 )
 
-    console.log(measure.a.val.a)
-
   })
 
   it( 'create new aRef --> bRef', function() {
-    
-    console.log(measure.a.val.a)
-
-    console.log(measure.a.val.a)
 
     bRef = new aRef.$Constructor({
       $key:'bRef'
     })
 
-    console.log(measure.a.val.a)
     aRef.$val = 'wow more change'
-    console.log(measure.a.val.a)
 
     expect( measure.a.val.a ).msg('a context (a val)').to.equal( 5 )
     expect( measure.a.val.b ).msg('b context (a val)').to.equal( 6 )

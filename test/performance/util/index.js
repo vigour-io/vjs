@@ -1,12 +1,11 @@
 describe( 'util test', function() {
 
-  console.clear()
   //this is buggy shit
   var Base = require('../../../lib/base')
   var util = require('../../../lib/util')
 
   it('isLikeNumber vs lodash isNumber', function( done ) {
-    this.timeout(5000)
+    this.timeout(50e3)
     var convertToArray = util.convertToArray
     var slice = Array.prototype.slice
     var amount = 1e6
@@ -34,7 +33,7 @@ describe( 'util test', function() {
   })
 
   it('convertToArray vs Array.prototype.slice', function( done ) {
-    this.timeout(5000)
+    this.timeout(50e3)
     var convertToArray = util.convertToArray
     var slice = Array.prototype.slice
     var amount = 1e6

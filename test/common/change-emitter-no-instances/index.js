@@ -1,4 +1,3 @@
-
 describe( '$change emitter - no instances', function() {
 
   var Event = require( '../../../lib/event' )
@@ -227,7 +226,6 @@ describe( '$change emitter - no instances', function() {
   })
 
   it( 'change nested fields , fire correct emitters', function() {
-    console.clear()
     var measure = {
       a: 0,
       x: 0
