@@ -4,8 +4,6 @@ describe('subscribe-by-key', function() {
 	var Observable = require('../../../../lib/observable')
 	var SubsEmitter = require('../../../../lib/observable/subscribe/emitter')
 
-
-
 	describe('subscribe by key already present', function() {
 
 		// ======================
@@ -22,10 +20,10 @@ describe('subscribe-by-key', function() {
 		obs._$key = 'obs'
 		var subsEmitter = new SubsEmitter({
 		  handerl1: function(event, meta) {
-		  	log.event(this, event, meta)
+		  	// log.event(this, event, meta)
 		  	counter++
 		  	if(handler) {
-		  		log.header('boom ok do handler')
+		  		// log.header('boom ok do handler')
 		  		handler(this, event, meta)
 		  	}
 		  },
@@ -41,7 +39,7 @@ describe('subscribe-by-key', function() {
 
 		it('should fire when property is changed with .$val', function(){
 			L = 1
-			log.header('11111111111')
+			// log.header('11111111111')
 			var h_self
 			var h_event
 			var h_meta
@@ -50,7 +48,7 @@ describe('subscribe-by-key', function() {
 				h_event = event
 				h_meta = meta
 			}
-			
+
 			obs.key1.$val = 'heee'
 			expect(counter).to.equal(1)
 			expect(h_self).to.equal(obs)
@@ -61,7 +59,7 @@ describe('subscribe-by-key', function() {
 
 		it('should fire when property is changed with .$set', function(){
 			L = 1
-			log.header('22222222222')
+			// log.header('22222222222')
 			var h_self
 			var h_event
 			var h_meta
@@ -70,7 +68,7 @@ describe('subscribe-by-key', function() {
 				h_event = event
 				h_meta = meta
 			}
-			
+
 			counter = 0
 			obs.key1.$val = 'dursh'
 
@@ -78,7 +76,7 @@ describe('subscribe-by-key', function() {
 			// 	key1: 'dursh'
 			// })
 			expect(h_self).to.equal(obs)
-			console.log('?!?!?!', counter)
+			// console.log('?!?!?!', counter)
 			expect(counter).to.equal(1)
 			obs.set({
 				key1: 'shurkeeke'
@@ -105,7 +103,7 @@ describe('subscribe-by-key', function() {
 		obs._$key = 'obs'
 		var subsEmitter = new SubsEmitter({
 		  handerl1: function(event, meta) {
-		  	logSubsEvent(event, meta)
+		  	// logSubsEvent(event, meta)
 		  	counter++
 		  	if(handler) {
 		  		handler(this, event, meta)
@@ -139,46 +137,46 @@ describe('subscribe-by-key', function() {
 	})
 
 	describe.skip('subscribe by multiple keys', function() {
-		
+
 	})
 
 	describe.skip('subscribe by nested key', function() {
-		
+
 	})
 
 	describe.skip('subscribe by multiple nested keys', function() {
-		
+
 	})
 
 })
 
-var log = makeChecked(console.log)
+// var log = makeChecked(console.log)
+//
+// for(var k in console) {
+// 	var thing = console[k]
+// 	if(typeof thing === 'function') {
+// 		log[k] = makeChecked(thing)
+// 	}
+// }
 
-for(var k in console) {
-	var thing = console[k]
-	if(typeof thing === 'function') {
-		log[k] = makeChecked(thing)
-	}
-}
+// function makeChecked(thing) {
+// 	return function() {
+// 		if(typeof L !== 'undefined' && L) {
+// 			return thing.apply(console, arguments)
+// 		}
+// 	}
+// }
 
-function makeChecked(thing) {
-	return function() {
-		if(typeof L !== 'undefined' && L) {
-			return thing.apply(console, arguments)
-		}
-	}
-}
-
-log.header = function logHeader(header) {
-	log(
-		'%c------------- ' + header,
-		'margin: 5px; color:blue; font-size: 16pt'
-	)
-}
-log.event = function logEvent(self, event, meta) {
-	log.error('SUBSEMITTER HANDLER FIRED!', meta)
-  log.group()
-  log('this:', self, '\n')
-  log('meta:', meta, '\n')
-  log.groupEnd()	
-}
+// log.header = function logHeader(header) {
+// 	log(
+// 		'%c------------- ' + header,
+// 		'margin: 5px; color:blue; font-size: 16pt'
+// 	)
+// }
+// log.event = function logEvent(self, event, meta) {
+// 	log.error('SUBSEMITTER HANDLER FIRED!', meta)
+//   log.group()
+//   log('this:', self, '\n')
+//   log('meta:', meta, '\n')
+//   log.groupEnd()
+// }

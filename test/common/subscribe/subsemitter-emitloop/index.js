@@ -23,27 +23,26 @@ describe('subsemitter-emitloop', function() {
 
 		var subsemitter = new SubsEmitter({
 			handler1: function(event) {
-				console.error('xxxxxxxxxxxxxx obsB property handler', event.$stamp)
 				timeline.push('B-subscribe')
 			}
 		}, void 0, obsB, 'subsemitter')
 
 
 		obsA.on('$change', function(event) {
-			console.error('------------ obsA change handler', event.$stamp)
+			// console.error('------------ obsA change handler', event.$stamp)
 			timeline.push('A-change')
 			subsemitter.$emit(event, obsB)
 		})
 
 		obsB.on('$change', function(event) {
-			console.error('------------ obsB change handler', event.$stamp)
+			// console.error('------------ obsB change handler', event.$stamp)
 			timeline.push('B-change')
 			subsemitter.$emit(event, obsB)
 			obsA.set( 'chainge!' )
 		})
 
 		obsB.on('$property', function(event) {
-			console.error('------------ obsB property handler', event.$stamp)
+			// console.error('------------ obsB property handler', event.$stamp)
 			timeline.push('B-property')
 			subsemitter.$emit(event, obsB)
 		})
@@ -52,7 +51,7 @@ describe('subsemitter-emitloop', function() {
 			newkey: 'val'
 		})
 
-		console.log('>>>>', timeline)
+		// console.log('>>>>', timeline)
 		// logs:
 		// ["B-change", "A-change", "B-property", "B-subscribe", "B-subscribe"]
 
@@ -64,5 +63,5 @@ describe('subsemitter-emitloop', function() {
 
 
 	})
-	
+
 })
