@@ -188,7 +188,6 @@ describe( 'no instances', function() {
 
     var cnt = 0
     var cnt2 = 0
-    console.clear()
 
     var obs4 = new Observable({
       $key:'obs4',
@@ -204,8 +203,6 @@ describe( 'no instances', function() {
         $change:function(event) {
           cnt++
           event.$block = true
-
-          console.log(this.$key, this.set, this)
 
           this.set({
             specialField:'xxxx',
