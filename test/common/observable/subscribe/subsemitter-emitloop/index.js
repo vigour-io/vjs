@@ -6,10 +6,10 @@ describe('subsemitter-emitloop', function() {
 	var Observable
 
 	it('requires', function(){
-		Event = require( '../../../../lib/event' )
-		Emitter = require( '../../../../lib/emitter' )
-		SubsEmitter = require( '../../../../lib/observable/subscribe/emitter' )
-		Observable = require( '../../../../lib/observable' )
+		Event = require( '../../../../../lib/event' )
+		Emitter = require( '../../../../../lib/emitter' )
+		SubsEmitter = require( '../../../../../lib/observable/subscribe/emitter' )
+		Observable = require( '../../../../../lib/observable' )
 	})
 
 	it('emits on SubsEmitter are meta-postponed ', function() {

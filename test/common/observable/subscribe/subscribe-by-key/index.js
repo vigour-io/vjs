@@ -1,8 +1,8 @@
 var L = 0
 describe('subscribe-by-key', function() {
 
-	var Observable = require('../../../../lib/observable')
-	var SubsEmitter = require('../../../../lib/observable/subscribe/emitter')
+	var Observable = require('../../../../../lib/observable')
+	var SubsEmitter = require('../../../../../lib/observable/subscribe/emitter')
 
 	describe('subscribe by key already present', function() {
 
