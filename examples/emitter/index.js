@@ -17,7 +17,7 @@ Event.prototype.inject( require('../../lib/event/toString' ))
 
 var DomEmitter = new Emitter({
   $define: {
-    _$key: {
+    $key: {
       set:function(val) {
         if( !DOMEVENTS[val ]) {
           document.body.addEventListener( val, function(e) {
@@ -72,10 +72,10 @@ var DomEmitter = new Emitter({
           })
           DOMEVENTS[val] = true
         }
-        this.__$key = val
+        this.$key = val
       },
       get:function(val) {
-        return this.__$key
+        return this.$key
       }
     }
   }
@@ -95,15 +95,15 @@ function getChildIndex(elem, key) {
 
 var element = new Observable({
   $define: {
-    _$key: {
+    $key: {
       set:function(val) {
         if(this._$node) {
           this._$node.className = val
         }
-        this.__$key = val
+        this.$key = val
       },
       get:function() {
-        return this.__$key
+        return this.$key
       }
     },
     $node: {
@@ -116,7 +116,7 @@ var element = new Observable({
         if(!this._$node)  {
           this._$node = document.createElement( 'div' )
           this._$node.$base = this
-          this._$node.className = this._$key
+          this._$node.className = this.$key
 
           //testing
           this._$node.innerHTML = this.$path
@@ -132,7 +132,7 @@ var element = new Observable({
             //dit is ook niet goed
             var orig = Object.getPrototypeOf(this)
             if( parent instanceof orig._$parent._$Constructor ) {
-              node = getChildIndex( parent._$node, orig._$key)
+              node = getChildIndex( parent._$node, orig.$key)
               this._$node = node
             }
           } 

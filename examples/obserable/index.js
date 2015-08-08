@@ -50,7 +50,7 @@ items.$sort = true
 items.$add = ['ADDED', 'flap']
 
 var obs = new Observable(items)
-obs._$key = 'obs'
+obs.$key = 'obs'
 
 console.log('\n\n\n=========== getting $val!')
 var $val = window.val = obs.$val
@@ -149,7 +149,7 @@ items.$sort = true
 items.$add = ['11111111']
 
 var obs = new Observable(items)
-obs._$key = 'obs'
+obs.$key = 'obs'
 
 var $val = obs.$val
 
@@ -188,7 +188,7 @@ items.$sort = true
 items.$prepend = ['11111111']
 
 var obs = new Observable(items)
-obs._$key = 'obs'
+obs.$key = 'obs'
 
 var $val = obs.$val
 
@@ -231,7 +231,7 @@ items.$sort = {by: 'title'}
 items.$prepend = [{title: 'prepended mafakka'}]
 
 var obs = new Observable(items)
-obs._$key = 'obs'
+obs.$key = 'obs'
 
 var $val = obs.$val
 
