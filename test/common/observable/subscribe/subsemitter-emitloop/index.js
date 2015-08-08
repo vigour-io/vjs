@@ -17,9 +17,9 @@ describe('subsemitter-emitloop', function() {
 		var timeline = []
 
 		var obsA = new Observable()
-		obsA._$key = 'obsA'
+		obsA.$key = 'obsA'
 		var obsB = new Observable()
-		obsB._$key = 'obsB'
+		obsB.$key = 'obsB'
 
 		var subsemitter = new SubsEmitter({
 			handler1: function(event) {

@@ -1,6 +1,6 @@
-describe('$change emitter - instances - references', function() {
+describe( 'references', function() {
 
-  var Observable = require('../../../lib/observable')
+  var Observable = require('../../../../../lib/observable')
   var measure = {
     a:{},
     b:{},
@@ -29,12 +29,12 @@ describe('$change emitter - instances - references', function() {
       $on: {
         $change: function( event ) {
 
-          var originkeyCnt = measure.a.val.origin[event.$origin._$key]
-          measure.a.val.origin[event.$origin._$key] = originkeyCnt ? (originkeyCnt+1) : 1
+          var originkeyCnt = measure.a.val.origin[event.$origin.$key]
+          measure.a.val.origin[event.$origin.$key] = originkeyCnt ? (originkeyCnt+1) : 1
 
-          var keyCnt =  measure.a.val[this._$key]
+          var keyCnt =  measure.a.val[this.$key]
           measure.a.val.total+=1
-          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1
+          measure.a.val[this.$key] = keyCnt ? (keyCnt+1) : 1
         }
       }
     })
@@ -71,12 +71,12 @@ describe('$change emitter - instances - references', function() {
       $on: {
         $change: {
           second: function( event ) {
-            var originkeyCnt = measure.b.second.origin[event.$origin._$key]
-            measure.b.second.origin[event.$origin._$key] = originkeyCnt ? (originkeyCnt+1) : 1
+            var originkeyCnt = measure.b.second.origin[event.$origin.$key]
+            measure.b.second.origin[event.$origin.$key] = originkeyCnt ? (originkeyCnt+1) : 1
 
-            var keyCnt =  measure.b.second[this._$key]
+            var keyCnt =  measure.b.second[this.$key]
             measure.b.second.total+=1
-            measure.b.second[this._$key] = keyCnt ? (keyCnt+1) : 1
+            measure.b.second[this.$key] = keyCnt ? (keyCnt+1) : 1
           }
         }
       }

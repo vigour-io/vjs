@@ -1,19 +1,19 @@
 describe('operator', function() {
 
-  var Event = require('../../../lib/event')
-  Event.prototype.inject( require('../../../lib/event/toString' ) )
+  var Event = require('../../../../lib/event')
+  Event.prototype.inject( require('../../../../lib/event/toString' ) )
 
-  var Base = require('../../../lib/base')
-  Base.prototype.inject( require('../../../lib/methods/toString') )
+  var Base = require('../../../../lib/base')
+  Base.prototype.inject( require('../../../../lib/methods/toString') )
 
-  var Observable = require('../../../lib/observable')
+  var Observable = require('../../../../lib/observable')
   Observable.prototype.inject(
-    require('../../../lib/operator/add')
+    require('../../../../lib/operator/add')
   )
 
-  var Operator = require('../../../lib/operator')
+  var Operator = require('../../../../lib/operator')
 
-  var util = require('../../../lib/util')
+  var util = require('../../../../lib/util')
 
   var a
   var b

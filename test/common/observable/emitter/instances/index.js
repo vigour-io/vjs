@@ -1,6 +1,6 @@
-describe('$change emitter - instances', function() {
+describe('instances', function() {
 
-  var Observable = require('../../../lib/observable')
+  var Observable = require('../../../../../lib/observable')
   var measure = {
     a:{},
     b:{},
@@ -24,9 +24,9 @@ describe('$change emitter - instances', function() {
       $key:'a',
       $on: {
         $change: function( event, meta ) {
-          var keyCnt =  measure.a.val[this._$key]
+          var keyCnt =  measure.a.val[this.$key]
           measure.a.val.total+=1
-          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1
+          measure.a.val[this.$key] = keyCnt ? (keyCnt+1) : 1
         }
       }
     })
@@ -46,7 +46,7 @@ describe('$change emitter - instances', function() {
       .msg('a._$instances has correct length').to.equal(1)
     expect( a._$instances[0] )
       .msg('b is a._$instances.total').to.equal(b)
-      
+
     expect( measure.a.val.b ).to.equal( 1 )
     expect( measure.a.val.total ).to.equal( 2 )
   })
@@ -93,9 +93,9 @@ describe('$change emitter - instances', function() {
       $on: {
         $change: {
           second: function() {
-            var keyCnt =  measure.b.second[this._$key]
+            var keyCnt =  measure.b.second[this.$key]
             measure.b.second.total+=1
-            measure.b.second[this._$key] = keyCnt ? (keyCnt+1) : 1
+            measure.b.second[this.$key] = keyCnt ? (keyCnt+1) : 1
           }
         }
       }
@@ -163,9 +163,9 @@ describe('$change emitter - instances', function() {
     c.$val = {
       $on: {
         $change:function( event, meta ) {
-          var keyCnt =  measure.c.val[this._$key]
+          var keyCnt =  measure.c.val[this.$key]
           measure.c.val.total+=1
-          measure.c.val[this._$key] = keyCnt ? (keyCnt+1) : 1
+          measure.c.val[this.$key] = keyCnt ? (keyCnt+1) : 1
         }
       }
     }
@@ -220,9 +220,9 @@ describe('$change emitter - instances', function() {
         $change:{
           attach: [
             function( event, meta, base, arg ) {
-              var keyCnt =  measure.c.attach[this._$key]
+              var keyCnt =  measure.c.attach[this.$key]
               measure.c.attach.total+=1
-              measure.c.attach[this._$key] = keyCnt ? (keyCnt+1) : 1
+              measure.c.attach[this.$key] = keyCnt ? (keyCnt+1) : 1
             },
             attachTest,
             'an argument!'
@@ -281,9 +281,9 @@ describe('$change emitter - instances', function() {
     a2.set({
       $on: {
         $change:function( event, meta ) {
-          var keyCnt =  measure.a.val[this._$key]
+          var keyCnt =  measure.a.val[this.$key]
           measure.a.val.total+=1
-          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1
+          measure.a.val[this.$key] = keyCnt ? (keyCnt+1) : 1
         }
       }
     })
@@ -312,9 +312,9 @@ describe('$change emitter - instances', function() {
     a3.set({
       $on: {
         $change:function( event, meta ) {
-          var keyCnt =  measure.a.val[this._$key]
+          var keyCnt =  measure.a.val[this.$key]
           measure.a.val.total+=1
-          measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1
+          measure.a.val[this.$key] = keyCnt ? (keyCnt+1) : 1
         }
       }
     })

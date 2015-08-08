@@ -1,15 +1,15 @@
-describe('emitter - parent', function() {
+describe('parent', function() {
 
-  var Event = require('../../../lib/event')
-  Event.prototype.inject( require('../../../lib/event/toString' ))
+  var Event = require('../../../../../lib/event')
+  Event.prototype.inject( require('../../../../../lib/event/toString' ))
 
-  var Observable = require('../../../lib/observable')
-  var util = require('../../../lib/util')
+  var Observable = require('../../../../../lib/observable')
+  var util = require('../../../../../lib/util')
 
-  var On = require('../../../lib/observable/on/class')
+  var On = require('../../../../../lib/observable/on/class')
 
-  var Emitter = require('../../../lib/emitter')
-  
+  var Emitter = require('../../../../../lib/emitter')
+
   var measure = {
     a:{},
     holder:{},
@@ -20,7 +20,7 @@ describe('emitter - parent', function() {
   var holder
   var holder2
   var element
-  var a 
+  var a
 
   it( 'create element, add to a parent', function() {
 
@@ -39,9 +39,9 @@ describe('emitter - parent', function() {
     element = new Observable({
       $on: {
         $addToParent:function() {
-          var keyCnt =  measure.element.$addToParent.val[this._$key] 
+          var keyCnt =  measure.element.$addToParent.val[this.$key]
           measure.element.$addToParent.val.total+=1
-          measure.element.$addToParent.val[this._$key] = keyCnt ? (keyCnt+1) : 1 
+          measure.element.$addToParent.val[this.$key] = keyCnt ? (keyCnt+1) : 1
         },
         $new:function() {
           measure.element.$new.val.total+=1

@@ -1,7 +1,7 @@
-describe('$change emitter - instances - listener - removal', function() {
+describe( 'off', function() {
 
-  var Observable = require('../../../lib/observable')
-  var util = require('../../../lib/util')
+  var Observable = require('../../../../../lib/observable')
+  var util = require('../../../../../lib/util')
   var measure = {
     a:{},
     b:{},
@@ -19,8 +19,8 @@ describe('$change emitter - instances - listener - removal', function() {
   function specialListener() {}
   function weirdListener() {}
 
-  it( 'create new observable --> a, overwrite different types of keys', function() {    
-      
+  it( 'create new observable --> a, overwrite different types of keys', function() {
+
      aRef = new Observable({
       $key: 'aRef',
       $val: 'a value for aRef'
@@ -58,7 +58,7 @@ describe('$change emitter - instances - listener - removal', function() {
   })
 
   it( 'new observable --> a --> b --> c, overwrite listeners, remove listeners', function() {
-    
+
     ref = new Observable({
       $key:'ref'
     })
@@ -88,7 +88,7 @@ describe('$change emitter - instances - listener - removal', function() {
     expect(b.$on.$change.$fn.special).to.equal( a.$on.$change.$fn.special )
     expect(b.$on.$change.$fn.other).to.not.equal( a.$on.$change.$fn.other )
     expect(b.$on).to.be.an.instanceof( a.$on.$Constructor )
-    
+
     expect(b.$on.$change.$fn).to.be.an.instanceof( a.$on.$change.$fn.$Constructor )
 
     a.off( '$change', 'other' )
@@ -178,7 +178,7 @@ describe('$change emitter - instances - listener - removal', function() {
     a.off( '$change', {
       $attach: aRandomObs
     })
-    
+
     expect( a.$on.$change.$attach.attach2 ).to.be.null
     expect( a.$on.$change.$attach.attach ).to.be.ok
     expect( a.$on.randomEmitter.$attach.attach ).to.be.ok

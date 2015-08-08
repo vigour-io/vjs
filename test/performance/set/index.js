@@ -22,7 +22,7 @@ describe( 'set method', function() {
         for( var i = 0; i < amount; i++ ) {
           var obs = new Obs2()
           obs.i = new Obs2(i)
-          obs.i._$key = 'i'
+          obs.i.$key = 'i'
           obs.i._$parent = obs
           arr.push( obs )
         }

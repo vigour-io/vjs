@@ -12,7 +12,7 @@ describe('base', function() {
   });
 
   it('should have the internal key', function() {
-    expect(a._$key).to.be.eql('a');
+    expect(a.$key).to.be.eql('a');
   });
 
   it('should have simple value', function() {
@@ -158,18 +158,18 @@ describe('base', function() {
     });
 
     it('When set different value should return base after context has been resolved', function () {
-      var spy = sinon.spy(a.x.y.z, 'set');
-      b.x.y.z.$val = 123;
+      var spy = sinon.spy( a.x.y.z, 'set' )
+      b.x.y.z.$val = 123
 
-      expect(spy).to.have.returned(b.x.y.z);
-      expect(b.x.y.z).to.be.instanceOf(a.x.y.z.$Constructor);
+      expect(spy).to.have.returned(b.x.y.z)
+      expect(b.x.y.z).to.be.instanceOf(a.x.y.z.$Constructor)
       expect(b.x._$parent !== a).to.be.true;
     });
 
   });
 
-  describe('Changing stuff', function () {
-    var c, setSpy, setValueSpy, setKeySpy, setKeyInternalSpy;
+  describe( 'change', function () {
+    var c, setSpy, setValueSpy, setKeySpy, setKeyInternalSpy
 
     beforeEach(function() {
       c = new Base({
@@ -181,9 +181,9 @@ describe('base', function() {
             y: 123
           }
         }
-      });
+      })
 
-      setValueSpy = sinon.spy(c, '$setValue');
+      setValueSpy = sinon.spy(c, '$setValue')
     });
 
     it('Should return undefined when there are no/same changes for $value', function () {

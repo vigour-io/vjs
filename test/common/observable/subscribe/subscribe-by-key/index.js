@@ -17,7 +17,7 @@ describe('subscribe-by-key', function() {
 		  key1: 'val1',
 		  $on: {}
 		})
-		obs._$key = 'obs'
+		obs.$key = 'obs'
 		var subsEmitter = new SubsEmitter({
 		  handerl1: function(event, meta) {
 		  	// log.event(this, event, meta)
@@ -100,7 +100,7 @@ describe('subscribe-by-key', function() {
 		var obs = new Observable({
 		  $on: {}
 		})
-		obs._$key = 'obs'
+		obs.$key = 'obs'
 		var subsEmitter = new SubsEmitter({
 		  handerl1: function(event, meta) {
 		  	// logSubsEvent(event, meta)

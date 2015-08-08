@@ -1,9 +1,9 @@
-describe('emitter - combined', function() {
+describe( 'combined', function() {
 
-  var Observable = require('../../../lib/observable')
-  var util = require('../../../lib/util')
-  var On = require('../../../lib/observable/on/class')
-  var Emitter = require('../../../lib/emitter')
+  var Observable = require('../../../../../lib/observable')
+  var util = require('../../../../../lib/util')
+  var On = require('../../../../../lib/observable/on/class')
+  var Emitter = require('../../../../../lib/emitter')
   var measure = {
     a:{}
   }
@@ -143,7 +143,7 @@ describe('emitter - combined', function() {
       $on: {
         $new: function( event ) {
           measure.a.$new.val.total++
-          measure.a.$new.val[this._$key]++
+          measure.a.$new.val[this.$key]++
         }
       },
       $useVal:true

@@ -1,9 +1,9 @@
-describe( '$change emitter - no instances', function() {
+describe( 'no instances', function() {
 
-  var Event = require( '../../../lib/event' )
-  Event.prototype.inject( require( '../../../lib/event/toString' ) )
+  var Event = require( '../../../../../lib/event' )
+  Event.prototype.inject( require( '../../../../../lib/event/toString' ) )
 
-  var Observable = require('../../../lib/observable')
+  var Observable = require('../../../../../lib/observable')
   var measure = {
     obs:{},
     obs2:{},

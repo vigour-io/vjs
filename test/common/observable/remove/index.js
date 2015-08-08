@@ -1,11 +1,11 @@
 describe('remove', function() {
 
-  var Event = require('../../../lib/event')
-  Event.prototype.inject( require('../../../lib/event/toString' ) )
-  var Base = require('../../../lib/base')
-  Base.prototype.inject( require('../../../lib/methods/toString') )
-  var Observable = require('../../../lib/observable')
-  var util = require('../../../lib/util')
+  var Event = require('../../../../lib/event')
+  Event.prototype.inject( require('../../../../lib/event/toString' ) )
+  var Base = require('../../../../lib/base')
+  Base.prototype.inject( require('../../../../lib/methods/toString') )
+  var Observable = require('../../../../lib/observable')
+  var util = require('../../../../lib/util')
   var $setKeyInternal = Observable.prototype.$setKeyInternal
   var isRemoved = util.isRemoved
   var measure = {
@@ -190,9 +190,9 @@ describe('remove', function() {
       $on: {
         $change:{
           $val: function( event, meta ) {
-            var keyCnt =  measure.a.val[this._$key]
+            var keyCnt =  measure.a.val[this.$key]
             //second time is null should be b else things become very unclear
-            measure.a.val[this._$key] = keyCnt ? (keyCnt+1) : 1
+            measure.a.val[this.$key] = keyCnt ? (keyCnt+1) : 1
             measure.a.val.total++
             if( meta === true ) {
               measure.a.val.removed++
