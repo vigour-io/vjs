@@ -3,8 +3,7 @@ describe('defer', function() {
   console.clear()
   var Observable = require('../../../../../lib/observable')
 
-
-  it('should create a new event and fire with a timeout', function() {
+  it( 'fire with a timeout of 200ms', function() {
 
     var a = new Observable({
       $key:'a', //this will just set $key
