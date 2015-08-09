@@ -55,7 +55,13 @@ describe('subsemitter-emitloop', function() {
 		// logs:
 		// ["B-change", "A-change", "B-property", "B-subscribe", "B-subscribe"]
 
-		expect(timeline).to.deep.equal(
+		// now --> [ "B-change", "A-change", "B-property", "B-subscribe" ]
+
+
+		//now this results in 	[ 'B-change', 'A-change', 'B-property', 'B-subscribe' ]
+		//sort of good but pretty strange!
+
+		expect(timeline).msg(timeline).to.deep.equal(
 			[ 'B-change', 'A-change', 'B-property', 'B-subscribe', 'B-subscribe' ]
 		)
 
