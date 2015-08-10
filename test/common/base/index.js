@@ -250,4 +250,53 @@ describe('base', function() {
 
   });
 
+  describe('remove', function() {
+    var theObj;
+
+    beforeEach(function() {
+      theObj = new Base({
+        $key: 'theObj',
+        a: {
+          a1: {
+            a11: true
+          },
+          a2: {
+            a21: 123
+          }
+        }
+      });
+    });
+
+    it('should remove property with $setValue null', function() {
+      theObj.a.a1.$setValue(null);
+      expect(theObj.a.a1).to.be.null;
+    });
+
+    it('should remove property with $value null', function() {
+      theObj.a.a1.$val = null;
+      expect(theObj.a.a1).to.be.null;
+    });
+
+    it('should remove property with set null', function() {
+      theObj.a.set({
+        a1: null
+      });
+
+      expect(theObj.a).to.be.defined;
+      expect(theObj.a.a1).to.be.null;
+    });
+
+    it('should remove from derived type', function() {
+      var anotherObj = new theObj.$Constructor({
+        $key: 'anotherObj'
+      });
+
+      anotherObj.a.remove();
+
+      expect(theObj.a).to.be.defined;
+      expect(anotherObj.a).to.be.null;
+    });
+
+  });
+
 });
