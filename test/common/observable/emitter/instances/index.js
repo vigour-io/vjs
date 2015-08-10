@@ -345,6 +345,8 @@ describe('instances', function() {
 
     console.log(b.b._$context, 'now context -- gets cleared somewhere..')
     a.b.$val = 'a change'
+
+    expect( cnt ).to.equal(2)
     //this clears the context now
 
     // expect()
