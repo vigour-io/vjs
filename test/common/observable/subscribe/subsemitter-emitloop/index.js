@@ -27,7 +27,6 @@ describe('subsemitter-emitloop', function() {
 			}
 		}, void 0, obsB, 'subsemitter')
 
-
 		obsA.on('$change', function(event) {
 			// console.error('------------ obsA change handler', event.$stamp)
 			timeline.push('A-change')

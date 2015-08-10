@@ -17,8 +17,6 @@ describe('instances', function() {
   var b2
   var a3
   var b3
-  var a4
-  var b4
 
   it( 'create new observable --> a, add change listener "val"', function() {
     measure.a.val = { total: 0 }
@@ -327,34 +325,29 @@ describe('instances', function() {
       .msg('b3 is a3.$on._instances.total').to.equal(b3)
   })
 
-  it( 'create nested instances, update nested values, fire change', function() {
-    var store = []
-    a4 = new Observable({
-      $key:'a',
-      $trackInstances:{
-        useVal:true
-      },
-      one:{
-        two:{
-          $val:1,
-          $on:{
-            $change:function(){
-              store.push( this.$path )
-              console.log('!!!!',this.$path)
-            }
+  it( 'nested field updates context', function() {
+    var cnt = 0
+    console.clear()
+    var a = new Observable({
+      $trackInstances: true,
+      b: {
+        $on: {
+          $change:function() {
+            cnt++
           }
         }
       }
     })
 
-    b4 = new a4.$Constructor({
+    var b = new a.$Constructor({
       $key:'b'
     })
 
-    a4.one.two.$val = 2
+    console.log(b.b._$context, 'now context -- gets cleared somewhere..')
+    a.b.$val = 'a change'
+    //this clears the context now
 
-    expect( store.length ).to.equal(2)
-
+    // expect()
   })
 
 })
