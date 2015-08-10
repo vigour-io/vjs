@@ -329,10 +329,12 @@ describe('instances', function() {
     var cnt = 0
     console.clear()
     var a = new Observable({
+      $key:'a',
       $trackInstances: true,
       b: {
         $on: {
           $change:function() {
+            console.log('heeee!', this.$path)
             cnt++
           }
         }
