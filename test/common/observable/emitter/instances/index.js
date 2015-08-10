@@ -326,28 +326,26 @@ describe('instances', function() {
   })
 
   it( 'nested field updates context', function() {
-    var cnt = 0
+    var cnt = {
+      total: 0
+    }
     console.clear()
     var a = new Observable({
+      $key:'a',
       $trackInstances: true,
       b: {
         $on: {
           $change:function() {
-            cnt++
+            cnt.total++
           }
         }
       }
     })
-
     var b = new a.$Constructor({
       $key:'b'
     })
-
-    console.log(b.b._$context, 'now context -- gets cleared somewhere..')
     a.b.$val = 'a change'
-    //this clears the context now
-
-    // expect()
+    expect( cnt.total ).to.equal(2)
   })
 
 })
