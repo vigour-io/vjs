@@ -336,6 +336,7 @@ describe('instances', function() {
       b: {
         $on: {
           $change:function() {
+            console.error('fire the change', this.$path)
             cnt.total++
           }
         }
