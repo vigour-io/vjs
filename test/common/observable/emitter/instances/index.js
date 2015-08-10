@@ -326,7 +326,9 @@ describe('instances', function() {
   })
 
   it( 'nested field updates context', function() {
-    var cnt = 0
+    var cnt = {
+      total: 0
+    }
     console.clear()
     var a = new Observable({
       $key:'a',
@@ -334,24 +336,16 @@ describe('instances', function() {
       b: {
         $on: {
           $change:function() {
-            console.log('heeee!', this.$path)
-            cnt++
+            cnt.total++
           }
         }
       }
     })
-
     var b = new a.$Constructor({
       $key:'b'
     })
-
-    console.log(b.b._$context, 'now context -- gets cleared somewhere..')
     a.b.$val = 'a change'
-
-    expect( cnt ).to.equal(2)
-    //this clears the context now
-
-    // expect()
+    expect( cnt.total ).to.equal(2)
   })
 
 })

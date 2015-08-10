@@ -113,9 +113,9 @@ describe('base', function() {
       expect(b.x.y._$context === b).to.equal(true);
       expect(b.x.y.z._$context === b).to.equal(true);
 
-      expect(b.x._$contextLevel).to.equal(0);
-      expect(b.x.y._$contextLevel).to.equal(1);
-      expect(b.x.y.z._$contextLevel).to.equal(2);
+      expect(b.x._$contextLevel).to.equal(1);
+      expect(b.x.y._$contextLevel).to.equal(2);
+      expect(b.x.y.z._$contextLevel).to.equal(3);
     });
 
     it('should not have _$context and _$contextLevel for parent object', function() {
