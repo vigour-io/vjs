@@ -100,7 +100,6 @@ describe( 'combined', function() {
       $on: {
         $change: {
           val:function( event ){
-            console.log('...... lezz remove')
             this.remove( event )
           }
         }
@@ -121,13 +120,7 @@ describe( 'combined', function() {
 
     expect(a.aNest.$on.$change.$base[1]).to.be.ok
 
-    console.clear()
-
-
-    console.log('xxxxx')
     a.aNest.$val = 'x'
-    console.log('xxxxx')
-
 
     expect(util.isRemoved(aRef)).to.be.true
     expect(a.aNest.$on.$change.$base[1]).to.be.null

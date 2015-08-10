@@ -329,14 +329,12 @@ describe('instances', function() {
     var cnt = {
       total: 0
     }
-    console.clear()
     var a = new Observable({
       $key:'a',
       $trackInstances: true,
       b: {
         $on: {
           $change:function() {
-            console.error('fire the change', this.$path)
             cnt.total++
           }
         }
