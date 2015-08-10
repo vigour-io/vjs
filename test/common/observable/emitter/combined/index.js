@@ -100,6 +100,7 @@ describe( 'combined', function() {
       $on: {
         $change: {
           val:function( event ){
+            console.log('...... lezz remove')
             this.remove( event )
           }
         }
@@ -120,104 +121,111 @@ describe( 'combined', function() {
 
     expect(a.aNest.$on.$change.$base[1]).to.be.ok
 
+    console.clear()
+
+
+    console.log('xxxxx')
     a.aNest.$val = 'x'
+    console.log('xxxxx')
+
+
     expect(util.isRemoved(aRef)).to.be.true
     expect(a.aNest.$on.$change.$base[1]).to.be.null
 
   })
 
-  it( 'test $new emitter', function() {
-
-    measure.a.$new = {
-      val: {
-        total: 0,
-        b: 0,
-        c: 0,
-        x: 0,
-        y: 0
-      }
-    }
-
-    a = new Observable({
-      $key: 'a',
-      $on: {
-        $new: function( event ) {
-          measure.a.$new.val.total++
-          measure.a.$new.val[this.$key]++
-        }
-      },
-      $useVal:true
-    })
-
-    var b = new a.$Constructor({ $key: 'b' })
-    var c = new b.$Constructor({ $key: 'c' })
-    var holder = new Observable({ $key:'holder' })
-
-    holder.set({
-      x: new a.$Constructor({ $key:'x' }),
-      y: new a.$Constructor({ $key:'y' })
-    })
-
-    expect( measure.a.$new.val.total ).to.equal( 4 )
-    expect( measure.a.$new.val.b ).to.equal( 1 )
-    expect( measure.a.$new.val.c ).to.equal( 1 )
-    expect( measure.a.$new.val.x ).to.equal( 1 )
-    expect( measure.a.$new.val.y ).to.equal( 1 )
-
-  })
-
-  it( 'test custom emitter base type listener', function() {
-    var total = 0
-    var total2 = 0
-    var listener = new Observable({
-      $key:'listener',
-      $on: {
-        someKindOfEvent: function() {
-          total2++
-        }
-      }
-    })
-    var obs = new Observable({
-      $key:'obs',
-      $on: {
-        someKindOfEvent: {
-          a: function() {
-            total++
-          },
-          b: listener
-        }
-      }
-    })
-
-    obs.$emit('someKindOfEvent')
-    expect( total ).to.equal( 1 )
-    expect( total2 ).to.equal( 1 )
-
-  })
-
-  it( 'using numbers as keys, id counter for addListener global', function() {
-    var total = 0
-    var obs = new Observable({
-      $key:'obs',
-      $on: {
-        $change: {
-          0: function() {
-            total++
-          },
-          1: function() {
-            total++
-          }
-        }
-      }
-    })
-
-    obs.on(function() {
-      //now dont overwrite 1!
-    })
-
-    obs.$val = 2
-    expect( total ).to.equal( 2 )
-
-  })
+  // it( 'test $new emitter', function() {
+  //
+  //   measure.a.$new = {
+  //     val: {
+  //       total: 0,
+  //       b: 0,
+  //       c: 0,
+  //       x: 0,
+  //       y: 0
+  //     }
+  //   }
+  //
+  //   a = new Observable({
+  //     $key: 'a',
+  //     $on: {
+  //       $new: function( event ) {
+  //         measure.a.$new.val.total++
+  //         measure.a.$new.val[this.$key]++
+  //       }
+  //     },
+  //     $useVal:true
+  //   })
+  //
+  //   var b = new a.$Constructor({ $key: 'b' })
+  //   var c = new b.$Constructor({ $key: 'c' })
+  //   var holder = new Observable({ $key:'holder' })
+  //
+  //   holder.set({
+  //     x: new a.$Constructor({ $key:'x' }),
+  //     y: new a.$Constructor({ $key:'y' })
+  //   })
+  //
+  //   expect( measure.a.$new.val.total ).to.equal( 4 )
+  //   expect( measure.a.$new.val.b ).to.equal( 1 )
+  //   expect( measure.a.$new.val.c ).to.equal( 1 )
+  //   expect( measure.a.$new.val.x ).to.equal( 1 )
+  //   expect( measure.a.$new.val.y ).to.equal( 1 )
+  //
+  // })
+  //
+  // it( 'test custom emitter base type listener', function() {
+  //   var total = 0
+  //   var total2 = 0
+  //   var listener = new Observable({
+  //     $key:'listener',
+  //     $on: {
+  //       someKindOfEvent: function() {
+  //         total2++
+  //       }
+  //     }
+  //   })
+  //   var obs = new Observable({
+  //     $key:'obs',
+  //     $on: {
+  //       someKindOfEvent: {
+  //         a: function() {
+  //           total++
+  //         },
+  //         b: listener
+  //       }
+  //     }
+  //   })
+  //
+  //   obs.$emit('someKindOfEvent')
+  //   expect( total ).to.equal( 1 )
+  //   expect( total2 ).to.equal( 1 )
+  //
+  // })
+  //
+  // it( 'using numbers as keys, id counter for addListener global', function() {
+  //   var total = 0
+  //   var obs = new Observable({
+  //     $key:'obs',
+  //     $on: {
+  //       $change: {
+  //         0: function() {
+  //           total++
+  //         },
+  //         1: function() {
+  //           total++
+  //         }
+  //       }
+  //     }
+  //   })
+  //
+  //   obs.on(function() {
+  //     //now dont overwrite 1!
+  //   })
+  //
+  //   obs.$val = 2
+  //   expect( total ).to.equal( 2 )
+  //
+  // })
 
 })
