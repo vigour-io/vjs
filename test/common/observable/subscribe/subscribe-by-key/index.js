@@ -1,10 +1,11 @@
 var L = 0
+
+var log = window.log = prepLogger()
+
 describe('subscribe-by-key', function() {
 
-	var Observable = require('../../../../lib/observable')
-	var SubsEmitter = require('../../../../lib/observable/subscribe/emitter')
-
-
+	var Observable = require('../../../../../lib/observable')
+	var SubsEmitter = require('../../../../../lib/observable/subscribe/emitter')
 
 	describe('subscribe by key already present', function() {
 
@@ -25,7 +26,6 @@ describe('subscribe-by-key', function() {
 		  	log.event(this, event, meta)
 		  	counter++
 		  	if(handler) {
-		  		log.header('boom ok do handler')
 		  		handler(this, event, meta)
 		  	}
 		  },
@@ -40,8 +40,6 @@ describe('subscribe-by-key', function() {
 		// ======================
 
 		it('should fire when property is changed with .$val', function(){
-			L = 0
-			log.header('11111111111')
 			var h_self
 			var h_event
 			var h_meta
@@ -50,7 +48,7 @@ describe('subscribe-by-key', function() {
 				h_event = event
 				h_meta = meta
 			}
-			
+
 			obs.key1.$val = 'heee'
 			expect(counter).to.equal(1)
 			expect(h_self).to.equal(obs)
@@ -60,8 +58,6 @@ describe('subscribe-by-key', function() {
 		})
 
 		it('should fire when property is changed with .$set', function(){
-			L = 0
-			log.header('22222222222')
 			var h_self
 			var h_event
 			var h_meta
@@ -70,13 +66,10 @@ describe('subscribe-by-key', function() {
 				h_event = event
 				h_meta = meta
 			}
-			
+
 			counter = 0
 			obs.key1.$val = 'dursh'
 
-			// obs.set({
-			// 	key1: 'dursh'
-			// })
 			expect(h_self).to.equal(obs)
 
 			expect(counter).to.equal(1)
@@ -90,7 +83,7 @@ describe('subscribe-by-key', function() {
 
 
 
-	describe.skip('subscribe by key not yet present, then add', function() {
+	describe('subscribe by key not yet present, then add', function() {
 
 		// ======================
 		var $pattern = {
@@ -100,12 +93,13 @@ describe('subscribe-by-key', function() {
 		var handler
 		var counter = 0
 		var obs = new Observable({
+			$key: 'obs',
 		  $on: {}
 		})
-		obs._$key = 'obs'
+
 		var subsEmitter = new SubsEmitter({
 		  handerl1: function(event, meta) {
-		  	logSubsEvent(event, meta)
+		  	log.event(event, meta)
 		  	counter++
 		  	if(handler) {
 		  		handler(this, event, meta)
@@ -125,41 +119,114 @@ describe('subscribe-by-key', function() {
 			obs.set({
 				key1: 'firstval'
 			})
-			expect(counter).to.equal(4)
+			expect(counter).to.equal(1)
 		})
 
-		it('fires when property is added', function(){
-
+		it('fires when property is changed', function(){
+			obs.set({
+				key1: 'flark'
+			})
+			expect(counter).to.equal(2)
+			obs.key1.$val = 'shurk'
+			expect(counter).to.equal(3)
 		})
 
 	})
 
-	describe.skip('remove subscribed over key, then add it anew', function() {
+	describe('remove subscribed over key, then add it anew', function() {
 
+		// ======================
+		var $pattern = {
+	    key1: true
+	  }
+	  // ----------------------
+		var handler
+		var counter = 0
+		var obs = new Observable({
+			$key: 'obs',
+			key1: 'val1',
+		  $on: {}
+		})
+
+		var subsEmitter = new SubsEmitter({
+		  handerl1: function(event, meta) {
+		  	log.event(event, meta)
+		  	counter++
+		  	if(handler) {
+		  		handler(this, event, meta)
+		  	}
+		  },
+		  $pattern: $pattern
+		}, false, obs.$on)
+
+		obs.set({
+		  $on: {
+		    durps: subsEmitter
+		  }
+		})
+		// ======================
+
+		it('should fire when key is removed', function(){
+			L = 1
+			log.header('ok remove shining')
+			handler = function(self, event, meta){
+				log('handler!', meta)
+			}
+			obs.key1.remove()
+			expect(counter).to.equal(1)
+		})
+		it('should fire when key is added anew', function(){
+			log.warn('add anew!')
+			obs.set({
+				key1: 'newvalue'
+			})
+			expect(counter).to.equal(2)
+		})
+		it.skip('should fire when value is changed', function(){
+
+		})
 	})
 
 	describe.skip('subscribe by multiple keys', function() {
-		
+
 	})
 
 	describe.skip('subscribe by nested key', function() {
-		
+
 	})
 
 	describe.skip('subscribe by multiple nested keys', function() {
-		
+
 	})
 
 })
 
-var log = makeChecked(console.log)
 
-for(var k in console) {
-	var thing = console[k]
-	if(typeof thing === 'function') {
-		log[k] = makeChecked(thing)
+
+function prepLogger(){
+	var log = makeChecked(console.log)
+	for(var k in console) {
+		var thing = console[k]
+		if(typeof thing === 'function') {
+			log[k] = makeChecked(thing)
+		}
 	}
+	log.header = function logHeader(header) {
+		log(
+			'%c------------- ' + header,
+			'margin: 5px; color:blue; font-size: 16pt'
+		)
+	}
+	log.event = function logEvent(self, event, meta) {
+		log.error('SUBSEMITTER HANDLER FIRED!', meta)
+	  log.group()
+	  log('this:', self, '\n')
+	  log('meta:', meta, '\n')
+	  log.groupEnd()
+	}
+	return log
 }
+
 
 function makeChecked(thing) {
 	return function() {
@@ -167,18 +234,4 @@ function makeChecked(thing) {
 			return thing.apply(console, arguments)
 		}
 	}
-}
-
-log.header = function logHeader(header) {
-	log(
-		'%c------------- ' + header,
-		'margin: 5px; color:blue; font-size: 16pt'
-	)
-}
-log.event = function logEvent(self, event, meta) {
-	log.error('SUBSEMITTER HANDLER FIRED!', meta)
-  log.group()
-  log('this:', self, '\n')
-  log('meta:', meta, '\n')
-  log.groupEnd()	
 }

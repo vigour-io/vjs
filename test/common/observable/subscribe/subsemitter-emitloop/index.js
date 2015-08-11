@@ -1,3 +1,5 @@
+var L = 0
+
 describe('subsemitter-emitloop', function() {
 
 	var Event
@@ -28,20 +30,20 @@ describe('subsemitter-emitloop', function() {
 		}, void 0, obsB, 'subsemitter')
 
 		obsA.on('$change', function(event) {
-			// console.error('------------ obsA change handler', event.$stamp)
+			log.error('------------ obsA change handler', event.$stamp)
 			timeline.push('A-change')
 			subsemitter.$emit(event, obsB)
 		})
 
 		obsB.on('$change', function(event) {
-			// console.error('------------ obsB change handler', event.$stamp)
+			log.error('------------ obsB change handler', event.$stamp)
 			timeline.push('B-change')
 			subsemitter.$emit(event, obsB)
 			obsA.set( 'chainge!' )
 		})
 
 		obsB.on('$property', function(event) {
-			// console.error('------------ obsB property handler', event.$stamp)
+			log.error('------------ obsB property handler', event.$stamp)
 			timeline.push('B-property')
 			subsemitter.$emit(event, obsB)
 		})
@@ -50,12 +52,11 @@ describe('subsemitter-emitloop', function() {
 			newkey: 'val'
 		})
 
-		// console.log('>>>>', timeline)
+		log('>>>>', timeline)
 		// logs:
 		// ["B-change", "A-change", "B-property", "B-subscribe", "B-subscribe"]
 
 		// now --> [ "B-change", "A-change", "B-property", "B-subscribe" ]
-
 
 		//now this results in 	[ 'B-change', 'A-change', 'B-property', 'B-subscribe' ]
 		//sort of good but pretty strange!
@@ -68,3 +69,34 @@ describe('subsemitter-emitloop', function() {
 	})
 
 })
+
+var log = makeChecked(console.log)
+
+for(var k in console) {
+	var thing = console[k]
+	if(typeof thing === 'function') {
+		log[k] = makeChecked(thing)
+	}
+}
+
+function makeChecked(thing) {
+	return function() {
+		if(typeof L !== 'undefined' && L) {
+			return thing.apply(console, arguments)
+		}
+	}
+}
+
+log.header = function logHeader(header) {
+	log(
+		'%c------------- ' + header,
+		'margin: 5px; color:blue; font-size: 16pt'
+	)
+}
+log.event = function logEvent(self, event, meta) {
+	log.error('SUBSEMITTER HANDLER FIRED!', meta)
+  log.group()
+  log('this:', self, '\n')
+  log('meta:', meta, '\n')
+  log.groupEnd()	
+}
