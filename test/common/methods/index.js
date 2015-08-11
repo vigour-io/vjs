@@ -1,7 +1,7 @@
 describe( 'methods', function() {
   require('./convert/')
   require('./each/')
-  // require('./filter/')
+  require('./filter/')
   // require('./find/')
   // require('./get/')
   // require('./keys/')
