@@ -1,6 +1,6 @@
 describe( 'methods', function() {
   require('./convert/')
-  // require('./each/')
+  require('./each/')
   // require('./filter/')
   // require('./find/')
   // require('./get/')
