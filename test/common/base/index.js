@@ -12,7 +12,7 @@ describe('base', function() {
   });
 
   it('should have the internal key', function() {
-    expect(a._$key).to.be.eql('a');
+    expect(a.$key).to.be.eql('a');
   });
 
   it('should have simple value', function() {
@@ -113,9 +113,9 @@ describe('base', function() {
       expect(b.x.y._$context === b).to.equal(true);
       expect(b.x.y.z._$context === b).to.equal(true);
 
-      expect(b.x._$contextLevel).to.equal(0);
-      expect(b.x.y._$contextLevel).to.equal(1);
-      expect(b.x.y.z._$contextLevel).to.equal(2);
+      expect(b.x._$contextLevel).to.equal(1);
+      expect(b.x.y._$contextLevel).to.equal(2);
+      expect(b.x.y.z._$contextLevel).to.equal(3);
     });
 
     it('should not have _$context and _$contextLevel for parent object', function() {
@@ -158,18 +158,18 @@ describe('base', function() {
     });
 
     it('When set different value should return base after context has been resolved', function () {
-      var spy = sinon.spy(a.x.y.z, 'set');
-      b.x.y.z.$val = 123;
+      var spy = sinon.spy( a.x.y.z, 'set' )
+      b.x.y.z.$val = 123
 
-      expect(spy).to.have.returned(b.x.y.z);
-      expect(b.x.y.z).to.be.instanceOf(a.x.y.z.$Constructor);
+      expect(spy).to.have.returned(b.x.y.z)
+      expect(b.x.y.z).to.be.instanceOf(a.x.y.z.$Constructor)
       expect(b.x._$parent !== a).to.be.true;
     });
 
   });
 
-  describe('Changing stuff', function () {
-    var c, setSpy, setValueSpy, setKeySpy, setKeyInternalSpy;
+  describe( 'change', function () {
+    var c, setSpy, setValueSpy, setKeySpy, setKeyInternalSpy
 
     beforeEach(function() {
       c = new Base({
@@ -181,9 +181,9 @@ describe('base', function() {
             y: 123
           }
         }
-      });
+      })
 
-      setValueSpy = sinon.spy(c, '$setValue');
+      setValueSpy = sinon.spy(c, '$setValue')
     });
 
     it('Should return undefined when there are no/same changes for $value', function () {
@@ -246,6 +246,55 @@ describe('base', function() {
       var setKeySpy = sinon.spy(c, 'setKey');
       c.setKey('test', 1);
       expect(setKeySpy).to.have.returned(undefined);
+    });
+
+  });
+
+  describe('remove', function() {
+    var theObj;
+
+    beforeEach(function() {
+      theObj = new Base({
+        $key: 'theObj',
+        a: {
+          a1: {
+            a11: true
+          },
+          a2: {
+            a21: 123
+          }
+        }
+      });
+    });
+
+    it('should remove property with $setValue null', function() {
+      theObj.a.a1.$setValue(null);
+      expect(theObj.a.a1).to.be.null;
+    });
+
+    it('should remove property with $value null', function() {
+      theObj.a.a1.$val = null;
+      expect(theObj.a.a1).to.be.null;
+    });
+
+    it('should remove property with set null', function() {
+      theObj.a.set({
+        a1: null
+      });
+
+      expect(theObj.a).to.be.defined;
+      expect(theObj.a.a1).to.be.null;
+    });
+
+    it('should remove from derived type', function() {
+      var anotherObj = new theObj.$Constructor({
+        $key: 'anotherObj'
+      });
+
+      anotherObj.a.remove();
+
+      expect(theObj.a).to.be.defined;
+      expect(anotherObj.a).to.be.null;
     });
 
   });

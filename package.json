@@ -1,6 +1,6 @@
 {
   "name": "vjs",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "author": "Vigour.io <dev@vigour.io>",
   "repository": {
     "type": "git",
@@ -36,7 +36,8 @@
   "license": "GPL",
   "devDependencies": {
     "dmd": "^1.1.1",
-    "jsdoc-to-markdown": "^1.1.1"
+    "jsdoc-to-markdown": "^1.1.1",
+    "gaston": "git+ssh://git@github.com:vigour-io/gaston.git#dev"
   },
   "gaston": {
     "port": 8080,

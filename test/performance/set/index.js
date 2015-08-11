@@ -2,8 +2,6 @@ var Obs = require('../../../lib/observable')
 var util = require('../../../lib/util')
 var Event = require('../../../lib/event')
 
-console.clear()
-
 describe( 'set method', function() {
   var amount = 100e3
   it( 'nested fields - using set against baseline', function( done ) {
@@ -24,7 +22,7 @@ describe( 'set method', function() {
         for( var i = 0; i < amount; i++ ) {
           var obs = new Obs2()
           obs.i = new Obs2(i)
-          obs.i._$key = 'i'
+          obs.i.$key = 'i'
           obs.i._$parent = obs
           arr.push( obs )
         }
@@ -33,7 +31,7 @@ describe( 'set method', function() {
   })
 
   it( 'using set against using set, with key in prototype', function( done ) {
-    this.timeout(500e3)
+    this.timeout(50e3)
     var Obs2 = new Obs().$Constructor
     var ObsWithI = new Obs({
       i:false

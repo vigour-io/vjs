@@ -5,10 +5,10 @@ var Observable = require('../../lib/observable')
 console.log('\n\n-------------- create those things!')
 
 var subsPassonBase = new Observable()
-subsPassonBase._$key = 'subsPassonBase'
+subsPassonBase.$key = 'subsPassonBase'
 
 var subsBase = new Observable()
-subsBase._$key = 'subsBase'
+subsBase.$key = 'subsBase'
 subsBase.on(function(){
   console.error('subsBase change fired!')
 })

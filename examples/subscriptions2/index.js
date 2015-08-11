@@ -16,7 +16,7 @@ var ding1 = new Observable({
   key1: 'val1',
   $on: {}
 })
-ding1._$key = 'rootding'
+ding1.$key = 'rootding'
 
 var subsEmitter = new SubsEmitter({
   hopla: function(event, meta) {

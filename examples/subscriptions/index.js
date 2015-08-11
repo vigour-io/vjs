@@ -35,7 +35,7 @@ var ding1 = new Observable({
     }
   }
 })
-ding1._$key = 'ding1'
+ding1.$key = 'ding1'
 
 console.log('\n\n-------------- go fire dat boy')
 

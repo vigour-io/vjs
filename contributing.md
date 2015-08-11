@@ -16,7 +16,7 @@
 $handleShifted: function(i) {
   var item = this[i]
   if(item._$parent === this) {
-    item._$key = i
+    item.$key = i
   } else if(item._$contextKey !== i){
      this.$createListContextGetter(i)
   }

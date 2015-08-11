@@ -57,7 +57,7 @@ var resolver = Base.prototype.$resolveContextSet
 
 Base.prototype.define({
   $resolveContextSet: function() {
-    console.log('im resolving!', this._$key)
+    console.log('im resolving!', this.$key)
     return resolver.apply(this, arguments)
   }
 })
@@ -152,7 +152,7 @@ var a = new Observable({
   },
   $on: {
     $new: function() {
-      console.log('new a!', this._$key)
+      console.log('new a!', this.$key)
     }
   }
 })
