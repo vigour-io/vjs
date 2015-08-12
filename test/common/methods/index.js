@@ -3,7 +3,7 @@ describe( 'methods', function() {
   require('./each/')
   require('./filter/')
   require('./find/')
-  // require('./get/')
+  require('./get/')
   // require('./keys/')
   // require('./look-down/')
   // require('./look-up/')
