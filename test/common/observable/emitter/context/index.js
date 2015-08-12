@@ -81,4 +81,69 @@ describe('context', function() {
     })
   })
 
+  describe( 'multiple contexts and instances', function() {
+    var test = contextObservable()
+
+    test.c = new test.a.$Constructor({
+      $key:'c'
+    })
+
+    test.d = new test.a.$Constructor({
+      $key:'d',
+      b: 'b'
+    })
+
+    it( 'should fire once for "a" context' , function() {
+      expect( test.cnt.a ).to.equal( 1 )
+    })
+
+    //now do stuff with d
+
+  })
+
+  describe( 'context and nested instances', function() {
+    var test = contextObservable()
+
+    it( 'should create a new a.b (c)', function() {
+      test.c = new test.a.b.$Constructor({
+        $key:'c'
+      })
+    })
+
+    test.a.b.$val = 'a change'
+    it( 'should fire once for "a" context' , function() {
+      expect( test.cnt.a ).to.equal( 1 )
+    })
+    it( 'should fire once for "b" context' , function() {
+      expect( test.cnt.b ).to.equal( 1 )
+    })
+    it( 'should fire once for "c" instance' , function() {
+      expect( test.cnt.c ).to.equal( 1 )
+    })
+    it( 'should fire 3 times in total' , function() {
+      expect( test.cnt.total ).to.equal( 3 )
+    })
+  })
+
+  //add nog de simpelere test om context + changing contexts van hetzelfde
+
+  describe( 'multiple contexts and different instances', function() {
+    var test = contextObservable()
+
+    it( 'should create a new a.b (c) and d (nest observable)', function() {
+
+      test.c = new test.a.b.$Constructor({
+        $key:'c'
+      })
+
+      test.d = new Observable({
+        $key:'d',
+        nest: new test.a.$Constructor()
+      })
+
+    })
+    //now do stuff with d
+
+  })
+
 })
