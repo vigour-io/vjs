@@ -234,14 +234,17 @@ describe('context', function() {
 
       test.c.nest.b.$emit('$change')
       // test.c.nest.b.$val = 'something'  also this goes wrong
-      expect( test.cnt.a ).msg('no update on a').to.be.not.ok
 
       //nu word ie geblocked op !$context
-      expect( test.cnt.d ).msg('d').to.equal( 1 )
-      expect( test.cnt.c ).msg('c').to.equal( 1 )
-
-      expect( test.cnt.e ).msg('e').to.equal( 1 )
       expect( test.cnt.total ).msg('total').to.equal( 3 )
+      //not context reset
+
+      expect( test.cnt.d ).msg('d').to.equal( 1 )
+      expect( test.cnt.e ).msg('e').to.equal( 1 )
+
+      expect( test.cnt.c ).msg('c').to.equal( 1 )
+      expect( test.cnt.a ).msg('no update on a').to.be.not.ok
+
     })
 
   })
