@@ -325,33 +325,4 @@ describe('instances', function() {
       .msg('b3 is a3.$on._instances.total').to.equal(b3)
   })
 
-  it( 'nested field (virtual) updates context', function() {
-    var cnt = {
-      total: 0
-    }
-    var a = new Observable({
-      $key:'a',
-      $trackInstances: true,
-      b: {
-        $on: {
-          $change:function() {
-            var key = this.$path[0]
-            cnt[key] ? ( cnt[key]++ ) : ( cnt[key] = 1 )
-            cnt.total++
-          }
-        }
-      }
-    })
-
-    var b = new a.$Constructor({
-      $key:'b'
-    })
-
-    a.b.$val = 'a change'
-    expect( cnt.a ).msg('a').to.equal(1)
-    expect( cnt.b ).msg('b').to.equal(1)
-    expect( cnt.total ).to.equal(2)
-
-  })
-
 })
