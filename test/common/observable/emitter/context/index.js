@@ -3,7 +3,6 @@ describe('context', function() {
   var Observable = require('../../../../../lib/observable')
 
   function contextObservable() {
-
     var cnt = {
       total: 0
     }
@@ -60,7 +59,7 @@ describe('context', function() {
     })
   })
 
-  describe.skip( 'multiple instances', function() {
+  describe( 'multiple instances', function() {
     var test = contextObservable()
 
     var c = new test.a.$Constructor({
