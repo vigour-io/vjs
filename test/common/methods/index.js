@@ -2,7 +2,7 @@ describe( 'methods', function() {
   require('./convert/')
   require('./each/')
   require('./filter/')
-  // require('./find/')
+  require('./find/')
   // require('./get/')
   // require('./keys/')
   // require('./look-down/')
