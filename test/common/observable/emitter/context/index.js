@@ -86,75 +86,86 @@ describe('context', function() {
     test.c = new test.a.$Constructor({
       $key:'c'
     })
-
-    it( 'sets b and should fire once for "d" instance' , function() {
-      test.d = new test.a.$Constructor({
-        $key: 'd',
-        b:'b' //you should not fire for original!
-      })
-      expect( test.cnt.d ).to.equal( 1 )
+    test.d = new test.a.$Constructor({
+      $key:'d'
     })
 
-    it( 'sets a.b and should fire once for "a" context' , function() {
+    it( 'creates "e" sets b and should fire once for "e" instance' , function() {
+      test.d = new test.a.$Constructor({
+        $key: 'e',
+        b:'b' //you should not fire for original!
+      })
+      expect( test.cnt.e ).to.equal( 1 )
+    })
+
+    it( 'sets a.b and should fire once for "a"' , function() {
+      console.clear()
       test.a.b.$val = 'a'
       expect( test.cnt.a ).to.equal( 1 )
     })
 
-    it( 'should fire twice for "d"' , function() {
-      expect( test.cnt.d ).to.equal( 2 )
-    })
-
-    it( 'should not fire for "c"' , function() {
-      expect( test.cnt.c ).to.not.be.ok
-    })
-
-  })
-
-  describe( 'context and nested instances', function() {
-    var test = contextObservable()
-    console.clear()
-
-    it( 'should create a new a.b (c) should fire once for c', function() {
-      console.clear()
-      test.c = new test.a.b.$Constructor({
-        $key:'c'
-      })
+    it( 'should fire once for "c"' , function() {
+      //problem -- has instances never update contexts anymore
       expect( test.cnt.c ).to.equal( 1 )
     })
 
-    it( 'sets a.b, should fire once for "a" context' , function() {
-      test.a.b.$val = 'a change'
-      expect( test.cnt.a ).to.equal( 1 )
+    it( 'should fire once for "d"' , function() {
+      //problem -- has instances never update contexts anymore
+      expect( test.cnt.d ).to.equal( 1 )
     })
 
-    it( 'should fire once for "c" context' , function() {
-      expect( test.cnt.c ).to.equal( 2 )
+    it.skip( 'should not fire for "e"' , function() {
+      //TOOD: disconnected cactch irrelevant change
+      expect( test.cnt.d ).to.equal( 1 )
     })
 
-    it( 'should fire 3 times in total' , function() {
-      expect( test.cnt.total ).to.equal( 3 )
-    })
   })
 
-  //add nog de simpelere test om context + changing contexts van hetzelfde
-
-  describe.skip( 'multiple contexts and different instances', function() {
-    var test = contextObservable()
-
-    it( 'should create a new a.b (c) and d (nest observable)', function() {
-
-      test.c = new test.a.b.$Constructor({
-        $key:'c'
-      })
-
-      test.d = new Observable({
-        $key:'d',
-        nest: new test.a.$Constructor()
-      })
-
-    })
-    //now do stuff with d
-
-  })
+  // describe( 'instance with a different parent', function() {
+  //   var test = contextObservable()
+  //
+  //   it( 'should create a new a.b (c) should fire once for c', function() {
+  //     test.c = new test.a.b.$Constructor({
+  //       $key:'c'
+  //     })
+  //     expect( test.cnt.c ).to.equal( 1 )
+  //   })
+  //
+  //   it( 'sets a.b, should fire once for "a"' , function() {
+  //     test.a.b.$val = 'a change'
+  //     expect( test.cnt.a ).to.equal( 1 )
+  //   })
+  //
+  //   it( 'should fire once for "c"' , function() {
+  //     expect( test.cnt.c ).to.equal( 2 )
+  //   })
+  //
+  //   it( 'should fire 3 times in total' , function() {
+  //     expect( test.cnt.total ).to.equal( 3 )
+  //   })
+  // })
+  //
+  // //add nog de simpelere test om context + changing contexts van hetzelfde
+  //
+  // describe( 'instances with different parents, different contexts', function() {
+  //   var test = contextObservable()
+  //
+  //   if('creates a new "a.b" --> "c" should fire once for "c"', function() {
+  //     console.clear()
+  //     test.c = new test.a.b.$Constructor({
+  //       $key:'c'
+  //     })
+  //     expect( test.cnt.c ).msg('c').to.equal( 1 )
+  //   })
+  //
+  //   it( 'creates a new "a" --> "d" (nest observable) should fire once for "d"', function() {
+  //     test.d = new Observable({
+  //       $key:'d',
+  //       nest: new test.a.$Constructor() //really mested up case
+  //     })
+  //     expect( test.cnt.d ).msg('d').to.equal( 1 )
+  //   })
+  //   //now do stuff with d
+  // })
 
 })
