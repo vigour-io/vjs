@@ -1,7 +1,16 @@
 var L = 0
 
 var log = window.log = prepLogger()
-
+console.clear()
+var handler
+var h_self
+var h_event
+var h_meta
+handler = function(self, event, meta) {
+	h_self = self
+	h_event = event
+	h_meta = meta
+}
 describe('subscribe-by-key', function() {
 
 	var Observable = require('../../../../../lib/observable')
@@ -14,13 +23,14 @@ describe('subscribe-by-key', function() {
 	    key1: true
 	  }
 	  // ----------------------
-		var handler
+
 		var counter = 0
 		var obs = new Observable({
+			$key: 'obs',
 		  key1: 'val1',
 		  $on: {}
 		})
-		obs._$key = 'obs'
+
 		var subsEmitter = new SubsEmitter({
 		  handerl1: function(event, meta) {
 		  	log.event(this, event, meta)
@@ -40,43 +50,32 @@ describe('subscribe-by-key', function() {
 		// ======================
 
 		it('should fire when property is changed with .$val', function(){
-			var h_self
-			var h_event
-			var h_meta
-			handler = function(self, event, meta) {
-				h_self = self
-				h_event = event
-				h_meta = meta
-			}
+			// L = 1
 
 			obs.key1.$val = 'heee'
+
 			expect(counter).to.equal(1)
 			expect(h_self).to.equal(obs)
+			expect(h_meta).to.have.property('key1')
+				.which.has.property('$val')
+				.which.equals('heee')
 
-			obs.key1.$val = 'ha'
-			expect(counter).to.equal(2)
+			log('META', h_meta)
+			// obs.key1.$val = 'ha'
+			// expect(counter).to.equal(2)
 		})
 
-		it('should fire when property is changed with .$set', function(){
-			var h_self
-			var h_event
-			var h_meta
-			handler = function(self, event, meta) {
-				h_self = self
-				h_event = event
-				h_meta = meta
-			}
-
+		it('should fire when property is changed with .set', function(){
 			counter = 0
-			obs.key1.$val = 'dursh'
-
-			expect(h_self).to.equal(obs)
-
-			expect(counter).to.equal(1)
 			obs.set({
 				key1: 'shurkeeke'
 			})
-			expect(counter).to.equal(2)
+			expect(counter).to.equal(1)
+			expect(h_self).to.equal(obs)
+			expect(h_meta).to.have.property('key1')
+				.which.has.property('$val')
+				.which.equals('shurkeeke')
+
 		})
 
 	})
@@ -90,7 +89,7 @@ describe('subscribe-by-key', function() {
 	    key1: true
 	  }
 	  // ----------------------
-		var handler
+		// var handler
 		var counter = 0
 		var obs = new Observable({
 			$key: 'obs',
@@ -99,7 +98,7 @@ describe('subscribe-by-key', function() {
 
 		var subsEmitter = new SubsEmitter({
 		  handerl1: function(event, meta) {
-		  	log.event(event, meta)
+		  	log.event(this, event, meta)
 		  	counter++
 		  	if(handler) {
 		  		handler(this, event, meta)
@@ -116,19 +115,40 @@ describe('subscribe-by-key', function() {
 		// ======================
 
 		it('fires when property is added', function(){
+			log.header('2')
+
+			counter = 0
 			obs.set({
 				key1: 'firstval'
 			})
+
 			expect(counter).to.equal(1)
+			expect(h_self).to.equal(obs)
+			expect(h_meta).to.have.property('_added')
+				.which.has.property(0)
+				.which.equals(obs.key1)
+
 		})
 
-		it('fires when property is changed', function(){
+		it('fires when previously added property is changed', function(){
+			counter = 0
 			obs.set({
 				key1: 'flark'
 			})
-			expect(counter).to.equal(2)
+			expect(counter).to.equal(1)
+			expect(h_self).to.equal(obs)
+			expect(h_meta).to.have.property('key1')
+				.which.equals(obs.key1)
+
 			obs.key1.$val = 'shurk'
-			expect(counter).to.equal(3)
+			expect(counter).to.equal(2)
+			expect(h_self).to.equal(obs)
+			expect(h_meta).to.have.property('key1')
+				.which.equals(obs.key1)
+		})
+
+		it('should have removed missing property listener', function(){
+			expect(obs.$on.$property.$attach).to.equal(null)
 		})
 
 	})
@@ -150,7 +170,7 @@ describe('subscribe-by-key', function() {
 
 		var subsEmitter = new SubsEmitter({
 		  handerl1: function(event, meta) {
-		  	log.event(event, meta)
+		  	log.event(this, event, meta)
 		  	counter++
 		  	if(handler) {
 		  		handler(this, event, meta)
@@ -166,16 +186,19 @@ describe('subscribe-by-key', function() {
 		})
 		// ======================
 
-		it('should fire when key is removed', function(){
-			L = 1
+		it.skip('should fire when key is removed', function(){
+			// L = 1
 			log.header('ok remove shining')
+			var check_meta
 			handler = function(self, event, meta){
-				log('handler!', meta)
+				log('handler!', self, event, meta)
+				check_meta = meta
 			}
+
 			obs.key1.remove()
 			expect(counter).to.equal(1)
 		})
-		it('should fire when key is added anew', function(){
+		it.skip('should fire when key is added anew', function(){
 			log.warn('add anew!')
 			obs.set({
 				key1: 'newvalue'
