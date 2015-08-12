@@ -15,7 +15,8 @@ describe('context', function() {
         $on: {
           $change:function() {
             var key = this.$path[0]
-            cnt[key] = cnt[key] ? cnt[key]+1 :1
+            console.error('\nFIRE IT--->????', cnt[key], key, this._$context &&  this._$context.$path)
+            cnt[key] = cnt[key] ? cnt[key]+1 : 1
             cnt.total++
           }
         }
@@ -34,7 +35,6 @@ describe('context', function() {
   }
 
   describe( 'emit on instance', function() {
-    console.clear()
     var test = contextObservable()
     //dit is resolve context shit
     test.b.b.$emit('$change') // = 'b change'
@@ -47,7 +47,6 @@ describe('context', function() {
   })
 
   describe( 'set on instance', function() {
-    console.clear()
     var test = contextObservable()
     //dit is resolve context shit
     test.b.b.$val = 'b change'
@@ -88,34 +87,30 @@ describe('context', function() {
       $key:'c'
     })
 
-    it( 'should fire once for "d" context' , function() {
-      expect( test.cnt.d ).to.equal( 0 )
-    })
-
-    test.d = new test.a.$Constructor({
-      $key: 'd',
-      b:'b'
-    })
-
-    it( 'should fire once for "d" context' , function() {
+    it( 'sets b and should fire once for "d" instance' , function() {
+      test.d = new test.a.$Constructor({
+        $key: 'd',
+        b:'b' //you should not fire for original!
+      })
       expect( test.cnt.d ).to.equal( 1 )
     })
 
-    test.a.b.$val = '?'
-
-    it( 'should fire once for "a" context' , function() {
+    it( 'sets a.b and should fire once for "a" context' , function() {
+      test.a.b.$val = 'a'
       expect( test.cnt.a ).to.equal( 1 )
     })
 
-    it( 'should fire once for "d" context' , function() {
-      expect( test.cnt.d ).to.equal( 1 )
+    it( 'should fire twice for "d"' , function() {
+      expect( test.cnt.d ).to.equal( 2 )
     })
 
-    //now do stuff with d
+    it( 'should not fire for "c"' , function() {
+      expect( test.cnt.c ).to.not.be.ok
+    })
 
   })
 
-  describe( 'context and nested instances', function() {
+  describe.skip( 'context and nested instances', function() {
     var test = contextObservable()
 
     it( 'should create a new a.b (c)', function() {
@@ -141,7 +136,7 @@ describe('context', function() {
 
   //add nog de simpelere test om context + changing contexts van hetzelfde
 
-  describe( 'multiple contexts and different instances', function() {
+  describe.skip( 'multiple contexts and different instances', function() {
     var test = contextObservable()
 
     it( 'should create a new a.b (c) and d (nest observable)', function() {
