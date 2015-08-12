@@ -175,6 +175,15 @@ describe('context', function() {
       })
       expect( test.cnt.c ).msg('c').to.equal( 1 )
       expect( test.cnt.total ).msg('total').to.equal( 1 )
+      expect( test.cnt.a ).msg('no update on a').to.be.not.ok
+    })
+
+    it( 'sets a, should fire for c, a, aIsntance, d', function() {
+      test.a.b.$val = 'marcus'
+      expect( test.cnt.a ).msg('a').to.equal( 1 )
+      expect( test.cnt.c ).msg('c').to.equal( 2 )
+      expect( test.cnt.d ).msg('d').to.equal( 1 )
+      expect( test.cnt.aInstance ).msg('aInstance').to.equal( 1 )
     })
     //now do stuff with d
   })
