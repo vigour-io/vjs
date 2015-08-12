@@ -15,6 +15,13 @@ describe('context', function() {
         $on: {
           $change:function() {
             var key = this.$path[0]
+            //how the fuck can context be a??
+            if(this._$context) {
+              if(this._$context.$path[0]==='a') {
+                console.error('whats going on???', this._$context instanceof a.$Constructor, this._$context._$parent)
+                // console.error(this._$context.)
+              }
+            }
             console.error('\nFIRE IT--->????', cnt[key], key, this._$context &&  this._$context.$path)
             cnt[key] = cnt[key] ? cnt[key]+1 : 1
             cnt.total++
@@ -165,17 +172,23 @@ describe('context', function() {
       test.c = new test.a.b.$Constructor({
         $key:'c'
       })
-      expect( test.cnt.c ).msg('c').to.equal( 1 )
-    })
-
-    it( 'creates a new "a" --> "d" (nest observable) should fire once for "d"', function() {
-      test.d = new Observable({
-        $key:'d',
-        nest: new test.a.$Constructor() //really mested up case
-      })
+      expect( test.cnt.a ).msg('no update on a').to.be.not.ok
       expect( test.cnt.c ).msg('c').to.equal( 1 )
       expect( test.cnt.total ).msg('total').to.equal( 1 )
+    })
+
+    it( 'creates a new "a" --> "d" (nest observable) should not fire', function() {
+      console.clear()
+      test.d = new Observable({
+        $key:'d',
+
+        //this needs to get the key 'nest'
+        nest: { $useVal: new test.a.$Constructor() } //really mested up case
+      })
+
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
+      expect( test.cnt.c ).msg('c').to.equal( 1 )
+      expect( test.cnt.total ).msg('total').to.equal( 1 )
     })
 
     it( 'sets a, should fire for c, a, aIsntance, d', function() {
@@ -184,6 +197,7 @@ describe('context', function() {
       expect( test.cnt.c ).msg('c').to.equal( 2 )
       expect( test.cnt.d ).msg('d').to.equal( 1 )
       expect( test.cnt.aInstance ).msg('aInstance').to.equal( 1 )
+      expect( test.cnt.total ).msg('total').to.equal( 5 )
     })
     //now do stuff with d
   })
