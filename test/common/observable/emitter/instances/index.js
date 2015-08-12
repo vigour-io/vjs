@@ -325,7 +325,7 @@ describe('instances', function() {
       .msg('b3 is a3.$on._instances.total').to.equal(b3)
   })
 
-  it( 'nested field updates context', function() {
+  it( 'nested field (virtual) updates context', function() {
     var cnt = {
       total: 0
     }
