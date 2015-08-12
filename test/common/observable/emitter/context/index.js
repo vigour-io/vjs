@@ -119,29 +119,21 @@ describe('context', function() {
       test.c = new test.a.b.$Constructor({
         $key:'c'
       })
-
-      console.log(test.c)
-
-      //c does not have parent be smart about it!
       expect( test.cnt.c ).to.equal( 1 )
     })
 
-    // it( 'sets a.b, should fire once for "a" context' , function() {
-    //   test.a.b.$val = 'a change'
-    //   expect( test.cnt.a ).to.equal( 1 )
-    // })
-    //
-    // it( 'should fire once for "b" context' , function() {
-    //   expect( test.cnt.b ).to.equal( 1 )
-    // })
-    //
-    // it( 'should fire once for "c" instance' , function() {
-    //   expect( test.cnt.c ).to.equal( 1 )
-    // })
-    //
-    // it( 'should fire 3 times in total' , function() {
-    //   expect( test.cnt.total ).to.equal( 3 )
-    // })
+    it( 'sets a.b, should fire once for "a" context' , function() {
+      test.a.b.$val = 'a change'
+      expect( test.cnt.a ).to.equal( 1 )
+    })
+
+    it( 'should fire once for "c" context' , function() {
+      expect( test.cnt.c ).to.equal( 2 )
+    })
+
+    it( 'should fire 3 times in total' , function() {
+      expect( test.cnt.total ).to.equal( 3 )
+    })
   })
 
   //add nog de simpelere test om context + changing contexts van hetzelfde
