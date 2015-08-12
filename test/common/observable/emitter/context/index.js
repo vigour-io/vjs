@@ -208,9 +208,11 @@ describe('context', function() {
       console.clear()
       test.c = new Observable({
         $key:'c',
+        $trackInstances: true, //wtf????
         nest: { $useVal: new test.a.$Constructor() }
         //ultra mested up case...
       })
+      console.warn(test.c.nest.b._$parent.$key)
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
       expect( test.cnt.total ).msg('total').to.equal( 0 )
     })
@@ -227,12 +229,17 @@ describe('context', function() {
     })
 
     it( 'fires from context in c', function() {
-      test.c.nest.b.$val = 'something'
+
+      //.b is trough the context of c.nest which is a seperate instance
+
+      test.c.nest.b.$emit('$change')
+      // test.c.nest.b.$val = 'something'  also this goes wrong
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
 
-      expect( test.cnt.c ).msg('c').to.equal( 1 )
       //nu word ie geblocked op !$context
       expect( test.cnt.d ).msg('d').to.equal( 1 )
+      expect( test.cnt.c ).msg('c').to.equal( 1 )
+
       expect( test.cnt.e ).msg('e').to.equal( 1 )
       expect( test.cnt.total ).msg('total').to.equal( 3 )
     })
