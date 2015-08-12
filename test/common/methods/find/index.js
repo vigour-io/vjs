@@ -45,4 +45,25 @@ describe('find', function() {
     expect(result).to.have.length(0)
   })
 
+  it('should allow pass option cap and stop after certain number of matches', function() {
+    var b = new Base({
+      a: {
+        x: 123
+      },
+      b: {
+        y: {
+          x: 456
+        }
+      },
+      x: 987
+    })
+
+
+    var result = b.find('x', { cap: 2 })
+    var resultWithouCap = b.find('x')
+
+    expect(result).to.have.length(2)
+    expect(resultWithouCap).to.have.length(3)
+  })
+
 })
