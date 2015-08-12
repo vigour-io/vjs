@@ -240,9 +240,11 @@ describe('context', function() {
       //not context reset
 
       expect( test.cnt.d ).msg('d').to.equal( 1 )
+
       expect( test.cnt.e ).msg('e').to.equal( 1 )
 
       expect( test.cnt.c ).msg('c').to.equal( 1 )
+
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
 
     })
