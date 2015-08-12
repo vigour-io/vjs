@@ -12,7 +12,7 @@ describe('subsemitter-emitloop', function() {
 		Observable = require( '../../../../../lib/observable' )
 	})
 
-	it.skip('emits on SubsEmitter are meta-postponed ', function() {
+	it('emits on SubsEmitter are meta-postponed ', function() {
 
 		var timeline = []
 
@@ -60,7 +60,7 @@ describe('subsemitter-emitloop', function() {
 		//now this results in 	[ 'B-change', 'A-change', 'B-property', 'B-subscribe' ]
 		//sort of good but pretty strange!
 
-		expect(timeline).to.deep.equal(
+		expect(timeline.join(', ')).to.deep.equal(
 			[ 'B-change', 'A-change', 'B-property', 'B-subscribe', 'B-subscribe' ]
 			//strange thing here is that no suddenly b-subscribe gets caught -- when you remove postponed emitter its ok
 		)

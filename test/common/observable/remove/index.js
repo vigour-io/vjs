@@ -139,10 +139,14 @@ describe('remove', function() {
     expect( a.prop11.prop12 )
       .msg('a.prop11.prop12').to.not.have.property('prop13')
 
-
+    console.clear()
     b.prop13.prop14.prop15.remove()
 
+
+    console.log('???')
     expect( a.prop13.prop14.prop15 ).to.be.ok
+
+
     expect( b.prop13.prop14.prop15 ).to.be.null
 
   })
@@ -450,12 +454,82 @@ describe('remove', function() {
       },
       b: true
     })
-    var aInstance = new a.$Constructor()
+    var aInstance = new a.$Constructor({$key:'aInstance'})
     aInstance.b.remove()
-    expect( change ).to.equal(1)
-    expect( propertyChange ).to.equal(1)
-    expect( aInstance.b ).to.be.null
-    expect( a.b ).to.be.ok
+    expect( change ).to.equal(2)
+    // expect( propertyChange ).to.equal(1)
+    // expect( aInstance.b ).to.be.null
+    // expect( a.b ).to.be.ok
+  })
+
+  it( 'nested (virtual) fields 1 level remove', function() {
+    var cnt = {
+      total: 0,
+      a: 0,
+      b: 0
+    }
+    var a = new Observable({
+      $key:'a',
+      $trackInstances: true,
+      b: {
+        $on: {
+          $change:function( event, removed ) {
+            cnt[this.$path[0]]++
+            cnt.total++
+          }
+        }
+      }
+    })
+    var b = new a.$Constructor({
+      $key:'b'
+    })
+    a.b.remove()
+    expect( cnt.a ).to.equal(1)
+    expect( cnt.b ).to.equal(1)
+    expect( cnt.total ).to.equal(2)
+    expect(b.b).to.not.be.ok
+    expect(a.b).to.not.be.ok
+  })
+
+  it( 'nested (virtual) fields 2 levels remove', function() {
+    console.clear()
+    var cnt = {
+      total: 0,
+      a: 0,
+      b: 0
+    }
+    var a = new Observable({
+      $key:'a',
+      $trackInstances: true,
+      c: {
+        b: {
+          $on: {
+            $change:function( event, removed ) {
+              // console.info(this._$context && this._$context.$key)
+              cnt[this.$path[0]]++
+              cnt.total++
+              //make parent better from context resolves current contexts and goes up
+              console.info('\nDO!',cnt, this.$path)
+            }
+          }
+        }
+      }
+    })
+
+    var b = new a.$Constructor({
+      $key:'b'
+    })
+
+    a.c.b.remove()
+
+    expect( cnt.total ).to.equal(2)
+    expect( a.c.b ).to.not.be.ok
+    expect( a.c ).to.be.ok
+    expect( b.c ).to.be.ok
+    expect( b.c.b ).msg( 'removed virtual child b.c.b' ).to.not.be.ok
+    //what goes wrong? ---
+    expect( cnt.b ).to.equal(1)
+    expect( cnt.a ).to.equal(1)
   })
 
 })
