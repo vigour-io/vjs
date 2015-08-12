@@ -181,9 +181,8 @@ describe('context', function() {
       console.clear()
       test.d = new Observable({
         $key:'d',
-
-        //this needs to get the key 'nest'
-        nest: { $useVal: new test.a.$Constructor() } //really mested up case
+        nest: { $useVal: new test.a.$Constructor() }
+        //ultra mested up case...
       })
 
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
@@ -194,12 +193,50 @@ describe('context', function() {
     it( 'sets a, should fire for c, a, aIsntance, d', function() {
       test.a.b.$val = 'marcus'
       expect( test.cnt.a ).msg('a').to.equal( 1 )
-      expect( test.cnt.c ).msg('c').to.equal( 2 )
-      expect( test.cnt.d ).msg('d').to.equal( 1 )
       expect( test.cnt.aInstance ).msg('aInstance').to.equal( 1 )
+      expect( test.cnt.d ).msg('d').to.equal( 1 )
+      expect( test.cnt.c ).msg('c').to.equal( 2 )
       expect( test.cnt.total ).msg('total').to.equal( 5 )
     })
     //now do stuff with d
+  })
+
+  describe( 'contexts to instances updates', function() {
+    var test = contextObservable()
+    //hard need to get rid of _$context in instances
+    it( 'creates a new "a" --> "c" (nest observable) should not fire', function() {
+      console.clear()
+      test.c = new Observable({
+        $key:'c',
+        nest: { $useVal: new test.a.$Constructor() }
+        //ultra mested up case...
+      })
+      expect( test.cnt.a ).msg('no update on a').to.be.not.ok
+      expect( test.cnt.total ).msg('total').to.equal( 0 )
+    })
+
+    it( 'creates new instances of "c" --> "d" and "e", should not fire', function() {
+      test.d = new test.c.$Constructor({
+        $key:'d'
+      })
+      test.e = new test.c.$Constructor({
+        $key:'e'
+      })
+      expect( test.cnt.a ).msg('no update on a').to.be.not.ok
+      expect( test.cnt.total ).msg('total').to.equal( 0 )
+    })
+
+    it( 'fires from context in c', function() {
+      test.c.nest.b.$val = 'something'
+      expect( test.cnt.a ).msg('no update on a').to.be.not.ok
+
+      expect( test.cnt.c ).msg('c').to.equal( 1 )
+      //nu word ie geblocked op !$context
+      expect( test.cnt.d ).msg('d').to.equal( 1 )
+      expect( test.cnt.e ).msg('e').to.equal( 1 )
+      expect( test.cnt.total ).msg('total').to.equal( 3 )
+    })
+
   })
 
   //now the test for cusotm emits (hard case -- sets are relativly easy)
