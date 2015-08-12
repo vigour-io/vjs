@@ -110,28 +110,38 @@ describe('context', function() {
 
   })
 
-  describe.skip( 'context and nested instances', function() {
+  describe( 'context and nested instances', function() {
     var test = contextObservable()
+    console.clear()
 
-    it( 'should create a new a.b (c)', function() {
+    it( 'should create a new a.b (c) should fire once for c', function() {
+      console.clear()
       test.c = new test.a.b.$Constructor({
         $key:'c'
       })
-    })
 
-    test.a.b.$val = 'a change'
-    it( 'should fire once for "a" context' , function() {
-      expect( test.cnt.a ).to.equal( 1 )
-    })
-    it( 'should fire once for "b" context' , function() {
-      expect( test.cnt.b ).to.equal( 1 )
-    })
-    it( 'should fire once for "c" instance' , function() {
+      console.log(test.c)
+
+      //c does not have parent be smart about it!
       expect( test.cnt.c ).to.equal( 1 )
     })
-    it( 'should fire 3 times in total' , function() {
-      expect( test.cnt.total ).to.equal( 3 )
-    })
+
+    // it( 'sets a.b, should fire once for "a" context' , function() {
+    //   test.a.b.$val = 'a change'
+    //   expect( test.cnt.a ).to.equal( 1 )
+    // })
+    //
+    // it( 'should fire once for "b" context' , function() {
+    //   expect( test.cnt.b ).to.equal( 1 )
+    // })
+    //
+    // it( 'should fire once for "c" instance' , function() {
+    //   expect( test.cnt.c ).to.equal( 1 )
+    // })
+    //
+    // it( 'should fire 3 times in total' , function() {
+    //   expect( test.cnt.total ).to.equal( 3 )
+    // })
   })
 
   //add nog de simpelere test om context + changing contexts van hetzelfde
