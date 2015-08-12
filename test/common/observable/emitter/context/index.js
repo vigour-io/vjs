@@ -88,13 +88,27 @@ describe('context', function() {
       $key:'c'
     })
 
-    test.d = new test.a.$Constructor({
-      $key:'d',
-      b: 'b'
+    it( 'should fire once for "d" context' , function() {
+      expect( test.cnt.d ).to.equal( 0 )
     })
+
+    test.d = new test.a.$Constructor({
+      $key: 'd',
+      b:'b'
+    })
+
+    it( 'should fire once for "d" context' , function() {
+      expect( test.cnt.d ).to.equal( 1 )
+    })
+
+    test.a.b.$val = '?'
 
     it( 'should fire once for "a" context' , function() {
       expect( test.cnt.a ).to.equal( 1 )
+    })
+
+    it( 'should fire once for "d" context' , function() {
+      expect( test.cnt.d ).to.equal( 1 )
     })
 
     //now do stuff with d
