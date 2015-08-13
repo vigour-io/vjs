@@ -45,10 +45,20 @@ describe('find', function() {
     expect(result).to.have.length(0)
   })
 
+  it('should find property by path string', function() {
+    var result = a.find('x.y.w.$val')
+
+    expect(result).to.have.length(1)
+    expect(result[0]).to.be.eql(a.x.y.w.$val)
+  })
+
   it('should allow pass option cap and stop after certain number of matches', function() {
     var b = new Base({
       a: {
         x: 123
+      },
+      f: {
+        r: 947
       },
       b: {
         y: {
