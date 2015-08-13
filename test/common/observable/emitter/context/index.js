@@ -1,6 +1,8 @@
 describe('context', function() {
 
-  var Observable = require('../../../../../lib/observable')
+  var Observable = require( '../../../../../lib/observable' )
+  var Event = require( '../../../../../lib/event' ).prototype
+      .inject( require('../../../../../lib/event/toString.js') )
 
   function contextObservable() {
     var cnt = {
@@ -40,6 +42,52 @@ describe('context', function() {
       aInstance: b
     }
   }
+
+  describe( 'deep resolve test', function() {
+    var test = contextObservable()
+    it( 'should fire once for "blurf"' , function() {
+      test.blurf = new test.a.$Constructor({
+        $key:'blurf',
+        b: {
+          hello: {
+            a: true,
+            b: true
+          }
+        }
+      })
+      expect( test.cnt.total ).to.equal( 1 )
+      expect( test.cnt.blurf ).to.equal( 1 )
+    })
+
+    it( 'should fire zero times for "blurf1", should not resolve context' , function() {
+      test.blurf1 = new test.blurf.$Constructor({
+        $key:'blurf1',
+        b: {
+          //do not resolve context is the same
+          hello: {
+            a: true,
+            b: true
+          }
+        }
+      })
+      expect( test.blurf1.b ).to.equal( test.blurf.b )
+      expect( test.cnt.total ).to.equal( 1 )
+    })
+
+    it( 'should fire once for "blurf2"' , function() {
+      test.blurf2 = new test.blurf.$Constructor({
+        $key:'blurf2',
+        b: {
+          mur: true,
+          hello: {
+            a: true,
+            b: true
+          }
+        }
+      })
+      expect( test.cnt.blurf2 ).to.equal( 1 )
+    })
+  })
 
   describe( 'emit on instance', function() {
     var test = contextObservable()
@@ -250,7 +298,6 @@ describe('context', function() {
       test.c.nest.b.$val = 'something'  //<--- also this goes wrong
 
       console.log( test.e.nest.b === test.c.nest.b, test.c.nest.b === test.a.b )
-
       // console.log( test.c.nest.b === test.a.b )
 
       expect( test.cnt.c ).msg('c').to.equal( 2 )
