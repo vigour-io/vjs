@@ -6,7 +6,7 @@ describe( 'methods', function() {
   require('./get/')
   require('./keys/')
   require('./look-down/')
-  // require('./look-up/')
+  require('./look-up/')
   // require('./map/')
   // require('./set-width-path/')
   // require('./shared/')
