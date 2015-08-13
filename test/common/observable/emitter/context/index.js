@@ -168,7 +168,7 @@ describe('context', function() {
     var test = contextObservable()
 
     it('creates a new "a.b" --> "c" should fire once for "c"', function() {
-      console.clear()
+      // console.clear()
       test.c = new test.a.b.$Constructor({
         $key:'c'
       })
@@ -178,7 +178,7 @@ describe('context', function() {
     })
 
     it( 'creates a new "a" --> "d" (nest observable) should not fire', function() {
-      console.clear()
+      // console.clear()
       test.d = new Observable({
         $key:'d',
         nest: { $useVal: new test.a.$Constructor() }
@@ -205,7 +205,7 @@ describe('context', function() {
     var test = contextObservable()
     //hard need to get rid of _$context in instances
     it( 'creates a new "a" --> "c" (nest observable) should not fire', function() {
-      console.clear()
+      // console.clear()
       test.c = new Observable({
         $key:'c',
         $trackInstances: true, //wtf????
@@ -229,29 +229,79 @@ describe('context', function() {
     })
 
     it( 'fires from context in c', function() {
-
       //.b is trough the context of c.nest which is a seperate instance
-
       test.c.nest.b.$emit('$change')
-      // test.c.nest.b.$val = 'something'  also this goes wrong
-
-      //nu word ie geblocked op !$context
+      // test.c.nest.b.$val = 'something'  <--- also this goes wrong
       expect( test.cnt.total ).msg('total').to.equal( 3 )
-      //not context reset
-
       expect( test.cnt.d ).msg('d').to.equal( 1 )
-
       expect( test.cnt.e ).msg('e').to.equal( 1 )
-
       expect( test.cnt.c ).msg('c').to.equal( 1 )
-
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
+    })
 
+    it( 'fires from resolved a.b in c', function() {
+      console.clear()
+      console.log('START')
+      //situation:
+      //resolves context
+      //does not get into correct instance in context updates
+      console.log( test.e.nest.b === test.c.nest.b, test.c.nest.b === test.a.b )
+
+      test.c.nest.b.$val = 'something'  //<--- also this goes wrong
+
+      console.log( test.e.nest.b === test.c.nest.b, test.c.nest.b === test.a.b )
+
+      // console.log( test.c.nest.b === test.a.b )
+
+      expect( test.cnt.c ).msg('c').to.equal( 2 )
+      expect( test.cnt.d ).msg('d').to.equal( 2 ) //only fire for d?
+      expect( test.cnt.e ).msg('e').to.equal( 2 )
+      expect( test.cnt.total ).msg('total').to.equal( 6 )
+      expect( test.cnt.a ).msg('no update on a').to.be.not.ok
     })
 
   })
 
-  //now the test for cusotm emits (hard case -- sets are relativly easy)
+  function complexContextObservable() {
+    var cnt = {
+      total: 0
+    }
+
+    var a = new Observable({
+      $key:'a',
+      $trackInstances: true,
+      //no on so on default no trackinstances
+      b: {
+        c: {
+          $on: {
+            $change:function() {
+              var key = this.$path[0]
+              console.error( '\nFIRE IT--->????', cnt[key], key, this._$context &&  this._$context.$path )
+              cnt[key] = cnt[key] ? cnt[key]+1 : 1
+              cnt.total++
+            }
+          }
+        }
+      }
+    })
+
+    var b = new a.$Constructor({
+      $key:'aInstance'
+    })
+
+    var c = new Observable({
+      nest: { $useVal: new a.$Constructor() }
+    })
+
+    return {
+      cnt: cnt,
+      a: a,
+      c: c,
+      aInstance: b
+    }
+  }
+
+  //now the test for custom emits (hard case -- sets are relativly easy)
   //for this you need to do emits to contexts to contexts -- really strange
   //within my context search for instance but not if im emitted from context
   //maybe add a thing for that?
