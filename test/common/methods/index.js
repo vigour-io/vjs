@@ -4,7 +4,7 @@ describe( 'methods', function() {
   require('./filter/')
   require('./find/')
   require('./get/')
-  // require('./keys/')
+  require('./keys/')
   // require('./look-down/')
   // require('./look-up/')
   // require('./map/')
