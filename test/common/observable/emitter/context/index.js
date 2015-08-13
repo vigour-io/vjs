@@ -17,13 +17,7 @@ describe('context', function() {
         $on: {
           $change:function() {
             var key = this.$path[0]
-            //how the fuck can context be a??
-            if(this._$context) {
-              if(this._$context.$path[0]==='a') {
-                console.error('whats going on???', this._$context instanceof a.$Constructor, this._$context._$parent)
-                // console.error(this._$context.)
-              }
-            }
+      
             console.error('\nFIRE IT--->????', cnt[key], key, this._$context &&  this._$context.$path)
             cnt[key] = cnt[key] ? cnt[key]+1 : 1
             cnt.total++
