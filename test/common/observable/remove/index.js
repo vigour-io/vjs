@@ -185,10 +185,12 @@ describe('remove', function() {
 
     //since we defined before that we want $on:{} (we are inteserted in instances)
     //it will handle instances accordingly
-
     //think about unifiying this system since it maye be super important for hub
     //(context)
     console.clear()
+
+    a.$resetContextsUp()
+    console.log('lezzgo')
 
     a.set({
       $on: {
@@ -207,11 +209,12 @@ describe('remove', function() {
     })
 
     var changeEmitter = a.$on.$change
-    console.log('????', changeEmitter, a.$on)
+    console.log('cemitter????', changeEmitter, a.$on)
     var fn = changeEmitter.$fn
 
     expect(fn).to.have.property( 'val' )
 
+    //call remove!
     a.$val = null
     //remove all instances as well
 
