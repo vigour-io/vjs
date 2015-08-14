@@ -139,14 +139,8 @@ describe('remove', function() {
     expect( a.prop11.prop12 )
       .msg('a.prop11.prop12').to.not.have.property('prop13')
 
-    console.clear()
     b.prop13.prop14.prop15.remove()
-
-
-    console.log('???')
     expect( a.prop13.prop14.prop15 ).to.be.ok
-
-
     expect( b.prop13.prop14.prop15 ).to.be.null
 
   })
@@ -185,21 +179,8 @@ describe('remove', function() {
 
     //since we defined before that we want $on:{} (we are inteserted in instances)
     //it will handle instances accordingly
-    //think about unifiying this system since it maye be super important for hub
-    //(context)
-    // console.clear()
+    //TODO:think about unifiying this system since it maye be super important for hub
 
-    console.log('lezzgo',a._$context)
-
-    if( a._$context instanceof a.$Constructor ) {
-      console.error('a._context is instance, very strange')
-    }
-
-    //how to clear the context here on a?
-
-    // a.$resetContextsUp()
-
-    //this is so annoying there is not wat to tell on set if youre targeting the original...
     a.set({
       $on: {
         $change:{
@@ -217,14 +198,11 @@ describe('remove', function() {
     })
 
     var changeEmitter = a.$on.$change
-    console.log('cemitter????', changeEmitter, a.$on)
     var fn = changeEmitter.$fn
 
     expect(fn).to.have.property( 'val' )
 
-    //call remove!
     a.$val = null
-    //remove all instances as well
 
     expect(isRemoved(changeEmitter))
       .msg('check if changeEmitter is removed').to.be.true
@@ -239,309 +217,305 @@ describe('remove', function() {
     expect(isRemoved(a)).msg('check if a is removed').to.be.true
     expect(isRemoved(b)).msg('check if b is removed').to.be.true
 
-    //!!!this really has to be fixed!!!
-    //maybe just make a remove listener
     expect( measure.a.val.removed ).msg('correct removed (meta) count').to.equal(2)
 
   })
 
-  // it( 'create new observable --> a --> b, add ref - change listener, remove listener, test listens and removal', function() {
-  //
-  //   var reffed = new Observable({
-  //     $key:'reffed'
-  //   })
-  //
-  //   var reffed2 = new Observable({
-  //     $key:'reffed2'
-  //   })
-  //
-  //   a = new Observable({
-  //     $key:'a',
-  //     $val: reffed
-  //   })
-  //
-  //   reffed2.on( '$change', a )
-  //
-  //   b = new a.$Constructor({
-  //     $key:'b'
-  //   })
-  //
-  //   var cnt = 0
-  //   a.$listensOnBase.each(function() {
-  //     cnt++
-  //   })
-  //
-  //   expect( cnt ).msg('listensOn in a').to.equal(2)
-  //
-  //   reffed.remove()
-  //
-  //   cnt = 0
-  //   a.$listensOnBase.each(function( prop, key ) {
-  //     // console.log('key!', key)
-  //     cnt++
-  //   })
-  //
-  //   // console.log('-----', a.)
-  //   expect( cnt ).msg('listensOn in a (after remove)').to.equal(1)
-  //
-  //   a.remove()
-  //
-  //   expect( reffed2.$on.$change.$base )
-  //     .msg('base listeners on reffed 2 (listens on reffed)').to.be.null
-  //
-  // })
-  //
-  // it( 'create new observable --> a --> b, add attach - change listener, remove listener, test listens and removal', function() {
-  //   var reffed = new Observable({
-  //     $key:'reffed'
-  //   })
-  //
-  //   var reffed2 = new Observable({
-  //     $key:'reffed2'
-  //   })
-  //
-  //   a = new Observable({
-  //     $key:'a'
-  //   })
-  //
-  //   reffed.on( '$change', [ function(){}, a ])
-  //   reffed2.on( '$change', [ function(){}, a ])
-  //
-  //   b = new a.$Constructor({ $key:'b' })
-  //
-  //   var cnt = 0
-  //   a.$listensOnattach.each(function() {
-  //     cnt++
-  //   })
-  //
-  //   expect( cnt ).msg('listensOn in a').to.equal(2)
-  //
-  //   reffed.remove()
-  //
-  //   cnt = 0
-  //   a.$listensOnattach.each(function( property ) {
-  //     cnt++
-  //   })
-  //
-  //   expect( cnt )
-  //     .msg('listensOn in a (after remove)').to.equal(1)
-  //
-  //   cnt = 0
-  //   reffed2.$on.$change.$attach.each(function() {
-  //     cnt++
-  //   })
-  //   expect( cnt )
-  //     .msg('base listeners on reffed 2 (listens on reffed)').to.equal(1)
-  //
-  //   a.remove()
-  //   expect(reffed2.$on.$change.$attach).to.be.null
-  //
-  // })
-  //
-  // it('create new observable --> a --> b remove listeners from b', function() {
-  //   measure.a.val = {
-  //     total: 0
-  //   }
-  //
-  //   a = new Observable({
-  //     $key:'a',
-  //     $on: {
-  //       $change:function() {
-  //         measure.a.val.total++
-  //         // console.log('lets change from a context:', this.$path)
-  //       }
-  //     }
-  //   })
-  //
-  //   b = new a.$Constructor({
-  //     $key:'b'
-  //   })
-  //
-  //   //no event since it on base (emitters are base...)
-  //   b.$on.$change.remove()
-  //
-  //   a.set({
-  //     prop1:true
-  //   })
-  //
-  //   expect( a.$on.$change ).to.be.ok
-  //   expect( b.$on.$change ).to.be.null
-  // })
-  //
-  // it( 'remove $on from b', function() {
-  //   b.$on.remove()
-  //
-  //   expect( a.$on ).to.be.ok
-  //   expect( b.$on ).to.be.null
-  //
-  //   var foundb
-  //   for( var key$ in a.$on._instances ) {
-  //     if( a.$on._instances[key$] === b ) {
-  //       foundb = true
-  //     }
-  //   }
-  //
-  //   // this is different since this requires you to remove $on
-  //   expect( foundb ).msg('removed b from instances (removed $on on b').to.not.be.ok
-  //
-  //   // add test to remove _instances completely
-  //   expect( measure.a.val.total ).to.equal(2)
-  // })
-  //
-  // it( 'remove an instance expect listener to fire', function() {
-  //     var cnt = 0
-  //     var a = new Observable({
-  //       $key:'a',
-  //       $on: {
-  //         $change:function( event, meta ) {
-  //           cnt++
-  //         }
-  //       }
-  //     })
-  //     a.remove()
-  //     expect(cnt).to.equal(1)
-  // })
-  //
-  // it( 'create instances, remove count instances array', function() {
-  //   var cnt = 0
-  //   var a = new Observable({
-  //     $key:'a',
-  //     $on: {
-  //       $change: function( event, meta ) {
-  //         cnt++
-  //       }
-  //     }
-  //   })
-  //   var instances = []
-  //   var derivedInstances = []
-  //   for(var i = 0; i < 10; i++ ) {
-  //     instances[i] = new a.$Constructor({ $key:'instanceofA'+i })
-  //     derivedInstances[i] = new instances[i].$Constructor({ $key:'derived'+i })
-  //   }
-  //   expect( cnt ).to.equal( 20 )
-  //   a.remove()
-  //   expect( isRemoved(a)).msg('a is removed').to.be.true
-  //   for(var i = 0; i < instances.length; i++ ) {
-  //     expect( isRemoved( instances[i] ) ).msg('instance '+ i).to.be.true
-  //   }
-  //   for(var i = 0; i < derivedInstances.length; i++ ) {
-  //     expect( isRemoved( derivedInstances[i] ) ).msg('instance '+ i).to.be.true
-  //   }
-  //   expect( cnt ).to.equal( 41 )
-  // })
-  //
-  // it( 'remove a nested field fire listener', function() {
-  //   var change = 0
-  //   var propertyChange = 0
-  //   var a = new Observable({
-  //     $key:'a',
-  //     $on: {
-  //       $change:function() {
-  //         change++
-  //       },
-  //       $property: function() {
-  //         propertyChange++
-  //       }
-  //     },
-  //     b: true
-  //   })
-  //   a.b.remove()
-  //   expect( change ).to.equal(1)
-  //   expect( propertyChange ).to.equal(1)
-  //   expect( a.b ).to.be.null
-  // })
-  //
-  // it( 'instances - remove a nested field fire listener', function() {
-  //   var change = 0
-  //   var propertyChange = 0
-  //   var a = new Observable({
-  //     $key:'a',
-  //     $on: {
-  //       $change:function() {
-  //         change++
-  //       },
-  //       $property: function() {
-  //         propertyChange++
-  //       }
-  //     },
-  //     b: true
-  //   })
-  //   var aInstance = new a.$Constructor({$key:'aInstance'})
-  //   aInstance.b.remove()
-  //   expect( change ).to.equal(2)
-  //   // expect( propertyChange ).to.equal(1)
-  //   // expect( aInstance.b ).to.be.null
-  //   // expect( a.b ).to.be.ok
-  // })
-  //
-  // it( 'nested (virtual) fields 1 level remove', function() {
-  //   var cnt = {
-  //     total: 0,
-  //     a: 0,
-  //     b: 0
-  //   }
-  //   var a = new Observable({
-  //     $key:'a',
-  //     $trackInstances: true,
-  //     b: {
-  //       $on: {
-  //         $change:function( event, removed ) {
-  //           cnt[this.$path[0]]++
-  //           cnt.total++
-  //         }
-  //       }
-  //     }
-  //   })
-  //   var b = new a.$Constructor({
-  //     $key:'b'
-  //   })
-  //   a.b.remove()
-  //   expect( cnt.a ).to.equal(1)
-  //   expect( cnt.b ).to.equal(1)
-  //   expect( cnt.total ).to.equal(2)
-  //   expect(b.b).to.not.be.ok
-  //   expect(a.b).to.not.be.ok
-  // })
-  //
-  // it( 'nested (virtual) fields 2 levels remove', function() {
-  //   console.clear()
-  //   var cnt = {
-  //     total: 0,
-  //     a: 0,
-  //     b: 0
-  //   }
-  //   var a = new Observable({
-  //     $key:'a',
-  //     $trackInstances: true,
-  //     c: {
-  //       b: {
-  //         $on: {
-  //           $change:function( event, removed ) {
-  //             // console.info(this._$context && this._$context.$key)
-  //             cnt[this.$path[0]]++
-  //             cnt.total++
-  //             //make parent better from context resolves current contexts and goes up
-  //             console.info('\nDO!',cnt, this.$path)
-  //           }
-  //         }
-  //       }
-  //     }
-  //   })
-  //
-  //   var b = new a.$Constructor({
-  //     $key:'b'
-  //   })
-  //
-  //   a.c.b.remove()
-  //
-  //   expect( cnt.total ).to.equal(2)
-  //   expect( a.c.b ).to.not.be.ok
-  //   expect( a.c ).to.be.ok
-  //   expect( b.c ).to.be.ok
-  //   expect( b.c.b ).msg( 'removed virtual child b.c.b' ).to.not.be.ok
-  //   //what goes wrong? ---
-  //   expect( cnt.b ).to.equal(1)
-  //   expect( cnt.a ).to.equal(1)
-  // })
+  it( 'create new observable --> a --> b, add ref - change listener, remove listener, test listens and removal', function() {
+
+    var reffed = new Observable({
+      $key:'reffed'
+    })
+
+    var reffed2 = new Observable({
+      $key:'reffed2'
+    })
+
+    a = new Observable({
+      $key:'a',
+      $val: reffed
+    })
+
+    reffed2.on( '$change', a )
+
+    b = new a.$Constructor({
+      $key:'b'
+    })
+
+    var cnt = 0
+    a.$listensOnBase.each(function() {
+      cnt++
+    })
+
+    expect( cnt ).msg('listensOn in a').to.equal(2)
+
+    reffed.remove()
+
+    cnt = 0
+    a.$listensOnBase.each(function( prop, key ) {
+      cnt++
+    })
+
+    expect( cnt ).msg('listensOn in a (after remove)').to.equal(1)
+
+    a.remove()
+
+    expect( reffed2.$on.$change.$base )
+      .msg('base listeners on reffed 2 (listens on reffed)').to.be.null
+
+  })
+
+  it( 'create new observable --> a --> b, add attach - change listener, remove listener, test listens and removal', function() {
+    var reffed = new Observable({
+      $key:'reffed'
+    })
+
+    var reffed2 = new Observable({
+      $key:'reffed2'
+    })
+
+    a = new Observable({
+      $key:'a'
+    })
+
+    reffed.on( '$change', [ function(){}, a ])
+    reffed2.on( '$change', [ function(){}, a ])
+
+    b = new a.$Constructor({ $key:'b' })
+
+    var cnt = 0
+    a.$listensOnattach.each(function() {
+      cnt++
+    })
+
+    expect( cnt ).msg('listensOn in a').to.equal(2)
+
+    reffed.remove()
+
+    cnt = 0
+    a.$listensOnattach.each(function( property ) {
+      cnt++
+    })
+
+    expect( cnt )
+      .msg('listensOn in a (after remove)').to.equal(1)
+
+    cnt = 0
+    reffed2.$on.$change.$attach.each(function() {
+      cnt++
+    })
+    expect( cnt )
+      .msg('base listeners on reffed 2 (listens on reffed)').to.equal(1)
+
+    a.remove()
+    expect(reffed2.$on.$change.$attach).to.be.null
+
+  })
+
+  it('create new observable --> a --> b remove listeners from b', function() {
+    measure.a.val = {
+      total: 0
+    }
+
+    a = new Observable({
+      $key:'a',
+      $on: {
+        $change:function() {
+          measure.a.val.total++
+          // console.log('lets change from a context:', this.$path)
+        }
+      }
+    })
+
+    b = new a.$Constructor({
+      $key:'b'
+    })
+
+    //no event since it on base (emitters are base...)
+    b.$on.$change.remove()
+
+    a.set({
+      prop1:true
+    })
+
+    expect( a.$on.$change ).to.be.ok
+    expect( b.$on.$change ).to.be.null
+  })
+
+  it( 'remove $on from b', function() {
+    b.$on.remove()
+
+    expect( a.$on ).to.be.ok
+    expect( b.$on ).to.be.null
+
+    var foundb
+    for( var key$ in a.$on._instances ) {
+      if( a.$on._instances[key$] === b ) {
+        foundb = true
+      }
+    }
+
+    // this is different since this requires you to remove $on
+    expect( foundb ).msg('removed b from instances (removed $on on b').to.not.be.ok
+
+    // add test to remove _instances completely
+    expect( measure.a.val.total ).to.equal(2)
+  })
+
+  it( 'remove an instance expect listener to fire', function() {
+      var cnt = 0
+      var a = new Observable({
+        $key:'a',
+        $on: {
+          $change:function( event, meta ) {
+            cnt++
+          }
+        }
+      })
+      a.remove()
+      expect(cnt).to.equal(1)
+  })
+
+  it( 'create instances, remove count instances array', function() {
+    var cnt = 0
+    var a = new Observable({
+      $key:'a',
+      $on: {
+        $change: function( event, meta ) {
+          cnt++
+        }
+      }
+    })
+    var instances = []
+    var derivedInstances = []
+    for(var i = 0; i < 10; i++ ) {
+      instances[i] = new a.$Constructor({ $key:'instanceofA'+i })
+      derivedInstances[i] = new instances[i].$Constructor({ $key:'derived'+i })
+    }
+    expect( cnt ).to.equal( 20 )
+    a.remove()
+    expect( isRemoved(a)).msg('a is removed').to.be.true
+    for(var i = 0; i < instances.length; i++ ) {
+      expect( isRemoved( instances[i] ) ).msg('instance '+ i).to.be.true
+    }
+    for(var i = 0; i < derivedInstances.length; i++ ) {
+      expect( isRemoved( derivedInstances[i] ) ).msg('instance '+ i).to.be.true
+    }
+    expect( cnt ).to.equal( 41 )
+  })
+
+  it( 'remove a nested field fire listener', function() {
+    var change = 0
+    var propertyChange = 0
+    var a = new Observable({
+      $key:'a',
+      $on: {
+        $change:function() {
+          change++
+        },
+        $property: function() {
+          propertyChange++
+        }
+      },
+      b: true
+    })
+    a.b.remove()
+    expect( change ).to.equal(1)
+    expect( propertyChange ).to.equal(1)
+    expect( a.b ).to.be.null
+  })
+
+  it( 'instances - remove a nested field fire listener', function() {
+    var change = 0
+    var propertyChange = 0
+    var a = new Observable({
+      $key:'a',
+      $on: {
+        $change:function() {
+          change++
+        },
+        $property: function() {
+          propertyChange++
+        }
+      },
+      b: true
+    })
+    var aInstance = new a.$Constructor({$key:'aInstance'})
+    aInstance.b.remove()
+    expect( change ).to.equal(2)
+    // expect( propertyChange ).to.equal(1)
+    // expect( aInstance.b ).to.be.null
+    // expect( a.b ).to.be.ok
+  })
+
+  it( 'nested (virtual) fields 1 level remove', function() {
+    var cnt = {
+      total: 0,
+      a: 0,
+      b: 0
+    }
+    var a = new Observable({
+      $key:'a',
+      $trackInstances: true,
+      b: {
+        $on: {
+          $change:function( event, removed ) {
+            cnt[this.$path[0]]++
+            cnt.total++
+          }
+        }
+      }
+    })
+    var b = new a.$Constructor({
+      $key:'b'
+    })
+    a.b.remove()
+    expect( cnt.a ).to.equal(1)
+    expect( cnt.b ).to.equal(1)
+    expect( cnt.total ).to.equal(2)
+    expect(b.b).to.not.be.ok
+    expect(a.b).to.not.be.ok
+  })
+
+  it( 'nested (virtual) fields 2 levels remove', function() {
+    console.clear()
+    var cnt = {
+      total: 0,
+      a: 0,
+      b: 0
+    }
+    var a = new Observable({
+      $key:'a',
+      $trackInstances: true,
+      c: {
+        b: {
+          $on: {
+            $change:function( event, removed ) {
+              // console.info(this._$context && this._$context.$key)
+              cnt[this.$path[0]]++
+              cnt.total++
+              //make parent better from context resolves current contexts and goes up
+              console.info('\nDO!',cnt, this.$path)
+            }
+          }
+        }
+      }
+    })
+
+    var b = new a.$Constructor({
+      $key:'b'
+    })
+
+    a.c.b.remove()
+
+    expect( cnt.total ).to.equal(2)
+    expect( a.c.b ).to.not.be.ok
+    expect( a.c ).to.be.ok
+    expect( b.c ).to.be.ok
+    expect( b.c.b ).msg( 'removed virtual child b.c.b' ).to.not.be.ok
+    //what goes wrong? ---
+    expect( cnt.b ).to.equal(1)
+    expect( cnt.a ).to.equal(1)
+  })
 
 })
