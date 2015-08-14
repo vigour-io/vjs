@@ -9,6 +9,5 @@ describe( 'methods', function() {
   require('./look-up/')
   require('./map/')
   require('./set-with-path/')
-  // require('./shared/')
-  // require('./to-string/')
+  require('./to-string/')
 } )
