@@ -17,7 +17,7 @@ describe('context', function() {
         $on: {
           $change:function() {
             var key = this.$path[0]
-      
+
             console.error('\nFIRE IT--->????', cnt[key], key, this._$context &&  this._$context.$path)
             cnt[key] = cnt[key] ? cnt[key]+1 : 1
             cnt.total++
@@ -53,7 +53,7 @@ describe('context', function() {
       expect( test.cnt.blurf ).to.equal( 1 )
     })
 
-    it( 'should fire zero times for "blurf1", should not resolve context' , function() {
+    it.skip( 'should fire zero times for "blurf1", should not resolve context' , function() {
       test.blurf1 = new test.blurf.$Constructor({
         $key:'blurf1',
         b: {
@@ -283,19 +283,9 @@ describe('context', function() {
 
     it( 'fires from resolved a.b in c', function() {
       console.clear()
-      console.log('START')
-      //situation:
-      //resolves context
-      //does not get into correct instance in context updates
-      console.log( test.e.nest.b === test.c.nest.b, test.c.nest.b === test.a.b )
-
-      test.c.nest.b.$val = 'something'  //<--- also this goes wrong
-
-      console.log( test.e.nest.b === test.c.nest.b, test.c.nest.b === test.a.b )
-      // console.log( test.c.nest.b === test.a.b )
-
+      test.c.nest.b.$val = 'something'
       expect( test.cnt.c ).msg('c').to.equal( 2 )
-      expect( test.cnt.d ).msg('d').to.equal( 2 ) //only fire for d?
+      expect( test.cnt.d ).msg('d').to.equal( 2 ) 
       expect( test.cnt.e ).msg('e').to.equal( 2 )
       expect( test.cnt.total ).msg('total').to.equal( 6 )
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
