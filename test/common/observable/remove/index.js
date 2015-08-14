@@ -178,7 +178,6 @@ describe('remove', function() {
   })
 
   it( 'add change listener to a and remove a', function() {
-
     measure.a.val = {
       total: 0,
       removed: 0
@@ -189,6 +188,7 @@ describe('remove', function() {
 
     //think about unifiying this system since it maye be super important for hub
     //(context)
+    console.clear()
 
     a.set({
       $on: {
@@ -207,6 +207,7 @@ describe('remove', function() {
     })
 
     var changeEmitter = a.$on.$change
+    console.log('????', changeEmitter, a.$on)
     var fn = changeEmitter.$fn
 
     expect(fn).to.have.property( 'val' )
