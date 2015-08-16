@@ -1,68 +1,48 @@
 var L = 0
+var Observable = require('../../../../../lib/observable')
+var SubsEmitter = require('../../../../../lib/observable/subscribe/emitter')
 
 var log = window.log = prepLogger()
 console.clear()
-var handler
+var counter
 var h_self
 var h_event
 var h_meta
-handler = function(self, event, meta) {
-	h_self = self
-	h_event = event
-	h_meta = meta
-}
-describe('subscribe-by-key', function() {
 
-	var Observable = require('../../../../../lib/observable')
-	var SubsEmitter = require('../../../../../lib/observable/subscribe/emitter')
+describe('subscribe-by-key', function() {
 
 	describe('subscribe by key already present', function() {
 
-		// ======================
-		var $pattern = {
-	    key1: true
-	  }
-	  // ----------------------
+		var obs = prepObs(
+			{ key1: 'val1' },
+			{ key1: true }
+		)
 
-		var counter = 0
-		var obs = new Observable({
-			$key: 'obs',
-		  key1: 'val1',
-		  $on: {}
+		it.skip('should fire emediately after subscribing', function(){
+			counter = 0
+			obs = prepObs(
+				{ key1: 'val1' },
+				{ key1: true }
+			)
+			expect(counter).to.equal(1)
+
 		})
-
-		var subsEmitter = new SubsEmitter({
-		  handerl1: function(event, meta) {
-		  	log.event(this, event, meta)
-		  	counter++
-		  	if(handler) {
-		  		handler(this, event, meta)
-		  	}
-		  },
-		  $pattern: $pattern
-		}, false, obs.$on)
-
-		obs.set({
-		  $on: {
-		    durps: subsEmitter
-		  }
-		})
-		// ======================
 
 		it('should fire when property is changed with .$val', function(){
 			// L = 1
+			counter = 0
+			try{
+				obs.key1.$val = 'heee'
+			} catch(e) {
+				console.error(e)
+			}
 
-			obs.key1.$val = 'heee'
 
 			expect(counter).to.equal(1)
 			expect(h_self).to.equal(obs)
 			expect(h_meta).to.have.property('key1')
-				.which.has.property('$val')
-				.which.equals('heee')
+				.which.equals(obs.key1)
 
-			log('META', h_meta)
-			// obs.key1.$val = 'ha'
-			// expect(counter).to.equal(2)
 		})
 
 		it('should fire when property is changed with .set', function(){
@@ -73,46 +53,24 @@ describe('subscribe-by-key', function() {
 			expect(counter).to.equal(1)
 			expect(h_self).to.equal(obs)
 			expect(h_meta).to.have.property('key1')
-				.which.has.property('$val')
-				.which.equals('shurkeeke')
+				.which.equals(obs.key1)
 
 		})
 
 	})
 
-
-
 	describe('subscribe by key not yet present, then add', function() {
 
-		// ======================
-		var $pattern = {
-	    key1: true
-	  }
-	  // ----------------------
-		// var handler
-		var counter = 0
-		var obs = new Observable({
-			$key: 'obs',
-		  $on: {}
-		})
+		var obs
 
-		var subsEmitter = new SubsEmitter({
-		  handerl1: function(event, meta) {
-		  	log.event(this, event, meta)
-		  	counter++
-		  	if(handler) {
-		  		handler(this, event, meta)
-		  	}
-		  },
-		  $pattern: $pattern
-		}, false, obs.$on)
-
-		obs.set({
-		  $on: {
-		    durps: subsEmitter
-		  }
+		it('should not fire on subscribing', function(){
+			counter = 0
+			obs = prepObs(
+				{},
+				{ key1: true }
+			)
+			expect(counter).to.equal(0)
 		})
-		// ======================
 
 		it('fires when property is added', function(){
 			log.header('2')
@@ -126,6 +84,9 @@ describe('subscribe-by-key', function() {
 			expect(h_self).to.equal(obs)
 			expect(h_meta).to.have.property('_added')
 				.which.has.property(0)
+				.which.equals(obs.key1)
+
+			expect(h_meta).to.have.property('key1')
 				.which.equals(obs.key1)
 
 		})
@@ -155,75 +116,312 @@ describe('subscribe-by-key', function() {
 
 	describe('remove subscribed over key, then add it anew', function() {
 
-		// ======================
-		var $pattern = {
-	    key1: true
-	  }
-	  // ----------------------
-		var handler
-		var counter = 0
-		var obs = new Observable({
-			$key: 'obs',
-			key1: 'val1',
-		  $on: {}
-		})
+		var obs = prepObs(
+			{ key1: 'val1' },
+			{ key1: true }
+		)
 
-		var subsEmitter = new SubsEmitter({
-		  handerl1: function(event, meta) {
-		  	log.event(this, event, meta)
-		  	counter++
-		  	if(handler) {
-		  		handler(this, event, meta)
-		  	}
-		  },
-		  $pattern: $pattern
-		}, false, obs.$on)
-
-		obs.set({
-		  $on: {
-		    durps: subsEmitter
-		  }
-		})
-		// ======================
-
-		it.skip('should fire when key is removed', function(){
+		it('should fire when key is removed', function(){
 			// L = 1
-			log.header('ok remove shining')
-			var check_meta
-			handler = function(self, event, meta){
-				log('handler!', self, event, meta)
-				check_meta = meta
-			}
-
+			counter = 0
+			var key1 = obs.key1
 			obs.key1.remove()
 			expect(counter).to.equal(1)
+			expect(h_meta).to.have.property('key1').which.equals(key1)
 		})
-		it.skip('should fire when key is added anew', function(){
-			log.warn('add anew!')
+
+		it('should now have missing property handler', function(){
+			// L = 1
+			expect(obs).to.have.property('$on')
+				.which.has.property('$property')
+				.which.has.property('$attach')
+				.which.has.property(1)
+
+			var attach = obs.$on.$property.$attach
+			expect(attach).to.not.have.property(2)
+			var attached = attach[1]
+			expect(attached).to.have.property(0)
+				.which.has.property('name')
+				.which.equals('missingPropHandler')
+			expect(attached).to.have.property(1)
+					.which.equals(obs.$on.hashkey)
+		})
+
+		it('should fire when key is added anew', function(){
+			// L = 1
+			counter = 0
 			obs.set({
 				key1: 'newvalue'
 			})
-			expect(counter).to.equal(2)
-		})
-		it.skip('should fire when value is changed', function(){
+			expect(counter).to.equal(1)
+			expect(h_self).to.equal(obs)
+			expect(h_meta).to.have.property('_added')
+				.which.has.property(0)
+				.which.equals(obs.key1)
 
+			expect(h_meta).to.have.property('key1')
+				.which.equals(obs.key1)
+		})
+
+		it('should have removed missing property listener', function(){
+			expect(obs.$on.$property.$attach).to.equal(null)
+		})
+
+		it('should fire when value is changed', function(){
+			counter = 0
+			obs.key1.$val = 'changedval'
+			expect(counter).to.equal(1)
+			expect(h_self).to.equal(obs)
+			expect(h_meta).to.have.property('key1')
+				.which.equals(obs.key1)
 		})
 	})
 
-	describe.skip('subscribe by multiple keys', function() {
+	describe('subscribe by multiple keys', function() {
+		var obs
+
+		it('should fire with multiple keys present', function(){
+			// L = 1
+			counter = 0
+			obs = prepObs(
+				{ key1: 'val1', key2: 'val2' },
+				{ key1: true, key2: true }
+			)
+
+			// TODO expect it to fire emidiately
+			// expect(counter).to.equal(1)
+
+			obs.set({
+				key1: 'val1_changed',
+				key2: 'val2_changed'
+			})
+			expect(counter).to.equal(1)
+			expect(h_self).to.equal(obs)
+			expect(h_meta).to.have.property('key1')
+				.which.equals(obs.key1)
+			expect(h_meta).to.have.property('key2')
+				.which.equals(obs.key2)
+		})
+
+		it( 'should not fire emediately after subscribing when all fields'+
+			' are missing', function(){
+			counter = 0
+			obs = prepObs(
+				{  },
+				{ key1: true, key2: true }
+			)
+			expect(counter).to.equal(0)
+		})
+
+		it('should have one "missing property listener"', function(){
+			expect(obs).to.have.property('$on').which.has.property('$property')
+				.which.has.property('$attach')
+			var attach = obs.$on.$property.$attach
+			expect(attach).to.not.have.property(2)
+		})
+
+		it('should fire when multiple missing, then adding all', function(){
+			counter = 0
+			obs = prepObs(
+				{  },
+				{ key1: true, key2: true }
+			)
+
+			expect(counter).to.equal(0)
+
+			obs.set({
+				key1: 'val1_added',
+				key2: 'val2_added'
+			})
+
+			expect(counter).to.equal(1)
+			expect(h_self).to.equal(obs)
+			expect(h_meta).to.have.property('key1')
+				.which.equals(obs.key1)
+			expect(h_meta).to.have.property('key2')
+				.which.equals(obs.key2)
+			expect(h_meta).to.have.property('_added')
+			var added = h_meta._added
+			expect(added).to.have.property(0)
+				.which.equals(obs.key1)
+			expect(added).to.have.property(1)
+				.which.equals(obs.key2)
+		})
+
+		it('should fire when multiple missing, then adding one', function(){
+			counter = 0
+			obs = prepObs(
+				{  },
+				{ key1: true, key2: true }
+			)
+			expect(counter).to.equal(0)
+
+			obs.set({
+				key1: 'val1_added'
+			})
+
+			expect(counter).to.equal(1)
+			expect(h_self).to.equal(obs)
+			expect(h_meta).to.have.property('key1')
+				.which.equals(obs.key1)
+			expect(h_meta).to.not.have.property('key2')
+			expect(h_meta).to.have.property('_added')
+			var added = h_meta._added
+			expect(added).to.have.property(0)
+				.which.equals(obs.key1)
+			expect(added).to.not.have.property(1)
+		})
+
+		it('should still have missing property handler', function(){
+			expect(obs).to.have.property('$on')
+				.which.has.property('$property')
+				.which.has.property('$attach')
+				.which.has.property(1)
+
+			var attached = obs.$on.$property.$attach[1]
+
+			expect(attached).to.have.property(0)
+				.which.has.property('name')
+				.which.equals('missingPropHandler')
+
+			expect(attached).to.have.property(1)
+					.which.equals(obs.$on.hashkey)
+		})
+
+		it('should fire when next property is added', function(){
+			counter = 0
+			obs.set({
+				key2: 'val2_added'
+			})
+
+			expect(counter).to.equal(1)
+			expect(h_self).to.equal(obs)
+			expect(h_meta).to.have.property('key2')
+				.which.equals(obs.key2)
+			expect(h_meta).to.not.have.property('key1')
+			expect(h_meta).to.have.property('_added')
+			var added = h_meta._added
+			expect(added).to.have.property(0)
+				.which.equals(obs.key2)
+			expect(added).to.not.have.property(1)
+		})
+
+		it('should have removed missing property listener', function(){
+			expect(obs.$on.$property.$attach).to.equal(null)
+		})
 
 	})
 
-	describe.skip('subscribe by nested key', function() {
+	describe('subscribe by nested key', function() {
+		var obs
+		it('should not fire when intermediate steps are added', function(){
+			L = 1
+			counter = 0
+			obs = prepObs(
+				{ },
+				{ key1: { key2: { key3: true } } }
+			)
+			expect(counter).to.equal(0)
+
+			log.header('set 1, just key1')
+
+			obs.set({
+				key1: { otherkey: true }
+			})
+			expect(counter).to.equal(0)
+		})
+
+		it('should have removed missing property listener from obs',
+			function() {
+				expect(obs).to.have.property('$on')
+					.which.has.property('$property')
+					.which.has.property('$attach')
+					.which.equals(null)
+			}
+		)
+
+		it('should have added a missing property listener to obs.key1',
+			function() {
+				expect(obs).to.have.property('key1')
+					.which.has.property('$on')
+					.which.has.property('$property')
+					.which.has.property('$attach')
+
+					var attach = obs.key1.$on.$property.$attach
+
+					expect(attach).to.have.property(1)
+						.which.has.property(0)
+						.which.has.property('name')
+						.which.equals('missingPropHandler')
+
+					expect(attach).to.not.have.property(2)
+
+			}
+		)
+
+		it('should fire when target is finally added', function(){
+			L = 1
+
+			log.header('oh shit still have meta from last')
+			log('?!', obs.$on.hashkey._$meta)
+
+			counter = 0
+			log.header('now set the rest')
+			obs.key1.set({
+				key2: {
+					key3: 'set dat val!'
+				}
+			})
+			expect(counter).to.equal(1)
+
+
+			log.header('how is emitting?')
+			log(obs.$on.hashkey._$emitting)
+		})
+
+		it('should have correct meta', function(){
+			L = 1
+			log(h_meta)
+		})
 
 	})
 
 	describe.skip('subscribe by multiple nested keys', function() {
+		it.skip('', function(){
 
+		})
 	})
 
 })
 
+function prepObs(setobj, pattern) {
+	var obs = new Observable({
+		$key: 'obs',
+		$on: {}
+	})
+
+	obs.set(setobj)
+
+	var subsEmitter = new SubsEmitter({
+		handerl1: function(event, meta) {
+			log.event(this, event, meta)
+			counter++
+			h_self = this
+			h_event = event
+			h_meta = meta
+		},
+		$pattern: pattern
+	}, false, obs.$on )
+
+
+	obs.set({
+		$on: {
+			hashkey: subsEmitter
+		}
+	})
+
+	return obs
+}
 
 
 function prepLogger(){
@@ -241,7 +439,7 @@ function prepLogger(){
 		)
 	}
 	log.event = function logEvent(self, event, meta) {
-		log.error('SUBSEMITTER HANDLER FIRED!', meta)
+		log.error('SubsEmitter HANDLER FIRED!', meta)
 	  log.group()
 	  log('this:', self, '\n')
 	  log('meta:', meta, '\n')
@@ -251,10 +449,11 @@ function prepLogger(){
 }
 
 
-function makeChecked(thing) {
+function makeChecked(method) {
 	return function() {
 		if(typeof L !== 'undefined' && L) {
-			return thing.apply(console, arguments)
+			method.apply(console, arguments)
+			// TODO: log source line with new Error.stack but sourcemapped
 		}
 	}
 }

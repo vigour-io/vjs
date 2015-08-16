@@ -1,12 +1,16 @@
 {
-"asi": true,
-"bitwise": true,
-"boss": true,
-"debug": true,
-"expr": true,
-"laxbreak": true,
-"laxcomma": true,
-"node": true,
-"maxlen":false,
-"indent":2
+  "asi": true,
+  "bitwise": true,
+  "boss": true,
+  "debug": true,
+  "expr": true,
+  "laxbreak": true,
+  "laxcomma": true,
+  "node": true,
+  "maxlen":80,
+  "globals": {
+    "log": true,
+    "window": false,
+    "console": false
+  }
 }
