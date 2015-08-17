@@ -383,20 +383,20 @@ describe('subscribe-by-key', function() {
 			// obs.key1.key2.key3.$val = 'SHRU'
 			log('??', obs.key1.key2.key3.$on.$property)
 			log('??', obs.key1.key2.$on && obs.key1.key2.$on.$property)
-			log('??', obs.key1.$on && obs.key1.$on.$property, obs.key1.$on.$property.$path)
+			log('??',
+				obs.key1.$on && obs.key1.$on.$property, obs.key1.$on.$property.$path
+			)
 			log('??', obs.$on && obs.$on.$property, obs.$on.$property.$path)
-			window.wtf1 = obs.key1.$on.$property
-			window.wtf2 = obs.$on.$property
 
 			log.error('>>', obs.key1.$on.$property)
 
 			//
 			// // debugger
-			// counter = 0
+			counter = 0
 			// propcache = obs.key1
-			// log.header('remose!')
-			// obs.key1.remove()
-			// expect(counter).to.equal(1)
+			log.header('remose!')
+			obs.key1.remove()
+			expect(counter).to.equal(1)
 		})
 
 		// it('should have removed property in meta', function(){
