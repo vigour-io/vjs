@@ -315,16 +315,13 @@ describe('subscribe-by-key', function() {
 	describe('subscribe by nested key', function() {
 		var obs
 		it('should not fire when intermediate steps are added', function(){
-			L = 1
+			// L = 1
 			counter = 0
 			obs = prepObs(
 				{ },
 				{ key1: { key2: { key3: true } } }
 			)
 			expect(counter).to.equal(0)
-
-			log.header('set 1, just key1')
-
 			obs.set({
 				key1: { otherkey: true }
 			})
@@ -346,43 +343,67 @@ describe('subscribe-by-key', function() {
 					.which.has.property('$on')
 					.which.has.property('$property')
 					.which.has.property('$attach')
-
 					var attach = obs.key1.$on.$property.$attach
-
 					expect(attach).to.have.property(1)
 						.which.has.property(0)
 						.which.has.property('name')
 						.which.equals('missingPropHandler')
-
 					expect(attach).to.not.have.property(2)
-
 			}
 		)
 
 		it('should fire when target is finally added', function(){
-			L = 1
-
-			log.header('oh shit still have meta from last')
-			log('?!', obs.$on.hashkey._$meta)
-
+			// L = 1
 			counter = 0
-			log.header('now set the rest')
 			obs.key1.set({
 				key2: {
 					key3: 'set dat val!'
 				}
 			})
 			expect(counter).to.equal(1)
-
-
-			log.header('how is emitting?')
-			log(obs.$on.hashkey._$emitting)
 		})
 
 		it('should have correct meta', function(){
-			L = 1
-			log(h_meta)
+			// L = 1
+			expect(h_meta).to.have.property('key1')
+			var key1 = h_meta.key1
+			expect(key1).to.have.property('_added')
+				.which.has.property(0, obs.key1.key2)
+			expect(key1).to.have.property('key2')
+				.which.has.property('key3', obs.key1.key2.key3)
+
 		})
+		var propcache
+		it('should fire when intermediate property is removed', function(){
+
+			L = 1
+			log.header('look at listeners on key3')
+			log(obs.key1.key2.key3.$on)
+
+			// obs.key1.key2.key3.$val = 'SHRU'
+			log('??', obs.key1.key2.key3.$on.$property)
+			log('??', obs.key1.key2.$on && obs.key1.key2.$on.$property)
+			log('??', obs.key1.$on && obs.key1.$on.$property, obs.key1.$on.$property.$path)
+			log('??', obs.$on && obs.$on.$property, obs.$on.$property.$path)
+			window.wtf1 = obs.key1.$on.$property
+			window.wtf2 = obs.$on.$property
+
+			log.error('>>', obs.key1.$on.$property)
+
+			//
+			// // debugger
+			// counter = 0
+			// propcache = obs.key1
+			// log.header('remose!')
+			// obs.key1.remove()
+			// expect(counter).to.equal(1)
+		})
+
+		// it('should have removed property in meta', function(){
+		// 	// L = 1
+		// 	expect(h_meta).to.have.property('key1')
+		// 		.which.equals(propcache)
+		// })
 
 	})
 
