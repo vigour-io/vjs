@@ -1,9 +1,11 @@
-var L = 0
+
 var Observable = require('../../../../../lib/observable')
 var SubsEmitter = require('../../../../../lib/observable/subscribe/emitter')
 
+var L = 0
 var log = window.log = prepLogger()
 console.clear()
+
 var counter
 var h_self
 var h_event
@@ -138,6 +140,7 @@ describe('subscribe-by-key', function() {
 				.which.has.property(1)
 
 			var attach = obs.$on.$property.$attach
+			expect(attach).to.have.property(1)
 			expect(attach).to.not.have.property(2)
 			var attached = attach[1]
 			expect(attached).to.have.property(0)
@@ -399,17 +402,139 @@ describe('subscribe-by-key', function() {
 			expect(counter).to.equal(1)
 		})
 
-		// it('should have removed property in meta', function(){
-		// 	// L = 1
-		// 	expect(h_meta).to.have.property('key1')
-		// 		.which.equals(propcache)
-		// })
+		it.skip('should have the removed property in meta', function(){
+			// L = 1
+
+		})
+		it.skip('should now have a missing property listener', function(){
+			// L = 1
+
+		})
 
 	})
 
-	describe.skip('subscribe by multiple nested keys', function() {
-		it.skip('', function(){
+	describe('subscribe by multiple nested keys', function() {
+		var obs
+		it('should not fire when no keys are present', function(){
+			counter = 0
+			obs = prepObs(
+				{ },
+				{
+					keyA1: { keyA2: { keyA3: true } },
+					keyB1: { keyB2: true }
+				}
+			)
+			expect(counter).to.equal(0)
+		})
 
+		it('should not fire when intermediate properties are added', function(){
+			counter = 0
+			obs.set({
+				keyA1: { otherkey: true }
+			})
+			expect(counter).to.equal(0)
+		})
+
+		it('should still have missing property listener on obs', function(){
+			expect(obs).to.have.property('$on')
+				.which.has.property('$property')
+				.which.has.property('$attach')
+				.which.has.property(1)
+
+			var attach = obs.$on.$property.$attach
+			expect(attach).to.have.property(1)
+			expect(attach).to.not.have.property(2)
+			var attached = attach[1]
+			expect(attached).to.have.property(0)
+				.which.has.property('name')
+				.which.equals('missingPropHandler')
+			expect(attached).to.have.property(1)
+					.which.equals(obs.$on.hashkey)
+		})
+
+		it('should have added missing property listener on keyA1', function(){
+			expect(obs).to.have.property('keyA1')
+				.which.has.property('$on')
+				.which.has.property('$property')
+				.which.has.property('$attach')
+				.which.has.property(1)
+
+			var attach = obs.keyA1.$on.$property.$attach
+			expect(attach).to.have.property(1)
+			expect(attach).to.not.have.property(2)
+			var attached = attach[1]
+			expect(attached).to.have.property(0)
+				.which.has.property('name')
+				.which.equals('missingPropHandler')
+			expect(attached).to.have.property(1)
+					.which.equals(obs.$on.hashkey)
+		})
+
+		it('should fire when second missing property is added (completely)',
+			function(){
+				scrollDown()
+				counter = 0
+				obs.set({
+					keyB1: {
+						keyB2: 'hey'
+					}
+				})
+				expect(counter).to.equal(1)
+			}
+		)
+
+		it('should have correct meta', function(){
+			// L = 1
+			expect(h_meta).to.have.property('_added')
+				.which.has.property(0, obs.keyB1)
+			expect(h_meta).to.have.property('keyB1')
+				.which.has.property('keyB2', obs.keyB1.keyB2)
+			expect(h_meta._added).to.not.have.property(1)
+		})
+
+		it('should have removed missing property listener from obs', function(){
+			expect(obs.$on.$property.$attach).to.equal(null)
+		})
+
+		it('should still have missing property listener on obs.keyA1', function(){
+			scrollDown()
+			expect(obs).to.have.property('keyA1')
+				.which.has.property('$on')
+				.which.has.property('$property')
+				.which.has.property('$attach')
+				.which.has.property(1)
+
+			var attach = obs.keyA1.$on.$property.$attach
+			expect(attach).to.have.property(1)
+			expect(attach).to.not.have.property(2)
+			var attached = attach[1]
+			expect(attached).to.have.property(0)
+				.which.has.property('name')
+				.which.equals('missingPropHandler')
+			expect(attached).to.have.property(1)
+					.which.equals(obs.$on.hashkey)
+		})
+
+		it('should fire when all info is added', function(){
+				scrollDown()
+				counter = 0
+				obs.set({
+					keyA1: { keyA2: { keyA3: 'lala' } }
+				})
+				expect(counter).to.equal(1)
+			}
+		)
+
+		it('should have correct meta', function(){
+			// L = 1
+			expect(h_meta).to.have.property('keyA1')
+				.which.has.property('keyA2')
+				.which.has.property('keyA3', obs.keyA1.keyA2.keyA3)
+
+			expect(h_meta.keyA1).to.have.property('_added')
+				.which.has.property(0, obs.keyA1.keyA2)
+
+			expect(h_meta.keyA1._added).to.not.have.property(1)
 		})
 	})
 
@@ -477,4 +602,8 @@ function makeChecked(method) {
 			// TODO: log source line with new Error.stack but sourcemapped
 		}
 	}
+}
+
+function scrollDown(){
+	window.scrollTo(0,document.body.scrollHeight)
 }
