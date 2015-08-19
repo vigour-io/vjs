@@ -4,9 +4,7 @@ console.clear()
 
 var b = new Observable({
   $on: {
-    $change: function() {
-      console.log('@#@#!@#')
-    }
+    $change: { $val: [ function () {}, 'xxx' ] }
   }
 })
 
@@ -19,5 +17,16 @@ var a = new Observable({
 })
 
 a.$val = 'xxxxxxx'
+
+
+a.$on.$change.$addListener( function() {
+
+
+} )
+
+a.$on.$change.$addListener( function() {
+
+
+}, 'val' )
 
 console.log(a.$on)
