@@ -4,29 +4,21 @@ console.clear()
 
 var b = new Observable({
   $on: {
-    $change: { $val: [ function () {}, 'xxx' ] }
+    $change: function() {
+      console.log('hey hey hey updace!')
+    }
   }
 })
 
 var a = new Observable({
   $key: 'a',
+  $val: b,
   $on: {
     //shortcut for val!
-    $change: { danihhhlo: b }
+    $change: function() {
+      console.log('update here!')
+    }
   }
 })
 
-a.$val = 'xxxxxxx'
-
-
-a.$on.$change.$addListener( function() {
-
-
-} )
-
-a.$on.$change.$addListener( function() {
-
-
-}, 'val' )
-
-console.log(a.$on)
+b.$val = 'xxxxxxx'

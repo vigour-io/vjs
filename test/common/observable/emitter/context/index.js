@@ -114,7 +114,10 @@ describe('context', function() {
       $key:'c'
     })
 
+    // before(function() {
     test.a.b.$val = 'a change'
+    // })
+
     it( 'should fire once for "a" context' , function() {
       expect( test.cnt.a ).to.equal( 1 )
     })
