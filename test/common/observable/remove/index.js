@@ -478,7 +478,7 @@ describe('remove', function() {
   })
 
   it( 'nested (virtual) fields 2 levels remove', function() {
-    console.clear()
+    // console.clear()
     var cnt = {
       total: 0,
       a: 0,
@@ -516,6 +516,24 @@ describe('remove', function() {
     //what goes wrong? ---
     expect( cnt.b ).to.equal(1)
     expect( cnt.a ).to.equal(1)
+  })
+
+  it('remove tests with a nested on', function() {
+    //create nested removes on instances
+    // console.clear()
+    var cnt = 0
+    var a = new Observable({
+      $key:'a',
+      b: {
+        $on: {
+          $change:function( event ) {
+            cnt++
+          }
+        }
+      }
+    })
+    a.remove()
+    expect( cnt ).to.equal(1)
   })
 
 })

@@ -12,7 +12,7 @@ describe('subsemitter-emitloop', function() {
 		Observable = require( '../../../../../lib/observable' )
 	})
 
-	it('emits on SubsEmitter are meta-postponed ', function() {
+	xit('emits on SubsEmitter are meta-postponed ', function() {
 
 		var timeline = []
 
