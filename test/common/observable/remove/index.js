@@ -145,32 +145,6 @@ describe('remove', function() {
 
   })
 
-  it.skip('remove tests with a nested on on an instance', function() {
-
-    //create nested removes on instances
-
-    var Original = new Observable({
-      $on: {
-        $change:function( event ) {
-
-        }
-      }
-    }).$Constructor
-
-    Original.prototype.define({
-      $ChildConstructor: Original
-    })
-
-    var bla2 = new Original({
-      a: {
-        b: {
-          c:{}
-        }
-      }
-    })
-
-  })
-
   it( 'add change listener to a and remove a', function() {
     measure.a.val = {
       total: 0,
