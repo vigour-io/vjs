@@ -364,6 +364,8 @@ describe('subscribe-by-key', function() {
 		it('should fire when target is finally added', function(){
 			// L = 1
 			counter = 0
+			L = 1
+			log.header('wex')
 			obs.key1.set({
 				key2: {
 					key3: 'set dat val!'
@@ -373,7 +375,9 @@ describe('subscribe-by-key', function() {
 		})
 
 		it('should have correct meta', function(){
-			// L = 1
+			log.header('missing meta:')
+			log(h_meta)
+
 			expect(h_meta).to.have.property('key1')
 			var key1 = h_meta.key1
 			expect(key1).to.have.property('_added')
@@ -382,7 +386,7 @@ describe('subscribe-by-key', function() {
 				.which.has.property('key3', obs.key1.key2.key3)
 
 		})
-		
+
 		it.skip('should fire when intermediate property is removed', function(){
 			counter = 0
 			obs.key1.remove()

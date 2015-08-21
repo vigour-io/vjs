@@ -26,14 +26,14 @@ describe('context', function() {
       }
     })
 
-    var b = new a.$Constructor({
+    var aInstance = new a.$Constructor({
       $key:'aInstance'
     })
 
     return {
       cnt: cnt,
       a: a,
-      aInstance: b
+      aInstance: aInstance
     }
   }
 
@@ -86,7 +86,7 @@ describe('context', function() {
   describe( 'emit on instance', function() {
     var test = contextObservable()
     //dit is resolve context shit
-    test.aInstance.b.$emit('$change') // = 'b change'
+    test.aInstance.b.emit('$change') // = 'b change'
     it( 'should fire once for "aInstance" context' , function() {
       expect( test.cnt.aInstance ).to.equal( 1 )
     })
@@ -114,7 +114,10 @@ describe('context', function() {
       $key:'c'
     })
 
+    // before(function() {
     test.a.b.$val = 'a change'
+    // })
+
     it( 'should fire once for "a" context' , function() {
       expect( test.cnt.a ).to.equal( 1 )
     })
@@ -140,7 +143,7 @@ describe('context', function() {
     })
 
     it( 'creates "e" sets b and should fire once for "e" instance' , function() {
-      test.d = new test.a.$Constructor({
+      test.e  = new test.a.$Constructor({
         $key: 'e',
         b:'b' //you should not fire for original!
         //different field name makes it extra hard
@@ -149,7 +152,6 @@ describe('context', function() {
     })
 
     it( 'sets a.b and should fire once for "a"' , function() {
-      console.clear()
       test.a.b.$val = 'a'
       expect( test.cnt.a ).to.equal( 1 )
     })
@@ -169,7 +171,7 @@ describe('context', function() {
       expect( test.cnt.aInstance ).to.equal( 1 )
     })
 
-    it.skip( 'should not fire for "e"' , function() {
+    xit( 'should not fire for "e"' , function() {
       //TOOD: disconnected cactch irrelevant change
       //now update for update on val a (althgouht its not shared)
       expect( test.cnt.e ).to.equal( 1 )
@@ -188,6 +190,7 @@ describe('context', function() {
     })
 
     it( 'sets a.b, should fire once for "a"' , function() {
+      //how about c?
       test.a.b.$val = 'a change'
       expect( test.cnt.a ).to.equal( 1 )
     })
@@ -250,11 +253,9 @@ describe('context', function() {
       // console.clear()
       test.c = new Observable({
         $key:'c',
-        $trackInstances: true, //wtf????
+        $trackInstances: true,
         nest: { $useVal: new test.a.$Constructor() }
-        //ultra mested up case...
       })
-      console.warn(test.c.nest.b._$parent.$key)
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
       expect( test.cnt.total ).msg('total').to.equal( 0 )
     })
@@ -272,7 +273,7 @@ describe('context', function() {
 
     it( 'fires from context in c', function() {
       //.b is trough the context of c.nest which is a seperate instance
-      test.c.nest.b.$emit('$change')
+      test.c.nest.b.emit('$change')
       // test.c.nest.b.$val = 'something'  <--- also this goes wrong
       expect( test.cnt.total ).msg('total').to.equal( 3 )
       expect( test.cnt.d ).msg('d').to.equal( 1 )
@@ -285,7 +286,7 @@ describe('context', function() {
       console.clear()
       test.c.nest.b.$val = 'something'
       expect( test.cnt.c ).msg('c').to.equal( 2 )
-      expect( test.cnt.d ).msg('d').to.equal( 2 ) 
+      expect( test.cnt.d ).msg('d').to.equal( 2 )
       expect( test.cnt.e ).msg('e').to.equal( 2 )
       expect( test.cnt.total ).msg('total').to.equal( 6 )
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok

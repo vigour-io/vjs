@@ -145,32 +145,6 @@ describe('remove', function() {
 
   })
 
-  it.skip('remove tests with a nested on on an instance', function() {
-
-    //create nested removes on instances
-
-    var Original = new Observable({
-      $on: {
-        $change:function( event ) {
-
-        }
-      }
-    }).$Constructor
-
-    Original.prototype.define({
-      $ChildConstructor: Original
-    })
-
-    var bla2 = new Original({
-      a: {
-        b: {
-          c:{}
-        }
-      }
-    })
-
-  })
-
   it( 'add change listener to a and remove a', function() {
     measure.a.val = {
       total: 0,
@@ -478,7 +452,7 @@ describe('remove', function() {
   })
 
   it( 'nested (virtual) fields 2 levels remove', function() {
-    console.clear()
+    // console.clear()
     var cnt = {
       total: 0,
       a: 0,
@@ -516,6 +490,87 @@ describe('remove', function() {
     //what goes wrong? ---
     expect( cnt.b ).to.equal(1)
     expect( cnt.a ).to.equal(1)
+  })
+
+  it('remove tests with a nested on', function() {
+    //create nested removes on instances
+    var cnt = 0
+    var metaCnt = 0
+    var a = new Observable({
+      $key:'a',
+      b: {
+        $on: {
+          $change:function( event, removed ) {
+            if(removed) {
+              metaCnt++
+            }
+            cnt++
+          }
+        }
+      }
+    })
+    a.remove()
+    expect( metaCnt ).to.equal(1)
+    expect( cnt ).to.equal(1)
+  })
+
+  it('remove tests with a deep nested on', function() {
+    // console.clear()
+    var cnt = 0
+    var metaCnt = 0
+    var a = new Observable({
+      $key:'a',
+      b: {
+        c: {
+          $on: {
+            $change:function( event, removed ) {
+              if(removed) {
+                metaCnt++
+              }
+              cnt++
+            }
+          }
+        }
+      }
+    })
+    a.remove()
+    expect( cnt ).to.equal(1)
+    expect( metaCnt ).to.equal(1)
+  })
+
+  it('remove tests with a deep nested on and instances', function() {
+    // console.clear()
+    var cnt = 0
+    var metaCnt = 0
+    var measure = {}
+    var a = new Observable({
+      $key:'a',
+      $trackInstances:true,
+      b: {
+        $trackInstances:true,
+        c: {
+          $on: {
+            $change:function( event, removed ) {
+              measure[this.$path[0]] = !measure[this.$path[0]] ? 1 :   measure[this.$path[0]]+1
+              if(removed) {
+                metaCnt++
+              }
+              cnt++
+            }
+          }
+        }
+      }
+    })
+    var arr = []
+    for(var i = 0 ; i < 10; i++) {
+      arr.push(new a.$Constructor({$key:i}))
+    }
+    a.remove()
+    expect( cnt ).to.equal(11)
+    expect( metaCnt ).to.equal(11)
+    for(var i = 0 ; i < 10; i++) {
+      expect( measure[i] ).to.equal(1)
+    }
   })
 
 })

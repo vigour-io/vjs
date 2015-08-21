@@ -190,7 +190,7 @@ describe( 'combined', function() {
       }
     })
 
-    obs.$emit('someKindOfEvent')
+    obs.emit('someKindOfEvent')
     expect( total ).to.equal( 1 )
     expect( total2 ).to.equal( 1 )
 
@@ -218,6 +218,37 @@ describe( 'combined', function() {
 
     obs.$val = 2
     expect( total ).to.equal( 2 )
+
+  })
+
+  it( 'should remove $listensOnBase[1]', function() {
+    //TODO: may clean up listensOnBase when its empty
+    var b = new Observable({
+      $key: 'b',
+    })
+
+    var a = new Observable({
+      $key: 'a',
+      $on: {
+        $change: b
+      }
+    })
+
+
+    expect(b.$listensOnBase).to.be.ok
+
+    var c = new Observable({
+      $key: 'c'
+    })
+
+    a.set({
+      $on: {
+        $change: c
+      }
+    })
+
+    expect(b.$listensOnBase[1]).to.be.not.ok
+    expect(c.$listensOnBase[1]).to.be.ok
 
   })
 
