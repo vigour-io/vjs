@@ -3,15 +3,17 @@ var Event = require('../../../lib/event')
 
 describe('emitter', function() {
   console.clear()
-  var a = new Emitter()
-  console.log(a)
 
-  a.on(function( event, type ){
-    console.log( 'heyheyhey', type )
+  describe('add listener and fire once', function() {
+    var a = new Emitter()
+    var cnt = 0
+    a.on(function( event, type ){
+      cnt++
+    })
+    a.emit()
+    it('should have fired once',function() {
+      expect( cnt ).to.equal(1)
+    })
   })
 
-  //first arg string make that conditional for type?
-
-  //remove dolarsign from emit
-  a.emit( false, false, false, 'hello' )
 })
