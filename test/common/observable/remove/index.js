@@ -537,7 +537,42 @@ describe('remove', function() {
     a.remove()
     expect( cnt ).to.equal(1)
     expect( metaCnt ).to.equal(1)
+  })
 
+  it('remove tests with a deep nested on and instances', function() {
+    //create nested removes on instances
+    console.clear()
+    var cnt = 0
+    var metaCnt = 0
+    var measure = {}
+    var a = new Observable({
+      $key:'a',
+      $trackInstances:true,
+      b: {
+        $trackInstances:true,
+        c: {
+          $on: {
+            $change:function( event, removed ) {
+              measure[this.$path[0]] = !measure[this.$path[0]] ? 1 :   measure[this.$path[0]]+1
+              if(removed) {
+                metaCnt++
+              }
+              cnt++
+            }
+          }
+        }
+      }
+    })
+    var arr = []
+    for(var i = 0 ; i < 10; i++) {
+      arr.push(new a.$Constructor({$key:i}))
+    }
+    a.remove()
+    expect( cnt ).to.equal(11)
+    expect( metaCnt ).to.equal(11)
+    for(var i = 0 ; i < 10; i++) {
+      expect( measure[i] ).to.equal(1)
+    }
   })
 
 })
