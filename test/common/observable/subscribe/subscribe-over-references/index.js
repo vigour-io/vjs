@@ -38,13 +38,16 @@ describe('subscribe-over-references', function() {
 			log(h_meta)
 		})
 
-		it('should have refListener on ref', function(){
+		it('should have a refListener on ref', function(){
 			// L = 1
 			expect(obs.ref.$on.$reference).to.have.property('$attach')
 			var attach = obs.ref.$on.$reference.$attach
 
 			expect(attach).to.have.property(1)
 			var attached = attach[1]
+			expect(attached).to.have.property(0)
+				.which.has.property('name', 'refHandler')
+			expect(attached).to.have.property(1, obs.$on.hashkey)
 
 			expect(attach).to.not.have.property(2)
 		})
@@ -102,7 +105,6 @@ describe('subscribe-over-references', function() {
 	describe('reference as intermediate property', function(){
 		var obs
 		var refholder
-
 		counter = 0
 		refholder = new Observable({
 			$key: 'refholder',
@@ -114,6 +116,16 @@ describe('subscribe-over-references', function() {
 			reffed2: {
 				nest1:{
 					nest2: 'ha different man!'
+				}
+			},
+			reffed3: {
+				nest1: {
+					otherkey3: true
+				}
+			},
+			reffed4: {
+				nest1: {
+					otherkey4: true
 				}
 			}
 		})
@@ -129,15 +141,20 @@ describe('subscribe-over-references', function() {
 		it.skip('should have correct meta', function(){
 
 		})
-		it('should have reflistener', function(){
-			L=1
-			log.header('check listener?')
-			log(obs.ref.$on)
+		it('should have a reflistener', function(){
+			expect(obs.ref.$on.$reference).to.have.property('$attach')
+			var attach = obs.ref.$on.$reference.$attach
+
+			expect(attach).to.have.property(1)
+			var attached = attach[1]
+			expect(attached).to.have.property(0)
+				.which.has.property('name', 'refHandler')
+			expect(attached).to.have.property(1, obs.$on.hashkey)
+			expect(attach).to.not.have.property(2)
 		})
 
 		it('should fire when changing ref target (with endpoint)',
 			function(){
-				L=1
 				counter = 0
 				obs.ref.$val = refholder.reffed2
 				counter = 1
@@ -151,71 +168,189 @@ describe('subscribe-over-references', function() {
 		})
 
 		it('should have cleaned previous target', function(){
-			L=1
-			scrollDown()
-			log.header('>')
-			log(refholder.reffed.$on)
-		})
-
-		it.skip('should still have reference listener', function(){
+			var oldendpoint = refholder.reffed.nest1.nest2
+			expect(oldendpoint).to.have.property('$on')
+				.which.has.property('$change')
+				.which.has.property('$attach', null)
 
 		})
 
-		it.skip('should fire when new endpoint is updated', function(){
+		it('should still have a reference listener', function(){
+			expect(obs.ref.$on.$reference).to.have.property('$attach')
+			var attach = obs.ref.$on.$reference.$attach
+
+			expect(attach).to.have.property(1)
+			var attached = attach[1]
+			expect(attached).to.have.property(0)
+				.which.has.property('name', 'refHandler')
+			expect(attached).to.have.property(1, obs.$on.hashkey)
+			expect(attach).to.not.have.property(2)
 
 		})
 
-		it.skip('should fire when changing ref target (without endpoint)',
+		it('should fire when new endpoint is updated', function(){
+			counter = 0
+			refholder.reffed2.nest1.nest2.$val = 'update!'
+			expect(counter).to.equal(1)
+		})
+		it('should have correct meta', function(){
+			expect(h_meta).to.have.property('ref')
+				.which.has.property('nest1')
+				.which.has.property('nest2', refholder.reffed2.nest1.nest2)
+		})
+
+		it('should fire when changing ref target (without endpoint)',
 			function(){
-
+				counter = 0
+				obs.ref.$val = refholder.reffed3
+				expect(counter).to.equal(1)
 			}
 		)
-		it.skip('should have correct meta', function(){
-
+		it('should have correct meta', function(){
+			log.header('!')
+			expect(h_meta).to.have.property('ref', refholder.reffed3)
 		})
 
-		it.skip('should fire when enpoint is added', function(){
-
+		it('should fire when changing ref target (without endpoint) AGAIN',
+			function(){
+				counter = 0
+				obs.ref.$val = refholder.reffed4
+				expect(counter).to.equal(1)
+			}
+		)
+		it('should have correct meta', function(){
+			expect(h_meta).to.have.property('ref', refholder.reffed4)
 		})
-		it.skip('should have correct meta', function(){
 
+		it('should have cleaned missing property listener from previous value',
+			function(){
+				var oldmissing = refholder.reffed3.nest1
+				expect(oldmissing).to.have.property('$on')
+					.which.has.property('$property')
+					.which.has.property('$attach', null)
+			}
+		)
+
+		it('should fire when enpoint is added', function(){
+			counter = 0
+			refholder.reffed4.nest1.$val = {
+				nest2: 'ha finally an enpoint!'
+			}
+			expect(counter).to.equal(1)
 		})
+		it('should have correct meta', function(){
+			expect(h_meta).to.have.property('ref')
+				.which.has.property('nest1')
 
-		it.skip('should work with any$', function(){
+			var meta_nest1 = h_meta.ref.nest1
 
+			expect(meta_nest1).to.have.property('_added')
+				.which.has.property(0, refholder.reffed4.nest1.nest2)
+
+			expect(meta_nest1).to.have.property('nest2',
+				refholder.reffed4.nest1.nest2
+			)
 		})
 
 	})
 
 	describe('reference as intermediate property before any$', function(){
 
-		it.skip('should clean correctly', function(){
+		var obs
+		var refholder
+
+		refholder = new Observable({
+			$key: 'refholder',
+			reffed: {
+				nest1:{
+					lurf: true,
+					nest2: true
+				}
+			},
+			reffed2: {
+				nest1:{
+					pursh: true,
+					nest2: 'ha different man!'
+				}
+			},
+			reffed3: {
+				nest1: {
+					shurpy: 4,
+					otherkey3: true
+				}
+			},
+			reffed4: {
+				nest1: {
+					shurpy: 6,
+					otherkey4: true
+				}
+			}
+		})
+
+		counter = 0
+		obs = prepObs(
+			{ ref: refholder.reffed },
+			{ ref: { nest1: { any$: true } } }
+		)
+
+		it('should have added any listener', function(){
+			// L = 1
+			expect(refholder.reffed.nest1).to.have.property('$on')
+				.which.has.property('$property')
+				.which.has.property('$attach')
+
+			var attach = refholder.reffed.nest1.$on.$property.$attach
+
+			expect(attach).to.have.property(1)
+			var attached = attach[1]
+			expect(attached).to.have.property(0)
+				.which.has.property('name', 'anyHandler')
+			expect(attached).to.have.property(1, obs.$on.hashkey)
+			expect(attach).to.not.have.property(2)
+		})
+
+		it('should fire on ref switch to other target', function(){
+			// L = 1
+			counter = 0
+			obs.ref.$val = refholder.reffed2
+			expect(counter).to.equal(1)
+		})
+		it('should have correct meta', function(){
+			expect(h_meta).to.have.property('ref')
+				.which.has.property('nest1')
+				.which.has.property('nest2', refholder.reffed2.nest1.nest2)
+		})
+
+
+		it('should have removed any listener from old ref target', function(){
+			var old = refholder.reffed.nest1
+			expect(old).to.have.property('$on')
+				.which.has.property('$property')
+				.which.has.property('$attach', null)
 
 		})
 
-		it.skip('should add new any$ listeners correctly', function(){
+		it('should have removed endpoint listeners from old ref endpoints',
+			function(){
+				var old = refholder.reffed.nest1.nest2
+				expect(old).to.have.property('$on')
+					.which.has.property('$change')
+					.which.has.property('$attach', null)
 
+				old = refholder.reffed.nest1.lurf
+				expect(old).to.have.property('$on')
+					.which.has.property('$change')
+					.which.has.property('$attach', null)
+
+			})
+
+		it('should fire when new endpoints are updated', function(){
+			counter = 0
+			refholder.reffed2.nest1.nest2.$val = 'shurp'
+			expect(counter).to.equal(1)
 		})
 
 	})
-
-	describe('changing ref target to other Observable',
-		function(){
-			var obs
-			it.skip('should fire on change', function() {
-
-			})
-
-			it.skip('should have correct meta', function(){
-
-			})
-
-			it.skip('should not fire when enpoint is the same', function() {
-
-			})
-
-		}
-	)
 
 	describe('removing a referenced enpoint', function(){
 		it.skip('should fire on remove', function() {
@@ -236,29 +371,73 @@ describe('subscribe-over-references', function() {
 	})
 
 	describe('referencing references!', function(){
-		it.skip('should fire listeners when enpoint is updated', function(){
-
+		var reffed = new Observable({
+			$key: 'reffed',
+			nest1: 'endpointman'
 		})
-		it.skip('should have correct meta', function(){
-
+		var reffedrefB = new Observable({
+			$key: 'reffedrefB',
+			$val: reffed
 		})
+		var reffedrefA = new Observable({
+			$key: 'reffedrefA',
+			$val: reffedrefB
+		})
+		counter = 0
+		var obs = prepObs(
+			{ ref: reffedrefA },
+			{ ref: { nest1: true } }
+		)
+		it.skip('should fire when endpoint is present', function(){
+			expect(counter).to.equal(1)
+		})
+		it('should fire listeners when enpoint is updated', function(){
+			counter = 0
+			reffed.nest1.$val = 'updated endpointman'
+			expect(counter).to.equal(1)
+		})
+		it('should have correct meta', function(){
+			expect(h_meta).to.have.property('ref')
+				.which.has.property('nest1', reffed.nest1)
+		})
+
+		it('should fire when first ref is changed to non ref (without endpoint)',
+			function(){
+				counter = 0
+				L = 1
+				obs.ref.set({
+					$val: void 0,
+					otherval: 'durp'
+				})
+				expect(counter).to.equal(1)
+			}
+		)
+		it('should have correct meta', function(){
+			expect(h_meta).to.have.property('ref', obs.ref)
+		})
+
+		it('should have removed reference listener from reffedrefs',
+			function() {
+				expect(reffedrefA).to.have.property('$on')
+					.which.has.property('$reference')
+					.which.has.property('$attach', null)
+				expect(reffedrefB).to.have.property('$on')
+					.which.has.property('$reference')
+					.which.has.property('$attach', null)
+
+			}
+		)
+
 		it.skip('should fire when intermediate reference is removed',
 			function() {
+				counter = 0
 
 			}
 		)
 		it.skip('should have correct meta', function(){
 
 		})
-		it.skip(
-			'should fire when intermediate reference is changed to non-reference ',
-			function(){
-
-			}
-		)
-		it.skip('should have correct meta', function(){
-
-		})
+		
 	})
 
 })
@@ -322,8 +501,11 @@ function prepLogger(){
 		)
 		var args = []
 		var a = 1
-		while(arguments[a]){args.push(arguments[a])}
-		log.apply(log, args)
+		while(arguments[a] !== void 0){
+			args.push(arguments[a])
+			a++
+		}
+		log.apply(console, args)
 	}
 	return log
 }
