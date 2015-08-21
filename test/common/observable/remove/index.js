@@ -494,20 +494,50 @@ describe('remove', function() {
 
   it('remove tests with a nested on', function() {
     //create nested removes on instances
-    // console.clear()
     var cnt = 0
+    var metaCnt = 0
     var a = new Observable({
       $key:'a',
       b: {
         $on: {
-          $change:function( event ) {
+          $change:function( event, removed ) {
+            if(removed) {
+              metaCnt++
+            }
             cnt++
           }
         }
       }
     })
     a.remove()
+    expect( metaCnt ).to.equal(1)
     expect( cnt ).to.equal(1)
+  })
+
+  it('remove tests with a deep nested on', function() {
+    //create nested removes on instances
+    // console.clear()
+    var cnt = 0
+    var metaCnt = 0
+    var a = new Observable({
+      $key:'a',
+      b: {
+        c: {
+          $on: {
+            $change:function( event, removed ) {
+              if(removed) {
+                metaCnt++
+              }
+              cnt++
+            }
+          }
+        }
+      }
+    })
+    a.remove()
+    expect( cnt ).to.equal(1)
+    expect( metaCnt ).to.equal(1)
+
   })
 
 })
