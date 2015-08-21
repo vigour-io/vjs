@@ -515,7 +515,6 @@ describe('remove', function() {
   })
 
   it('remove tests with a deep nested on', function() {
-    //create nested removes on instances
     // console.clear()
     var cnt = 0
     var metaCnt = 0
@@ -540,8 +539,7 @@ describe('remove', function() {
   })
 
   it('remove tests with a deep nested on and instances', function() {
-    //create nested removes on instances
-    console.clear()
+    // console.clear()
     var cnt = 0
     var metaCnt = 0
     var measure = {}
