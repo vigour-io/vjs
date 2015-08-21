@@ -86,7 +86,7 @@ describe('context', function() {
   describe( 'emit on instance', function() {
     var test = contextObservable()
     //dit is resolve context shit
-    test.aInstance.b.$emit('$change') // = 'b change'
+    test.aInstance.b.emit('$change') // = 'b change'
     it( 'should fire once for "aInstance" context' , function() {
       expect( test.cnt.aInstance ).to.equal( 1 )
     })
@@ -273,7 +273,7 @@ describe('context', function() {
 
     it( 'fires from context in c', function() {
       //.b is trough the context of c.nest which is a seperate instance
-      test.c.nest.b.$emit('$change')
+      test.c.nest.b.emit('$change')
       // test.c.nest.b.$val = 'something'  <--- also this goes wrong
       expect( test.cnt.total ).msg('total').to.equal( 3 )
       expect( test.cnt.d ).msg('d').to.equal( 1 )

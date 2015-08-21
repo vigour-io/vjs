@@ -30,20 +30,20 @@ describe('subsemitter-emitloop', function() {
 		obsA.on('$change', function(event) {
 			// console.error('------------ obsA change handler', event.$stamp)
 			timeline.push('A-change')
-			subsemitter.$emit(event, obsB)
+			subsemitter.emit(event, obsB)
 		})
 
 		obsB.on('$change', function(event) {
 			// console.error('------------ obsB change handler', event.$stamp)
 			timeline.push('B-change')
-			subsemitter.$emit(event, obsB)
+			subsemitter.emit(event, obsB)
 			obsA.set( 'chainge!' )
 		})
 
 		obsB.on('$property', function(event) {
 			// console.error('------------ obsB property handler', event.$stamp)
 			timeline.push('B-property')
-			subsemitter.$emit(event, obsB)
+			subsemitter.emit(event, obsB)
 		})
 
 		obsB.set({

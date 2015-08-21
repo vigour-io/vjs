@@ -190,7 +190,7 @@ describe( 'combined', function() {
       }
     })
 
-    obs.$emit('someKindOfEvent')
+    obs.emit('someKindOfEvent')
     expect( total ).to.equal( 1 )
     expect( total2 ).to.equal( 1 )
 
