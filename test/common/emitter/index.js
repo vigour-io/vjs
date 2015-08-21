@@ -13,6 +13,5 @@ describe('emitter', function() {
   //first arg string make that conditional for type?
 
   //remove dolarsign from emit
-  a.emit( 'hello' )
-
+  a.emit( false, false, false, 'hello' )
 })
