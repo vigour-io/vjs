@@ -250,12 +250,21 @@ describe('context', function() {
     var test = contextObservable()
     //hard need to get rid of _$context in instances
     it( 'creates a new "a" --> "c" (nest observable) should not fire', function() {
-      // console.clear()
+      console.clear()
       test.c = new Observable({
         $key:'c',
         $trackInstances: true,
+        // nest: { $useVal: new test.a.$Constructor() }
+        //this has to resolve context as well!
+        //check for if it has a contructor
+      })
+
+      var Constructor = test.c.$Constructor
+
+      test.c.set({
         nest: { $useVal: new test.a.$Constructor() }
       })
+
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
       expect( test.cnt.total ).msg('total').to.equal( 0 )
     })
@@ -264,9 +273,11 @@ describe('context', function() {
       test.d = new test.c.$Constructor({
         $key:'d'
       })
+
       test.e = new test.c.$Constructor({
         $key:'e'
       })
+
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
       expect( test.cnt.total ).msg('total').to.equal( 0 )
     })
@@ -283,7 +294,7 @@ describe('context', function() {
     })
 
     it( 'fires from resolved a.b in c', function() {
-      console.clear()
+
       test.c.nest.b.$val = 'something'
       expect( test.cnt.c ).msg('c').to.equal( 2 )
       expect( test.cnt.d ).msg('d').to.equal( 2 )

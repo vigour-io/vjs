@@ -20,8 +20,25 @@ describe('remove', function() {
       $val:1
     })
     a.remove()
-    expect(a._$val).to.be.null;
-    expect( isRemoved(a) ).to.be.ok
+    expect(a._$val).to.be.null
+    expect(isRemoved(a)).to.be.ok
+  })
+
+  it( 'create new observable listen on property, remove property check $val', function() {
+    a = new Observable({
+      $key:'a',
+      $val:1,
+      b: {
+        $val:'hello',
+        $on: {
+          $change:function(event , meta) {
+            expect(meta).to.equal( true )
+            expect( this.$val ).to.equal( null )
+          }
+        }
+      }
+    })
+    a.remove()
   })
 
   it( 'create new observable --> a and remove using a set with null', function() {
