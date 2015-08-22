@@ -274,43 +274,52 @@ describe('subscribe-over-references', function() {
 		it('should fire when referenced enpoint is removed through ancestor',
 			function() {
 				counter = 0
-				L = 1
-				log.header('REMOVE!')
 				refholder.remove()
 				expect(counter).to.equal(1)
 			}
 		)
 		it('should have correct meta', function(){
-			log.shine('check meta', h_meta)
-			L = 0
+			expect(h_meta).to.have.property('ref', obs.ref)
 		})
 
+		it('should be able to recreate situation', function(){
+			refholder = new Observable({
+				reffed: {
+					nest1: {
+						nest2: 'reffed endpoint!'
+					}
+				}
+			})
+			obs.ref.$val = refholder.reffed
+		})
 
-		it.skip('should fire when intermediate reference is removed', function() {
-			counter = 0
-			L = 1
-			log.header('REMOVE!')
-			log.shine('?!', refholder.reffed4.nest1.nest2,
-				refholder.reffed4.nest1.nest2.$val
-			)
-			try{
-				obs.ref.remove()
-			} catch(err) {
-				log.error(err.stack)
-				log.shine( 'but what?!',
-					refholder.reffed4.nest1.nest2,
-					refholder.reffed4.nest1.nest2.$val,
-					refholder.reffed4.nest1,
-					refholder.reffed4.nest1.$val,
-					refholder.reffed4,
-					refholder.reffed4.$val,
-					refholder,
-					refholder.$val
+		it.skip('should fire when intermediate reference is removed',
+			function() {
+				counter = 0
+				L = 1
+				log.header('REMOVE!')
+				log.shine('?!', refholder.reffed4.nest1.nest2,
+					refholder.reffed4.nest1.nest2.$val
 				)
-				throw err
+				try{
+					obs.ref.remove()
+				} catch(err) {
+					log.error(err.stack)
+					log.shine( 'but what?!',
+						refholder.reffed4.nest1.nest2,
+						refholder.reffed4.nest1.nest2.$val,
+						refholder.reffed4.nest1,
+						refholder.reffed4.nest1.$val,
+						refholder.reffed4,
+						refholder.reffed4.$val,
+						refholder,
+						refholder.$val
+					)
+					throw err
+				}
+				expect(counter).to.equal(1)
 			}
-			expect(counter).to.equal(1)
-		})
+		)
 		it.skip('should have correct meta', function() {
 			log.shine('meta', h_meta)
 			L=0
