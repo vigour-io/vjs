@@ -5,6 +5,11 @@ var Emitter = require( '../../../../../lib/emitter' )
 var SubsEmitter = require( '../../../../../lib/observable/subscribe/emitter' )
 var Observable = require( '../../../../../lib/observable' )
 
+if(!window.log) {
+	window.L = 0
+	window.log = prepLogger()
+}
+
 describe('subsemitter-emitloop', function() {
 
 	var timeline = []
@@ -66,33 +71,54 @@ describe('subsemitter-emitloop', function() {
 
 })
 
-var log = makeChecked(console.log)
-
-for(var k in console) {
-	var thing = console[k]
-	if(typeof thing === 'function') {
-		log[k] = makeChecked(thing)
+function prepLogger(){
+	var log = makeChecked(console.log)
+	for(var k in console) {
+		var thing = console[k]
+		if(typeof thing === 'function') {
+			log[k] = makeChecked(thing)
+		}
 	}
+	log.header = function logHeader(header) {
+		//hurk
+		log(
+			'%c------------- ' + header,
+			'margin: 5px; color:blue; font-size: 16pt'
+		)
+	}
+	log.event = function logEvent(self, event, meta) {
+		log.error('SubsEmitter HANDLER FIRED!', meta)
+	  log.group()
+	  log('this:', self, '\n')
+	  log('meta:', meta, '\n')
+	  log.groupEnd()
+	}
+	log.shine = function(label) {
+		log(
+			'%c------------- ' + label,
+			'margin: 5px; color:green; font-size: 12pt'
+		)
+		var args = []
+		var a = 1
+		while(arguments[a] !== void 0){
+			args.push(arguments[a])
+			a++
+		}
+		log.apply(console, args)
+	}
+	return log
 }
 
-function makeChecked(thing) {
+
+function makeChecked(method) {
 	return function() {
 		if(typeof L !== 'undefined' && L) {
-			return thing.apply(console, arguments)
+			method.apply(console, arguments)
+			// TODO: log source line with new Error.stack but sourcemapped
 		}
 	}
 }
 
-log.header = function logHeader(header) {
-	log(
-		'%c------------- ' + header,
-		'margin: 5px; color:blue; font-size: 16pt'
-	)
-}
-log.event = function logEvent(self, event, meta) {
-	log.error('SUBSEMITTER HANDLER FIRED!', meta)
-  log.group()
-  log('this:', self, '\n')
-  log('meta:', meta, '\n')
-  log.groupEnd()
+function scrollDown(){
+	window.scrollTo(0,document.body.scrollHeight)
 }

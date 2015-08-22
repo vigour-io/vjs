@@ -1,10 +1,13 @@
+console.clear()
 
 var Observable = require('../../../../../lib/observable')
 var SubsEmitter = require('../../../../../lib/observable/subscribe/emitter')
 
-var L = 0
-var log = window.log = prepLogger()
-console.clear()
+if(!window.log) {
+	window.L = 0
+	window.log = prepLogger()
+}
+
 
 var counter
 var h_self
@@ -130,10 +133,17 @@ describe('subscribe-by-key', function() {
 		)
 
 		it('should fire when key is removed', function(){
-			// L = 1
+			L = 1
+			log.header('goan remove')
 			counter = 0
 			var key1 = obs.key1
-			obs.key1.remove()
+			try{
+				obs.key1.remove()
+			} catch(err){
+				console.log(err.stack)
+				throw err
+			}
+
 			expect(counter).to.equal(1)
 			expect(h_meta).to.have.property('key1').which.equals(key1)
 		})
@@ -570,6 +580,7 @@ function prepLogger(){
 		}
 	}
 	log.header = function logHeader(header) {
+		//hurk
 		log(
 			'%c------------- ' + header,
 			'margin: 5px; color:blue; font-size: 16pt'
@@ -581,6 +592,19 @@ function prepLogger(){
 	  log('this:', self, '\n')
 	  log('meta:', meta, '\n')
 	  log.groupEnd()
+	}
+	log.shine = function(label) {
+		log(
+			'%c------------- ' + label,
+			'margin: 5px; color:green; font-size: 12pt'
+		)
+		var args = []
+		var a = 1
+		while(arguments[a] !== void 0){
+			args.push(arguments[a])
+			a++
+		}
+		log.apply(console, args)
 	}
 	return log
 }

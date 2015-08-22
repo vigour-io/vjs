@@ -1,11 +1,16 @@
+console.clear()
+
 var Observable = require('../../../../../lib/observable')
 var SubsEmitter = require('../../../../../lib/observable/subscribe/emitter')
 
 // Observable.inject(require('../../../../../lib/methods/toString'))
 
-var L = 0
-var log = window.log = prepLogger()
-console.clear()
+if(!window.log) {
+	window.L = 0
+	window.log = prepLogger()
+}
+
+
 var counter
 var h_self
 var h_event
@@ -437,7 +442,7 @@ describe('subscribe-over-references', function() {
 		it.skip('should have correct meta', function(){
 
 		})
-		
+
 	})
 
 })
