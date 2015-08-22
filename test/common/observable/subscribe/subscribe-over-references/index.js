@@ -271,7 +271,22 @@ describe('subscribe-over-references', function() {
 			)
 		})
 
-		it('should fire when intermediate reference is removed', function() {
+		it('should fire when referenced enpoint is removed through ancestor',
+			function() {
+				counter = 0
+				L = 1
+				log.header('REMOVE!')
+				refholder.remove()
+				expect(counter).to.equal(1)
+			}
+		)
+		it('should have correct meta', function(){
+			log.shine('check meta', h_meta)
+			L = 0
+		})
+
+
+		it.skip('should fire when intermediate reference is removed', function() {
 			counter = 0
 			L = 1
 			log.header('REMOVE!')
@@ -296,7 +311,7 @@ describe('subscribe-over-references', function() {
 			}
 			expect(counter).to.equal(1)
 		})
-		it('should have correct meta', function() {
+		it.skip('should have correct meta', function() {
 			log.shine('meta', h_meta)
 			L=0
 		})
