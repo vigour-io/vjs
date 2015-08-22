@@ -18,36 +18,27 @@ describe('subscribe-by-key', function() {
 
 	describe('subscribe by key already present', function() {
 
-		var obs = prepObs(
-			{ key1: 'val1' },
-			{ key1: true }
-		)
+		counter = 0
+		var obs
 
-		it.skip('should fire emediately after subscribing', function(){
+		it('should fire emediately after subscribing', function(){
 			counter = 0
+			log.header('dur!')
 			obs = prepObs(
 				{ key1: 'val1' },
 				{ key1: true }
 			)
+			L = 0
 			expect(counter).to.equal(1)
-
 		})
 
 		it('should fire when property is changed with .$val', function(){
-			// L = 1
 			counter = 0
-			try{
-				obs.key1.$val = 'heee'
-			} catch(e) {
-				console.error(e)
-			}
-
-
+			obs.key1.$val = 'heee'
 			expect(counter).to.equal(1)
 			expect(h_self).to.equal(obs)
 			expect(h_meta).to.have.property('key1')
 				.which.equals(obs.key1)
-
 		})
 
 		it('should fire when property is changed with .set', function(){
@@ -59,7 +50,6 @@ describe('subscribe-by-key', function() {
 			expect(h_self).to.equal(obs)
 			expect(h_meta).to.have.property('key1')
 				.which.equals(obs.key1)
-
 		})
 
 	})
@@ -124,7 +114,6 @@ describe('subscribe-by-key', function() {
 		)
 
 		it('should fire when key is removed', function(){
-			// L = 1
 			counter = 0
 			var key1 = obs.key1
 			obs.key1.remove()
@@ -133,7 +122,6 @@ describe('subscribe-by-key', function() {
 		})
 
 		it('should now have missing property handler', function(){
-			// L = 1
 			expect(obs).to.have.property('$on')
 				.which.has.property('$property')
 				.which.has.property('$attach')
@@ -151,7 +139,6 @@ describe('subscribe-by-key', function() {
 		})
 
 		it('should fire when key is added anew', function(){
-			// L = 1
 			counter = 0
 			obs.set({
 				key1: 'newvalue'
@@ -161,7 +148,6 @@ describe('subscribe-by-key', function() {
 			expect(h_meta).to.have.property('_added')
 				.which.has.property(0)
 				.which.equals(obs.key1)
-
 			expect(h_meta).to.have.property('key1')
 				.which.equals(obs.key1)
 		})
@@ -184,21 +170,17 @@ describe('subscribe-by-key', function() {
 		var obs
 
 		it('should fire with multiple keys present', function(){
-			// L = 1
 			counter = 0
 			obs = prepObs(
 				{ key1: 'val1', key2: 'val2' },
 				{ key1: true, key2: true }
 			)
-
-			// TODO expect it to fire emidiately
-			// expect(counter).to.equal(1)
-
+			expect(counter).to.equal(1)
 			obs.set({
 				key1: 'val1_changed',
 				key2: 'val2_changed'
 			})
-			expect(counter).to.equal(1)
+			expect(counter).to.equal(2)
 			expect(h_self).to.equal(obs)
 			expect(h_meta).to.have.property('key1')
 				.which.equals(obs.key1)
@@ -206,7 +188,7 @@ describe('subscribe-by-key', function() {
 				.which.equals(obs.key2)
 		})
 
-		it( 'should not fire emediately after subscribing when all fields'+
+		it( 'should not fire emediately after subscribing when all enpoints'+
 			' are missing', function(){
 			counter = 0
 			obs = prepObs(
@@ -318,7 +300,6 @@ describe('subscribe-by-key', function() {
 	describe('subscribe by nested key', function() {
 		var obs
 		it('should not fire when intermediate steps are added', function(){
-			// L = 1
 			counter = 0
 			obs = prepObs(
 				{ },
@@ -356,7 +337,6 @@ describe('subscribe-by-key', function() {
 		)
 
 		it('should fire when target is finally added', function(){
-			// L = 1
 			counter = 0
 			log.header('wex')
 			obs.key1.set({
@@ -374,22 +354,28 @@ describe('subscribe-by-key', function() {
 				.which.has.property(0, obs.key1.key2)
 			expect(key1).to.have.property('key2')
 				.which.has.property('key3', obs.key1.key2.key3)
-
 		})
 
-		it.skip('should fire when intermediate property is removed', function(){
+		it('should fire when intermediate property is removed', function(){
 			counter = 0
 			obs.key1.remove()
 			expect(counter).to.equal(1)
 		})
-
-		it.skip('should have the removed property in meta', function(){
-			// L = 1
-
+		it('should have correct meta', function(){
+			expect(h_meta).to.have.property('key1')
+				.which.has.property('$val', null)
 		})
-		it.skip('should now have a missing property listener', function(){
-			// L = 1
 
+		it('should now have a missing property listener', function(){
+			expect(obs).to.have.property('$on')
+				.which.has.property('$property')
+				.which.has.property('$attach')
+				.which.has.property(2)
+
+			var attached = obs.$on.$property.$attach[2]
+			expect(attached).to.have.property(0)
+				.which.has.property('name', 'missingPropHandler')
+			expect(attached).to.have.property(1, obs.$on.hashkey)
 		})
 
 	})
@@ -465,7 +451,6 @@ describe('subscribe-by-key', function() {
 		)
 
 		it('should have correct meta', function(){
-			// L = 1
 			expect(h_meta).to.have.property('_added')
 				.which.has.property(0, obs.keyB1)
 			expect(h_meta).to.have.property('keyB1')
@@ -509,7 +494,6 @@ describe('subscribe-by-key', function() {
 		)
 
 		it('should have correct meta', function(){
-			// L = 1
 			expect(h_meta).to.have.property('keyA1')
 				.which.has.property('keyA2')
 				.which.has.property('keyA3', obs.keyA1.keyA2.keyA3)
@@ -540,7 +524,7 @@ function prepObs(setobj, pattern) {
 			h_meta = meta
 		},
 		$pattern: pattern
-	}, false, obs.$on )
+	}, void 0, obs.$on )
 
 
 	obs.set({
