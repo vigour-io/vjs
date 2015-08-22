@@ -250,7 +250,6 @@ describe('context', function() {
     var test = contextObservable()
     //hard need to get rid of _$context in instances
     it( 'creates a new "a" --> "c" (nest observable) should not fire', function() {
-      console.clear()
       test.c = new Observable({
         $key:'c',
         $trackInstances: true,
@@ -305,9 +304,8 @@ describe('context', function() {
 
   })
 
-  describe('Update on instance that has an instance, in a nested field (contexts)', function() {
+  describe('Update on instance that has an instance, in a nested field', function() {
     var a, a1, a2
-
     var measure = {}
 
     it('should call change function the correct amount of times', function() {
@@ -340,44 +338,87 @@ describe('context', function() {
     })
   })
 
-  function complexContextObservable() {
-    var cnt = {
-      total: 0
-    }
+  describe('Update on instance that has an instance, in a nested field deep', function() {
+    var a, a1, a2
+    var measure = {}
 
-    var a = new Observable({
-      $key:'a',
-      $trackInstances: true,
-      //no on so on default no trackinstances
-      b: {
+    it('should call change function the correct amount of times', function() {
+      a = new Observable({
+        $key: 'a',
+        $trackInstances: true,
         c: {
-          $on: {
-            $change:function() {
-              var key = this.$path[0]
-              console.error( '\nFIRE IT--->????', cnt[key], key, this._$context &&  this._$context.$path )
-              cnt[key] = cnt[key] ? cnt[key]+1 : 1
-              cnt.total++
+          d: {
+            e: {
+              $on: {
+                $change:function() {
+                  var cnt = measure[ this.$path[0]]
+                  measure[ this.$path[0]] = cnt ? cnt+1 : 1
+                  console.log( '%cfire fire', 'color:blue;', this.$path, this._$path )
+                }
+              }
             }
           }
         }
-      }
-    })
+      })
 
-    var b = new a.$Constructor({
-      $key:'aInstance'
-    })
+      a1 = new a.$Constructor({
+        $key: 'a1'
+      })
 
-    var c = new Observable({
-      nest: { $useVal: new a.$Constructor() }
-    })
+      a2 = new a1.$Constructor({
+        $key:'a2'
+      })
 
-    return {
-      cnt: cnt,
-      a: a,
-      c: c,
-      aInstance: b
-    }
-  }
+      console.clear()
+
+
+      //DONT WANT TO SEE A!
+      a1.c.d.e.$val = 'xxx'
+
+      expect( measure.a2 ).msg('a2').to.equal(1)
+      expect( measure.a1 ).msg('a1').to.equal(1)
+      expect( measure.a ).msg( 'a' ).to.be.not.ok
+    })
+  })
+
+  // function complexContextObservable() {
+  //   var cnt = {
+  //     total: 0
+  //   }
+  //
+  //   var a = new Observable({
+  //     $key:'a',
+  //     $trackInstances: true,
+  //     //no on so on default no trackinstances
+  //     b: {
+  //       c: {
+  //         $on: {
+  //           $change:function() {
+  //             var key = this.$path[0]
+  //             console.error( '\nFIRE IT--->????', cnt[key], key, this._$context &&  this._$context.$path )
+  //             cnt[key] = cnt[key] ? cnt[key]+1 : 1
+  //             cnt.total++
+  //           }
+  //         }
+  //       }
+  //     }
+  //   })
+  //
+  //   var b = new a.$Constructor({
+  //     $key:'aInstance'
+  //   })
+  //
+  //   var c = new Observable({
+  //     nest: { $useVal: new a.$Constructor() }
+  //   })
+  //
+  //   return {
+  //     cnt: cnt,
+  //     a: a,
+  //     c: c,
+  //     aInstance: b
+  //   }
+  // }
 
   //now the test for custom emits (hard case -- sets are relativly easy)
   //for this you need to do emits to contexts to contexts -- really strange

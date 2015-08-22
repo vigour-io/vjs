@@ -325,7 +325,7 @@ describe('instances', function() {
       .msg('b3 is a3.$on._instances.total').to.equal(b3)
   })
 
-  describe('reset to previous value nested', function() {
+  describe( 'set on instance nested field', function() {
     console.clear()
     var cnt = 0
 
@@ -361,7 +361,6 @@ describe('instances', function() {
     })
 
     it('listener fired 3 times', function() {
-      console.error('----!@@!@!---', aInstance.b)
       aInstance.b.set({
         c: '?'
       })

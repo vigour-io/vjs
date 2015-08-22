@@ -590,4 +590,32 @@ describe('remove', function() {
     }
   })
 
+
+  describe('references', function() {
+
+    it('reference listener fires twice', function() {
+      var cnt = 0
+      var a = new Observable({
+        $key:'a',
+        $on: {
+          $reference: function() {
+            cnt++
+          }
+        }
+      })
+      var b = new Observable({
+        $key:'b',
+        $val:'hello'
+      })
+      a.$val = b
+
+      a.remove()
+      expect( isRemoved(a) ).to.equal( true )
+      expect( b.$val ).to.equal( 'hello' )
+      expect(cnt).to.equal(2)
+
+    })
+
+  })
+
 })
