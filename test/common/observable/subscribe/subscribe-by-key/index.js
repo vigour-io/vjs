@@ -78,19 +78,10 @@ describe('subscribe-by-key', function() {
 		})
 
 		it('fires when property is added', function(){
-			log.header('2')
-
 			counter = 0
-			try{
-				obs.set({
-					key1: 'firstval'
-				})
-			}catch(err){
-				console.error(err)
-				throw err
-			}
-
-
+			obs.set({
+				key1: 'firstval'
+			})
 			expect(counter).to.equal(1)
 			expect(h_self).to.equal(obs)
 			expect(h_meta).to.have.property('_added')
@@ -133,17 +124,10 @@ describe('subscribe-by-key', function() {
 		)
 
 		it('should fire when key is removed', function(){
-			L = 1
-			log.header('goan remove')
+			// L = 1
 			counter = 0
 			var key1 = obs.key1
-			try{
-				obs.key1.remove()
-			} catch(err){
-				console.log(err.stack)
-				throw err
-			}
-
+			obs.key1.remove()
 			expect(counter).to.equal(1)
 			expect(h_meta).to.have.property('key1').which.equals(key1)
 		})
@@ -374,7 +358,6 @@ describe('subscribe-by-key', function() {
 		it('should fire when target is finally added', function(){
 			// L = 1
 			counter = 0
-			L = 1
 			log.header('wex')
 			obs.key1.set({
 				key2: {
@@ -385,9 +368,6 @@ describe('subscribe-by-key', function() {
 		})
 
 		it('should have correct meta', function(){
-			log.header('missing meta:')
-			log(h_meta)
-
 			expect(h_meta).to.have.property('key1')
 			var key1 = h_meta.key1
 			expect(key1).to.have.property('_added')
@@ -497,24 +477,26 @@ describe('subscribe-by-key', function() {
 			expect(obs.$on.$property.$attach).to.equal(null)
 		})
 
-		it('should still have missing property listener on obs.keyA1', function(){
-			scrollDown()
-			expect(obs).to.have.property('keyA1')
-				.which.has.property('$on')
-				.which.has.property('$property')
-				.which.has.property('$attach')
-				.which.has.property(1)
+		it('should still have missing property listener on obs.keyA1',
+			function(){
+				scrollDown()
+				expect(obs).to.have.property('keyA1')
+					.which.has.property('$on')
+					.which.has.property('$property')
+					.which.has.property('$attach')
+					.which.has.property(1)
 
-			var attach = obs.keyA1.$on.$property.$attach
-			expect(attach).to.have.property(1)
-			expect(attach).to.not.have.property(2)
-			var attached = attach[1]
-			expect(attached).to.have.property(0)
-				.which.has.property('name')
-				.which.equals('missingPropHandler')
-			expect(attached).to.have.property(1)
-					.which.equals(obs.$on.hashkey)
-		})
+				var attach = obs.keyA1.$on.$property.$attach
+				expect(attach).to.have.property(1)
+				expect(attach).to.not.have.property(2)
+				var attached = attach[1]
+				expect(attached).to.have.property(0)
+					.which.has.property('name')
+					.which.equals('missingPropHandler')
+				expect(attached).to.have.property(1)
+						.which.equals(obs.$on.hashkey)
+			}
+		)
 
 		it('should fire when all info is added', function(){
 				scrollDown()
