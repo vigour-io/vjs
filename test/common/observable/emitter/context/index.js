@@ -305,6 +305,41 @@ describe('context', function() {
 
   })
 
+  describe('Update on instance that has an instance, in a nested field (contexts)', function() {
+    var a, a1, a2
+
+    var measure = {}
+
+    it('should call change function the correct amount of times', function() {
+      a = new Observable({
+        $key: 'a',
+        $trackInstances: true,
+        c: {
+          $on: {
+            $change:function() {
+              var cnt = measure[ this.$path[0]]
+              measure[ this.$path[0]] = cnt ? cnt+1 : 1
+            }
+          }
+        }
+      })
+
+      a1 = new a.$Constructor({
+        $key: 'a1'
+      })
+
+      a2 = new a1.$Constructor({
+        $key:'a2'
+      })
+
+      a1.c.$val = 'xxx'
+
+      expect( measure.a2 ).msg('a2').to.equal(1)
+      expect( measure.a1 ).msg('a1').to.equal(1)
+      expect( measure.a ).msg( 'a' ).to.be.not.ok
+    })
+  })
+
   function complexContextObservable() {
     var cnt = {
       total: 0
