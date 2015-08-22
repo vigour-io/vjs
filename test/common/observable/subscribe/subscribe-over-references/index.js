@@ -10,7 +10,6 @@ if(!window.log) {
 	window.log = prepLogger()
 }
 
-
 var counter
 var h_self
 var h_event
@@ -22,29 +21,26 @@ describe('subscribe-over-references', function() {
 		var obs
 		var refholder
 
-		refholder = new Observable({
-			$key: 'refholder',
-			reffed: 'ref to me!'
+		it('should subscribe to direct reference', function(){
+			refholder = new Observable({
+				$key: 'refholder',
+				reffed: 'ref to me!'
+			})
+			counter = 0
+			obs = prepObs(
+				{ ref: refholder.reffed },
+				{ ref: true }
+			)
 		})
-		counter = 0
-		obs = prepObs(
-			{ ref: refholder.reffed },
-			{ ref: true }
-		)
 
-		it.skip('should fire when endpoint is present', function() {
-			// L = 1
+		it('should fire when endpoint is present', function() {
 			expect(counter).to.equal(1)
 		})
-
-		it.skip('should have correct meta', function(){
-			// L = 1
-			log.header('check dat meta burr')
-			log(h_meta)
+		it('should have correct meta', function(){
+			expect(h_meta).to.have.property('ref', refholder.reffed)
 		})
 
 		it('should have a refListener on ref', function(){
-			// L = 1
 			expect(obs.ref.$on.$reference).to.have.property('$attach')
 			var attach = obs.ref.$on.$reference.$attach
 
@@ -62,9 +58,20 @@ describe('subscribe-over-references', function() {
 			refholder.reffed.$val = 'ref to me! (changed)'
 			expect(counter).to.equal(1)
 		})
-
 		it('should have correct meta', function(){
 			expect(h_meta).to.have.property('ref', refholder.reffed)
+		})
+
+		it('should fire when reffed endpoint is removed', function(){
+			counter = 0
+			refholder.reffed.remove()
+			expect(counter).to.equal(1)
+		})
+		it('should have correct meta', function(){
+			expect(h_meta).to.have.property('ref')
+			expect(h_meta.ref).to.have.property('_$val')
+				.which.has.property('$val', null)
+			expect(h_meta.ref).to.have.property('$val', null)
 		})
 	})
 
@@ -110,41 +117,48 @@ describe('subscribe-over-references', function() {
 	describe('reference as intermediate property', function(){
 		var obs
 		var refholder
-		counter = 0
-		refholder = new Observable({
-			$key: 'refholder',
-			reffed: {
-				nest1:{
-					nest2: true
-				}
-			},
-			reffed2: {
-				nest1:{
-					nest2: 'ha different man!'
-				}
-			},
-			reffed3: {
-				nest1: {
-					otherkey3: true
-				}
-			},
-			reffed4: {
-				nest1: {
-					otherkey4: true
-				}
-			}
-		})
 
-		obs = prepObs(
-			{ ref: refholder.reffed },
-			{ ref: { nest1: { nest2: true } } }
+		it('should subscribe with reference as intermediate property',
+			function() {
+				counter = 0
+				refholder = new Observable({
+					$key: 'refholder',
+					reffed: {
+						nest1:{
+							nest2: true
+						}
+					},
+					reffed2: {
+						nest1:{
+							nest2: 'ha different man!'
+						}
+					},
+					reffed3: {
+						nest1: {
+							otherkey3: true
+						}
+					},
+					reffed4: {
+						nest1: {
+							otherkey4: true
+						}
+					}
+				})
+
+				obs = prepObs(
+					{ ref: refholder.reffed },
+					{ ref: { nest1: { nest2: true } } }
+				)
+			}
 		)
 
-		it.skip('should fire when subscribing', function(){
+		it('should fire when subscribing', function(){
 			expect(counter).to.equal(1)
 		})
-		it.skip('should have correct meta', function(){
-
+		it('should have correct meta', function(){
+			expect(h_meta).to.have.property('ref')
+				.which.has.property('nest1')
+				.which.has.property('nest2', refholder.reffed.nest1.nest2)
 		})
 		it('should have a reflistener', function(){
 			expect(obs.ref.$on.$reference).to.have.property('$attach')
@@ -257,6 +271,37 @@ describe('subscribe-over-references', function() {
 			)
 		})
 
+		it('should fire when intermediate reference is removed', function() {
+			counter = 0
+			L = 1
+			log.header('REMOVE!')
+			log.shine('?!', refholder.reffed4.nest1.nest2,
+				refholder.reffed4.nest1.nest2.$val
+			)
+			try{
+				obs.ref.remove()
+			} catch(err) {
+				log.error(err.stack)
+				log.shine( 'but what?!',
+					refholder.reffed4.nest1.nest2,
+					refholder.reffed4.nest1.nest2.$val,
+					refholder.reffed4.nest1,
+					refholder.reffed4.nest1.$val,
+					refholder.reffed4,
+					refholder.reffed4.$val,
+					refholder,
+					refholder.$val
+				)
+				throw err
+			}
+			expect(counter).to.equal(1)
+		})
+		it('should have correct meta', function() {
+			log.shine('meta', h_meta)
+			L=0
+		})
+
+
 	})
 
 	describe('reference as intermediate property before any$', function(){
@@ -264,42 +309,45 @@ describe('subscribe-over-references', function() {
 		var obs
 		var refholder
 
-		refholder = new Observable({
-			$key: 'refholder',
-			reffed: {
-				nest1:{
-					lurf: true,
-					nest2: true
+		it('should subscribe', function(){
+			refholder = new Observable({
+				$key: 'refholder',
+				reffed: {
+					nest1:{
+						lurf: true,
+						nest2: true
+					}
+				},
+				reffed2: {
+					nest1:{
+						pursh: true,
+						nest2: 'ha different man!'
+					}
+				},
+				reffed3: {
+					nest1: {
+						shurpy: 4,
+						otherkey3: true
+					}
+				},
+				reffed4: {
+					nest1: {
+						shurpy: 6,
+						otherkey4: true
+					}
 				}
-			},
-			reffed2: {
-				nest1:{
-					pursh: true,
-					nest2: 'ha different man!'
-				}
-			},
-			reffed3: {
-				nest1: {
-					shurpy: 4,
-					otherkey3: true
-				}
-			},
-			reffed4: {
-				nest1: {
-					shurpy: 6,
-					otherkey4: true
-				}
-			}
+			})
+
+			counter = 0
+			obs = prepObs(
+				{ ref: refholder.reffed },
+				{ ref: { nest1: { any$: true } } }
+			)
 		})
 
-		counter = 0
-		obs = prepObs(
-			{ ref: refholder.reffed },
-			{ ref: { nest1: { any$: true } } }
-		)
+
 
 		it('should have added any listener', function(){
-			// L = 1
 			expect(refholder.reffed.nest1).to.have.property('$on')
 				.which.has.property('$property')
 				.which.has.property('$attach')
@@ -315,7 +363,6 @@ describe('subscribe-over-references', function() {
 		})
 
 		it('should fire on ref switch to other target', function(){
-			// L = 1
 			counter = 0
 			obs.ref.$val = refholder.reffed2
 			expect(counter).to.equal(1)
@@ -357,15 +404,6 @@ describe('subscribe-over-references', function() {
 
 	})
 
-	describe('removing a referenced enpoint', function(){
-		it.skip('should fire on remove', function() {
-
-		})
-		it.skip('should have correct meta', function(){
-
-		})
-	})
-
 	describe('removing a reference that is subscribed over', function(){
 		it.skip('should fire on remove', function() {
 
@@ -376,24 +414,32 @@ describe('subscribe-over-references', function() {
 	})
 
 	describe('referencing references!', function(){
-		var reffed = new Observable({
-			$key: 'reffed',
-			nest1: 'endpointman'
+		var reffed
+		var reffedrefB
+		var reffedrefA
+		var obs
+
+		it('should subscribe', function(){
+			reffed = new Observable({
+				$key: 'reffed',
+				nest1: 'endpointman'
+			})
+			reffedrefB = new Observable({
+				$key: 'reffedrefB',
+				$val: reffed
+			})
+			reffedrefA = new Observable({
+				$key: 'reffedrefA',
+				$val: reffedrefB
+			})
+			counter = 0
+			obs = prepObs(
+				{ ref: reffedrefA },
+				{ ref: { nest1: true } }
+			)
 		})
-		var reffedrefB = new Observable({
-			$key: 'reffedrefB',
-			$val: reffed
-		})
-		var reffedrefA = new Observable({
-			$key: 'reffedrefA',
-			$val: reffedrefB
-		})
-		counter = 0
-		var obs = prepObs(
-			{ ref: reffedrefA },
-			{ ref: { nest1: true } }
-		)
-		it.skip('should fire when endpoint is present', function(){
+
+		it.skip('should fire because endpoint is present', function(){
 			expect(counter).to.equal(1)
 		})
 		it('should fire listeners when enpoint is updated', function(){
@@ -409,7 +455,6 @@ describe('subscribe-over-references', function() {
 		it('should fire when first ref is changed to non ref (without endpoint)',
 			function(){
 				counter = 0
-				L = 1
 				obs.ref.set({
 					$val: void 0,
 					otherval: 'durp'
