@@ -10,7 +10,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "test/test.js",
+    "test": "gaston tests -f test/common/",
     "doc": "node documentation.js"
   },
   "description": "A javascript framework created and used by Vigour",
