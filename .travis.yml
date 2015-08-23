@@ -1,4 +1,6 @@
-before_install: echo -e "machine github.com\n  login 575a6fe1ab3a1aa252eae7802cdad7bdc44e9206" >> ~/.netrc
 language: node_js
 node_js:
   - "0.12"
+before_install:
+  - echo "wtf"
+  - echo -e "machine github.com\n  login 575a6fe1ab3a1aa252eae7802cdad7bdc44e9206" >> ~/.netrc
