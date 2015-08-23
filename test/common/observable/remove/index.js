@@ -14,7 +14,6 @@ describe('remove', function() {
   var a
   var b
 
-  
   it( 'create new observable --> a and remove using method', function() {
     a = new Observable({
       $key:'a',
