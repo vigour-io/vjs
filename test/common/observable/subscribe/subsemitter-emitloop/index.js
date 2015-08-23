@@ -5,7 +5,7 @@ var Emitter = require( '../../../../../lib/emitter' )
 var SubsEmitter = require( '../../../../../lib/observable/subscribe/emitter' )
 var Observable = require( '../../../../../lib/observable' )
 
-if(!window.log) {
+if( !isNode && !window.log) {
 	window.L = 0
 	window.log = prepLogger()
 }

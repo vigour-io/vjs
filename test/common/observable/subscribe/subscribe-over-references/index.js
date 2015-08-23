@@ -5,7 +5,7 @@ var SubsEmitter = require('../../../../../lib/observable/subscribe/emitter')
 
 // Observable.inject(require('../../../../../lib/methods/toString'))
 
-if(!window.log) {
+if( !isNode && !window.log) {
 	window.L = 0
 	window.log = prepLogger()
 }
