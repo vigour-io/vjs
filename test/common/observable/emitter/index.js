@@ -8,5 +8,6 @@ describe( 'emitter', function() {
   require('./parent' )
   require('./off' )
   require('./defer' )
+  require('./context' )
   require('./combined' )
 })

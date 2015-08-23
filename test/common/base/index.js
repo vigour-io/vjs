@@ -299,4 +299,18 @@ describe('base', function() {
 
   });
 
+  describe( 'instances of properties', function() {
+
+    var a = new Base({
+      $key:'a',
+      b: {}
+    })
+
+    it('creates a new instance of a.b and should not have a parent', function() {
+      var c = new a.b.$Constructor()
+      expect( c._$parent ).to.be.null
+    })
+
+  })
+
 });

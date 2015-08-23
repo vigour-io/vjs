@@ -173,7 +173,8 @@ describe( 'no instances', function() {
     referencedObs.$listensOnattach.each(function( property, key ) {
       keyCount++
     })
-    expect( keyCount ).msg('amount of listeners on listensOnattach').to.equal( 1 )
+    expect( keyCount ).msg('amount of listeners on listensOnattach')
+      .to.equal( 1 )
     expect( referencedObs.$listensOnattach ).to.have.property( 1 )
 
     obs3.$val = referencedObs
@@ -251,5 +252,26 @@ describe( 'no instances', function() {
     expect( measure.a ).to.equal(0)
     expect( measure.x ).to.equal(1)
   })
+
+  it('should emit change event when property is removed due to ' +
+    'parent / ancestor properties being removed',
+    function(){
+      var a = new Observable({
+        $key: 'a',
+        b: {
+          c: true
+        }
+      })
+      var count = 0
+      a.b.c.on('$change', function(){
+        console.error('change listener fires!')
+        count++
+      })
+
+      a.b.remove()
+      expect(count).to.equal(1)
+    }
+  )
+
 
 })

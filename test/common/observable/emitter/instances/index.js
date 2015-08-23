@@ -325,26 +325,49 @@ describe('instances', function() {
       .msg('b3 is a3.$on._instances.total').to.equal(b3)
   })
 
-  it( 'nested field updates context', function() {
-    var cnt = {
-      total: 0
-    }
+  describe( 'set on instance nested field', function() {
+    console.clear()
+    var cnt = 0
+
     var a = new Observable({
       $key:'a',
-      $trackInstances: true,
+      $trackInstances:true,
       b: {
-        $on: {
-          $change:function() {
-            cnt.total++
+        c: {
+          $on: {
+            $change:function() {
+              console.log('fire it?', this._$path)
+              cnt++
+            }
           }
         }
       }
     })
-    var b = new a.$Constructor({
-      $key:'b'
+
+    var aInstance
+
+    it('listener fires once', function() {
+      aInstance = new a.$Constructor({
+        $key:'aInstance'
+      })
+      expect(cnt).to.equal(0)
     })
-    a.b.$val = 'a change'
-    expect( cnt.total ).to.equal(2)
+
+    it('listener fired 2 times', function() {
+      a.b.set({
+        c: true
+      })
+      expect(cnt).to.equal(2)
+    })
+
+    it('listener fired 3 times', function() {
+      aInstance.b.set({
+        c: '?'
+      })
+      //we are now doing resolving of context!
+      expect(cnt).to.equal(3)
+    })
+
   })
 
 })

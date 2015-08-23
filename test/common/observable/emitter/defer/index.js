@@ -3,14 +3,14 @@ describe('defer', function() {
   console.clear()
   var Observable = require('../../../../../lib/observable')
 
-  it( 'fire with a timeout of 200ms', function() {
+  it.skip( 'fire with a timeout of 200ms', function() {
 
     var a = new Observable({
       $key:'a', //this will just set $key
       $on: {
         $change: {
           $val: function() {
-            console.log('???')
+            // console.log('???')
           },
           // defer can be an object or function
           $defer: {

@@ -20,8 +20,25 @@ describe('remove', function() {
       $val:1
     })
     a.remove()
-    expect(a._$val).to.be.null;
-    expect( isRemoved(a) ).to.be.ok
+    expect(a._$val).to.be.null
+    expect(isRemoved(a)).to.be.ok
+  })
+
+  it( 'create new observable listen on property, remove property check $val', function() {
+    a = new Observable({
+      $key:'a',
+      $val:1,
+      b: {
+        $val:'hello',
+        $on: {
+          $change:function(event , meta) {
+            expect(meta).to.equal( true )
+            expect( this.$val ).to.equal( null )
+          }
+        }
+      }
+    })
+    a.remove()
   })
 
   it( 'create new observable --> a and remove using a set with null', function() {
@@ -139,42 +156,13 @@ describe('remove', function() {
     expect( a.prop11.prop12 )
       .msg('a.prop11.prop12').to.not.have.property('prop13')
 
-
     b.prop13.prop14.prop15.remove()
-
     expect( a.prop13.prop14.prop15 ).to.be.ok
     expect( b.prop13.prop14.prop15 ).to.be.null
 
   })
 
-  it('remove tests with a nested on on an instance', function() {
-
-    //create nested removes on instances
-
-    var Original = new Observable({
-      $on: {
-        $change:function( event ) {
-
-        }
-      }
-    }).$Constructor
-
-    Original.prototype.define({
-      $ChildConstructor: Original
-    })
-
-    var bla2 = new Original({
-      a: {
-        b: {
-          c:{}
-        }
-      }
-    })
-
-  })
-
   it( 'add change listener to a and remove a', function() {
-
     measure.a.val = {
       total: 0,
       removed: 0
@@ -182,9 +170,7 @@ describe('remove', function() {
 
     //since we defined before that we want $on:{} (we are inteserted in instances)
     //it will handle instances accordingly
-
-    //think about unifiying this system since it maye be super important for hub
-    //(context)
+    //TODO:think about unifiying this system since it maye be super important for hub
 
     a.set({
       $on: {
@@ -208,7 +194,6 @@ describe('remove', function() {
     expect(fn).to.have.property( 'val' )
 
     a.$val = null
-    //remove all instances as well
 
     expect(isRemoved(changeEmitter))
       .msg('check if changeEmitter is removed').to.be.true
@@ -223,8 +208,6 @@ describe('remove', function() {
     expect(isRemoved(a)).msg('check if a is removed').to.be.true
     expect(isRemoved(b)).msg('check if b is removed').to.be.true
 
-    //!!!this really has to be fixed!!!
-    //maybe just make a remove listener
     expect( measure.a.val.removed ).msg('correct removed (meta) count').to.equal(2)
 
   })
@@ -261,11 +244,9 @@ describe('remove', function() {
 
     cnt = 0
     a.$listensOnBase.each(function( prop, key ) {
-      // console.log('key!', key)
       cnt++
     })
 
-    // console.log('-----', a.)
     expect( cnt ).msg('listensOn in a (after remove)').to.equal(1)
 
     a.remove()
@@ -450,12 +431,191 @@ describe('remove', function() {
       },
       b: true
     })
-    var aInstance = new a.$Constructor()
+    var aInstance = new a.$Constructor({$key:'aInstance'})
     aInstance.b.remove()
-    expect( change ).to.equal(1)
-    expect( propertyChange ).to.equal(1)
-    expect( aInstance.b ).to.be.null
-    expect( a.b ).to.be.ok
+    expect( change ).to.equal(2)
+    // expect( propertyChange ).to.equal(1)
+    // expect( aInstance.b ).to.be.null
+    // expect( a.b ).to.be.ok
+  })
+
+  it( 'nested (virtual) fields 1 level remove', function() {
+    var cnt = {
+      total: 0,
+      a: 0,
+      b: 0
+    }
+    var a = new Observable({
+      $key:'a',
+      $trackInstances: true,
+      b: {
+        $on: {
+          $change:function( event, removed ) {
+            cnt[this.$path[0]]++
+            cnt.total++
+          }
+        }
+      }
+    })
+    var b = new a.$Constructor({
+      $key:'b'
+    })
+    a.b.remove()
+    expect( cnt.a ).to.equal(1)
+    expect( cnt.b ).to.equal(1)
+    expect( cnt.total ).to.equal(2)
+    expect(b.b).to.not.be.ok
+    expect(a.b).to.not.be.ok
+  })
+
+  it( 'nested (virtual) fields 2 levels remove', function() {
+    // console.clear()
+    var cnt = {
+      total: 0,
+      a: 0,
+      b: 0
+    }
+    var a = new Observable({
+      $key:'a',
+      $trackInstances: true,
+      c: {
+        b: {
+          $on: {
+            $change:function( event, removed ) {
+              // console.info(this._$context && this._$context.$key)
+              cnt[this.$path[0]]++
+              cnt.total++
+              //make parent better from context resolves current contexts and goes up
+              console.info('\nDO!',cnt, this.$path)
+            }
+          }
+        }
+      }
+    })
+
+    var b = new a.$Constructor({
+      $key:'b'
+    })
+
+    a.c.b.remove()
+
+    expect( cnt.total ).to.equal(2)
+    expect( a.c.b ).to.not.be.ok
+    expect( a.c ).to.be.ok
+    expect( b.c ).to.be.ok
+    expect( b.c.b ).msg( 'removed virtual child b.c.b' ).to.not.be.ok
+    //what goes wrong? ---
+    expect( cnt.b ).to.equal(1)
+    expect( cnt.a ).to.equal(1)
+  })
+
+  it('remove tests with a nested on', function() {
+    //create nested removes on instances
+    var cnt = 0
+    var metaCnt = 0
+    var a = new Observable({
+      $key:'a',
+      b: {
+        $on: {
+          $change:function( event, removed ) {
+            if(removed) {
+              metaCnt++
+            }
+            cnt++
+          }
+        }
+      }
+    })
+    a.remove()
+    expect( metaCnt ).to.equal(1)
+    expect( cnt ).to.equal(1)
+  })
+
+  it('remove tests with a deep nested on', function() {
+    // console.clear()
+    var cnt = 0
+    var metaCnt = 0
+    var a = new Observable({
+      $key:'a',
+      b: {
+        c: {
+          $on: {
+            $change:function( event, removed ) {
+              if(removed) {
+                metaCnt++
+              }
+              cnt++
+            }
+          }
+        }
+      }
+    })
+    a.remove()
+    expect( cnt ).to.equal(1)
+    expect( metaCnt ).to.equal(1)
+  })
+
+  it('remove tests with a deep nested on and instances', function() {
+    // console.clear()
+    var cnt = 0
+    var metaCnt = 0
+    var measure = {}
+    var a = new Observable({
+      $key:'a',
+      $trackInstances:true,
+      b: {
+        $trackInstances:true,
+        c: {
+          $on: {
+            $change:function( event, removed ) {
+              measure[this.$path[0]] = !measure[this.$path[0]] ? 1 :   measure[this.$path[0]]+1
+              if(removed) {
+                metaCnt++
+              }
+              cnt++
+            }
+          }
+        }
+      }
+    })
+    var arr = []
+    for(var i = 0 ; i < 10; i++) {
+      arr.push(new a.$Constructor({$key:i}))
+    }
+    a.remove()
+    expect( cnt ).to.equal(11)
+    expect( metaCnt ).to.equal(11)
+    for(var i = 0 ; i < 10; i++) {
+      expect( measure[i] ).to.equal(1)
+    }
+  })
+
+
+  describe('references', function() {
+
+    it('reference listener fires twice', function() {
+      var cnt = 0
+      var a = new Observable({
+        $key:'a',
+        $on: {
+          $reference: function() {
+            cnt++
+          }
+        }
+      })
+      var b = new Observable({
+        $key:'b',
+        $val:'hello'
+      })
+      a.$val = b
+
+      a.remove()
+      expect( isRemoved(a) ).to.equal( true )
+      expect( b.$val ).to.equal( 'hello' )
+      expect(cnt).to.equal(2)
+
+    })
+
   })
 
 })

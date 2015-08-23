@@ -1,0 +1,13 @@
+describe( 'methods', function() {
+  require('./convert/')
+  require('./each/')
+  require('./filter/')
+  require('./find/')
+  require('./get/')
+  require('./keys/')
+  require('./look-down/')
+  require('./look-up/')
+  require('./map/')
+  require('./set-with-path/')
+  require('./to-string/')
+} )
