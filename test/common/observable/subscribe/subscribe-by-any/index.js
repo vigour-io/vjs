@@ -15,24 +15,27 @@ var h_meta
 
 describe('subscribe-by-any', function() {
 
+
 	describe('subscribe by any key already present', function(){
 		var obs
-		counter = 0
-		obs = prepObs(
-			{ key1: 'val1' },
-			{ any$: true }
-		)
-		it.skip('should fire when subscribing', function() {
-			// L = 1
+
+		it('should be able to subscribe by any', function(){
+			counter = 0
+			obs = prepObs(
+				{ key1: 'val1' },
+				{ any$: true }
+			)
+		})
+
+		it('should fire when subscribing', function() {
 			expect(counter).to.equal(1)
 		})
 
-		it.skip('should have correct meta', function() {
-
+		it('should have correct meta', function() {
+			expect(h_meta).to.have.property('key1', obs.key1)
 		})
 
 		it('should fire when additional properties are added', function(){
-			// L = 1
 			counter = 0
 			obs.set({
 				key2: 'ha new value!'
@@ -51,32 +54,41 @@ describe('subscribe-by-any', function() {
 
 	describe('subscribe by any key nested', function(){
 		var obs
-		counter = 0
-		obs = prepObs(
-			{ key1: { key2: { key3: 'heyval' } } },
-			{ key1: { key2: { any$: true } } }
-		)
-		it.skip('should fire when subscribing', function() {
+
+		it('should be able to subscribe over any nested key', function(){
+			counter = 0
+			obs = prepObs(
+				{ key1: { key2: { key3: 'heyval' } } },
+				{ key1: { key2: { any$: true } } }
+			)
+		})
+
+
+		it('should fire when subscribing', function() {
 			expect(counter).to.equal(1)
 		})
 
-		it.skip('should fire on removal of property with any listener',
-			function() {
-				// L = 1
-				log.header('removing does not fire!')
-				log('obs.key1.key2.$on', obs.key1.key2.$on)
-				log('obs.key1.key2.key3.$on', obs.key1.key2.key3.$on)
+		it('should have correct meta', function() {
+			expect(h_meta).to.have.property('key1')
+				.which.has.property('key2')
+				.which.has.property('key3', obs.key1.key2.key3)
+		})
 
-				// throw new Error('this doesn wurk')
+
+
+		it('should fire on removal of property with any listener',
+			function() {
+				L = 1
+				log.header('removing does not fire!')
 				counter = 0
 				obs.key1.key2.remove()
 				expect(counter).to.equal(1)
 			}
 		)
 
-		it.skip('should now have missing property listener',
+		it('should now have missing property listener',
 			function() {
-				L = 1
+				
 				log.header('heeu')
 				log(obs.key1.$on)
 			}

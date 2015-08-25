@@ -15,6 +15,8 @@ var h_self
 var h_event
 var h_meta
 
+window.mocha.bail()
+
 describe('subscribe-over-references', function() {
 
 	describe('direct ref to endpoint', function(){
@@ -274,6 +276,8 @@ describe('subscribe-over-references', function() {
 		it('should fire when referenced enpoint is removed through ancestor',
 			function() {
 				counter = 0
+				L = 1
+				log.header('remove through ancestor')
 				refholder.remove()
 				expect(counter).to.equal(1)
 			}
@@ -283,6 +287,8 @@ describe('subscribe-over-references', function() {
 		})
 
 		it('should be able to recreate situation', function(){
+			log.header('recreate!')
+
 			refholder = new Observable({
 				reffed: {
 					nest1: {
@@ -293,31 +299,32 @@ describe('subscribe-over-references', function() {
 			obs.ref.$val = refholder.reffed
 		})
 
-		it.skip('should fire when intermediate reference is removed',
+		it('should fire when intermediate reference is removed',
 			function() {
 				counter = 0
 				L = 1
 				log.header('REMOVE!')
-				log.shine('?!', refholder.reffed4.nest1.nest2,
-					refholder.reffed4.nest1.nest2.$val
+				log.shine('?!', obs.ref.$on
 				)
+
 				try{
 					obs.ref.remove()
 				} catch(err) {
 					log.error(err.stack)
 					log.shine( 'but what?!',
-						refholder.reffed4.nest1.nest2,
-						refholder.reffed4.nest1.nest2.$val,
-						refholder.reffed4.nest1,
-						refholder.reffed4.nest1.$val,
-						refholder.reffed4,
-						refholder.reffed4.$val,
+						refholder.reffed.nest1.nest2,
+						refholder.reffed.nest1.nest2.$val,
+						refholder.reffed.nest1,
+						refholder.reffed.nest1.$val,
+						refholder.reffed,
+						refholder.reffed.$val,
 						refholder,
 						refholder.$val
 					)
 					throw err
 				}
 				expect(counter).to.equal(1)
+				log.header('yeeeee')
 			}
 		)
 		it.skip('should have correct meta', function() {
