@@ -10,7 +10,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "pwd && ls -la ./test && ./node_modules/.bin/gaston test browser -f ./test/common/ && ls -la ./test && head 100 ./test/common/bundle.js",
+    "test": "./node_modules/.bin/gaston test browser -f ./test/common/",
     "doc": "node documentation.js"
   },
   "description": "A javascript libary created and used by Vigour",
