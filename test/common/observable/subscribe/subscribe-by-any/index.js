@@ -13,6 +13,8 @@ var h_self
 var h_event
 var h_meta
 
+window.mocha.bail()
+
 describe('subscribe-by-any', function() {
 
 
@@ -78,8 +80,6 @@ describe('subscribe-by-any', function() {
 
 		it('should fire on removal of property with any listener',
 			function() {
-				L = 1
-				log.header('removing does not fire!')
 				counter = 0
 				obs.key1.key2.remove()
 				expect(counter).to.equal(1)
@@ -88,11 +88,86 @@ describe('subscribe-by-any', function() {
 
 		it('should now have missing property listener',
 			function() {
-				
-				log.header('heeu')
-				log(obs.key1.$on)
+				expect(obs.key1).to.have.property('$on')
+					.which.has.property('$property')
+					.which.has.property('$attach')
+					.which.is.an('object')
+					.which.has.property(1)
+
+				var attach = obs.key1.$on.$property.$attach
+				expect(attach).to.not.have.property(2)
+				var attached = attach[1]
+				expect(attached).to.have.property(0)
+					.which.has.property('name', 'missingPropHandler')
+				expect(attached).to.have.property(1, obs.$on.hashkey)
 			}
 		)
+
+		it('should not fire when any property is added without endpoints',
+			function() {
+				counter = 0
+				obs.key1.$val = { key2: true }
+				expect(counter).to.equal(0)
+			}
+		)
+
+		it('should now have any listener on any property', function() {
+			counter = 0
+			L = 1
+			log.shine('?!', obs.key1.key2.$on)
+
+			expect(obs.key1.key2).to.have.property('$on')
+				.which.has.property('$property')
+				.which.has.property('$attach')
+				.which.is.an('object')
+
+			var attach = obs.key1.key2.$on.$property.$attach
+
+			expect(attach).to.have.property(1)
+			expect(attach).to.not.have.property(2)
+
+			expect(attach[1]).to.have.property(0)
+				.which.has.property('name', 'anyHandler')
+
+			expect(attach[1]).to.have.property(1, obs.$on.hashkey)
+
+		})
+
+		it('should not fire when empty any property is removed', function(){
+			counter = 0
+			log.header('??')
+			log.shine('!', obs.key1)
+
+			obs.key1.key2.remove()
+			expect(counter).to.equal(0)
+		})
+
+		it('should have a missing property listener', function(){
+
+			log.shine('?!?', obs.key1.$on)
+
+			expect(obs.key1).to.have.property('$on')
+				.which.has.property('$property')
+				.which.has.property('$attach')
+				.which.is.an('object')
+				.which.has.property(1)
+
+			log.shine('?!?')
+
+			var attach = obs.key1.$on.$property.$attach
+
+			log.shine('lurps!', attach)
+
+			expect(attach).to.have.property(1)
+			expect(attach).to.not.have.property(2)
+
+			var attached = attach[1]
+			expect(attached).to.have.property(0)
+				.which.has.property('name', 'missingPropHandler')
+			expect(attached).to.have.property(1, obs.$on.hashkey)
+		})
+
+
 	})
 
 
