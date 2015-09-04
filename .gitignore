@@ -14,6 +14,9 @@ bundle.js.map
 build.css
 build.js
 build.html
+test/mocha.css
+test/mocha.js
+test/test-runner.html
 
 vendor/
 
