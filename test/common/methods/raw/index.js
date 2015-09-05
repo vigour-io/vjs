@@ -5,15 +5,11 @@ Base.prototype.inject(
 );
 
 describe('raw', function() {
-  var original = { x: { y: 123 } };
+  var original = { x: { y: [{a: 123, b: '123'}, {c: 'abc', d: {e: true} }] } };
   var base;
 
   beforeEach(function() {
-    base = new Base({
-      x: {
-        y: 123
-      }
-    });
+    base = new Base(original);
   });
 
   it('should convert and be the deep equal to expected object', function() {
