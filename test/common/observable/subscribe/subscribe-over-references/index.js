@@ -1,4 +1,4 @@
-console.clear()
+// console.clear()
 
 var Observable = require('../../../../../lib/observable')
 var SubsEmitter = require('../../../../../lib/observable/subscribe/emitter')

@@ -486,7 +486,7 @@ describe('remove', function() {
               cnt[this.$path[0]]++
               cnt.total++
               //make parent better from context resolves current contexts and goes up
-              console.info('\nDO!',cnt, this.$path)
+              // console.info('\nDO!',cnt, this.$path)
             }
           }
         }

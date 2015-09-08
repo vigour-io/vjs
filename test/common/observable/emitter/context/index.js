@@ -17,8 +17,6 @@ describe('context', function() {
         $on: {
           $change:function() {
             var key = this.$path[0]
-
-            console.error('\nFIRE IT--->????', cnt[key], key, this._$context &&  this._$context.$path)
             cnt[key] = cnt[key] ? cnt[key]+1 : 1
             cnt.total++
           }
@@ -353,7 +351,7 @@ describe('context', function() {
                 $change:function() {
                   var cnt = measure[ this.$path[0]]
                   measure[ this.$path[0]] = cnt ? cnt+1 : 1
-                  console.log( '%cfire fire', 'color:blue;', this.$path, this._$path )
+                  // console.log( '%cfire fire', 'color:blue;', this.$path, this._$path )
                 }
               }
             }
@@ -369,7 +367,7 @@ describe('context', function() {
         $key:'a2'
       })
 
-      console.clear()
+      // console.clear()
 
 
       //DONT WANT TO SEE A!

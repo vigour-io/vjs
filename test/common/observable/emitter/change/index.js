@@ -264,7 +264,7 @@ describe( 'no instances', function() {
       })
       var count = 0
       a.b.c.on('$change', function(){
-        console.error('change listener fires!')
+        // console.error('change listener fires!')
         count++
       })
 

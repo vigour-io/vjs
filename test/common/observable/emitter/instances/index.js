@@ -326,7 +326,7 @@ describe('instances', function() {
   })
 
   describe( 'set on instance nested field', function() {
-    console.clear()
+    // console.clear()
     var cnt = 0
 
     var a = new Observable({
@@ -336,7 +336,7 @@ describe('instances', function() {
         c: {
           $on: {
             $change:function() {
-              console.log('fire it?', this._$path)
+              // console.log('fire it?', this._$path)
               cnt++
             }
           }
