@@ -13,26 +13,31 @@ var h_self
 var h_event
 var h_meta
 
+window.mocha.bail()
+
 describe('subscribe-by-any', function() {
+
 
 	describe('subscribe by any key already present', function(){
 		var obs
-		counter = 0
-		obs = prepObs(
-			{ key1: 'val1' },
-			{ any$: true }
-		)
-		it.skip('should fire when subscribing', function() {
-			// L = 1
+
+		it('should be able to subscribe by any', function(){
+			counter = 0
+			obs = prepObs(
+				{ key1: 'val1' },
+				{ any$: true }
+			)
+		})
+
+		it('should fire when subscribing', function() {
 			expect(counter).to.equal(1)
 		})
 
-		it.skip('should have correct meta', function() {
-
+		it('should have correct meta', function() {
+			expect(h_meta).to.have.property('key1', obs.key1)
 		})
 
 		it('should fire when additional properties are added', function(){
-			// L = 1
 			counter = 0
 			obs.set({
 				key2: 'ha new value!'
@@ -51,36 +56,118 @@ describe('subscribe-by-any', function() {
 
 	describe('subscribe by any key nested', function(){
 		var obs
-		counter = 0
-		obs = prepObs(
-			{ key1: { key2: { key3: 'heyval' } } },
-			{ key1: { key2: { any$: true } } }
-		)
-		it.skip('should fire when subscribing', function() {
+
+		it('should be able to subscribe over any nested key', function(){
+			counter = 0
+			obs = prepObs(
+				{ key1: { key2: { key3: 'heyval' } } },
+				{ key1: { key2: { any$: true } } }
+			)
+		})
+
+
+		it('should fire when subscribing', function() {
 			expect(counter).to.equal(1)
 		})
 
-		it.skip('should fire on removal of property with any listener',
-			function() {
-				// L = 1
-				log.header('removing does not fire!')
-				log('obs.key1.key2.$on', obs.key1.key2.$on)
-				log('obs.key1.key2.key3.$on', obs.key1.key2.key3.$on)
+		it('should have correct meta', function() {
+			expect(h_meta).to.have.property('key1')
+				.which.has.property('key2')
+				.which.has.property('key3', obs.key1.key2.key3)
+		})
 
-				// throw new Error('this doesn wurk')
+
+
+		it('should fire on removal of property with any listener',
+			function() {
 				counter = 0
 				obs.key1.key2.remove()
 				expect(counter).to.equal(1)
 			}
 		)
 
-		it.skip('should now have missing property listener',
+		it('should now have missing property listener',
 			function() {
-				L = 1
-				log.header('heeu')
-				log(obs.key1.$on)
+				expect(obs.key1).to.have.property('$on')
+					.which.has.property('$property')
+					.which.has.property('$attach')
+					.which.is.an('object')
+					.which.has.property(1)
+
+				var attach = obs.key1.$on.$property.$attach
+				expect(attach).to.not.have.property(2)
+				var attached = attach[1]
+				expect(attached).to.have.property(0)
+					.which.has.property('name', 'missingPropHandler')
+				expect(attached).to.have.property(1, obs.$on.hashkey)
 			}
 		)
+
+		it('should not fire when any property is added without endpoints',
+			function() {
+				counter = 0
+				obs.key1.$val = { key2: true }
+				expect(counter).to.equal(0)
+			}
+		)
+
+		it('should now have any listener on any property', function() {
+			counter = 0
+			L = 1
+			log.shine('?!', obs.key1.key2.$on)
+
+			expect(obs.key1.key2).to.have.property('$on')
+				.which.has.property('$property')
+				.which.has.property('$attach')
+				.which.is.an('object')
+
+			var attach = obs.key1.key2.$on.$property.$attach
+
+			expect(attach).to.have.property(1)
+			expect(attach).to.not.have.property(2)
+
+			expect(attach[1]).to.have.property(0)
+				.which.has.property('name', 'anyHandler')
+
+			expect(attach[1]).to.have.property(1, obs.$on.hashkey)
+
+		})
+
+		it('should not fire when empty any property is removed', function(){
+			counter = 0
+			log.header('??')
+			log.shine('!', obs.key1)
+
+			obs.key1.key2.remove()
+			expect(counter).to.equal(0)
+		})
+
+		it('should have a missing property listener', function(){
+
+			log.shine('?!?', obs.key1.$on)
+
+			expect(obs.key1).to.have.property('$on')
+				.which.has.property('$property')
+				.which.has.property('$attach')
+				.which.is.an('object')
+				.which.has.property(1)
+
+			log.shine('?!?')
+
+			var attach = obs.key1.$on.$property.$attach
+
+			log.shine('lurps!', attach)
+
+			expect(attach).to.have.property(1)
+			expect(attach).to.not.have.property(2)
+
+			var attached = attach[1]
+			expect(attached).to.have.property(0)
+				.which.has.property('name', 'missingPropHandler')
+			expect(attached).to.have.property(1, obs.$on.hashkey)
+		})
+
+
 	})
 
 

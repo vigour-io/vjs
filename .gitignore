@@ -14,6 +14,7 @@ bundle.js.map
 build.css
 build.js
 build.html
+
 vendor/
 
 results.json
