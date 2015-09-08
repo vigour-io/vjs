@@ -1,25 +1,28 @@
+console.clear()
+
+// var http = require('http')
+//
+// http.request('http://vigour.io', function( err, res ) {
+//   console.log('?', res, err )
+// }).end()
+
 describe('defer', function() {
 
-  console.clear()
   var Observable = require('../../../../../lib/observable')
 
-  it.skip( 'fire with a timeout of 200ms', function() {
+  it( 'fire with a timeout of 200ms', function(done) {
 
     var a = new Observable({
       $key:'a', //this will just set $key
       $on: {
         $change: {
           $val: function() {
-            // console.log('???')
+            done()
           },
           // defer can be an object or function
           $defer: {
-            $val: function( emit, cancel ) {
-              this._$timeout = setTimeout( emit, 200 )
-            },
-            $cancel: function() { //add this a default flag on base?
-              //this is context of the defer
-              clearTimeout( this._$timeout )
+            $val: function( emit ) {
+              setTimeout( emit, 200 )
             }
           }
         }
@@ -27,6 +30,39 @@ describe('defer', function() {
     })
 
     a.$val = 'hello'
+
+  })
+
+  it( 'remove defer', function( done ) {
+    var cnt = 0
+    var a = new Observable({
+      $key:'a', //this will just set $key
+      $on: {
+        $change: {
+          $val: function() {
+            cnt++
+          },
+          // defer can be an object or function
+          $defer: {
+            $val: function( emit, event, defer ) {
+              defer._$timeout = setTimeout( emit, 200 )
+            },
+            $cancel: function( event, defer ) { //add this a default flag on base?
+              clearTimeout( defer._$timeout )
+            }
+          }
+        }
+      }
+    })
+
+    a.$val = 'hello'
+
+    a.remove()
+
+    setTimeout(function() {
+      expect(cnt).to.equal(0)
+      done()
+    }, 400)
 
   })
 
