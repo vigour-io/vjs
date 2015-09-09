@@ -39,8 +39,6 @@ describe('subscribe on non-existent field', function() {
 
 		a.set({aField:1})
 
-		a.aField.$val = 2
-
 		expect(count).equals(1)
 
 	})
@@ -89,8 +87,6 @@ describe('subscribe on non-existent nested field in existing field', function() 
 
 		a.aField.set({anotherField:true})
 
-		a.aField.anotherField.$val = 2
-
 		expect(count).equals(1)
 
 	})
@@ -116,7 +112,7 @@ describe('subscribe on non-existent nested field in non-existent field', functio
 			}
 		})
 
-		a.aField.anotherField.$val = 2
+
 
 		expect(count).equals(1)
 
@@ -157,8 +153,6 @@ describe('subscribe on any non-existing field', function() {
 		})
 
 		a.set({aField:1})
-
-		a.aField.$val = 2
 
 		expect(count).equals(1)
 
@@ -202,11 +196,10 @@ describe('subscribe on non-existing parent', function() {
 		})
 
 		var b = new Observable({
+			$val:1,
 			$key:'b',
 			a:{ $useVal: a }
 		})
-
-		b.$val = 1
 
 		expect(count).equals(1)
 
@@ -232,8 +225,6 @@ describe('subscribe on existing field on non-existing parent', function() {
 			bField:1,
 			a:{ $useVal: a }
 		})
-
-		b.bField.$val = 2
 
 		expect(count).equals(1)
 
@@ -263,8 +254,6 @@ describe('subscribe on non-existing field on non-existing parent', function() {
 			bField:1
 		})
 
-		b.bField.$val = 2
-
 		expect(count).equals(1)
 
 	})
@@ -272,8 +261,6 @@ describe('subscribe on non-existing field on non-existing parent', function() {
 })
 
 describe('subscribe on referenced obj, 1 level, existing field', function() {
-
-	console.clear()
 
 	it( 'should fire once', function() {
 		
@@ -326,8 +313,6 @@ describe('subscribe on referenced obj, 2 levels, several locations', function() 
 
 	it( 'should fire once', function() {
 	
-		console.clear()
-
 		var a = new Observable({
 			aField:1
 		})
@@ -348,8 +333,6 @@ describe('subscribe on referenced obj, 2 levels, several locations', function() 
 
 		a.aField.$val = 2
 		b.bField.$val = 2
-
-		console.log('fun times')
 
 		expect(count).equals(2)
 
@@ -373,11 +356,7 @@ describe('subscribe on referenced obj, 2 levels, non-existing field', function()
 
 		b.set({aField:1})
 
-		b.aField.$val = 2
-
 		a.set({aField:1})
-
-		a.aField.$val = 2
 
 		expect(count).equals(1)
 
@@ -403,23 +382,8 @@ describe('subscribe on referenced obj, 2 levels, non-existing field, $parent', f
 			a:{$useVal:a}
 		})
 
-		d.$val = 1
-
 		expect(count).equals(1)
 
 	})
 
 })
-
-//op subsEmitter komt fire waar je een listener aan kan meegeven en een target
-
-//.$exec in emitter moet een extra arg krijgen voor een listener (specific)
-//+ een extra bind argument (alleen voor deze case)
-
-
-
-	// a.subscribe({
-	// 	"*":true //any
-	// 	"&":true //deep
-	// 	somefield:true //field
-	// },'aField')
