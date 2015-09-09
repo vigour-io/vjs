@@ -264,14 +264,29 @@ describe( 'no instances', function() {
       })
       var count = 0
       a.b.c.on('$change', function(){
-        // console.error('change listener fires!')
         count++
       })
-
       a.b.remove()
       expect(count).to.equal(1)
     }
   )
 
+  it('should emit fire once for specific value (.fire)',
+    function(){
+      var a = new Observable({
+        $key: 'a',
+        b: {
+          c: true
+        }
+      })
+      function listener(){
+        count++
+      }
+      var count = 0
+      a.b.c.on('$change', listener )
+      a.b.c.$on.$change.fire( listener )
+      expect(count).to.equal(1)
+    }
+  )
 
 })
