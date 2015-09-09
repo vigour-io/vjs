@@ -299,8 +299,6 @@ describe('subscribe on referenced obj, 1 level, existing field', function() {
 
 describe('subscribe on referenced obj, 2 levels, existing field', function() {
 
-	console.clear()
-
 	it( 'should fire once', function() {
 		
 		var a = new Observable({
@@ -326,10 +324,10 @@ describe('subscribe on referenced obj, 2 levels, existing field', function() {
 
 describe('subscribe on referenced obj, 2 levels, several locations', function() {
 
-	console.clear()
-
 	it( 'should fire once', function() {
-		
+	
+		console.clear()
+
 		var a = new Observable({
 			aField:1
 		})
@@ -338,6 +336,7 @@ describe('subscribe on referenced obj, 2 levels, several locations', function() 
 			$val:a,
 			bField:1
 		})
+
 		var c = new Observable(b)
 
 		c.subscribe({
@@ -350,7 +349,37 @@ describe('subscribe on referenced obj, 2 levels, several locations', function() 
 		a.aField.$val = 2
 		b.bField.$val = 2
 
+		console.log('fun times')
+
 		expect(count).equals(2)
+
+	})
+
+})
+
+describe('subscribe on referenced obj, 2 levels, non-existing field', function() {
+
+	it( 'should fire once', function() {
+		
+		var a = new Observable()
+		var b = new Observable(a)
+		var c = new Observable(b)
+
+		c.subscribe({
+			aField:true
+		},function(){
+			count++
+		})
+
+		b.set({aField:1})
+
+		b.aField.$val = 2
+
+		a.set({aField:1})
+
+		a.aField.$val = 2
+
+		expect(count).equals(1)
 
 	})
 
