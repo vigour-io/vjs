@@ -385,6 +385,32 @@ describe('subscribe on referenced obj, 2 levels, non-existing field', function()
 
 })
 
+describe('subscribe on referenced obj, 2 levels, non-existing field, $parent', function() {
+
+	it( 'should fire once', function() {
+		
+		var a = new Observable()
+		var b = new Observable(a)
+		var c = new Observable(b)
+
+		c.subscribe({
+			$parent:true
+		},function(){
+			count++
+		})
+
+		var d = new Observable({
+			a:{$useVal:a}
+		})
+
+		d.$val = 1
+
+		expect(count).equals(1)
+
+	})
+
+})
+
 //op subsEmitter komt fire waar je een listener aan kan meegeven en een target
 
 //.$exec in emitter moet een extra arg krijgen voor een listener (specific)
