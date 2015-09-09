@@ -45,6 +45,30 @@ describe('subscribe on non-existent field', function() {
 
 })
 
+describe('subscribe on two non-existent fields', function() {
+
+	it( 'should fire twice', function() {
+		console.clear()
+		var a = new Observable()
+
+		a.subscribe({
+			aField:true,
+			anotherField:true
+		},function(){
+			count++
+		})
+
+		a.set({aField:1})
+		a.set({anotherField:1})
+
+		expect(count).equals(2)
+
+		console.log('----------')
+
+	})
+
+})
+
 describe('subscribe on existent nested field', function() {
 
 	it( 'should fire once', function() {
