@@ -55,5 +55,13 @@
     "remote-logging": false,
     "require-paths": {},
     "source-maps": true
+  },
+  "vigour": {
+    "services": {
+      "sentinel": {
+        "branches": [],
+        "unignoreFolders": []
+      }
+    }
   }
 }
