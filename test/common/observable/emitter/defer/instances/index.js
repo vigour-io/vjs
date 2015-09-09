@@ -11,11 +11,10 @@ describe( 'instances', function() {
       $on: {
         $change: {
           $val: function( event ) {
-            console.log('exec', this.$path, event.$stamp )
             cnt++
           },
           $defer: function( emit, event, defer ) {
-            setTimeout( emit, 200 )
+            setTimeout( emit, 20 )
           }
         }
       }
@@ -29,23 +28,20 @@ describe( 'instances', function() {
     setTimeout(function() {
       expect( cnt ).to.equal(3)
       done()
-    },300)
+    },100)
   })
 
   it( 'fire for each using a random timeout', function(done) {
-    console.clear()
-
     var cnt = 0
     var a = new Observable({
       $key:'a',
       $on: {
         $change: {
           $val: function( event ) {
-            console.log('exec2', this.$path, event.$stamp )
             cnt++
           },
           $defer: function( emit, event, defer ) {
-            setTimeout( emit, Math.random()*200 )
+            setTimeout( emit, Math.random()*20 )
           }
         }
       }
@@ -59,9 +55,7 @@ describe( 'instances', function() {
     setTimeout(function() {
       expect( cnt ).to.equal(3)
       done()
-    },300)
+    },100)
   })
 
 })
-
-//the exec thing has to become totally different

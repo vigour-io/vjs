@@ -109,6 +109,3 @@ describe( 'single instance', function() {
   })
 
 })
-
-
-//now instances -- but first unify the orginator with binds in emitter
