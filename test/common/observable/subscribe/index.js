@@ -311,7 +311,7 @@ describe('subscribe on referenced obj, 2 levels, existing field', function() {
 
 describe('subscribe on referenced obj, 2 levels, several locations', function() {
 
-	it( 'should fire once', function() {
+	it( 'should fire twice', function() {
 	
 		var a = new Observable({
 			aField:1
@@ -383,6 +383,80 @@ describe('subscribe on referenced obj, 2 levels, non-existing field, $parent', f
 		})
 
 		expect(count).equals(1)
+
+	})
+
+})
+
+describe('subscribe on referenced obj, 2 levels, non-existing field, $parent, "*"', function() {
+
+	it( 'should fire twice', function() {
+
+		var a = new Observable()
+		var b = new Observable(a)
+		var c = new Observable(b)
+
+		c.subscribe({
+			$parent:{
+				"*":true
+			}
+		},function(){
+			count++
+		})
+
+		var d = new Observable({
+			x:0,
+			y:0,
+			a:{$useVal:a}
+		})
+
+		d.x.$val = 1
+		d.y.$val = 1
+
+		expect(count).equals(2)
+
+	})
+
+})
+
+describe('subscribe on referenced obj, 2 levels, non-existing field, $parent, "*", "field"', function() {
+
+	it( 'should fire twice', function() {
+
+		var a = new Observable()
+		var b = new Observable(a)
+		var c = new Observable(b)
+
+		c.subscribe({
+			$parent:{
+				"*":{
+					field:true
+				}
+			}
+		},function(){
+			count++
+		})
+
+		var d = new Observable({
+			x:0,
+			y:0,
+			a:{$useVal:a}
+		})
+
+		d.x.$val = 1
+		d.y.$val = 1
+
+		expect(count).equals(0)		
+
+		d.x.set({
+			field:true
+		})
+
+		d.y.set({
+			field:true
+		})
+
+		expect(count).equals(2)
 
 	})
 
