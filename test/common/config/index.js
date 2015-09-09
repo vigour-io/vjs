@@ -1,5 +1,5 @@
 
-var log = gaston.log.make('config')
+// var log = gaston.log.make('config')
 log.enabled = true
 
 var Config = require('../../../lib/config')
