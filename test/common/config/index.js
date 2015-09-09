@@ -1,6 +1,6 @@
 
 var log = gaston.log.make('config')
-// log.enabled = true
+log.enabled = true
 
 var Config = require('../../../lib/config')
 
@@ -15,13 +15,19 @@ describe('Config', function(){
 
   describe('Merge', function(){
     it('should not crash', function(){
+      console.error('heyay')
       config = new Config(service_package_json)
         .merge(project_package_json)
+
+      console.error('huuu')
     })
 
     it('should still have settings of base package', function(){
+      log.info('!', config.name)
       expect(config.name.$val).to.equal('super-service')
+      log.info('!', config.category)
       expect(config.category.$val).to.equal('services')
+      log.info('?')
       expect(config.userdecay.$val).to.equal(5)
       expect(config.special.$val).to.equal(false)
     })
@@ -103,24 +109,10 @@ describe('Config', function(){
 
   if(!ISNODE){
     describe('crack', function(){
-      it('put c in window', function(){
+      it.skip('put c in window', function(){
         window.c = config
       })
     })
   }
-
-
-  // describe('config for service for project', function() {
-  //   var config
-  //   it('should take service package.json', function() {
-  //     config = new Config(service_package_json)
-  //       .merge(project_package_json)
-  //
-  //     log('yay made new config', config.toString(false, true))
-  //     config.resolve('#develop')
-  //     log('called resolve!', config)
-  //   })
-  // })
-
 
 })
