@@ -48,7 +48,6 @@ describe('subscribe on non-existent field', function() {
 describe('subscribe on two non-existent fields', function() {
 
 	it( 'should fire twice', function() {
-		console.clear()
 		var a = new Observable()
 
 		a.subscribe({
@@ -63,7 +62,6 @@ describe('subscribe on two non-existent fields', function() {
 
 		expect(count).equals(2)
 
-		console.log('----------')
 
 	})
 
@@ -97,6 +95,9 @@ describe('subscribe on existent nested field', function() {
 describe('subscribe on non-existent nested field in existing field', function() {
 
 	it( 'should fire once', function() {
+
+		console.clear()
+
 		var a = new Observable({
 			aField:true
 		})
@@ -109,7 +110,13 @@ describe('subscribe on non-existent nested field in existing field', function() 
 			count++
 		})
 
+		console.log('set a.aField.anotherField')
+
 		a.aField.set({anotherField:true})
+
+		console.log('set a.aField.anotherField2')
+
+		a.aField.set({anotherField2:true})
 
 		expect(count).equals(1)
 
@@ -366,7 +373,6 @@ describe('subscribe on referenced obj, 2 levels, non-existing field', function()
 
 	it( 'should fire once', function() {
 		
-		console.clear()
 
 		var a = new Observable({$key:'a'})  //{aField: true, bField: true, cField: true}
 		var b = new Observable({$key:'b',$val:a}) //{aField: true, bField: true, cField: true}
@@ -486,11 +492,9 @@ describe('subscribe on referenced obj, 2 levels, non-existing field, $parent, "*
 
 })
 
-describe('subscribe on referenced obj, 3 levels, non-existing fields', function() {
+describe('subscribe on referenced obj, 4 levels, non-existing fields on different levels', function() {
 
 	it( 'should fire trice', function() {
-
-		console.clear()
 
 		var a = new Observable({$key:'a'})  //{aField: true, bField: true, cField: true}
 		var b = new Observable({$key:'b',$val:a}) //{aField: true, bField: true, cField: true}
@@ -502,57 +506,44 @@ describe('subscribe on referenced obj, 3 levels, non-existing fields', function(
 			bField:true,
 			cField:true
 		},function(){
-			console.log('\n fires \n')
 			count++
 		})
-
-		// console.log('set a.aField')
-
-		// a.set({
-		// 	aField:true
-		// })
-
-		console.log('set b.bField')
 
 		b.set({
 			bField:true
 		})
 
 		expect(count).equals(1)
-		console.log('set c.cField')
 
 		c.set({
 			cField:true
 		})
 
 		expect(count).equals(2)
-		console.log('set d.cField')
 
 		d.set({
 			cField:true
 		})
 
 		expect(count).equals(3)
-		console.log('set c.cField again')
 
 		c.set({
 			cField:1
 		})
+
 		expect(count).equals(3)
-		console.log('set d.cField again')
 
 		d.set({
 			cField:1
 		})
 
-		console.log('set d.aField')
+		expect(count).equals(4)
 
 		d.set({
 			aField:true
 		})
 
 		expect(count).equals(5)
-		console.log('set c.bField')
 
 		c.set({
 			bField:true
@@ -560,18 +551,111 @@ describe('subscribe on referenced obj, 3 levels, non-existing fields', function(
 
 		expect(count).equals(6)
 
-		console.log('set c.aField')
-
 		c.set({
 			aField:true
 		})
 
 		expect(count).equals(6)
 
-		console.log('----------------------------')
+	})
+
+})
+
+describe('subscribe on referenced obj, 4 levels, non-existing fields on different levels, $parent', function() {
+
+	it( 'should fire trice', function() {
+		
+		console.clear()
+		
+		var a = new Observable({$key:'a'})  //{aField: true, bField: true, cField: true}
+		var b = new Observable({$key:'b',$val:a}) //{aField: true, bField: true, cField: true}
+		var c = new Observable({$key:'c',$val:b}) //{aField: true, bField: true, cField: true}
+		var d = new Observable({$key:'d',$val:c}) //{aField: true, bField: true, cField: true}
+
+		d.subscribe({
+			$parent:true,
+			aField:true
+		},function(){
+			count++
+		})
+
+		console.log('add a to parent')
+
+		var parent  = new Observable({
+			a:{$useVal:a}	
+		})
+
+		expect(count).equals(1)
+
+		console.log('add c to parent')
+
+		parent.set({
+			c:{$useVal:c}
+		})
+
+		expect(count).equals(2)
+
+		console.log('add b to parent')
+
+		parent.set({
+			b:{$useVal:b}
+		})
+
+		expect(count).equals(2)
 
 	})
 
 })
+
+
+// describe('subscribe on referenced obj, 4 levels, non-existing fields on different levels, $parent, nested', function() {
+
+// 	it( 'should fire trice', function() {
+// 		console.clear()
+// 		var a = new Observable({$key:'a'})  //{aField: true, bField: true, cField: true}
+// 		var b = new Observable({$key:'b',$val:a}) //{aField: true, bField: true, cField: true}
+// 		var c = new Observable({$key:'c',$val:b}) //{aField: true, bField: true, cField: true}
+// 		var d = new Observable({$key:'d',$val:c}) //{aField: true, bField: true, cField: true}
+
+// 		d.subscribe({
+// 			$parent:{
+// 				field:true
+// 			},
+// 		},function(){
+// 			count++
+// 		})
+
+// 		console.log('add a to parent')
+
+// 		var parent  = new Observable({
+// 			field:true,
+// 			a:{$useVal:a}	
+// 		})
+
+// 		expect(count).equals(1)
+
+// 		console.log('add c to parent')
+
+// 		parent.set({
+// 			c:{$useVal:c}
+// 		})
+
+// 		expect(count).equals(2)
+
+// 		console.log('add b to parent')
+
+// 		parent.set({
+// 			b:{$useVal:b}
+// 		})
+
+// 		expect(count).equals(2)
+
+// 	})
+
+// })
+
+setTimeout(function(){
+	window.scrollTo(0,document.body.scrollHeight);
+},500)
 
 //changing references
