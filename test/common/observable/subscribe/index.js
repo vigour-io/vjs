@@ -136,8 +136,6 @@ describe('subscribe on non-existent nested field in non-existent field', functio
 			}
 		})
 
-
-
 		expect(count).equals(1)
 
 	})
@@ -368,9 +366,11 @@ describe('subscribe on referenced obj, 2 levels, non-existing field', function()
 
 	it( 'should fire once', function() {
 		
-		var a = new Observable()
-		var b = new Observable(a)
-		var c = new Observable(b)
+		console.clear()
+
+		var a = new Observable({$key:'a'})  //{aField: true, bField: true, cField: true}
+		var b = new Observable({$key:'b',$val:a}) //{aField: true, bField: true, cField: true}
+		var c = new Observable({$key:'c',$val:b}) //{aField: true, bField: true, cField: true}
 
 		c.subscribe({
 			aField:true
@@ -492,24 +492,25 @@ describe('subscribe on referenced obj, 3 levels, non-existing fields', function(
 
 		console.clear()
 
-		var a = new Observable()
-		var b = new Observable(a)
-		var c = new Observable(b)
-		var d = new Observable(c)
+		var a = new Observable({$key:'a'})  //{aField: true, bField: true, cField: true}
+		var b = new Observable({$key:'b',$val:a}) //{aField: true, bField: true, cField: true}
+		var c = new Observable({$key:'c',$val:b}) //{aField: true, bField: true, cField: true}
+		var d = new Observable({$key:'d',$val:c}) //{aField: true, bField: true, cField: true}
 
 		d.subscribe({
 			aField:true,
 			bField:true,
 			cField:true
 		},function(){
+			console.log('\n fires \n')
 			count++
 		})
 
-		console.log('set a.aField')
+		// console.log('set a.aField')
 
-		a.set({
-			aField:true
-		})
+		// a.set({
+		// 	aField:true
+		// })
 
 		console.log('set b.bField')
 
@@ -517,22 +518,60 @@ describe('subscribe on referenced obj, 3 levels, non-existing fields', function(
 			bField:true
 		})
 
+		expect(count).equals(1)
 		console.log('set c.cField')
 
-		a.set({
+		c.set({
 			cField:true
 		})
 
-		console.log('set c.aField')
+		expect(count).equals(2)
+		console.log('set d.cField')
 
-		a.set({
-			bField:true
+		d.set({
+			cField:true
 		})
 
 		expect(count).equals(3)
+		console.log('set c.cField again')
+
+		c.set({
+			cField:1
+		})
+		expect(count).equals(3)
+		console.log('set d.cField again')
+
+		d.set({
+			cField:1
+		})
+
+		console.log('set d.aField')
+
+		d.set({
+			aField:true
+		})
+
+		expect(count).equals(5)
+		console.log('set c.bField')
+
+		c.set({
+			bField:true
+		})
+
+		expect(count).equals(6)
+
+		console.log('set c.aField')
+
+		c.set({
+			aField:true
+		})
+
+		expect(count).equals(6)
 
 		console.log('----------------------------')
 
 	})
 
 })
+
+//changing references
