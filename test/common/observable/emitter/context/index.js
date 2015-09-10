@@ -1,3 +1,5 @@
+console.clear()
+
 describe('context', function() {
 
   var Observable = require( '../../../../../lib/observable' )
@@ -8,14 +10,13 @@ describe('context', function() {
     var cnt = {
       total: 0
     }
-
     var a = new Observable({
       $key:'a',
       $trackInstances: true,
-      //no on so on default no trackinstances
       b: {
         $on: {
           $change:function() {
+            console.log('hey bitches.....', this.$path)
             var key = this.$path[0]
             cnt[key] = cnt[key] ? cnt[key]+1 : 1
             cnt.total++
@@ -23,11 +24,9 @@ describe('context', function() {
         }
       }
     })
-
     var aInstance = new a.$Constructor({
       $key:'aInstance'
     })
-
     return {
       cnt: cnt,
       a: a,
@@ -82,15 +81,19 @@ describe('context', function() {
   })
 
   describe( 'emit on instance', function() {
-    var test = contextObservable()
-    //dit is resolve context shit
-    test.aInstance.b.emit('$change') // = 'b change'
-    it( 'should fire once for "aInstance" context' , function() {
-      expect( test.cnt.aInstance ).to.equal( 1 )
-    })
-    it( 'should fire once in total' , function() {
-      expect( test.cnt.total ).to.equal( 1 )
-    })
+      var test = contextObservable()
+      //dit is resolve context shit
+      // console.log('????')
+      test.aInstance.b.emit('$change') // = 'b change'
+      // console.log('????2')
+
+      it( 'should fire once for "aInstance" context' , function() {
+        expect( test.cnt.aInstance ).to.equal( 1 )
+      })
+      it( 'should fire once in total' , function() {
+        expect( test.cnt.total ).to.equal( 1 )
+      })
+
   })
 
   describe( 'set on instance', function() {
@@ -280,6 +283,7 @@ describe('context', function() {
     })
 
     it( 'fires from context in c', function() {
+      expect( test.cnt.total ).msg('total').to.equal( 0 )
       //.b is trough the context of c.nest which is a seperate instance
       test.c.nest.b.emit('$change')
       // test.c.nest.b.$val = 'something'  <--- also this goes wrong
@@ -291,132 +295,95 @@ describe('context', function() {
     })
 
     it( 'fires from resolved a.b in c', function() {
-
+      console.clear()
+      console.error('-------------------')
       test.c.nest.b.$val = 'something'
+      expect( test.cnt.total ).msg('total').to.equal( 6 )
       expect( test.cnt.c ).msg('c').to.equal( 2 )
       expect( test.cnt.d ).msg('d').to.equal( 2 )
       expect( test.cnt.e ).msg('e').to.equal( 2 )
-      expect( test.cnt.total ).msg('total').to.equal( 6 )
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
     })
 
   })
-
-  describe('Update on instance that has an instance, in a nested field', function() {
-    var a, a1, a2
-    var measure = {}
-
-    it('should call change function the correct amount of times', function() {
-      a = new Observable({
-        $key: 'a',
-        $trackInstances: true,
-        c: {
-          $on: {
-            $change:function() {
-              var cnt = measure[ this.$path[0]]
-              measure[ this.$path[0]] = cnt ? cnt+1 : 1
-            }
-          }
-        }
-      })
-
-      a1 = new a.$Constructor({
-        $key: 'a1'
-      })
-
-      a2 = new a1.$Constructor({
-        $key:'a2'
-      })
-
-      a1.c.$val = 'xxx'
-
-      expect( measure.a2 ).msg('a2').to.equal(1)
-      expect( measure.a1 ).msg('a1').to.equal(1)
-      expect( measure.a ).msg( 'a' ).to.be.not.ok
-    })
-  })
-
-  describe('Update on instance that has an instance, in a nested field deep', function() {
-    var a, a1, a2
-    var measure = {}
-
-    it('should call change function the correct amount of times', function() {
-      a = new Observable({
-        $key: 'a',
-        $trackInstances: true,
-        c: {
-          d: {
-            e: {
-              $on: {
-                $change:function() {
-                  var cnt = measure[ this.$path[0]]
-                  measure[ this.$path[0]] = cnt ? cnt+1 : 1
-                  // console.log( '%cfire fire', 'color:blue;', this.$path, this._$path )
-                }
-              }
-            }
-          }
-        }
-      })
-
-      a1 = new a.$Constructor({
-        $key: 'a1'
-      })
-
-      a2 = new a1.$Constructor({
-        $key:'a2'
-      })
-
-      // console.clear()
-
-
-      //DONT WANT TO SEE A!
-      a1.c.d.e.$val = 'xxx'
-
-      expect( measure.a2 ).msg('a2').to.equal(1)
-      expect( measure.a1 ).msg('a1').to.equal(1)
-      expect( measure.a ).msg( 'a' ).to.be.not.ok
-    })
-  })
-
-  // function complexContextObservable() {
-  //   var cnt = {
-  //     total: 0
-  //   }
   //
-  //   var a = new Observable({
-  //     $key:'a',
-  //     $trackInstances: true,
-  //     //no on so on default no trackinstances
-  //     b: {
+  // describe('Update on instance that has an instance, in a nested field', function() {
+  //   var a, a1, a2
+  //   var measure = {}
+  //
+  //   it('should call change function the correct amount of times', function() {
+  //     a = new Observable({
+  //       $key: 'a',
+  //       $trackInstances: true,
   //       c: {
   //         $on: {
   //           $change:function() {
-  //             var key = this.$path[0]
-  //             console.error( '\nFIRE IT--->????', cnt[key], key, this._$context &&  this._$context.$path )
-  //             cnt[key] = cnt[key] ? cnt[key]+1 : 1
-  //             cnt.total++
+  //             var cnt = measure[ this.$path[0]]
+  //             measure[ this.$path[0]] = cnt ? cnt+1 : 1
   //           }
   //         }
   //       }
-  //     }
-  //   })
+  //     })
   //
-  //   var b = new a.$Constructor({
-  //     $key:'aInstance'
-  //   })
+  //     a1 = new a.$Constructor({
+  //       $key: 'a1'
+  //     })
   //
-  //   var c = new Observable({
-  //     nest: { $useVal: new a.$Constructor() }
-  //   })
+  //     a2 = new a1.$Constructor({
+  //       $key:'a2'
+  //     })
   //
-  //   return {
-  //     cnt: cnt,
-  //     a: a,
-  //     c: c,
-  //     aInstance: b
-  //   }
-  // }
+  //     a1.c.$val = 'xxx'
+  //
+  //     expect( measure.a2 ).msg('a2').to.equal(1)
+  //     expect( measure.a1 ).msg('a1').to.equal(1)
+  //     expect( measure.a ).msg( 'a' ).to.be.not.ok
+  //   })
+  // })
+  //
+  // describe('Update on instance that has an instance, in a nested field deep', function() {
+  //   var a, a1, a2
+  //   var measure = {}
+  //
+  //   it('should call change function the correct amount of times', function() {
+  //     a = new Observable({
+  //       $key: 'a',
+  //       $trackInstances: true,
+  //       c: {
+  //         d: {
+  //           e: {
+  //             $on: {
+  //               $change:function() {
+  //                 var cnt = measure[ this.$path[0]]
+  //                 measure[ this.$path[0]] = cnt ? cnt+1 : 1
+  //                 // console.log( '%cfire fire', 'color:blue;', this.$path, this._$path )
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     })
+  //
+  //     a1 = new a.$Constructor({
+  //       $key: 'a1'
+  //     })
+  //
+  //     a2 = new a1.$Constructor({
+  //       $key:'a2'
+  //     })
+  //
+  //     // console.clear()
+  //
+  //
+  //     //DONT WANT TO SEE A!
+  //     a1.c.d.e.$val = 'xxx'
+  //
+  //     expect( measure.a2 ).msg('a2').to.equal(1)
+  //     expect( measure.a1 ).msg('a1').to.equal(1)
+  //     expect( measure.a ).msg( 'a' ).to.be.not.ok
+  //   })
+  // })
+
 
   //now the test for custom emits (hard case -- sets are relativly easy)
   //for this you need to do emits to contexts to contexts -- really strange
