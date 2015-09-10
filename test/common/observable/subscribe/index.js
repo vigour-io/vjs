@@ -485,3 +485,54 @@ describe('subscribe on referenced obj, 2 levels, non-existing field, $parent, "*
 	})
 
 })
+
+describe('subscribe on referenced obj, 3 levels, non-existing fields', function() {
+
+	it( 'should fire trice', function() {
+
+		console.clear()
+
+		var a = new Observable()
+		var b = new Observable(a)
+		var c = new Observable(b)
+		var d = new Observable(c)
+
+		d.subscribe({
+			aField:true,
+			bField:true,
+			cField:true
+		},function(){
+			count++
+		})
+
+		console.log('set a.aField')
+
+		a.set({
+			aField:true
+		})
+
+		console.log('set b.bField')
+
+		b.set({
+			bField:true
+		})
+
+		console.log('set c.cField')
+
+		a.set({
+			cField:true
+		})
+
+		console.log('set c.aField')
+
+		a.set({
+			bField:true
+		})
+
+		expect(count).equals(3)
+
+		console.log('----------------------------')
+
+	})
+
+})
