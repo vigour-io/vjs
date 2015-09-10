@@ -294,14 +294,31 @@ describe('context', function() {
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
     })
 
+    it( 'fires from context in c (second time)', function() {
+      //.b is trough the context of c.nest which is a seperate instance
+      test.c.nest.b.emit('$change')
+      // test.c.nest.b.$val = 'something'  <--- also this goes wrong
+      expect( test.cnt.total ).msg('total').to.equal( 6 )
+      expect( test.cnt.d ).msg('d').to.equal( 2 )
+      expect( test.cnt.e ).msg('e').to.equal( 2 )
+      expect( test.cnt.c ).msg('c').to.equal( 2 )
+      expect( test.cnt.a ).msg('no update on a').to.be.not.ok
+    })
+
     it( 'fires from resolved a.b in c', function() {
       console.clear()
       console.error('-------------------')
       test.c.nest.b.$val = 'something'
-      expect( test.cnt.total ).msg('total').to.equal( 6 )
-      expect( test.cnt.c ).msg('c').to.equal( 2 )
-      expect( test.cnt.d ).msg('d').to.equal( 2 )
-      expect( test.cnt.e ).msg('e').to.equal( 2 )
+
+      //resolving breaks??? wtf
+
+      expect( test.cnt.c ).msg('c').to.equal( 3 )
+
+      //only updating d????
+      //the weirdest move -- tmrw check this out completely
+      expect( test.cnt.d ).msg('d').to.equal( 3 )
+      expect( test.cnt.e ).msg('e').to.equal( 3 )
+      expect( test.cnt.total ).msg('total').to.equal( 9 )
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
     })
 
