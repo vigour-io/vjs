@@ -15,8 +15,10 @@ describe('context', function() {
       $trackInstances: true,
       b: {
         $on: {
-          $change:function() {
-            console.log('hey bitches.....', this.$path)
+          $change:function( event ) {
+            // console.group()
+            console.log('%clistener fires:', 'color:green',this.$path && this.$path.join('.'), event.$stamp)
+            // console.groupEnd()
             var key = this.$path[0]
             cnt[key] = cnt[key] ? cnt[key]+1 : 1
             cnt.total++
@@ -308,7 +310,24 @@ describe('context', function() {
     it( 'fires from resolved a.b in c', function() {
       console.clear()
       console.error('-------------------')
-      test.c.nest.b.$val = 'something'
+
+
+      //first of all wtf doesnt the orig fire???
+
+      // console.log(test.c.nest === )
+
+      //hard part now -- thiung that goes wrong--> nest is not a real field for 2 instances
+
+      // test.c.nest.b.$val = 'something'
+
+      //what goes wrong?
+      //contexts gets resolved --- >
+
+
+      test.c.nest.set({
+        b:'something'
+      })
+
 
       //resolving breaks??? wtf
 
@@ -390,8 +409,6 @@ describe('context', function() {
   //     })
   //
   //     // console.clear()
-  //
-  //
   //     //DONT WANT TO SEE A!
   //     a1.c.d.e.$val = 'xxx'
   //
