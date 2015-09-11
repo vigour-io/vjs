@@ -195,6 +195,9 @@ describe('remove', function() {
 
     a.$val = null
 
+    console.clear()
+    console.error(changeEmitter)
+
     expect(isRemoved(changeEmitter))
       .msg('check if changeEmitter is removed').to.be.true
      expect(isRemoved(fn))
@@ -617,5 +620,5 @@ describe('remove', function() {
     })
 
   })
-
+  
 })
