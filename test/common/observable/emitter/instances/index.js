@@ -361,6 +361,7 @@ describe('instances', function() {
     })
 
     it('listener fired 3 times', function() {
+      console.clear()
       aInstance.b.set({
         c: '?'
       })
