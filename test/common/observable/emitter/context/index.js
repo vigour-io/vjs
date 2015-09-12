@@ -16,7 +16,6 @@ describe('context', function() {
       b: {
         $on: {
           $change:function( event ) {
-            console.log('%cfire', 'color:green', this.$path, event.$stamp )
             var key = this.$path[0]
             cnt[key] = cnt[key] ? cnt[key]+1 : 1
             cnt.total++
@@ -257,10 +256,6 @@ describe('context', function() {
 
     it( 'fires from context in c', function() {
       expect( test.cnt.total ).msg('total').to.equal( 0 )
-      console.clear()
-
-      console.log(test.c.nest.b.$path)
-      console.log('........')
 
       test.c.nest.b.emit('$change')
 
@@ -271,32 +266,15 @@ describe('context', function() {
       expect( test.cnt.c ).msg('c').to.equal( 1 )
       expect( test.cnt.total ).msg('total').to.equal( 3 )
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
-
-      console.log('........')
-      console.log(test.c.nest.b.$path)
-      console.log('%c\n\n\n........', 'background:#333')
-
-
     })
 
     it( 'fires from context in c (second time)', function() {
-      // console.clear()
-
-      // test.c.nest.b.$clearContextChain()
-      // test.c.nest.b.$clearContextUp()
-
-      console.log(test.c.nest.b.$path)
-      console.log('........')
       test.c.nest.b.emit('$change')
-
       expect( test.cnt.d ).msg('d').to.equal( 2 )
       expect( test.cnt.e ).msg('e').to.equal( 2 )
       expect( test.cnt.c ).msg('c').to.equal( 2 )
       expect( test.cnt.total ).msg('total').to.equal( 6 )
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
-
-      console.log('........')
-      console.log(test.c.nest.b.$path)
     })
 
     it( 'fires from resolved a.b in c', function() {
@@ -315,10 +293,7 @@ describe('context', function() {
   describe('Update on instance that has an instance, in a nested field', function() {
     var a, a1, a2
     var measure = {}
-    console.clear()
-
     it('should call change function the correct amount of times', function() {
-
       a = new Observable({
         $key: 'a',
         $trackInstances: true,
@@ -340,8 +315,6 @@ describe('context', function() {
         $key:'a2'
       })
 
-      // console.clear()
-      console.error('?????')
       a1.c.$val = 'xxx'
 
       expect( measure.a2 ).msg('a2').to.equal(1)
@@ -364,7 +337,6 @@ describe('context', function() {
             e: {
               $on: {
                 $change:function(event) {
-                  console.log('%clistener fires:', 'color:green',this.$path && this.$path.join('.'), event.$stamp)
                   var cnt = measure[ this.$path[0]]
                   measure[ this.$path[0]] = cnt ? cnt+1 : 1
                 }
@@ -382,17 +354,16 @@ describe('context', function() {
         $key:'a2'
       })
 
-      expect( measure.a2 ).msg('a2').not.ok
+      expect( measure.a2 ).msg('a2').to.be.not.ok
       a1.c.d.e.$val = 'xxx'
-      expect( measure.a1 ).msg('a1').equals(1)
-      expect( measure.a ).msg( 'a' ).not.ok
-      expect( measure.a2 ).msg('a2').equals(1)
+      expect( measure.a1 ).msg('a1').to.equal(1)
+      expect( measure.a ).msg( 'a' ).to.be.not.ok
+      expect( measure.a2 ).msg('a2').to.equal(1)
     })
   })
 
   describe('Multiple context levels', function() {
     it('should fire once for each context level', function() {
-      console.clear()
       var measure = {}
       var a = new Observable({
         $useVal: true,
@@ -401,7 +372,6 @@ describe('context', function() {
         b: {
           $on: {
             $change: function( event ) {
-              console.log('%cfire', 'color:green', this.$path, event.$stamp )
               measure[this.$path[0]] = measure[this.$path[0]]
                 ? measure[this.$path[0]]+1
                 : 1
