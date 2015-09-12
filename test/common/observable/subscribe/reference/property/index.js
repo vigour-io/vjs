@@ -8,7 +8,7 @@ beforeEach(function(){
 	count = 0
 
 	if(subcription){
-		subcription.$listensOnattach.each(function(p){
+		subcription.$listensOnAttach.each(function(p){
 			if(p.$key === '$change'){
 				$change = p.$attach
 			}

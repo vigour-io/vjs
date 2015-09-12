@@ -127,13 +127,13 @@ describe( 'off', function() {
     expect( ref.$on.$change.$base ).to.be.ok
     expect( ref.$on.$change.$attach ).to.be.ok
     expect( util.isEmpty( a.$listensOnBase ) ).to.be.false
-    expect( util.isEmpty( a.$listensOnattach ) ).to.be.false
+    expect( util.isEmpty( a.$listensOnAttach ) ).to.be.false
 
     ref.off( '$change', a )
     expect( ref.$on.$change.$base ).to.be.null
     expect( ref.$on.$change.$attach ).to.be.null
     expect( util.isEmpty( a.$listensOnBase ) ).to.be.true
-    expect( util.isEmpty( a.$listensOnattach ) ).to.be.true
+    expect( util.isEmpty( a.$listensOnAttach ) ).to.be.true
 
     a.off( weirdListener )
     expect( a.$on.$change.$fn.weird ).to.be.null

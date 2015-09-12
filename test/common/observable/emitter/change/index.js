@@ -167,15 +167,15 @@ describe( 'no instances', function() {
     referencedObs.$val = 'lets test attach'
     expect( measure.obs3.val ).to.equal( 0 )
 
-    expect( referencedObs ).to.have.property( '$listensOnattach' )
+    expect( referencedObs ).to.have.property( '$listensOnAttach' )
 
     var keyCount = 0
-    referencedObs.$listensOnattach.each(function( property, key ) {
+    referencedObs.$listensOnAttach.each(function( property, key ) {
       keyCount++
     })
-    expect( keyCount ).msg('amount of listeners on listensOnattach')
+    expect( keyCount ).msg('amount of listeners on listensOnAttach')
       .to.equal( 1 )
-    expect( referencedObs.$listensOnattach ).to.have.property( 1 )
+    expect( referencedObs.$listensOnAttach ).to.have.property( 1 )
 
     obs3.$val = referencedObs
     expect( measure.obs3.val ).to.equal( 1 )

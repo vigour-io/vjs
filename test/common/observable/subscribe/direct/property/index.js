@@ -12,8 +12,10 @@ describe('subscribing to single existing field', function() {
 
 	it( 'subcribes to field', function(){
 		a.subscribe({
-			aField:true
-		},function(){
+			aField:{
+				$val:true
+			}
+		},function( event, meta ){
 			count++
 		})
 	})

@@ -278,7 +278,7 @@ describe('remove', function() {
     b = new a.$Constructor({ $key:'b' })
 
     var cnt = 0
-    a.$listensOnattach.each(function() {
+    a.$listensOnAttach.each(function() {
       cnt++
     })
 
@@ -287,7 +287,7 @@ describe('remove', function() {
     reffed.remove()
 
     cnt = 0
-    a.$listensOnattach.each(function( property ) {
+    a.$listensOnAttach.each(function( property ) {
       cnt++
     })
 
