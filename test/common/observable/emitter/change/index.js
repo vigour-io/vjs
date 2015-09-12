@@ -214,10 +214,13 @@ describe( 'no instances', function() {
             specialField:'hello'
           }, event )
 
-          event.$block = false
+          event.$block = null
         }
       }
     })
+
+    expect( cnt ).msg('obs4 listener fired').to.equal(0)
+    expect( cnt2 ).msg('specialField fired').to.equal(0)
 
     obs4.set({ hello: true })
 
