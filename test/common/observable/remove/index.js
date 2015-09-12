@@ -606,6 +606,7 @@ describe('remove', function() {
           }
         }
       })
+      
       var b = new Observable({
         $key:'b',
         $val:'hello'
@@ -620,5 +621,5 @@ describe('remove', function() {
     })
 
   })
-  
+
 })
