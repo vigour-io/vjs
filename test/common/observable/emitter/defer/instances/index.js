@@ -1,9 +1,5 @@
-console.clear()
-
 var Observable = require('../../../../../../lib/observable')
-
 describe( 'instances', function() {
-
   it( 'should fire for each instance', function(done) {
     var cnt = 0
     var a = new Observable({
@@ -30,7 +26,6 @@ describe( 'instances', function() {
       done()
     },100)
   })
-
   it( 'fire for each using a random timeout', function(done) {
     var cnt = 0
     var a = new Observable({

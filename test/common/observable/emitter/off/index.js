@@ -40,9 +40,7 @@ describe( 'off', function() {
      a.set({
       $on: {
         $change: {
-          special: [ function() {
-            console.log('attach!')
-          }, aRef ]
+          special: [ function() {}, aRef ]
         }
       }
      })
