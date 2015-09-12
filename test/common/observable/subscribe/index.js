@@ -96,7 +96,7 @@ describe('subscribe on non-existent nested field in existing field', function() 
 
 	it( 'should fire once', function() {
 
-		console.clear()
+		// console.clear()
 
 		var a = new Observable({
 			aField:true
@@ -110,11 +110,7 @@ describe('subscribe on non-existent nested field in existing field', function() 
 			count++
 		})
 
-		console.log('set a.aField.anotherField')
-
 		a.aField.set({anotherField:true})
-
-		console.log('set a.aField.anotherField2')
 
 		a.aField.set({anotherField2:true})
 
@@ -149,6 +145,68 @@ describe('subscribe on non-existent nested field in non-existent field', functio
 
 })
 
+describe('subscribe on non-existent nested field in non-existent field, references', function() {
+
+	it( 'should fire once', function() {
+		var a = new Observable()
+		var b = new Observable(a)
+		var c = new Observable(b)
+
+		// console.clear()
+
+		c.subscribe({
+			aField:{
+				anotherField:{
+					nextField:true
+				}
+			}
+		},function(){
+			count++
+		})
+
+		console.log('a.aField')
+
+		a.set({
+			aField:{
+				anotherField:true
+			}
+		})
+
+		expect(count).equals(0)
+
+		console.log('b.aField')
+
+		b.set({
+			aField:true
+		})		
+
+		expect(count).equals(0)
+
+		console.log('b.aField.anotherField.nextField')
+
+		b.set({
+			aField:{
+				anotherField:{
+					nextField:true
+				}
+			}
+		})
+
+		expect(count).equals(1)	
+
+		a.set({
+			aField:{
+				anotherField:{
+					nextField:true
+				}
+			}
+		})
+
+		expect(count).equals(1)		
+
+	})
+})
+
 describe('subscribe on any existing field', function() {
 
 	it( 'should fire once', function() {
@@ -156,6 +214,7 @@ describe('subscribe on any existing field', function() {
 			aField:1
 		})
 
+		console.log('subscribe to any')
 		a.subscribe({
 			"*":true
 		},function(){
@@ -449,52 +508,64 @@ describe('subscribe on referenced obj, 2 levels, non-existing field, $parent, "*
 
 })
 
-describe('subscribe on referenced obj, 2 levels, non-existing field, $parent, "*", "field"', function() {
 
-	it( 'should fire twice', function() {
 
-		var a = new Observable()
-		var b = new Observable(a)
-		var c = new Observable(b)
 
-		c.subscribe({
-			$parent:{
-				"*":{
-					field:true
-				}
-			}
-		},function(){
-			count++
-		})
 
-		var d = new Observable({
-			x:0,
-			y:0,
-			a:{$useVal:a}
-		})
+// describe('subscribe on referenced obj, 2 levels, non-existing field, $parent, "*", "field"', function() {
 
-		d.x.$val = 1
-		d.y.$val = 1
+// 	it( 'should fire twice', function() {
 
-		expect(count).equals(0)		
+// 		console.clear()
 
-		d.x.set({
-			field:true
-		})
+// 		var a = new Observable()
+// 		var b = new Observable(a)
+// 		var c = new Observable(b)
 
-		d.y.set({
-			field:true
-		})
+// 		c.subscribe({
+// 			$parent:{
+// 				"*":{
+// 					field:true
+// 				}
+// 			}
+// 		},function(){
+// 			count++
+// 		})
 
-		expect(count).equals(2)
+// 		var d = new Observable({
+// 			x:0,
+// 			y:0,
+// 			a:{$useVal:a}
+// 		})
 
-	})
+// 		d.x.$val = 1
+// 		d.y.$val = 1
 
-})
+// 		expect(count).equals(0)		
+
+// 		console.log('x set field')
+
+// 		d.x.set({
+// 			field:true
+// 		})
+
+// 		console.log('y set field')
+
+// 		d.y.set({
+// 			field:true
+// 		})
+
+// 		expect(count).equals(2)
+
+// 	})
+
+// })
 
 describe('subscribe on referenced obj, 4 levels, non-existing fields on different levels', function() {
 
 	it( 'should fire trice', function() {
+
+		// console.clear()
 
 		var a = new Observable({$key:'a'})  //{aField: true, bField: true, cField: true}
 		var b = new Observable({$key:'b',$val:a}) //{aField: true, bField: true, cField: true}
@@ -502,10 +573,12 @@ describe('subscribe on referenced obj, 4 levels, non-existing fields on differen
 		var d = new Observable({$key:'d',$val:c}) //{aField: true, bField: true, cField: true}
 
 		d.subscribe({
+			// $parent:true,
 			aField:true,
 			bField:true,
 			cField:true
 		},function(){
+			console.log(' . . fire')
 			count++
 		})
 
@@ -515,11 +588,15 @@ describe('subscribe on referenced obj, 4 levels, non-existing fields on differen
 
 		expect(count).equals(1)
 
+		console.log('c.cField')
+
 		c.set({
 			cField:true
 		})
 
 		expect(count).equals(2)
+
+		console.log('d.cField')
 
 		d.set({
 			cField:true
@@ -527,9 +604,13 @@ describe('subscribe on referenced obj, 4 levels, non-existing fields on differen
 
 		expect(count).equals(3)
 
+		console.log('c.cField')
+
 		c.set({
 			cField:1
 		})
+
+
 
 		expect(count).equals(3)
 
@@ -565,7 +646,7 @@ describe('subscribe on referenced obj, 4 levels, non-existing fields on differen
 
 	it( 'should fire trice', function() {
 		
-		console.clear()
+		// console.clear()
 		
 		var a = new Observable({$key:'a'})  //{aField: true, bField: true, cField: true}
 		var b = new Observable({$key:'b',$val:a}) //{aField: true, bField: true, cField: true}
@@ -577,6 +658,7 @@ describe('subscribe on referenced obj, 4 levels, non-existing fields on differen
 			aField:true
 		},function(){
 			count++
+			console.log('counting',count)
 		})
 
 		console.log('add a to parent')
@@ -601,61 +683,75 @@ describe('subscribe on referenced obj, 4 levels, non-existing fields on differen
 			b:{$useVal:b}
 		})
 
-		expect(count).equals(2)
+		expect(count).equals(3)
 
 	})
 
 })
 
 
-// describe('subscribe on referenced obj, 4 levels, non-existing fields on different levels, $parent, nested', function() {
 
-// 	it( 'should fire trice', function() {
-// 		console.clear()
-// 		var a = new Observable({$key:'a'})  //{aField: true, bField: true, cField: true}
-// 		var b = new Observable({$key:'b',$val:a}) //{aField: true, bField: true, cField: true}
-// 		var c = new Observable({$key:'c',$val:b}) //{aField: true, bField: true, cField: true}
-// 		var d = new Observable({$key:'d',$val:c}) //{aField: true, bField: true, cField: true}
 
-// 		d.subscribe({
-// 			$parent:{
-// 				field:true
-// 			},
-// 		},function(){
-// 			count++
-// 		})
+describe('subscribe on referenced obj, 4 levels, non-existing fields on different levels, $parent, nested', function() {
 
-// 		console.log('add a to parent')
+	it( 'should fire trice', function() {
+		console.clear()
+		var a = new Observable({$key:'a'})  //{aField: true, bField: true, cField: true}
+		var b = new Observable({$key:'b',$val:a}) //{aField: true, bField: true, cField: true}
+		var c = new Observable({$key:'c',$val:b}) //{aField: true, bField: true, cField: true}
+		var d = new Observable({$key:'d',$val:c}) //{aField: true, bField: true, cField: true}
 
-// 		var parent  = new Observable({
-// 			field:true,
-// 			a:{$useVal:a}	
-// 		})
+		d.subscribe({
+			$parent:{
+				field:true
+			},
+		},function(){
+			count++
+		})
 
-// 		expect(count).equals(1)
+		console.log('add a to parent')
 
-// 		console.log('add c to parent')
+		var parent  = new Observable({
+			field:true,
+			a:{$useVal:a}	
+		})
 
-// 		parent.set({
-// 			c:{$useVal:c}
-// 		})
+		expect(count).equals(1)
 
-// 		expect(count).equals(2)
+		console.log('add b to parent')
 
-// 		console.log('add b to parent')
+		parent.set({
+			b:{$useVal:b}
+		})
 
-// 		parent.set({
-// 			b:{$useVal:b}
-// 		})
+		expect(count).equals(2)
 
-// 		expect(count).equals(2)
+		// console.log('add b to parent')
 
-// 	})
+		// parent.set({
+		// 	b:{$useVal:b}
+		// })
 
-// })
+		// expect(count).equals(2)
+
+	})
+
+})
+
+// a - aChild1
+//   - aChild2
+//   - aChild3
+
+// b - bChild1
+//   - bChild2
+//   - bChild3
+
+// c - cChild1
+//   - cChild2
+//   - cChild3
 
 setTimeout(function(){
 	window.scrollTo(0,document.body.scrollHeight);
 },500)
 
-//changing references
+// changing references
