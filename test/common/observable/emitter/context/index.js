@@ -371,6 +371,9 @@ describe('context', function() {
   })
 
   describe('Update on instance that has an instance, in a nested field deep', function() {
+
+    console.clear()
+
     var a, a1, a2
     var measure = {}
 
@@ -382,7 +385,8 @@ describe('context', function() {
           d: {
             e: {
               $on: {
-                $change:function() {
+                $change:function(event) {
+                  console.log('%clistener fires:', 'color:green',this.$path && this.$path.join('.'), event.$stamp)
                   var cnt = measure[ this.$path[0]]
                   measure[ this.$path[0]] = cnt ? cnt+1 : 1
                 }
@@ -400,10 +404,13 @@ describe('context', function() {
         $key:'a2'
       })
 
+      expect( measure.a2 ).msg('a2').to.be.not.ok
+
       a1.c.d.e.$val = 'xxx'
-      expect( measure.a2 ).msg('a2').to.equal(1)
       expect( measure.a1 ).msg('a1').to.equal(1)
       expect( measure.a ).msg( 'a' ).to.be.not.ok
+      expect( measure.a2 ).msg('a2').to.equal(1)
+
     })
   })
 
