@@ -1,14 +1,8 @@
-
-// var log = gaston.log.make('config')
-// log.enabled = true
-
 var Config = require('../../../lib/config')
 
 var service_package_json = require('./service_package.json')
 var project_package_json = require('./project_package.json')
-var ISNODE = require('../../../lib/config/util/isnode')
-//kan een normale util worden
-
+var ISNODE = require('../../../lib/util/isnode')
 
 var config
 
@@ -16,19 +10,13 @@ describe('Config', function(){
 
   describe('Merge', function(){
     it('should not crash', function(){
-      console.error('heyay')
       config = new Config(service_package_json)
         .merge(project_package_json)
-
-      console.error('huuu')
     })
 
     it('should still have settings of base package', function(){
-      // log.info('!', config.name)
       expect(config.name.$val).to.equal('super-service')
-      // log.info('!', config.category)
       expect(config.category.$val).to.equal('services')
-      // log.info('?')
       expect(config.userdecay.$val).to.equal(5)
       expect(config.special.$val).to.equal(false)
     })
@@ -99,7 +87,6 @@ describe('Config', function(){
   describe('Template language', function(){
     it('should parse template values from config into values with {field}',
       function(){
-        // log.enabled = true
         config.set({
           region: 'AT'
         })
