@@ -382,11 +382,11 @@ describe('context', function() {
         $key:'a2'
       })
 
-      expect( measure.a2 ).msg('a2').to.be.not.ok
+      expect( measure.a2 ).msg('a2').not.ok
       a1.c.d.e.$val = 'xxx'
-      expect( measure.a1 ).msg('a1').to.equal(1)
-      expect( measure.a ).msg( 'a' ).to.be.not.ok
-      expect( measure.a2 ).msg('a2').to.equal(1)
+      expect( measure.a1 ).msg('a1').equals(1)
+      expect( measure.a ).msg( 'a' ).not.ok
+      expect( measure.a2 ).msg('a2').equals(1)
     })
   })
 
