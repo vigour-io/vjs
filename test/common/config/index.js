@@ -1,7 +1,12 @@
+// var log = gaston.log.make('config')
+// log.enabled = true
+
+var Observable = require('../../../lib/observable')
 var Config = require('../../../lib/config')
 var service_package_json = require('./service_package.json')
 var project_package_json = require('./project_package.json')
 var ISNODE = require('../../../lib/util/isnode')
+
 
 var config
 
@@ -94,12 +99,33 @@ describe('Config', function(){
     )
   })
 
-  if(!ISNODE){
-    describe('crack', function(){
-      it.skip('put c in window', function(){
-        window.c = config
-      })
-    })
-  }
+  // describe('Copy Config', function(){
+  //   it('should be able to make a copy of a Config', function(){
+  //
+  //     var burk = new Observable({
+  //       $val: 'heyja',
+  //       smurk: 'lala'
+  //     })
+  //
+  //     log.info('burk test', burk._$val)
+  //
+  //
+  //     var setobj = config.convert({
+  //       exclude: function excludeKey(key) {
+  //         return key[0] === '$'
+  //       }
+  //     })
+  //     var copy = new Config(setobj)
+  //
+  //   })
+  // })
+  //
+  // if(!ISNODE){
+  //   describe('crack', function(){
+  //     it.skip('put c in window', function(){
+  //       window.c = config
+  //     })
+  //   })
+  // }
 
 })

@@ -1,3 +1,17 @@
 language: node_js
 node_js:
   - "0.12"
+branches:
+  only:
+    - master
+    - develop
+    - staging
+before_install:
+  - npm install -g git+ssh://git@github.com:vigour-io/sentinel.git#develop
+script:
+  - sentinel
+after_failure:
+  - sentinel --notify-fail
+sudo: required
+services:
+  - docker
