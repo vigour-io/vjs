@@ -73,6 +73,5 @@ describe('subscribing to rendered', function() {
 	it( 'fires when rendered set to true', function() {
 		parent.set({rendered:true})
 		expect(count).equals(1)
-	})	
-
+	})
 })
