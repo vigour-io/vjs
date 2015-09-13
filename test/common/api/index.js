@@ -23,7 +23,7 @@ describe('Api', function(){
           $defer: function( emit, event, defer ) {
             var t = this
             if(!(this.time.$val > 0)) {
-              console.log('time?', this.time.$val)
+              // console.log('time?', this.time.$val)
               return true
             }
             setTimeout(function() {
@@ -32,7 +32,6 @@ describe('Api', function(){
                   aValue: ~~(Math.random()*9999)
                 }
               }, event)
-              // console.log('hello?')
               emit()
             }, this.time.$val )
           }
@@ -41,7 +40,6 @@ describe('Api', function(){
     })
 
     timeApi.on('$change', function() {
-      // console.log('????')
       done()
     })
 

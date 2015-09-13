@@ -87,7 +87,7 @@ describe('context', function() {
         $on: {
           //if the emitter is not there it will not fire for instances!
           $change:function() {
-            console.log('chaning a nest!', this.$path)
+            // console.log('chaning a nest!', this.$path)
           }
         }
       }
@@ -111,7 +111,7 @@ describe('context', function() {
           $val: b.nest,
           $on: {
             $change:function() {
-              console.log('fire!', this.$path)
+              // console.log('fire!', this.$path)
               fired = this.$path
             }
           }
@@ -191,7 +191,7 @@ describe('context', function() {
     })
 
   })
-  
+
   describe( 'set on instance', function() {
     var test = contextObservable()
     test.aInstance.b.$val = 'b change'
