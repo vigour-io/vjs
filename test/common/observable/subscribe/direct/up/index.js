@@ -45,3 +45,34 @@ describe('subscribing to non existing upward, two levels, nested field', functio
 	})
 
 })
+
+describe('subscribing to rendered', function() {
+	var a = new Observable()
+	var parent
+
+	it( 'subcribes to parent on a', function(){
+		a.subscribe({
+			$upward:{
+				rendered:true
+			}
+		},function( event, meta ){
+			count++
+		})
+	})
+
+	it( 'does not fire when added to parent (loop)', function() {
+		for (var i = 10; i >= 0; i--) {
+			parent = new Observable({
+				a:{$useVal:a}
+			})
+			a = parent
+		}
+		expect(count).equals(0)
+	})
+
+	it( 'fires when rendered set to true', function() {
+		parent.set({rendered:true})
+		expect(count).equals(1)
+	})	
+
+})
