@@ -13,10 +13,7 @@ describe('Api', function(){
       time: {
         $on: {
           $change: function(event) {
-            console.log('time?', this.$val)
-            //need ot be able to pass this event... i geuss
             this.$parent.emit('$change', event)
-            console.log(event)
           }
         }
       },
