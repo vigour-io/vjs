@@ -8,7 +8,6 @@ trackerEmitter.$plugins.rick = function() {
   console.log('omg rick plugin')
 }
 
-
 describe('value change emitter', function() {
   // Observable.prototype.inject( tracking )
   var a = new Observable({
@@ -22,9 +21,7 @@ describe('value change emitter', function() {
     },
     $track: true, //should listen for listeners as well
   })
-
   a.$val = 'rick'
   a.$val = 'james'
   a.emit('rick')
-
 })
