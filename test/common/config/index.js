@@ -7,7 +7,6 @@ var service_package_json = require('./service_package.json')
 var project_package_json = require('./project_package.json')
 var ISNODE = require('../../../lib/util/isnode')
 
-
 var config
 
 describe('Config', function(){
