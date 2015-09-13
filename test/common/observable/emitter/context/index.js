@@ -127,12 +127,9 @@ describe('context', function() {
     })
 
     it('should fire for e', function() {
-      console.clear()
       a.nest.$val = 'rick'
       expect(fired).to.deep.equal(['e', 'field'])
     })
-
-    console.log('-------------')
   })
 
 
@@ -194,7 +191,7 @@ describe('context', function() {
     })
 
   })
-  //
+  
   describe( 'set on instance', function() {
     var test = contextObservable()
     test.aInstance.b.$val = 'b change'

@@ -3,7 +3,7 @@ var Config = require('../../../lib/config')
 var Api = require('../../../lib/api')
 var ISNODE = require('../../../lib/util/isnode')
 
-console.clear()
+// console.clear()
 
 describe('Api', function(){
 
@@ -32,7 +32,7 @@ describe('Api', function(){
                   aValue: ~~(Math.random()*9999)
                 }
               }, event)
-              console.log('hello?')
+              // console.log('hello?')
               emit()
             }, this.time.$val )
           }
@@ -41,11 +41,11 @@ describe('Api', function(){
     })
 
     timeApi.on('$change', function() {
-      console.log('????')
+      // console.log('????')
       done()
     })
 
-    console.log('----------')
+    // console.log('----------')
     timeApi.time.$val = 20
 
   })

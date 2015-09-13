@@ -1,4 +1,4 @@
-console.clear()
+// console.clear()
 
 var Observable = require('../../../../lib/observable/')
 var tracking = require('../../../../lib/tracking/')
@@ -10,10 +10,7 @@ trackerEmitter.$plugins.rick = function() {
 
 
 describe('value change emitter', function() {
-  console.log('hello111')
-
   // Observable.prototype.inject( tracking )
-
   var a = new Observable({
     $inject: tracking,
     $on: {
@@ -28,10 +25,6 @@ describe('value change emitter', function() {
 
   a.$val = 'rick'
   a.$val = 'james'
-
   a.emit('rick')
-
-
-
 
 })
