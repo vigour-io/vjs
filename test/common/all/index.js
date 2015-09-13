@@ -4,5 +4,6 @@ require('../methods/')
 //nested case etc
 require('../event' )
 require( '../emitter' )
+require( '../config' )
 require( '../observable' )
 require( '../utils' )

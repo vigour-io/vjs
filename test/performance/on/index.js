@@ -49,7 +49,6 @@ describe( 'on change emitters', function() {
       $on: {
         $change:function() {
           measure++
-          // console.log('?')
         }
       }
     })

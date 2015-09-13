@@ -1,6 +1,6 @@
 {
   "name": "vjs",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": "Vigour.io <dev@vigour.io>",
   "repository": {
     "type": "git",
@@ -55,5 +55,13 @@
     "remote-logging": false,
     "require-paths": {},
     "source-maps": true
+  },
+  "vigour": {
+    "services": {
+      "sentinel": {
+        "branches": [],
+        "unignoreFolders": []
+      }
+    }
   }
 }

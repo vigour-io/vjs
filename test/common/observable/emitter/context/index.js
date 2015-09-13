@@ -16,9 +16,6 @@ describe('context', function() {
       b: {
         $on: {
           $change:function( event ) {
-            // console.group()
-            console.log('%clistener fires:', 'color:green',this.$path && this.$path.join('.'), event.$stamp)
-            // console.groupEnd()
             var key = this.$path[0]
             cnt[key] = cnt[key] ? cnt[key]+1 : 1
             cnt.total++
@@ -56,7 +53,6 @@ describe('context', function() {
       test.blurf1 = new test.blurf.$Constructor({
         $key:'blurf1',
         b: {
-          //do not resolve context is the same
           hello: {
             a: true,
             b: true
@@ -84,11 +80,7 @@ describe('context', function() {
 
   describe( 'emit on instance', function() {
       var test = contextObservable()
-      //dit is resolve context shit
-      // console.log('????')
       test.aInstance.b.emit('$change') // = 'b change'
-      // console.log('????2')
-
       it( 'should fire once for "aInstance" context' , function() {
         expect( test.cnt.aInstance ).to.equal( 1 )
       })
@@ -100,7 +92,6 @@ describe('context', function() {
 
   describe( 'set on instance', function() {
     var test = contextObservable()
-    //dit is resolve context shit
     test.aInstance.b.$val = 'b change'
     it( 'should fire once for "aInstance" context' , function() {
       expect( test.cnt.aInstance ).to.equal( 1 )
@@ -117,9 +108,7 @@ describe('context', function() {
       $key:'c'
     })
 
-    // before(function() {
     test.a.b.$val = 'a change'
-    // })
 
     it( 'should fire once for "a" context' , function() {
       expect( test.cnt.a ).to.equal( 1 )
@@ -148,8 +137,7 @@ describe('context', function() {
     it( 'creates "e" sets b and should fire once for "e" instance' , function() {
       test.e  = new test.a.$Constructor({
         $key: 'e',
-        b:'b' //you should not fire for original!
-        //different field name makes it extra hard
+        b:'b'
       })
       expect( test.cnt.e ).to.equal( 1 )
     })
@@ -160,17 +148,14 @@ describe('context', function() {
     })
 
     it( 'should fire once for "c"' , function() {
-      //problem -- has instances never update contexts anymore
       expect( test.cnt.c ).to.equal( 1 )
     })
 
     it( 'should fire once for "d"' , function() {
-      //problem -- has instances never update contexts anymore
       expect( test.cnt.d ).to.equal( 1 )
     })
 
     it( 'should fire once for "aInstance"' , function() {
-      //problem -- has instances never update contexts anymore
       expect( test.cnt.aInstance ).to.equal( 1 )
     })
 
@@ -193,13 +178,11 @@ describe('context', function() {
     })
 
     it( 'sets a.b, should fire once for "a"' , function() {
-      //how about c?
       test.a.b.$val = 'a change'
       expect( test.cnt.a ).to.equal( 1 )
     })
 
     it( 'should fire once for "aInstance"' , function() {
-      //fire one too many for test.c (does context twice?)
       expect( test.cnt.aInstance ).to.equal( 1 )
     })
 
@@ -216,7 +199,6 @@ describe('context', function() {
     var test = contextObservable()
 
     it('creates a new "a.b" --> "c" should fire once for "c"', function() {
-      // console.clear()
       test.c = new test.a.b.$Constructor({
         $key:'c'
       })
@@ -226,11 +208,9 @@ describe('context', function() {
     })
 
     it( 'creates a new "a" --> "d" (nest observable) should not fire', function() {
-      // console.clear()
       test.d = new Observable({
         $key:'d',
         nest: { $useVal: new test.a.$Constructor() }
-        //ultra mested up case...
       })
 
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
@@ -246,27 +226,19 @@ describe('context', function() {
       expect( test.cnt.c ).msg('c').to.equal( 2 )
       expect( test.cnt.total ).msg('total').to.equal( 5 )
     })
-    //now do stuff with d
   })
 
   describe( 'contexts to instances updates', function() {
     var test = contextObservable()
-    //hard need to get rid of _$context in instances
     it( 'creates a new "a" --> "c" (nest observable) should not fire', function() {
       test.c = new Observable({
         $key:'c',
-        $trackInstances: true,
-        // nest: { $useVal: new test.a.$Constructor() }
-        //this has to resolve context as well!
-        //check for if it has a contructor
+        $trackInstances: true
       })
-
       var Constructor = test.c.$Constructor
-
       test.c.set({
         nest: { $useVal: new test.a.$Constructor() }
       })
-
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
       expect( test.cnt.total ).msg('total').to.equal( 0 )
     })
@@ -275,54 +247,41 @@ describe('context', function() {
       test.d = new test.c.$Constructor({
         $key:'d'
       })
-
       test.e = new test.c.$Constructor({
         $key:'e'
       })
-
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
       expect( test.cnt.total ).msg('total').to.equal( 0 )
     })
 
     it( 'fires from context in c', function() {
       expect( test.cnt.total ).msg('total').to.equal( 0 )
-      //.b is trough the context of c.nest which is a seperate instance
+
       test.c.nest.b.emit('$change')
-      // test.c.nest.b.$val = 'something'  <--- also this goes wrong
-      expect( test.cnt.total ).msg('total').to.equal( 3 )
+
+      //orginator does not fire for some weird reason...
+      //so apparently it was fired from the emitInternal /but w a context
       expect( test.cnt.d ).msg('d').to.equal( 1 )
       expect( test.cnt.e ).msg('e').to.equal( 1 )
       expect( test.cnt.c ).msg('c').to.equal( 1 )
+      expect( test.cnt.total ).msg('total').to.equal( 3 )
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
     })
 
     it( 'fires from context in c (second time)', function() {
-      //.b is trough the context of c.nest which is a seperate instance
       test.c.nest.b.emit('$change')
-      // test.c.nest.b.$val = 'something'  <--- also this goes wrong
-      expect( test.cnt.total ).msg('total').to.equal( 6 )
       expect( test.cnt.d ).msg('d').to.equal( 2 )
       expect( test.cnt.e ).msg('e').to.equal( 2 )
       expect( test.cnt.c ).msg('c').to.equal( 2 )
+      expect( test.cnt.total ).msg('total').to.equal( 6 )
       expect( test.cnt.a ).msg('no update on a').to.be.not.ok
     })
 
     it( 'fires from resolved a.b in c', function() {
-      console.clear()
-      console.error('-------------------')
-      //first of all wtf doesnt the orig fire???
-      // console.log(test.c.nest === )
-      //hard part now -- thiung that goes wrong--> nest is not a real field for 2 instances
-      // test.c.nest.b.$val = 'something'
-      //what goes wrong?
-      //contexts gets resolved --- >
       test.c.nest.set({
         b:'something'
       })
-      //resolving breaks??? wtf
       expect( test.cnt.c ).msg('c').to.equal( 3 )
-      //only updating d????
-      //the weirdest move -- tmrw check this out completely
       expect( test.cnt.d ).msg('d').to.equal( 3 )
       expect( test.cnt.e ).msg('e').to.equal( 3 )
       expect( test.cnt.total ).msg('total').to.equal( 9 )
@@ -332,11 +291,8 @@ describe('context', function() {
   })
 
   describe('Update on instance that has an instance, in a nested field', function() {
-
-
     var a, a1, a2
     var measure = {}
-
     it('should call change function the correct amount of times', function() {
       a = new Observable({
         $key: 'a',
@@ -344,7 +300,6 @@ describe('context', function() {
         c: {
           $on: {
             $change:function(event) {
-              console.log('%clistener fires:', 'color:green',this.$path && this.$path.join('.'), event.$stamp)
               var cnt = measure[ this.$path[0]]
               measure[ this.$path[0]] = cnt ? cnt+1 : 1
             }
@@ -360,8 +315,6 @@ describe('context', function() {
         $key:'a2'
       })
 
-      console.clear()
-      
       a1.c.$val = 'xxx'
 
       expect( measure.a2 ).msg('a2').to.equal(1)
@@ -370,46 +323,85 @@ describe('context', function() {
     })
   })
 
-  // describe('Update on instance that has an instance, in a nested field deep', function() {
-  //   var a, a1, a2
-  //   var measure = {}
-  //
-  //   it('should call change function the correct amount of times', function() {
-  //     a = new Observable({
-  //       $key: 'a',
-  //       $trackInstances: true,
-  //       c: {
-  //         d: {
-  //           e: {
-  //             $on: {
-  //               $change:function() {
-  //                 var cnt = measure[ this.$path[0]]
-  //                 measure[ this.$path[0]] = cnt ? cnt+1 : 1
-  //                 // console.log( '%cfire fire', 'color:blue;', this.$path, this._$path )
-  //               }
-  //             }
-  //           }
-  //         }
-  //       }
-  //     })
-  //
-  //     a1 = new a.$Constructor({
-  //       $key: 'a1'
-  //     })
-  //
-  //     a2 = new a1.$Constructor({
-  //       $key:'a2'
-  //     })
-  //
-  //     // console.clear()
-  //     //DONT WANT TO SEE A!
-  //     a1.c.d.e.$val = 'xxx'
-  //
-  //     expect( measure.a2 ).msg('a2').to.equal(1)
-  //     expect( measure.a1 ).msg('a1').to.equal(1)
-  //     expect( measure.a ).msg( 'a' ).to.be.not.ok
-  //   })
-  // })
+  describe('Update on instance that has an instance, in a nested field deep', function() {
+
+    var a, a1, a2
+    var measure = {}
+
+    it('should call change function the correct amount of times', function() {
+      a = new Observable({
+        $key: 'a',
+        $trackInstances: true,
+        c: {
+          d: {
+            e: {
+              $on: {
+                $change:function(event) {
+                  var cnt = measure[ this.$path[0]]
+                  measure[ this.$path[0]] = cnt ? cnt+1 : 1
+                }
+              }
+            }
+          }
+        }
+      })
+
+      a1 = new a.$Constructor({
+        $key: 'a1'
+      })
+
+      a2 = new a1.$Constructor({
+        $key:'a2'
+      })
+
+      expect( measure.a2 ).msg('a2').to.be.not.ok
+      a1.c.d.e.$val = 'xxx'
+      expect( measure.a1 ).msg('a1').to.equal(1)
+      expect( measure.a ).msg( 'a' ).to.be.not.ok
+      expect( measure.a2 ).msg('a2').to.equal(1)
+    })
+  })
+
+  describe('Multiple context levels', function() {
+    it('should fire once for each context level', function() {
+      var measure = {}
+      var a = new Observable({
+        $useVal: true,
+        $trackInstances: true,
+        $key:'a',
+        b: {
+          $on: {
+            $change: function( event ) {
+              measure[this.$path[0]] = measure[this.$path[0]]
+                ? measure[this.$path[0]]+1
+                : 1
+            }
+          }
+        }
+      })
+
+      //deze moet ook fire
+      var firstUseVal = new Observable({
+        $key:'firstUseVal',
+        $trackInstances: true,
+        $useVal: true,
+        nest1: new a.$Constructor()
+      })
+
+      var secondUseVal = new Observable({
+        $key:'secondUseVal',
+        nest2: new firstUseVal.$Constructor()
+      })
+
+      a.b.$val = 'rick'
+
+      expect( measure.secondUseVal ).to.equal(1)
+      expect( measure.a ).to.equal(1)
+      expect( measure.firstUseVal ).to.equal(1)
+
+    })
+  })
+
 
 
   //now the test for custom emits (hard case -- sets are relativly easy)

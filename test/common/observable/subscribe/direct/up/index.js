@@ -9,6 +9,7 @@ describe('subscribing to non existing upward, two levels, nested field', functio
 	var a = new Observable()
 	var grandParent
 	var parent
+	
 	it( 'subcribes to parent on a', function(){
 		a.subscribe({
 			$upward:{
@@ -42,4 +43,5 @@ describe('subscribing to non existing upward, two levels, nested field', functio
 		})
 		expect(count).equals(1)
 	})
+
 })
