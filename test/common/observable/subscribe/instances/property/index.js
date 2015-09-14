@@ -35,121 +35,126 @@ describe('subscribing to single existing field on instance', function() {
 
 })
 
+describe('subscribing to parent on instance', function() {
+	var a = new Observable({
+		$key:'a',
+		b:{}
+	})
 
-// describe('subscribing to parent on instance', function() {
-// 	var a = new Observable({
-// 		$key:'a',
-// 		b:{}
-// 	})
+	it( 'subcribes to field', function(){
+		console.log('\n------------------\n')
+		subcription = a.b.subscribe({
+			$parent:{
+				$parent:true
+			}
+		},function(){
+			instance = this
+			count++
+		})
+	})
 
-// 	it( 'subcribes to field', function(){
-// 		console.log('------------------\n')
-// 		subcription = a.b.subscribe({
-// 			$parent:{
-// 				$parent:true
-// 			}
-// 		},function(){
-// 			instance = this
-// 			count++
-// 		})
-// 	})
+	it( 'fires on instance', function(){
+		console.clear()
+		var b = new Observable({
+			$key:'obsB',
+			c:{
+				specialUseValA:{ $useVal:a }
+			}
+		})
+		console.log('ghello done')
+		expect(count).equals(1)
+		expect(instance === b.c.specialUseValA.b).ok
+	})
 
-// 	it( 'fires on instance', function(){
-// 		var b = new Observable({
-// 			$key:'b',
-// 			c:{
-// 				a:{$useVal:a}
-// 			}
-// 		})
+})
 
-// 		expect(count).equals(1)
-// 		expect(instance === b.c.a.b).ok
-// 	})
+describe('subscribing to nested field on instance', function() {
+	var a = new Observable({
+		$key:'a',
+		aField:{
+			bField:true
+		}
+	})
 
-// })
+	it( 'subcribes to field', function(){
+		console.log('------------------\n')
+		subcription = a.subscribe({
+			aField:{
+				bField:true
+			}
+		},function(){
+			instance = this
+			count++
+		})
+	})
 
-// describe('subscribing to nested field on instance', function() {
-// 	var a = new Observable({
-// 		$key:'a',
-// 		aField:{
-// 			bField:true
-// 		}
-// 	})
+	it( 'fires on instance', function(){
+		var b = new a.$Constructor({
+			$key:'b'
+		})
 
-// 	it( 'subcribes to field', function(){
-// 		console.log('------------------\n')
-// 		subcription = a.subscribe({
-// 			aField:{
-// 				bField:true
-// 			}
-// 		},function(){
-// 			instance = this
-// 			count++
-// 		})
-// 	})
+		b.set({
+			aField:{
+				bField:1
+			}
+		})
 
+		console.log('>>>',instance )
 
+		expect(count).equals(1)
+		expect(instance.$key).equals('b')
+	})
 
-// 	it( 'fires on instance', function(){
-// 		var b = new a.$Constructor({
-// 			$key:'b'
-// 		})
+})
 
-// 		b.set({
-// 			aField:{
-// 				bField:1
-// 			}
-// 		})
+describe('subscribing to single existing field on instance', function() {
+	var a = new Observable({
+		$key:'aOrignator',
+		aField:{
+			bField:true
+		}
+	})
 
-// 		console.log('>>>',instance )
+	it( 'subcribes to field', function(){
+		console.error('------------------\n')
+		subcription = a.subscribe({
+			$parent:{
+				$parent:{
+					c:{
+						ballz:true
+					}
+				}
+			}
+		},function(){
+			console.log('haha',this.$path)
+			count++
+		})
+	})
 
-// 		expect(count).equals(1)
-// 		expect(instance.$key).equals('b')
-// 	})
+	it( 'fires on instance', function(){
+		console.clear()
+		console.error('---- interesting shit----')
+		var b = new Observable({
+			$key:'b',
+			$trackInstances:true,
+			c:{
+				ballz:1
+			}
+		})
 
-// })
+		//why remove???
+		//fires since addToNewParent
+		b.set({
+			d:{
+				hahaFuckeriDo:{
+					$useVal:new a.$Constructor()
+				}
+			}
+		})
 
-// describe('subscribing to single existing field on instance', function() {
-// 	var a = new Observable({
-// 		$key:'a',
-// 		aField:{
-// 			bField:true
-// 		}
-// 	})
+		expect(count).equals(1)
+		expect(instance.$key).equals('b')
 
-// 	it( 'subcribes to field', function(){
-// 		console.log('------------------\n')
-// 		subcription = a.subscribe({
-// 			$parent:{
-// 				$parent:{
-// 					c:true
-// 				}
-// 			}
-// 		},function(){
-// 			instance = this
-// 			console.log('haha',this.$path)
-// 			count++
-// 		})
-// 	})
+	})
 
-
-
-// 	it( 'fires on instance', function(){
-// 		var b = new Observable({
-// 			$key:'b',
-// 			c:1
-// 		})
-
-// 		b.set({
-// 			d:{
-// 				e:{
-// 					$useVal:new a.$Constructor()
-// 				}
-// 			}
-// 		})
-
-// 		expect(count).equals(1)
-// 		expect(instance.$key).equals('b')
-// 	})
-
-// })
+})
