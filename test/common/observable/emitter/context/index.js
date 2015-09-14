@@ -1,5 +1,3 @@
-console.clear()
-
 describe('context', function() {
 
   var Observable = require( '../../../../../lib/observable' )
@@ -78,15 +76,119 @@ describe('context', function() {
     })
   })
 
+  describe( 'resolve context by adding new listener on context of reference', function() {
+    var a = new Observable({
+      $key: 'a',
+      $trackInstances:true,
+      //if this is not there it should however track for a new instance of b
+      nest: {
+        // $trackInstances:true,
+        //if not trackinstances on a does not track for contexts (makes sense)
+        $on: {
+          //if the emitter is not there it will not fire for instances!
+          $change:function() {
+            // console.log('chaning a nest!', this.$path)
+          }
+        }
+      }
+    })
+    var b = new a.$Constructor({
+      $key:'b'
+    })
+
+    var d = new Observable({
+      $key:'d',
+      field: {}
+    })
+
+    var fired
+
+    it('should resolve context for b.nest (e has a reference)', function() {
+
+      var e = new d.$Constructor({
+        $key:'e',
+        field: {
+          $val: b.nest,
+          $on: {
+            $change:function() {
+              // console.log('fire!', this.$path)
+              fired = this.$path
+            }
+          }
+        }
+      })
+
+      expect(b.nest.$on.$change.$base[1]._$path).to.deep.equal(['e', 'field'])
+      expect(a.nest.$on.$change.$base).not.ok
+      expect(b.nest).to.not.equal(a.nest)
+      expect(b.nest.$on).to.not.equal(a.nest.$on)
+      expect(b.nest.$on.$change).msg('change emitter').to.not.equal(a.nest.$on.$change)
+      expect(b.nest.$on._$path).to.deep.equal(['b', 'nest', '$on'])
+    })
+
+    it('should fire for e', function() {
+      a.nest.$val = 'rick'
+      expect(fired).to.deep.equal(['e', 'field'])
+    })
+  })
+
+
   describe( 'emit on instance', function() {
-      var test = contextObservable()
-      test.aInstance.b.emit('$change') // = 'b change'
-      it( 'should fire once for "aInstance" context' , function() {
-        expect( test.cnt.aInstance ).to.equal( 1 )
+    var test = contextObservable()
+    test.aInstance.b.emit('$change') // = 'b change'
+    it( 'should fire once for "aInstance" context' , function() {
+      expect( test.cnt.aInstance ).to.equal( 1 )
+    })
+    it( 'should fire once in total' , function() {
+      expect( test.cnt.total ).to.equal( 1 )
+    })
+  })
+
+  describe( 'resolve context over multiple contexts', function() {
+
+    var cnt = 0
+    var fired
+    var x = new Observable()
+    var y = new Observable({
+      $key:'y'
+    })
+    var c = new Observable({
+      $useVal:true,
+      $val: x
+    })
+    var a = new Observable({
+      $useVal:true,
+      nest: c
+    })
+    var d = new Observable({
+      $key:'d',
+      x: {
+        b: new a.$Constructor()
+      }
+    })
+    var b = new d.$Constructor({
+      $key:'b'
+    })
+
+    it('should have resolved context', function() {
+      b.x.b.nest.set({
+        $val: y,
+        $on: {
+          $change:function() {
+            fired = this.$path
+          }
+        }
       })
-      it( 'should fire once in total' , function() {
-        expect( test.cnt.total ).to.equal( 1 )
-      })
+      expect( b.x.b.nest ).msg('b.x.b.nest').to.not.equal( c )
+      expect( d.x.b.nest ).msg('d.x.b.nest').to.not.equal( b.x.b.nest )
+      expect( d.x.b ).msg('d.x.b').to.not.equal( b.x.b )
+      expect( d.x ).msg('d.x').to.not.equal( b.x )
+    })
+
+    it('should not crash and fire once for the instance', function() {
+      y.$val = 'xxxx'
+      expect(fired).to.deep.equal(['b', 'x', 'b', 'nest'])
+    })
 
   })
 
@@ -401,8 +503,6 @@ describe('context', function() {
 
     })
   })
-
-
 
   //now the test for custom emits (hard case -- sets are relativly easy)
   //for this you need to do emits to contexts to contexts -- really strange

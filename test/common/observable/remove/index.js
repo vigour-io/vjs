@@ -195,8 +195,8 @@ describe('remove', function() {
 
     a.$val = null
 
-    console.clear()
-    console.error(changeEmitter)
+    // console.clear()
+    // console.error(changeEmitter)
 
     expect(isRemoved(changeEmitter))
       .msg('check if changeEmitter is removed').to.be.true
@@ -606,7 +606,7 @@ describe('remove', function() {
           }
         }
       })
-      
+
       var b = new Observable({
         $key:'b',
         $val:'hello'
