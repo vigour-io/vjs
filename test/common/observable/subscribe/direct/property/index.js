@@ -58,7 +58,7 @@ describe('subscribing on non-existent field', function() {
 		expect(count).equals(1)
 	})
 
-	xit( 'fires when field is updated', function() {
+	it( 'fires when field is updated', function() {
 		a.aField.$val = 2
 		expect(count).equals(1)
 	})
