@@ -11,4 +11,8 @@ describe( 'subscribe' , function() {
 	describe('reference',function(){
 		require('./reference')
 	})
+
+	describe('context',function(){
+		require('./context')
+	})
 })
