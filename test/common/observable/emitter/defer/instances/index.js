@@ -1,4 +1,7 @@
 var Observable = require('../../../../../../lib/observable')
+
+console.clear()
+
 describe( 'instances', function() {
   it( 'should fire for each instance', function(done) {
     var cnt = 0
@@ -28,6 +31,7 @@ describe( 'instances', function() {
   })
   it( 'fire for each using a random timeout', function(done) {
     var cnt = 0
+    var deferCnt = 0
     var a = new Observable({
       $key:'a',
       $on: {
@@ -36,6 +40,7 @@ describe( 'instances', function() {
             cnt++
           },
           $defer: function( emit, event, defer ) {
+            deferCnt++
             setTimeout( emit, Math.random()*20 )
           }
         }
@@ -48,6 +53,7 @@ describe( 'instances', function() {
     a.$val = 'hello'
     expect( cnt ).to.equal(0)
     setTimeout(function() {
+      expect( deferCnt ).msg('defers fired').to.equal(3)
       expect( cnt ).to.equal(3)
       done()
     },100)
