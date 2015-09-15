@@ -3,4 +3,4 @@ describe( 'observable', function() {
   require('./remove')
   require('./operator')
   require('./subscribe')
-} )
+})
