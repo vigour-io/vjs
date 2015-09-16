@@ -7,11 +7,16 @@ describe( 'single instance', function() {
       $on: {
         $change: {
           $val: function() {
+            console.log('CHANGE')
             expect(this.$on.$change.$defer.$inProgress).to.be.null
             done()
           },
           $defer: function( emit, event, defer ) {
-            setTimeout( emit, 200 )
+            console.log('set timeout')
+            setTimeout( function(){
+              console.log('emit!')
+              emit()
+            }, 200 )
           }
         }
       }
