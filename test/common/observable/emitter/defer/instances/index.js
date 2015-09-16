@@ -155,5 +155,4 @@ describe( 'instances', function() {
       done()
     },100)
   })
-
 })
