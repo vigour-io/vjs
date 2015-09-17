@@ -313,4 +313,6 @@ describe('base', function() {
 
   })
 
+  require('./output.js')
+
 });

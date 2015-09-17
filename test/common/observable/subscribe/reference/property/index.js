@@ -22,16 +22,31 @@ beforeEach(function(){
 
 describe('subscribing to single existing field, existing reference', function() {
 	var a = new Observable({
+		$key:'a',
 		aField:1
 	})
-	var b = new Observable(a)
+
+	var b = new Observable({
+		$key:'b',
+		$val:a
+	})
+
+	var c = new Observable({
+		$key:'c',
+		$val:b
+	})
 
 	it( 'subcribes to field', function(){
-		subcription = b.subscribe({
-			aField:true
-		},function(){
-			count++
-		})
+		console.clear()
+		try {
+			subcription = c.subscribe({
+				aField:true
+			},function(){
+				count++
+			})
+		} catch(e) {
+			console.error(e.stack)
+		}
 	})
 
 	it( 'has added a change listener on a.aField', function(){
@@ -51,11 +66,16 @@ describe('subscribing to single existing field, existing reference', function() 
 	} )
 
 	it( 'fires when field is updated on referenced obj', function() {
+
+		console.error('---- now lets do some stuff-----')
+
 		a.aField.$val = 2
 		expect(count).equals(1)
 	})
 
 	it( 'fires when field is created on obj', function() {
+		console.error('---- now lets do some other stuff (removing etc)-----')
+
 		b.set({aField:true})
 		expect(count).equals(1)
 	})
@@ -169,7 +189,10 @@ describe('subscribing to single existing field, existing reference, switch refer
 		$key:'c',
 		aField:1
 	})
-	var b = new Observable(a)
+	var b = new Observable({
+		$key:'b',
+		$val:a
+	})
 
 	it( 'subcribes to field', function(){
 		subcription = b.subscribe({
@@ -196,13 +219,14 @@ describe('subscribing to single existing field, existing reference, switch refer
 	} )
 
 	it( 'changing the reference to c, fires the sub', function(){
+		console.clear()
 		b.$val = c
 		expect(count).equals(1)
-	} )	
+	} )
 
 	it( 'has removed listeners on a', function(){
 		expect(a.aField.$on.$change.$attach).not.ok
-	} )	
+	} )
 
 	it( 'has added a change listener on c.aField', function(){
 		expect(c.aField.$on.$change).ok

@@ -33,7 +33,7 @@ describe('setWithPath', function() {
 
     expect(a.o.p.q).to.be.defined
     expect(a.o.p.q).to.be.instanceOf(Base)
-    expect(a.o.p.q._$val).to.be.undefined
+    expect(a.o.p.q._$input).to.be.undefined
   })
 
 })
