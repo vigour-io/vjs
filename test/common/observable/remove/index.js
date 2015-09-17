@@ -20,7 +20,7 @@ describe('remove', function() {
       $val:1
     })
     a.remove()
-    expect(a._$val).to.be.null
+    expect(a._$input).to.be.null
     expect(isRemoved(a)).to.be.ok
   })
 
@@ -47,7 +47,7 @@ describe('remove', function() {
       $val:1
     })
     a.$val = null
-    expect(a._$val).to.be.null;
+    expect(a._$input).to.be.null;
     expect( isRemoved(a) ).to.be.ok
   })
 

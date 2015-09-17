@@ -32,7 +32,7 @@ describe('Config', function(){
       'should have applied settings from newpackage[category][name] to root' +
       ' of base package',
       function(){
-        expect(config._$val).to.equal("{service}.{app}.{domain}")
+        expect(config._$input).to.equal("{service}.{app}.{domain}")
         expect(config).to.have.property('#develop')
         expect(config).to.have.property('#master')
         expect(config).to.have.property('#demo')
@@ -53,7 +53,7 @@ describe('Config', function(){
         config.resolve('#develop')
       })
       it('should have applied root level settings from #develop', function(){
-        expect(config._$val).to.equal('{branch}-{service}.{app}.{domain}')
+        expect(config._$input).to.equal('{branch}-{service}.{app}.{domain}')
         expect(config.special.$val).to.equal(true)
         expect(config.somesetting.$val).to.equal(false)
       })
@@ -80,7 +80,7 @@ describe('Config', function(){
           .which.has.property('$val', true)
       })
       it('should not have resolved AT region $val', function(){
-        expect(config._$val).to.equal('{region}-{service}.{app}.{domain}')
+        expect(config._$input).to.equal('{region}-{service}.{app}.{domain}')
       })
 
     })
@@ -106,7 +106,7 @@ describe('Config', function(){
   //       smurk: 'lala'
   //     })
   //
-  //     log.info('burk test', burk._$val)
+  //     log.info('burk test', burk._$input)
   //
   //
   //     var setobj = config.convert({
