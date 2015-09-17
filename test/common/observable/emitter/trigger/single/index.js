@@ -7,14 +7,12 @@ describe( 'single instance', function() {
       $on: {
         $change: {
           $val: function() {
-            console.log('CHANGE')
-            expect(this.$on.$change.$defer.$inProgress).to.be.null
+            expect(this.$on.$change.$trigger.$inProgress).to.be.null
             done()
           },
-          $defer: function( emit, event, defer ) {
-            console.log('set timeout')
+          $trigger: function( emit, event, defer ) {
             setTimeout( function(){
-              console.log('emit!')
+              // consooe.log('hey')
               emit()
             }, 200 )
           }
@@ -24,7 +22,7 @@ describe( 'single instance', function() {
     a.$val = 'hello'
   })
 
-  it( 'remove defer', function( done ) {
+  it( 'remove trigger', function( done ) {
     var cnt = 0
     var a = new Observable({
       $on: {
@@ -32,7 +30,7 @@ describe( 'single instance', function() {
           $val: function() {
             cnt++
           },
-          $defer: {
+          $trigger: {
             $val: function( emit, event, defer ) {
               this._$timeout = setTimeout( emit, 200 )
             },
@@ -59,7 +57,7 @@ describe( 'single instance', function() {
           $val: function() {
             cnt++
           },
-          $defer: function( emit, event, defer ) {
+          $trigger: function( emit, event, defer ) {
             return true
           }
         }
@@ -78,7 +76,7 @@ describe( 'single instance', function() {
           $val: function() {
             cnt++
           },
-          $defer: {
+          $trigger: {
             $val: function( emit, event, defer ) {
               defer.cancel()
             }

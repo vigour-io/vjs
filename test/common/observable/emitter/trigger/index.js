@@ -1,4 +1,4 @@
-describe('defer', function() {
+describe('trigger', function() {
   require('./single')
   require('./instances')
 })
