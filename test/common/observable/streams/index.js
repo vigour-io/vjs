@@ -23,7 +23,7 @@ describe('stream as input on observable', function() {
 
     var a = new Observable({
       $key:'a',
-      $val: fs.createReadStream('./bunxdles/_test_common_all_dev.js'),
+      $val: fs.createReadStream('./bundles/_test_common_all_dev.js'),
       $on: {
         $change:function( event, chunk) {
           this.$output = chunk.toString()//this.$output ? this.$output+chunk : chunk
