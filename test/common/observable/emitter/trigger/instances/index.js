@@ -156,55 +156,6 @@ describe( 'instances', function() {
     },100)
   })
 
-  it( 'fire for each using a random timeout, YOYOYO', function(done) {
-
-    var http = require('http')
-
-    var httpGet = new Observable({
-      $response:false,
-      $progress:0,
-      $on: {
-        $change: {
-          $defer:function( emit ) {
-            http.get(this.$val, function(res) {
-              console.log('RES',res)
-              emit()
-            }).on('data', function(chunk){
-              console.log(chunk)
-            })
-          }
-        }
-      }
-    }).$Constructor
-
-    var login = new httpGet({
-      $val:'http://vigour.io',
-      $on:{
-        $data:function( chunk ){
-          console.log('data', meta)
-        },
-        $end:function( response ){
-          console.log('end', meta)
-        },
-        $error:function( event, meta ){
-          console.log('error', meta)
-        }
-      }
-    })
-
-    // var loader = new Element({
-    //   $width:login.$progress
-    // })
-
-
-
-
-
-    setTimeout(function(){
-      done()
-    },1000)
-
-  })
 
 
 
