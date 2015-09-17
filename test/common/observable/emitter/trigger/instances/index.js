@@ -12,7 +12,7 @@ describe( 'instances', function() {
           $val: function( event ) {
             cnt++
           },
-          $defer: function( emit, event, defer ) {
+          $trigger: function( emit, event, defer ) {
             setTimeout( emit, 20 )
           }
         }
@@ -40,7 +40,7 @@ describe( 'instances', function() {
           $val: function( event ) {
             cnt++
           },
-          $defer:{
+          $trigger:{
             $val:function( emit, event, defer ) {
               deferCnt++
               if(!this._timeout){
@@ -64,7 +64,7 @@ describe( 'instances', function() {
     c.$key = 'c'
     a.$val = 'hello'
     expect( cnt ).to.equal(0)
-    
+
     setTimeout(function() {
       expect( deferCnt ).msg('defers fired').to.equal(3)
       expect( cnt ).to.equal(3)
@@ -82,7 +82,7 @@ describe( 'instances', function() {
           $val: function( event ) {
             cnt++
           },
-          $defer:{
+          $trigger:{
             $val:function( emit, event, defer ) {
               deferCnt++
               if(!this._timeout){
@@ -105,7 +105,7 @@ describe( 'instances', function() {
     a.$val = 'hello'
     expect( cnt ).to.equal(0)
 
-    a.$on.$change.$defer.cancel()
+    a.$on.$change.$trigger.cancel()
 
     setTimeout(function() {
       expect( deferCnt ).msg('defers fired').to.equal(3)
@@ -124,7 +124,7 @@ describe( 'instances', function() {
           $val: function( event ) {
             cnt++
           },
-          $defer:{
+          $trigger:{
             $val:function( emit, event, defer ) {
               deferCnt++
               if(!this._timeout){
@@ -147,7 +147,7 @@ describe( 'instances', function() {
     a.$val = 'hello'
     expect( cnt ).to.equal(0)
 
-    a.$on.$change.$defer.cancel( true )
+    a.$on.$change.$trigger.cancel( true )
 
     setTimeout(function() {
       expect( deferCnt ).msg('defers fired').to.equal(3)

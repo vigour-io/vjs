@@ -1,3 +1,5 @@
+console.clear()
+
 var Observable = require('../../../../../../lib/observable')
 
 describe( 'single instance', function() {
@@ -12,7 +14,6 @@ describe( 'single instance', function() {
           },
           $trigger: function( emit, event, defer ) {
             setTimeout( function(){
-              // consooe.log('hey')
               emit()
             }, 200 )
           }
@@ -64,7 +65,7 @@ describe( 'single instance', function() {
       }
     })
     a.$val = 'hello'
-    expect(a.$on.$change.$defer.$inProgress).to.be.null
+    expect(a.$on.$change.$trigger.$inProgress).to.be.null
     expect(cnt).to.equal(0)
   })
 
@@ -85,7 +86,7 @@ describe( 'single instance', function() {
       }
     })
     a.$val = 'hello'
-    expect(a.$on.$change.$defer.$inProgress).to.be.null
+    expect(a.$on.$change.$trigger.$inProgress).to.be.null
     expect(cnt).to.equal(0)
   })
 
