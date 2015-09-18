@@ -12,7 +12,7 @@ describe( 'instances', function() {
           $val: function( event ) {
             cnt++
           },
-          $trigger: function( emit, event, defer ) {
+          $condition: function( emit, event, defer ) {
             setTimeout( emit, 20 )
           }
         }
@@ -40,7 +40,7 @@ describe( 'instances', function() {
           $val: function( event ) {
             cnt++
           },
-          $trigger:{
+          $condition:{
             $val:function( emit, event, defer ) {
               deferCnt++
               if(!this._timeout){
@@ -82,7 +82,7 @@ describe( 'instances', function() {
           $val: function( event ) {
             cnt++
           },
-          $trigger:{
+          $condition:{
             $val:function( emit, event, defer ) {
               deferCnt++
               if(!this._timeout){
@@ -105,7 +105,7 @@ describe( 'instances', function() {
     a.$val = 'hello'
     expect( cnt ).to.equal(0)
 
-    a.$on.$change.$trigger.cancel()
+    a.$on.$change.$condition.cancel()
 
     setTimeout(function() {
       expect( deferCnt ).msg('defers fired').to.equal(3)
@@ -124,7 +124,7 @@ describe( 'instances', function() {
           $val: function( event ) {
             cnt++
           },
-          $trigger:{
+          $condition:{
             $val:function( emit, event, defer ) {
               deferCnt++
               if(!this._timeout){
@@ -147,7 +147,7 @@ describe( 'instances', function() {
     a.$val = 'hello'
     expect( cnt ).to.equal(0)
 
-    a.$on.$change.$trigger.cancel( true )
+    a.$on.$change.$condition.cancel( true )
 
     setTimeout(function() {
       expect( deferCnt ).msg('defers fired').to.equal(3)

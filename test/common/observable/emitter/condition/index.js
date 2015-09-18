@@ -1,4 +1,4 @@
-describe('trigger', function() {
+describe('condition', function() {
   require('./single')
   require('./instances')
 })
