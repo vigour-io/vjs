@@ -130,3 +130,70 @@ describe('spawned listeners should not fire in context', function() {
   })
 
 })
+
+describe('fire for correct instance', function() {
+  var measure = {
+    total:0
+  }
+
+  var a = new Observable({
+    $key:'a'
+  })
+
+  a.subscribe({
+    aField: true
+  }, function() {
+    measure[this.$path[0]] =  measure[this.$path[0]]
+      ? measure[this.$path[0]]+1
+      : 1
+    measure.total++
+  })
+
+  it('should fire only for b', function() {
+    var b = new a.$Constructor({
+      $key:'b',
+      aField: 'hello'
+    })
+    expect(measure.a).not.ok
+    expect(measure.b).equals(1)
+    expect(measure.total).equals(1)
+  })
+})
+
+describe('fire for correct instance using $useConstructor', function() {
+  var measure = {
+    total:0
+  }
+
+  var a = new Observable({
+    $key:'a'
+  })
+
+  a.subscribe({
+    aField: true
+  }, function() {
+    console.warn('heyheyhey', this.$path)
+    measure[this.$path[0]] =  measure[this.$path[0]]
+      ? measure[this.$path[0]]+1
+      : 1
+    measure.total++
+  })
+
+  it('should fire only for b', function() {
+
+    console.clear()
+
+    console.log(a.$on['1c8ufaq'])
+
+    var aRandomObs = new Observable({
+      b: {
+        $useConstructor: a.$Constructor,
+        aField: 'hello'
+      }
+    })
+
+    expect(measure.a).not.ok
+    expect(measure.b).equals(1)
+    expect(measure.total).equals(1)
+  })
+})
