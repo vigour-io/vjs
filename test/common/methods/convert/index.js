@@ -1,6 +1,7 @@
 var Base = require('../../../../lib/base/');
 
 // require('../../../../lib/')
+console.clear()
 
 Base.prototype.inject(
   require('../../../../lib/methods/convert')
@@ -21,17 +22,19 @@ describe('convert', function() {
   it('should convert and be the deep equal to expected object', function() {
     var convertedObj = a.convert();
     var expectedObject = {
-      $key: 'a',
       x: {
-        $key: 'x',
         y: {
-          $key: 'y',
           $val: 123
         },
       },
     };
 
+    console.error(convertedObj)
     expect(convertedObj).to.eql(expectedObject);
   });
+
+//fnToString
+//exclude
+//plain
 
 });
