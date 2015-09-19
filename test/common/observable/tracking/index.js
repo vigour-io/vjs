@@ -13,7 +13,7 @@ var Event = require('../../../../lib/event/')
 Event.prototype.inject( require('../../../../lib/event/toString') )
 
 describe('direct tracking', function() {
-  xit('should contain all default keys', function(done) {
+  it('should contain all default keys', function(done) {
     var a = new Observable({
       $key:'a',
       b: {
@@ -34,7 +34,7 @@ describe('direct tracking', function() {
     a.b.emit('$change')
   })
 
-  xit('should track an error event correctly', function(done) {
+  it('should track an error event correctly', function(done) {
     var a = new Observable({
       $key:'a',
       b: {
@@ -56,12 +56,14 @@ describe('direct tracking', function() {
 
   it('reference (other event origin)', function(done) {
 
-    var aReference = new Observable({$key:'aReference'})
+    var exampleReference = new Observable({
+      $key:'aReference'
+    })
 
     var a = new Observable({
       $key:'a',
       b: {
-        $val: aReference,
+        $val: exampleReference,
         $inject: tracking,
         $on: {
           $error: function( event, meta ) {}
@@ -72,14 +74,13 @@ describe('direct tracking', function() {
 
     trackerEmitter.$services.test = function( obj ) {
       //check for change type
-      console.log('hahah', obj)
-      expect(obj.eventobject.eventOriginator.$val).to.equal('aReference')
+      //console.log('hahah', obj.eventobject.eventOriginator[0].$val)
+      expect(obj.eventobject.eventOriginator[0].$val).to.equal('aReference')
       done()
     }
-    aReference.$val = 'rick'
+    exampleReference.$val = 'rick'
   })
-  xit('should overwride id if tracking val is a string', function(done) {
-
+  it('should overwride id if tracking val is a string', function(done) {
     var a = new Observable({
       $key:'a',
       b: {
