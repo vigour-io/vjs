@@ -1,7 +1,5 @@
 var Observable = require('../../../../../../lib/observable')
 
-console.clear()
-
 describe( 'instances', function() {
   it( 'should fire for each instance', function(done) {
     var cnt = 0
@@ -156,7 +154,6 @@ describe( 'instances', function() {
     },100)
   })
 
-<<<<<<< HEAD:test/common/observable/emitter/defer/instances/index.js
   it( 'fire for each using a random timeout, YOYOYO', function(done) {
 
     var http = require('http')
@@ -206,13 +203,4 @@ describe( 'instances', function() {
     },1000)
 
   })
-
-
-
 })
-=======
-
-
-
-})
->>>>>>> origin/develop:test/common/observable/emitter/trigger/instances/index.js

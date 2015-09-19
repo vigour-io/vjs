@@ -40,3 +40,50 @@ describe('multiple instances', function() {
 	})
 
 })
+
+// describe('multiple instances', function() {
+//   // var measure = {
+//   //   total:0
+//   // }
+
+//   var a = new Observable({
+//     $key:'a',
+//     $trackInstances:true
+//   })
+
+//   a.subscribe({
+//     $parent:true
+//   }, function() {
+//     console.log('----> a path',a.$path)
+//     console.log('parent',this.$path)
+//   })
+
+//   window.allo = a
+
+//   var b = new a.$Constructor({
+//     $key:'b'
+//   })
+
+//   console.log('----> a path',a.$path)
+
+//   // var c = new a.$Constructor({
+//   //   $key:'c'
+//   // })
+
+//   it( 'should fire for each context', function(){
+//     console.log('set on parent ------  ')
+//     var parent = new Observable({
+//       $key:'parent',
+//       child:{
+//         $useVal:a
+//       }
+//     })
+//     console.log('  ------  ')
+//     // expect(measure.a).equals(1)
+//     // expect(measure.b).equals(1)
+//     // expect(measure.c).equals(1)
+//     // expect(measure.total).equals(3)
+//   })
+
+// })
+
