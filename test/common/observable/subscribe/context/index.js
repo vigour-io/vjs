@@ -172,7 +172,7 @@ describe('fire for correct instance using $useVal', function() {
     measure.total++
   })
 
-  //console.log(a.$on['1c8ufaq'])
+  
 
   it('should fire only for b (useVal)', function() {
     console.clear()

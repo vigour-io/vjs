@@ -10,10 +10,10 @@ describe( 'http get', function() {
 	  	$urlpath:'/',
 			$on:{
 				$data:function( event, chunk ){
-					// console.log('data',chunk)
+					
 				},
 				$end:function( event, response ){
-					console.log('end')
+	
 			  	expect(this.$val).ok
 			  	done()
 				},
@@ -146,7 +146,7 @@ describe( 'http get', function() {
 // 	    $on:{
 // 	    	$end:function( event, response ){
 // 			  	var token = response.authentication_token
-// 			  	console.log('response',token)
+// 		
 // 			  	done()
 // 			  	// if(token) this.token.set( token )
 // 			  	// else this.emit('$error', event, 'auth: no token')

@@ -19,7 +19,7 @@ describe( 'single instance', function() {
 
     var Condition = require('../../../../../../lib/emitter/condition/constructor')
 
-    console.log(Condition)
+
 
     Condition.prototype.inject(require('../../../../../../lib/operator/transform'))
 
@@ -40,7 +40,7 @@ describe( 'single instance', function() {
       }
     })
 
-    console.log(a.$on.$change.$condition.$val)
+
 
     a.$val = 'hello'
   })

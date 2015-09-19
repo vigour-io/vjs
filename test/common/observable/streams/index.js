@@ -49,7 +49,7 @@ describe('streams', function() {
       $key:'a',
       $on: {
         $change: function(event, meta) {
-          console.log( 'lulz', event, meta )
+      
         }
       }
     })
@@ -60,7 +60,7 @@ describe('streams', function() {
       port:3030
     }, function(res) {
       res.on('data', function(chunk) {
-        console.log(chunk)
+    
       })
       res.pipe( a.stream )
       res.on('end', done )

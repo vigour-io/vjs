@@ -44,7 +44,7 @@ describe( 'instances', function() {
               if(!this._timeout){
                 this._timeout = {}
               }
-              console.log('set timeout',this.$key)
+          
               this._timeout[this.$key] = setTimeout( emit, Math.random()*20 )
             },
             cancel:function(){

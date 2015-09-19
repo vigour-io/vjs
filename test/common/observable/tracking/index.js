@@ -5,7 +5,6 @@ var tracking = require('../../../../lib/tracking/')
 var trackerEmitter = require('../../../../lib/tracking/emitter')
 
 trackerEmitter.$plugins.rick = function() {
-  console.log('omg rick plugin')
 }
 
 describe('value change emitter', function() {
