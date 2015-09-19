@@ -43,7 +43,7 @@ describe('streams', function() {
     a.$val = 'hey'
   })
 
-  xit('can be piped to', function(done) {
+  it('can be piped to', function(done) {
     //make this test better later...
     var a = new Observable({
       $key:'a',
