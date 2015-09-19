@@ -11,6 +11,7 @@ describe('streams', function() {
       objectMode: true
     })
     readable._read = function(){}
+
     var a = new Observable({
       $key:'a',
       $on:{
@@ -42,7 +43,7 @@ describe('streams', function() {
     a.$val = 'hey'
   })
 
-  it('can be piped to', function(done) {
+  xit('can be piped to', function(done) {
     //make this test better later...
     var a = new Observable({
       $key:'a',
