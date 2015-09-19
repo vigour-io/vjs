@@ -2,8 +2,6 @@ var Observable = require('../../../../../lib/observable')
 var Event = require('../../../../../lib/event')
 var hash = require('../../../../../lib/util/hash')
 
-console.clear()
-
 describe('multiple instances', function() {
   var measure = {
     total:0
@@ -50,15 +48,11 @@ describe('spawned listeners should not fire in context', function() {
     total:0,
     type: {}
   }
-
   var emit = Observable.prototype.emit
-
   var subsObj = {
     gurk:true
   }
-
   var subsHash = hash( JSON.stringify(subsObj) )
-
   var TestObservable = new Observable({
     $define: {
       emit: function( type ) {
@@ -68,7 +62,6 @@ describe('spawned listeners should not fire in context', function() {
     },
     $ChildConstructor:'$Constructor'
   }).$Constructor
-
 
 	var a = new TestObservable({
 		$key:'a',
@@ -160,7 +153,7 @@ describe('fire for correct instance', function() {
   })
 })
 
-describe('fire for correct instance using $useConstructor', function() {
+describe('fire for correct instance using $useVal', function() {
   var measure = {
     total:0
   }
@@ -179,21 +172,35 @@ describe('fire for correct instance using $useConstructor', function() {
     measure.total++
   })
 
-  it('should fire only for b', function() {
+  //console.log(a.$on['1c8ufaq'])
 
+  it('should fire only for b (useVal)', function() {
     console.clear()
-
-    console.log(a.$on['1c8ufaq'])
-
     var aRandomObs = new Observable({
       b: {
-        $useConstructor: a.$Constructor,
-        aField: 'hello'
+        $useVal: new a.$Constructor({
+          $key:'b', //key is not set ofc
+          aField:'hello'
+        })
       }
     })
-
     expect(measure.a).not.ok
     expect(measure.b).equals(1)
     expect(measure.total).equals(1)
   })
+
+  it('should fire only for b (useConstructor)', function() {
+    measure = { total: 0 }
+    console.clear()
+    var aRandomObs = new Observable({
+      c: {
+        $useConstructor: a.$Constructor,
+        aField:'hello'
+      }
+    })
+    expect(measure.a).not.ok
+    expect(measure.c).equals(1)
+    expect(measure.total).equals(1)
+  })
+
 })
