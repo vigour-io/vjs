@@ -41,49 +41,48 @@ describe('multiple instances', function() {
 
 })
 
-// describe('multiple instances', function() {
-//   // var measure = {
-//   //   total:0
-//   // }
+describe('multiple instances', function() {
+  var measure = {
+    a:0,
+    b:0,
+    c:0
+  }
 
-//   var a = new Observable({
-//     $key:'a',
-//     $trackInstances:true
-//   })
+  var a = new Observable({
+    $key:'a',
+    $trackInstances:true
+  })
 
-//   a.subscribe({
-//     $parent:true
-//   }, function() {
-//     console.log('----> a path',a.$path)
-//     console.log('parent',this.$path)
-//   })
+  a.subscribe({
+    $parent:true
+  }, function() {
+    measure[this.$key]++
+  })
 
-//   window.allo = a
+  var b = new a.$Constructor({
+    $key:'b'
+  })
 
-//   var b = new a.$Constructor({
-//     $key:'b'
-//   })
+  var c = new a.$Constructor({
+    $key:'c'
+  })
 
-//   console.log('----> a path',a.$path)
+  it( 'should fire for own context', function(){
+    console.clear()
+    var parent = new Observable({
+      $key:'parent',
+      a:{
+        $useVal: new a.$Constructor()
+      }
+    })
 
-//   // var c = new a.$Constructor({
-//   //   $key:'c'
-//   // })
+    console.log('--------->',b.$parent)
 
-//   it( 'should fire for each context', function(){
-//     console.log('set on parent ------  ')
-//     var parent = new Observable({
-//       $key:'parent',
-//       child:{
-//         $useVal:a
-//       }
-//     })
-//     console.log('  ------  ')
-//     // expect(measure.a).equals(1)
-//     // expect(measure.b).equals(1)
-//     // expect(measure.c).equals(1)
-//     // expect(measure.total).equals(3)
-//   })
+    expect(measure.a).equals(1)
+    expect(measure.b).equals(0)
+    expect(measure.c).equals(0)
+    // expect(measure.total).equals(3)
+  })
 
-// })
+})
 
