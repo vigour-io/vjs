@@ -7,7 +7,7 @@ describe( 'emitter', function() {
   require('./references' )
   require('./parent' )
   require('./off' )
-  require('./trigger' )
+  require('./condition' )
   require('./context' )
   require('./combined' )
 })

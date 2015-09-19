@@ -9,10 +9,10 @@ describe( 'single instance', function() {
       $on: {
         $change: {
           $val: function() {
-            expect(this.$on.$change.$trigger.$inProgress).to.be.null
+            expect(this.$on.$change.$condition.$inProgress).to.be.null
             done()
           },
-          $trigger: function( emit, event, defer ) {
+          $condition: function( emit, event, defer ) {
             setTimeout( function(){
               emit()
             }, 200 )
@@ -23,7 +23,7 @@ describe( 'single instance', function() {
     a.$val = 'hello'
   })
 
-  it( 'remove trigger', function( done ) {
+  it( 'remove condition', function( done ) {
     var cnt = 0
     var a = new Observable({
       $on: {
@@ -31,7 +31,7 @@ describe( 'single instance', function() {
           $val: function() {
             cnt++
           },
-          $trigger: {
+          $condition: {
             $val: function( emit, event, defer ) {
               this._$timeout = setTimeout( emit, 200 )
             },
@@ -58,14 +58,14 @@ describe( 'single instance', function() {
           $val: function() {
             cnt++
           },
-          $trigger: function( emit, event, defer ) {
+          $condition: function( emit, event, defer ) {
             return true
           }
         }
       }
     })
     a.$val = 'hello'
-    expect(a.$on.$change.$trigger.$inProgress).to.be.null
+    expect(a.$on.$change.$condition.$inProgress).to.be.null
     expect(cnt).to.equal(0)
   })
 
@@ -77,7 +77,7 @@ describe( 'single instance', function() {
           $val: function() {
             cnt++
           },
-          $trigger: {
+          $condition: {
             $val: function( emit, event, defer ) {
               defer.cancel()
             }
@@ -86,7 +86,7 @@ describe( 'single instance', function() {
       }
     })
     a.$val = 'hello'
-    expect(a.$on.$change.$trigger.$inProgress).to.be.null
+    expect(a.$on.$change.$condition.$inProgress).to.be.null
     expect(cnt).to.equal(0)
   })
 

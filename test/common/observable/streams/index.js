@@ -1,74 +1,71 @@
+var http = require('http')
+var Observable = require('../../../../lib/observable/')
+var stream = require('stream')
 console.clear()
 
-var Observable = require('../../../../lib/observable/')
+describe('streams', function() {
+  this.timeout(15000)
 
-var data = { gurkdata: true },
-    Readable = require('stream').Readable,
-    util = require('util')
-
-var ReadStream = function() {
-  Readable.call(this, {objectMode: true});
-  this.data = data;
-  this.curIndex = 0;
-}
-
-var fs = require('fs')
-
-util.inherits(ReadStream, Readable);
-
-describe('stream as input on observable', function() {
-
-  console.error('hey stream!')
-  it('should detect stream as input', function(done) {
+  it('can consume a stream', function(done) {
+    var readable = new stream.Readable({
+      objectMode: true
+    })
+    readable._read = function(){}
 
     var a = new Observable({
       $key:'a',
-      $val: fs.createReadStream('./bunxdles/_test_common_all_dev.js'),
-      $on: {
-        $change:function( event, chunk) {
-          this.$output = chunk.toString()//this.$output ? this.$output+chunk : chunk
-          // console.error('hey change!', chunk)
-        },
-        // $end:function( event ) {
-        //   // console.error('hey end!', this.$val.toString())
-        //   // done()
-        // },
-        $error:function( event, error ) {
-          console.error( '\n\n\noops!', error )
+      $on:{
+        $change:function( event, meta ) {
+          if(meta) {
+            expect(meta).to.equal('hey')
+            done()
+          }
         }
-      },
-      $inject: [
-        require('../../../../lib/operator/add'),
-        require('../../../../lib/operator/transform')
-      ],
-      $add: function() {
-        return this.$output
-      },
-      $transform: function( val ) {
-        return val.length*2
       }
     })
+    //maybe dont fire when setting to stream?
+    a.$val = readable
+    readable.push('hey')
+  })
 
-    //for end maybe just add meta infos?
-
-    var b = new Observable({
-      $key:'b',
-      $val: a
+  it('can be piped from', function(done) {
+    var a = new Observable({
+      $key:'a'
     })
-
-    var c = new Observable({
-      $key:'c',
-      $val: b
+    var writable = new stream.Writable({
+      objectMode: true
     })
+    writable._write = function(chunk, encoding, callback) {
+      expect(chunk.toString()).to.equal('hey')
+      done()
+    }
+    a.pipe( writable )
+    a.$val = 'hey'
+  })
 
-    c.on('$change', function() {
-      this.$output = this.$output ? this.$output+this.$input : this.$input
-      console.log('--->', this.$val)
+  xit('can be piped to', function(done) {
+    //make this test better later...
+    var a = new Observable({
+      $key:'a',
+      $on: {
+        $change: function(event, meta) {
+          console.log( 'lulz', event, meta )
+        }
+      }
     })
-
-    // console.log(c.$val)
-
-
+    var largeFile = http.request({
+      hostname: 'localhost',
+      path: '',
+      method:'GET',
+      port:3030
+    }, function(res) {
+      res.on('data', function(chunk) {
+        console.log(chunk)
+      })
+      res.pipe( a.stream )
+      res.on('end', done )
+    })
+    largeFile.end()
   })
 
 })
