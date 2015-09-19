@@ -1,4 +1,8 @@
 var Observable = require('../../../../../lib/observable')
+var Event = require('../../../../../lib/event')
+var hash = require('../../../../../lib/util/hash')
+
+console.clear()
 
 describe('multiple instances', function() {
   var measure = {
@@ -38,5 +42,91 @@ describe('multiple instances', function() {
     expect(measure.c).equals(1)
     expect(measure.total).equals(3)
 	})
+
+})
+
+describe('spawned listeners should not fire in context', function() {
+  var measure = {
+    total:0,
+    type: {}
+  }
+
+  var emit = Observable.prototype.emit
+
+  var subsObj = {
+    gurk:true
+  }
+
+  var subsHash = hash( JSON.stringify(subsObj) )
+
+  var TestObservable = new Observable({
+    $define: {
+      emit: function( type ) {
+        measure.type[type] = measure.type[type] ? measure.type[type]+1 : 1
+        return emit.apply( this, arguments )
+      }
+    },
+    $ChildConstructor:'$Constructor'
+  }).$Constructor
+
+
+	var a = new TestObservable({
+		$key:'a',
+    $trackInstances:true,
+		aField: 1,
+    lurf: {
+      gurk: 1
+    }
+	})
+
+  a.lurf.subscribe(subsObj, function() {
+    measure[this.$path[0]] =  measure[this.$path[0]]
+      ? measure[this.$path[0]]+1
+      : 1
+    measure.total++
+  })
+
+  var b = new a.$Constructor({
+    $key:'b'
+  })
+
+  var c = new a.$Constructor({
+    $key:'c'
+  })
+
+  var d = new a.$Constructor({
+    $key:'d'
+  })
+
+  var e = new a.$Constructor({
+    $key:'e'
+  })
+
+  measure.type = {}
+  a.lurf.gurk.$val = 'hey!'
+
+  it('should emit for change once', function() {
+    expect(measure.type.$change).equals(1)
+  })
+
+  it('should emit for value once', function() {
+    expect(measure.type.$value).equals(1)
+  })
+
+  it('should emit 5 times for subsemitter', function() {
+    expect(measure.type[subsHash]).equals(5)
+  })
+
+	it( 'should fire subsemitter for each context', function(){
+    expect(measure.a).equals(1)
+    expect(measure.b).equals(1)
+    expect(measure.c).equals(1)
+    expect(measure.d).equals(1)
+    expect(measure.e).equals(1)
+	})
+
+  it('should emit 5 times in total', function() {
+    expect(measure.total).equals(5)
+  })
 
 })
