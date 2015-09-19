@@ -17,7 +17,6 @@ describe('subscribing to single existing field on instance', function() {
 		subcription = a.subscribe({
 			aField:true
 		},function(){
-			console.log('hey biatch', this.$path)
 			instance = this
 			count++
 		})
@@ -42,7 +41,6 @@ describe('subscribing to parent on instance', function() {
 	})
 
 	it( 'subcribes to field', function(){
-		console.log('\n------------------\n')
 		subcription = a.b.subscribe({
 			$parent:{
 				$parent:true
@@ -61,7 +59,6 @@ describe('subscribing to parent on instance', function() {
 				specialUseValA:{ $useVal:a }
 			}
 		})
-		console.log('ghello done')
 		expect(count).equals(1)
 		expect(instance === b.c.specialUseValA.b).ok
 	})
@@ -77,7 +74,6 @@ describe('subscribing to nested field on instance', function() {
 	})
 
 	it( 'subcribes to field', function(){
-		console.log('------------------\n')
 		subcription = a.subscribe({
 			aField:{
 				bField:true
@@ -98,8 +94,6 @@ describe('subscribing to nested field on instance', function() {
 				bField:1
 			}
 		})
-
-		console.log('>>>',instance )
 
 		expect(count).equals(1)
 		expect(instance.$key).equals('b')
@@ -126,7 +120,6 @@ describe('subscribing to single existing field on instance', function() {
 				}
 			}
 		},function(){
-			console.log('haha',this.$path)
 			count++
 		})
 	})

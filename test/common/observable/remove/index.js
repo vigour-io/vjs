@@ -316,7 +316,7 @@ describe('remove', function() {
       $on: {
         $change:function() {
           measure.a.val.total++
-          // console.log('lets change from a context:', this.$path)
+          
         }
       }
     })

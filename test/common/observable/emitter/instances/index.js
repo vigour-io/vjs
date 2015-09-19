@@ -336,7 +336,7 @@ describe('instances', function() {
         c: {
           $on: {
             $change:function() {
-              // console.log('fire it?', this._$path)
+              
               cnt++
             }
           }

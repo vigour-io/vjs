@@ -44,7 +44,7 @@ describe( 'instances', function() {
               if(!this._timeout){
                 this._timeout = {}
               }
-              console.log('set timeout',this.$key)
+          
               this._timeout[this.$key] = setTimeout( emit, Math.random()*20 )
             },
             cancel:function(){
@@ -154,49 +154,12 @@ describe( 'instances', function() {
     },100)
   })
 
-  it( 'fire for each using a random timeout, YOYOYO', function(done) {
+  it( 'streams', function(done) {
 
-    var http = require('http')
-
-    var httpGet = new Observable({
-      $response:false,
-      $progress:0,
-      $on: {
-        $change: {
-          $defer:function( emit ) {
-            http.get(this.$val, function(res) {
-              console.log('RES',res)
-              emit()
-            }).on('data', function(chunk){
-              console.log(chunk)
-            })
-          }
-        }
-      }
-    }).$Constructor
-
-    var login = new httpGet({
-      $val:'http://vigour.io',
-      $on:{
-        $data:function( chunk ){
-          console.log('data', meta)
-        },
-        $end:function( response ){
-          console.log('end', meta)
-        },
-        $error:function( event, meta ){
-          console.log('error', meta)
-        }
-      }
-    })
-
+    var stream = require('stream')
     // var loader = new Element({
     //   $width:login.$progress
     // })
-
-
-
-
 
     setTimeout(function(){
       done()

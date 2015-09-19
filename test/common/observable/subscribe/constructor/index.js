@@ -25,7 +25,7 @@ describe('multiple instances', function() {
     a.set({
       $on:{
         $spesh: function() {
-          console.log('hey!')
+      
         }
       }
     })

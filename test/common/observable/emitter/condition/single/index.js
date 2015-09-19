@@ -4,7 +4,25 @@ var Observable = require('../../../../../../lib/observable')
 
 describe( 'single instance', function() {
 
+
+
+  /*
+    ok so condition will become an observable
+    fuck yeah!
+    with this we can do the stuff like
+    condition: {
+      transform
+    }
+  */
+
   it( 'fire with a timeout of 200ms', function(done) {
+
+    var Condition = require('../../../../../../lib/emitter/condition/constructor')
+
+
+
+    Condition.prototype.inject(require('../../../../../../lib/operator/transform'))
+
     var a = new Observable({
       $on: {
         $change: {
@@ -12,14 +30,18 @@ describe( 'single instance', function() {
             expect(this.$on.$change.$condition.$inProgress).to.be.null
             done()
           },
-          $condition: function( emit, event, defer ) {
-            setTimeout( function(){
-              emit()
-            }, 200 )
+          $condition: {
+            $transform: function() {
+              console.error('xxxx')
+              return 'geintje'
+            }
           }
         }
       }
     })
+
+
+
     a.$val = 'hello'
   })
 
