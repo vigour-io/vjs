@@ -165,7 +165,6 @@ describe('fire for correct instance using $useVal', function() {
   a.subscribe({
     aField: true
   }, function() {
-    console.warn('heyheyhey', this.$path)
     measure[this.$path[0]] =  measure[this.$path[0]]
       ? measure[this.$path[0]]+1
       : 1
@@ -175,7 +174,6 @@ describe('fire for correct instance using $useVal', function() {
   //console.log(a.$on['1c8ufaq'])
 
   it('should fire only for b (useVal)', function() {
-    console.clear()
     var aRandomObs = new Observable({
       b: {
         $useVal: new a.$Constructor({
@@ -191,7 +189,6 @@ describe('fire for correct instance using $useVal', function() {
 
   it('should fire only for b (useConstructor)', function() {
     measure = { total: 0 }
-    console.clear()
     var aRandomObs = new Observable({
       c: {
         $useConstructor: a.$Constructor,

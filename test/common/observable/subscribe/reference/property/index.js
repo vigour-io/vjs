@@ -37,7 +37,6 @@ describe('subscribing to single existing field, existing reference', function() 
 	})
 
 	it( 'subcribes to field', function(){
-		console.clear()
 		try {
 			subcription = c.subscribe({
 				aField:true
@@ -219,7 +218,6 @@ describe('subscribing to single existing field, existing reference, switch refer
 	} )
 
 	it( 'changing the reference to c, fires the sub', function(){
-		console.clear()
 		b.$val = c
 		expect(count).equals(1)
 	} )
