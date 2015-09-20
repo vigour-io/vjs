@@ -10,10 +10,10 @@ describe( 'http get', function() {
 	  	$urlpath:'/',
 			$on:{
 				$data:function( event, chunk ){
-					
+
 				},
 				$end:function( event, response ){
-	
+
 			  	expect(this.$val).ok
 			  	done()
 				},
@@ -26,7 +26,7 @@ describe( 'http get', function() {
 	  for (var i = 10; i >= 0; i--) {
 	  	vigourIo.$urlpath.$val = i
 	  }
-	  
+
 
 		done()
 	})
@@ -39,7 +39,7 @@ describe( 'http get', function() {
 
 // 	var translations = new Http({
 // 		$val: {
-// 			$val: language, 
+// 			$val: language,
 // 			$add: '.json'
 // 		},
 // 		$host: packerDomain,
@@ -58,7 +58,7 @@ describe( 'http get', function() {
 // 	var verifyEmail = new Http({
 // 		$val: {
 // 			$prepend: 'checkEmail/',
-// 			$val: emailInput, 
+// 			$val: emailInput,
 // 			$add: '.json'
 // 		},
 // 		$host: { $config: 'mtvDomain' },
@@ -115,7 +115,7 @@ describe( 'http get', function() {
 // // 	this.timeout(5000)
 
 // // 	it('gets data',function(done){
-	  
+
 // // 	  var vigourIo = new http.Request({
 // // 	  	$params:{
 // // 	  		hostname:'vigour.io'
@@ -136,7 +136,7 @@ describe( 'http get', function() {
 // 	this.timeout(5000)
 
 // 	it('gets token',function(done){
-	  
+
 // 	  var auth = new http.Request({
 // 	  	$hostname:'http://utt-staging.mtvnn.com',
 // 	  	$path:'api/v1/sessions.json',
@@ -146,7 +146,7 @@ describe( 'http get', function() {
 // 	    $on:{
 // 	    	$end:function( event, response ){
 // 			  	var token = response.authentication_token
-// 		
+//
 // 			  	done()
 // 			  	// if(token) this.token.set( token )
 // 			  	// else this.emit('$error', event, 'auth: no token')
