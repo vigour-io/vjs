@@ -63,5 +63,8 @@
         "unignoreFolders": []
       }
     }
+  },
+  "standard": {
+    "globals": [ "describe", "it" ]
   }
 }
