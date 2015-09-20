@@ -31,7 +31,7 @@ describe('toString', function() {
     })
 
     //this exclude brings properties beginning with '$'
-    expect(result).to.eql('{\n  "$key": "a",\n  "x": {\n    "$key": "x"\n  }\n}')
+    expect(result).to.eql('{\n  "x": {}\n}')
   })
 
 })
