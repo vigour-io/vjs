@@ -29,12 +29,37 @@ describe('convert', function() {
       },
     };
 
-    console.error(convertedObj)
     expect(convertedObj).to.eql(expectedObject);
   });
 
-//fnToString
-//exclude
-//plain
+  it('should output normal object', function() {
+    var convertedObj = a.convert({
+      plain: true
+    });
+    expect(convertedObj).to.be.an('object');
+  });
+
+  it('should convert function to string', function() {
+    var convertedObj = a.convert({
+      string: true
+    });
+    expect(convertedObj).to.be.an('string');
+
+  })
+
+  it('should exclude key/value', function() {
+    var convertedObj = a.convert({
+      exclude: function(val) {
+        if (val === 'y') {
+          return true
+        }
+      }
+    })
+    expect(convertedObj.x.y).to.be.undefined
+  })
+
+  //fnToString
+  //exclude
+  //plain
 
 });
