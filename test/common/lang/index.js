@@ -1,5 +1,5 @@
 /* global describe, it, expect */
-describe('prototypeOf', function () {
+describe('getPrototypeOf', function () {
   it('should support getPrototypeOf', function () {
     var b = {
       field: true
