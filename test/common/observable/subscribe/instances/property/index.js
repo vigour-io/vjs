@@ -52,7 +52,6 @@ describe('subscribing to parent on instance', function() {
 	})
 
 	it( 'fires on instance', function(){
-		console.clear()
 		var b = new Observable({
 			$key:'obsB',
 			c:{
@@ -110,7 +109,6 @@ describe('subscribing to single existing field on instance', function() {
 	})
 
 	it( 'subcribes to field', function(){
-		console.error('------------------\n')
 		subcription = a.subscribe({
 			$parent:{
 				$parent:{
@@ -125,8 +123,6 @@ describe('subscribing to single existing field on instance', function() {
 	})
 
 	it( 'fires on instance', function(){
-		console.clear()
-		console.error('---- interesting shit----')
 		var b = new Observable({
 			$key:'b',
 			$trackInstances:true,

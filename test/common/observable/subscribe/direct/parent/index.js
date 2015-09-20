@@ -49,8 +49,6 @@ describe('subscribing to nested field on existing parent', function() {
 	})
 
 	it( 'subcribes to parent on a', function(){
-		console.clear()
-		console.error('--------')
 
 		a.c.d.subscribe({
 			$parent: {
@@ -89,8 +87,6 @@ describe('subscribing to non existing parent', function() {
 	} )
 
 	it( 'fires when a is added to parent', function() {
-		console.clear()
-		console.error('ok have to do real talk')
 		var parent = new Observable({
 			blurf:{$useVal:a}
 		})
