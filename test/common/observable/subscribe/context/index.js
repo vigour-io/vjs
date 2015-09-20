@@ -189,12 +189,12 @@ describe('fire for correct instance using $useVal', function() {
     expect(measure.total).equals(1)
   })
 
-  it('should fire only for b (useConstructor)', function() {
+  it('should fire only for b (UseConstructor)', function() {
     measure = { total: 0 }
     console.clear()
     var aRandomObs = new Observable({
       c: {
-        $useConstructor: a.$Constructor,
+        $UseConstructor: a.$Constructor,
         aField:'hello'
       }
     })

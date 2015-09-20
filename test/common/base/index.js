@@ -1,3 +1,4 @@
+console.clear()
 var Base = require('../../../lib/base')
 
 describe('base', function() {
