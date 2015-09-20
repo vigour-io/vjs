@@ -40,21 +40,7 @@
     "gaston": "git+ssh://git@github.com:vigour-io/gaston.git#dev"
   },
   "gaston": {
-    "port": 8080,
-    "socket-port": 9000,
-    "no-auto-reload": false,
-    "no-package": false,
-    "bundle": "./",
-    "build": "./",
-    "browserify": {
-      "transforms": []
-    },
-    "less": {
-      "options": {}
-    },
-    "remote-logging": false,
-    "require-paths": {},
-    "source-maps": true
+    "source-maps": false
   },
   "vigour": {
     "services": {
