@@ -26,7 +26,6 @@ describe('convert', function () {
         }
       }
     }
-
     expect(convertedObj).to.eql(expectedObject)
   })
 
@@ -55,9 +54,10 @@ describe('convert', function () {
     expect(convertedObj.x.y).to.be.undefined
   })
 
-  it('should do stuff with flatten', function () {
+  it('should flatten Base object', function () {
     var convertedObj = a.convert({
       flatten: true
     })
+    expect(convertedObj).to.have.property('x.y.$val')
   })
 })
