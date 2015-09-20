@@ -1,10 +1,24 @@
 console.clear()
-
 var Observable = require('../../../../../../lib/observable')
 
 describe( 'single instance', function() {
-
+  /*
+    ok so condition will become an observable
+    fuck yeah!
+    with this we can do the stuff like
+    condition: {
+      transform
+    }
+  */
   it( 'fire with a timeout of 200ms', function(done) {
+
+    var Condition = require('../../../../../../lib/emitter/condition/constructor')
+
+    Condition.prototype.inject(
+      require('../../../../../../lib/operator/transform'),
+      require('../../../../../../lib/operator/add')
+    )
+
     var a = new Observable({
       $on: {
         $change: {
@@ -12,14 +26,23 @@ describe( 'single instance', function() {
             expect(this.$on.$change.$condition.$inProgress).to.be.null
             done()
           },
-          $condition: function( emit, event, defer ) {
-            setTimeout( function(){
-              emit()
-            }, 200 )
+          $condition: {
+            $transform: function( val ) {
+              console.log(this)
+              //as val send the obs val
+              //bind differently??? wtf to do...
+              //harsh operators asume certain things ofc
+              //what would mean valid?
+              //is it ---> true / false
+              //or are we transforming what were going to send as a payload
+              //think true false is sort of ok (we are doing the condition of change)
+              return 'geintje'
+            }
           }
         }
       }
     })
+
     a.$val = 'hello'
   })
 

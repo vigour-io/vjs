@@ -24,10 +24,10 @@ describe('value change emitter', function() {
         $on: {
           flap:{
             james: function() {
-              console.log('xxxxxx', this.$path)
+          
             },
             rick:function() {
-              console.log('yyyyyy', this.$path)
+          
             }
           },
           $error: function( event, error ) {
@@ -44,12 +44,8 @@ describe('value change emitter', function() {
 
   obs.rick.james.emit('$error')
   obs.rick.james.emit('flap')
-
-  console.log(rick.james)
-
-  console.log('---------')
   for(var i in rick) {
-    console.log(i)
+
   }
 
 

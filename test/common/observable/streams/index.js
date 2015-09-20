@@ -43,13 +43,13 @@ describe('streams', function() {
     a.$val = 'hey'
   })
 
-  xit('can be piped to', function(done) {
+  it('can be piped to', function(done) {
     //make this test better later...
     var a = new Observable({
       $key:'a',
       $on: {
         $change: function(event, meta) {
-          console.log( 'lulz', event, meta )
+      
         }
       }
     })
@@ -60,7 +60,7 @@ describe('streams', function() {
       port:3030
     }, function(res) {
       res.on('data', function(chunk) {
-        console.log(chunk)
+    
       })
       res.pipe( a.stream )
       res.on('end', done )

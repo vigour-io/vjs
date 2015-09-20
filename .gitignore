@@ -20,3 +20,6 @@ vendor/
 results.json
 .idea/*
 vjs.wiki
+mocha.js
+mocha.css
+test-runner.html

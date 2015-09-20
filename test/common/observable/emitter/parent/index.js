@@ -89,7 +89,7 @@ describe('add to parent one instance', function() {
     $on:{
       $addToParent:function(){
         measure[this.$key]++
-        console.log('this path',this.$path)
+    
       }
     }
   })

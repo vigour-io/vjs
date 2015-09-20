@@ -93,6 +93,7 @@ describe('subscribing to nested field on instance', function() {
 				bField:1
 			}
 		})
+
 		expect(count).equals(1)
 		expect(instance.$key).equals('b')
 	})
