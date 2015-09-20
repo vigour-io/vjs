@@ -39,7 +39,6 @@ describe('base', function () {
 
   describe('nested properties', function () {
     var a
-
     beforeEach(function () {
       a = new Base({
         key: 'a',
@@ -138,7 +137,6 @@ describe('base', function () {
       var spy = sinon.spy(a.x.y.z, 'set')
       b.x.y.z.val = true
       expect(spy).to.have.returned(undefined)
-
       expect(b.x.y.z).not.to.be.instanceOf(a.x.y.z.Constructor)
       expect(b.x._parent === a).to.be.true
     })
