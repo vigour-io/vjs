@@ -2,8 +2,6 @@ var Observable = require('../../../../../lib/observable')
 var SubsEmitter = require('../../../../../lib/observable/subscribe/constructor')
 var On = require('../../../../../lib/observable/on/constructor')
 
-console.clear()
-
 describe('multiple instances', function () {
   On.prototype.set({
     $flags: {

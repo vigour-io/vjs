@@ -9,7 +9,7 @@ describe('combine the power', function () {
     }
   })
 
-  it('222!!!' , function () {
+  it('222!!!', function () {
     console.log('222')
 
     a.b.subscribe({
@@ -17,7 +17,7 @@ describe('combine the power', function () {
     })
   })
 
-  it('111!!!' , function () {
+  it('111!!!', function () {
     console.log('111')
     a.subscribe({
       b: {
@@ -25,5 +25,4 @@ describe('combine the power', function () {
       }
     })
   })
-
 })

@@ -1,4 +1,4 @@
-console.clear()
+/* global expect, it, describe */
 var Observable = require('../../../../lib/observable/')
 var tracking = require('../../../../lib/tracking/')
 var trackerEmitter = require('../../../../lib/tracking/emitter')
@@ -43,7 +43,7 @@ describe('direct tracking', function () {
       }
     })
 
-    var a = new Observable({
+    Observable({
       $key: 'a',
       b: {
         $val: exampleReference.b,
