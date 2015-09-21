@@ -3,10 +3,10 @@ var LookDown = require('../../../../lib/methods/lookDown')
 
 Base.prototype.inject(LookDown)
 
-describe('lookDown', function() {
+describe('lookDown', function () {
   var a
 
-  beforeEach(function() {
+  beforeEach(function () {
     a = new Base({
       $key: 'a',
       x: {
@@ -29,34 +29,34 @@ describe('lookDown', function() {
     })
   })
 
-  it('should look down and find a property by field', function() {
+  it('should look down and find a property by field', function () {
     var result = a.lookDown('y')
     expect(result).to.be.eql(a.x.y)
   })
 
-  it('should look down and find a property by path string', function() {
+  it('should look down and find a property by path string', function () {
     var result = a.lookDown('y.$val')
     expect(result).to.be.eql(a.x.y.$val)
   })
 
-  it('should look down and find a property by path array', function() {
+  it('should look down and find a property by path array', function () {
     var result = a.lookDown(['x', 'y'])
     expect(result).to.be.eql(a.x.y)
   })
 
-  it('should look down for the first occurence of q.$val', function() {
+  it('should look down for the first occurence of q.$val', function () {
     var result = a.x.lookDown('q.$val')
     expect(result).to.eql(a.x.j.q.$val)
   })
 
-  it('should look down for the first occurence of q.$val 2 levels', function() {
-    a.x.j.remove();
+  it('should look down for the first occurence of q.$val 2 levels', function () {
+    a.x.j.remove()
 
     var result = a.x.lookDown('q.$val')
     expect(result).to.eql(132)
   })
 
-  it('should look down for the first occurence of q.$val 3 levels', function() {
+  it('should look down for the first occurence of q.$val 3 levels', function () {
     var b = new Base({
       $key: 'b',
       e: {
@@ -86,7 +86,7 @@ describe('lookDown', function() {
           }
         }
       }
-    });
+    })
 
     expect(b.lookDown('myProp.$val')).to.eql(1010)
   })

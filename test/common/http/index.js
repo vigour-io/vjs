@@ -1,35 +1,30 @@
 var Http = require('../../../lib/http')
 
-describe( 'http get', function() {
+describe('http get', function () {
+  this.timeout(5000)
 
-	this.timeout(5000)
+  it('gets data', function (done) {
+    var vigourIo = new Http({
+      // $hostname:'vigour.io',
+      $urlpath: '/',
+      $on: {
+        $data: function ( event, chunk ) {},
+        $end: function ( event, response ) {
+          expect(this.$val).ok
+          done()
+        },
+        $error: function ( event, err ) {
+          // console.error(err)
+        }
+      }
+    })
 
-	it('gets data',function(done){
-	  var vigourIo = new Http({
-	  	// $hostname:'vigour.io',
-	  	$urlpath:'/',
-			$on:{
-				$data:function( event, chunk ){
+    for (var i = 10; i >= 0; i--) {
+      vigourIo.$urlpath.$val = i
+    }
 
-				},
-				$end:function( event, response ){
-
-			  	expect(this.$val).ok
-			  	done()
-				},
-				$error:function( event, err ){
-					// console.error(err)
-				}
-			}
-		})
-
-	  for (var i = 10; i >= 0; i--) {
-	  	vigourIo.$urlpath.$val = i
-	  }
-
-
-		done()
-	})
+    done()
+  })
 
 })
 
@@ -73,9 +68,7 @@ describe( 'http get', function() {
 
 // 	var email = new Observable( verifyEmail.$response )
 
-
 // 	var searchQuery = new Observable('hello')
-
 
 // 	var userToken = new http({
 // 		$body: {
@@ -96,7 +89,6 @@ describe( 'http get', function() {
 // 		// }
 // 	})
 
-
 // 	/*
 // 		var shows = new Observalbe({
 // 			$range: [ 0, range ],
@@ -108,9 +100,7 @@ describe( 'http get', function() {
 
 // 	*/
 
-
 // 	hub.user.$val = userToken
-
 
 // // 	this.timeout(5000)
 
@@ -128,7 +118,6 @@ describe( 'http get', function() {
 // // 	  })
 // // 	})
 
-
 // // })
 
 // describe( 'mtv login', function() {
@@ -140,8 +129,6 @@ describe( 'http get', function() {
 // 	  var auth = new http.Request({
 // 	  	$hostname:'http://utt-staging.mtvnn.com',
 // 	  	$path:'api/v1/sessions.json',
-
-
 
 // 	    $on:{
 // 	    	$end:function( event, response ){
@@ -184,7 +171,5 @@ describe( 'http get', function() {
 // 	  	done()
 // 	  })
 // 	})
-
-
 
 // })

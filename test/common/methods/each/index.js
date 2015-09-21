@@ -1,28 +1,27 @@
-var each = require('../../../../lib/methods/each').$define.each;
+var each = require('../../../../lib/methods/each').$define.each
 
-describe('each', function() {
+describe('each', function () {
+  describe('array', function () {
+    var arr
 
-  describe('array', function() {
-    var arr;
-
-    beforeEach(function() {
-      arr = [40, 30, 50, 100];
+    beforeEach(function () {
+      arr = [40, 30, 50, 100]
     })
 
-    it('should iterate for an array', function() {
-      var count = 0;
-      var total = 0;
+    it('should iterate for an array', function () {
+      var count = 0
+      var total = 0
 
-      each.call(arr, function(val, index, self) {
-        count++;
-        total += val;
+      each.call(arr, function (val, index, self) {
+        count++
+        total += val
       })
 
       expect(count).to.be.equal(4)
       expect(total).to.be.equal(220)
     })
 
-    it('should allow pass exclude Function', function() {
+    it('should allow pass exclude Function', function () {
       var count = 0
 
       var exclude = function (val, index) {
@@ -33,7 +32,7 @@ describe('each', function() {
 
       var excludeSpy = sinon.spy(exclude)
 
-      each.call(arr, function() {
+      each.call(arr, function () {
         count++
       }, excludeSpy)
 
@@ -41,10 +40,10 @@ describe('each', function() {
       expect(excludeSpy).to.have.callCount(4)
     })
 
-    it('should return and cancel the iteration', function() {
+    it('should return and cancel the iteration', function () {
       var count = 0
 
-      var result = each.call(arr, function(val, index, self) {
+      var result = each.call(arr, function (val, index, self) {
         count++
         if (val === 30) {
           return 'rahh'
@@ -57,11 +56,10 @@ describe('each', function() {
 
   })
 
+  describe('object', function () {
+    var obj
 
-  describe('object', function() {
-    var obj;
-
-    beforeEach(function() {
+    beforeEach(function () {
       obj = {
         name: 'rahh',
         age: 26,
@@ -70,22 +68,22 @@ describe('each', function() {
       }
     })
 
-    it('should iterate in an object', function() {
-      var count = 0;
+    it('should iterate in an object', function () {
+      var count = 0
       var name, objRef
 
-      each.call(obj, function(val, key, self) {
+      each.call(obj, function (val, key, self) {
         objRef = self
         count++
         if (key === 'name') { name = val }
-      });
+      })
 
       expect(count).to.be.equal(2)
       expect(name).to.be.equal('rahh')
       expect(objRef).to.be.eql(obj)
     })
 
-    it('should allow pass exclude Function', function() {
+    it('should allow pass exclude Function', function () {
       var count = 0
 
       var exclude = function (val, key) {
@@ -96,7 +94,7 @@ describe('each', function() {
 
       var excludeSpy = sinon.spy(exclude)
 
-      each.call(obj, function() {
+      each.call(obj, function () {
         count++
       }, excludeSpy)
 
@@ -104,21 +102,21 @@ describe('each', function() {
       expect(excludeSpy).to.have.callCount(2)
     })
 
-    it('should allow pass exclude string', function() {
+    it('should allow pass exclude string', function () {
       var count = 0
 
-      each.call(obj, function() {
+      each.call(obj, function () {
         count++
       }, 'age')
 
       expect(count).to.equal(1)
     })
 
-    it('should return and cancel the iteration', function() {
+    it('should return and cancel the iteration', function () {
       var count = 0
 
-      var age = each.call(obj, function(val, key) {
-        count++;
+      var age = each.call(obj, function (val, key) {
+        count++
         if (key === 'age') {
           return val
         }

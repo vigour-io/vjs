@@ -4,9 +4,8 @@ Base.prototype.inject(
   require('../../../lib/methods/each')
 )
 
-describe('methods', function() {
-
-  it('each', function( done ) {
+describe('methods', function () {
+  it('each', function ( done ) {
     this.timeout(50e3)
 
     var amount = 1e5
@@ -27,26 +26,26 @@ describe('methods', function() {
       }
     })
 
-    var count = 0;
-    var fn = function(item) { count++; };
+    var count = 0
+    var fn = function (item) { count++; }
 
-    expect(function() {
-      for(var i = 0 ; i < amount; i++) {
+    expect(function () {
+      for (var i = 0; i < amount; i++) {
         a.each(fn)
       }
     }).performance({
       margin: 3,
       loop: 5,
-      method: function() {
-        count = 0;
+      method: function () {
+        count = 0
 
-        for(var i = 0 ; i < amount; i++) {
+        for (var i = 0; i < amount; i++) {
           for (var key in a) {
             fn(a[key])
           }
         }
       }
     }, done)
-  });
+  })
 
-});
+})

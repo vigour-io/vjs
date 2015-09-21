@@ -1,4 +1,4 @@
-describe( 'observable', function() {
+describe('observable', function () {
   require('./emitter')
   require('./remove')
   require('./operator')

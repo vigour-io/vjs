@@ -3,10 +3,10 @@ var Get = require('../../../../lib/methods/get')
 
 Base.prototype.inject(Get)
 
-describe('get', function() {
+describe('get', function () {
   var a
 
-  beforeEach(function() {
+  beforeEach(function () {
     a = new Base({
       x: {
         y: 123
@@ -15,15 +15,15 @@ describe('get', function() {
     })
   })
 
-  it('should get a field passing a its name', function() {
+  it('should get a field passing a its name', function () {
     expect(a.get('z')).to.eql(a.z)
   })
 
-  it('should get a field passing a its path', function() {
+  it('should get a field passing a its path', function () {
     expect(a.get(['x', 'y'])).to.eql(a.x.y)
   })
 
-  it('should get undefined passing unexisting path or field', function() {
+  it('should get undefined passing unexisting path or field', function () {
     expect(a.get('y')).to.be.undefined
     expect(a.get(['x', 'z'])).to.be.undefined
   })
