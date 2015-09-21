@@ -1,14 +1,13 @@
-describe( 'no instances', function() {
-
-  var Event = require( '../../../../../lib/event' )
-  Event.prototype.inject( require( '../../../../../lib/event/toString' ) )
+describe('no instances', function () {
+  var Event = require('../../../../../lib/event')
+  Event.prototype.inject(require('../../../../../lib/event/toString'))
 
   var Observable = require('../../../../../lib/observable')
   var measure = {
-    obs:{},
-    obs2:{},
-    obs3:{},
-    obs4:{}
+    obs: {},
+    obs2: {},
+    obs3: {},
+    obs4: {}
   }
 
   var obs
@@ -18,91 +17,88 @@ describe( 'no instances', function() {
   var referencedObs
   var referencedObs2
 
-  it('create new observable (obs), add $change listener', function() {
-
+  it('create new observable (obs), add $change listener', function () {
     measure.obs.val = 0
 
     obs = new Observable({
-      $key:'obs',
+      $key: 'obs',
       $on: {
-        $change: function( event, meta ) {
+        $change: function ( event, meta ) {
           measure.obs.val++
         }
       }
     })
 
-    expect( measure.obs.val ).to.equal( 0 )
+    expect(measure.obs.val).to.equal(0)
 
   })
 
-  it('add extra $change listeners on obs ', function() {
-
+  it('add extra $change listeners on obs ', function () {
     measure.obs.second = 0
 
     obs.set({
       $on: {
         $change: {
-          second: function() {
+          second: function () {
             measure.obs.second++
           }
         }
       }
     })
 
-    expect( measure.obs.val ).msg( 'val listener' ).to.equal( 0 )
-    expect( measure.obs.second ).msg( 'second listener' ).to.equal( 0 )
+    expect(measure.obs.val).msg('val listener').to.equal(0)
+    expect(measure.obs.second).msg('second listener').to.equal(0)
 
     measure.obs.third = 0
 
     obs.set({
       $on: {
         $change: {
-          third: function() {
+          third: function () {
             measure.obs.third++
           }
         }
       },
-      $val:'a value'
+      $val: 'a value'
     })
 
-    expect( measure.obs.val ).msg( 'val listener' ).to.equal( 1 )
-    expect( measure.obs.second ).msg( 'second listener' ).to.equal( 1 )
-    expect( measure.obs.third ).msg( 'third listener' ).to.equal( 0 )
+    expect(measure.obs.val).msg('val listener').to.equal(1)
+    expect(measure.obs.second).msg('second listener').to.equal(1)
+    expect(measure.obs.third).msg('third listener').to.equal(0)
 
     obs.$val = 'value has changed'
 
-    expect( measure.obs.val ).msg( 'val listener' ).to.equal( 2 )
-    expect( measure.obs.second ).msg( 'second listener' ).to.equal( 2 )
-    expect( measure.obs.third ).msg( 'third listener' ).to.equal( 1 )
+    expect(measure.obs.val).msg('val listener').to.equal(2)
+    expect(measure.obs.second).msg('second listener').to.equal(2)
+    expect(measure.obs.third).msg('third listener').to.equal(1)
 
     obs.$val = 'value has changed'
 
-    //value is the same so expect zero changes
-    expect( measure.obs.val ).msg( 'val listener' ).to.equal( 2 )
-    expect( measure.obs.second ).msg( 'second listener' ).to.equal( 2 )
-    expect( measure.obs.third ).msg( 'third listener' ).to.equal( 1 )
+    // value is the same so expect zero changes
+    expect(measure.obs.val).msg('val listener').to.equal(2)
+    expect(measure.obs.second).msg('second listener').to.equal(2)
+    expect(measure.obs.third).msg('third listener').to.equal(1)
 
   })
 
-  it('references tests on obs2', function() {
-
+  it('references tests on obs2', function () {
     measure.obs2.val = 0
 
     referencedObs = new Observable({
-      $key:'referencedObs',
-      $val:'a string'
+      $key: 'referencedObs',
+      $val: 'a string'
     })
 
     referencedObs2 = new Observable({
-      $key:'referencedObs',
-      $val:'a string'
+      $key: 'referencedObs',
+      $val: 'a string'
     })
 
     obs2 = new Observable({
       $key: 'obs2',
       $on: {
         $change: {
-          val: function() {
+          val: function () {
             measure.obs2.val++
           }
         }
@@ -110,40 +106,39 @@ describe( 'no instances', function() {
       $val: referencedObs
     })
 
-    expect( measure.obs2.val ).msg( 'val listener' ).to.equal( 0 )
+    expect(measure.obs2.val).msg('val listener').to.equal(0)
 
-    expect( obs2 ).to.have.property( '$listensOnBase' )
+    expect(obs2).to.have.property('$listensOnBase')
 
     var keyCount = 0
-    obs2.$listensOnBase.each(function(property, key) {
+    obs2.$listensOnBase.each(function (property, key) {
       keyCount++
     })
 
-    expect( keyCount ).msg('amount of listeners on listensOnBase').to.equal( 1 )
+    expect(keyCount).msg('amount of listeners on listensOnBase').to.equal(1)
 
-    expect( obs2.$listensOnBase ).to.have.property( 1 )
+    expect(obs2.$listensOnBase).to.have.property(1)
 
     referencedObs.$val = 'changed a string'
 
-    expect( measure.obs2.val ).msg( 'val listener' ).to.equal( 1 )
+    expect(measure.obs2.val).msg('val listener').to.equal(1)
 
     obs2.$val = referencedObs2
 
-    expect( measure.obs2.val ).msg( 'val listener' ).to.equal( 2 )
+    expect(measure.obs2.val).msg('val listener').to.equal(2)
 
     obs2.$val = referencedObs2
 
-    //value is the same so expect zero change
-    expect( measure.obs2.val ).msg( 'val listener' ).to.equal( 2 )
+    // value is the same so expect zero change
+    expect(measure.obs2.val).msg('val listener').to.equal(2)
 
     referencedObs2.$val = 'changed a string'
 
-    expect( measure.obs2.val ).msg( 'val listener' ).to.equal( 3 )
+    expect(measure.obs2.val).msg('val listener').to.equal(3)
 
   })
 
-  it('attach tests on obs3', function() {
-
+  it('attach tests on obs3', function () {
     measure.obs3.val = 0
 
     obs3 = new Observable({
@@ -151,10 +146,10 @@ describe( 'no instances', function() {
       $on: {
         $change: {
           val: [
-            function( event, meta, base, extraArg1, extraArg2 ) {
+            function ( event, meta, base, extraArg1, extraArg2 ) {
               measure.obs3.val++
-              expect( extraArg1 ).to.equal( 'extra1' )
-              expect( extraArg2 ).to.equal( 'extra2' )
+              expect(extraArg1).to.equal('extra1')
+              expect(extraArg2).to.equal('extra2')
             },
             referencedObs,
             'extra1',
@@ -165,85 +160,84 @@ describe( 'no instances', function() {
     })
 
     referencedObs.$val = 'lets test attach'
-    expect( measure.obs3.val ).to.equal( 0 )
+    expect(measure.obs3.val).to.equal(0)
 
-    expect( referencedObs ).to.have.property( '$listensOnAttach' )
+    expect(referencedObs).to.have.property('$listensOnAttach')
 
     var keyCount = 0
-    referencedObs.$listensOnAttach.each(function( property, key ) {
+    referencedObs.$listensOnAttach.each(function ( property, key ) {
       keyCount++
     })
-    expect( keyCount ).msg('amount of listeners on listensOnAttach')
-      .to.equal( 1 )
-    expect( referencedObs.$listensOnAttach ).to.have.property( 1 )
+    expect(keyCount).msg('amount of listeners on listensOnAttach')
+      .to.equal(1)
+    expect(referencedObs.$listensOnAttach).to.have.property(1)
 
     obs3.$val = referencedObs
-    expect( measure.obs3.val ).to.equal( 1 )
+    expect(measure.obs3.val).to.equal(1)
 
     referencedObs.$val = 'lets test attach, now it should fire'
-    expect( measure.obs3.val ).to.equal( 2 )
+    expect(measure.obs3.val).to.equal(2)
 
   })
 
-  it('use $block on a new observable --> obs4', function() {
-
+  it('use $block on a new observable --> obs4', function () {
     var cnt = 0
     var cnt2 = 0
 
     var obs4 = new Observable({
-      $key:'obs4',
+      $key: 'obs4',
       specialField: {
         $on: {
-          $change:function() {
+          $change: function () {
             expect(this.$val).msg('specialField').to.equal('hello')
             cnt2++
           }
         }
       },
       $on: {
-        $change:function(event) {
+        $change: function (event) {
           cnt++
           event.$block = true
 
           this.set({
-            specialField:'xxxx',
+            specialField: 'xxxx',
             letsSee: true
-          }, event )
+          }, event)
 
           this.set({
-            specialField:'hello'
-          }, event )
+            specialField: 'hello'
+          }, event)
 
           event.$block = null
         }
       }
     })
 
-    expect( cnt ).msg('obs4 listener fired').to.equal(0)
-    expect( cnt2 ).msg('specialField fired').to.equal(0)
+    expect(cnt).msg('obs4 listener fired').to.equal(0)
+    expect(cnt2).msg('specialField fired').to.equal(0)
 
     obs4.set({ hello: true })
 
-    expect( cnt ).msg('obs4 listener fired').to.equal(1)
-    expect( cnt2 ).msg('specialField fired').to.equal(1)
+    expect(cnt).msg('obs4 listener fired').to.equal(1)
+    expect(cnt2).msg('specialField fired').to.equal(1)
 
   })
 
-  it( 'change nested fields , fire correct emitters', function() {
+  it('change nested fields , fire correct emitters', function () {
     var measure = {
       a: 0,
       x: 0
     }
     var a = new Observable({
-      $key:'a',
+      $key: 'a',
       $on: {
-        $change: function() {
+        $change: function () {
           measure.a++
         }
       },
       x: {
         $on: {
-          $change: function( event, meta ) {
+          $change: function ( event, meta ) {
             measure.x++
           }
         }
@@ -252,13 +246,13 @@ describe( 'no instances', function() {
     a.set({
       x: true
     })
-    expect( measure.a ).to.equal(0)
-    expect( measure.x ).to.equal(1)
+    expect(measure.a).to.equal(0)
+    expect(measure.x).to.equal(1)
   })
 
   it('should emit change event when property is removed due to ' +
-    'parent / ancestor properties being removed',
-    function(){
+  'parent / ancestor properties being removed',
+    function () {
       var a = new Observable({
         $key: 'a',
         b: {
@@ -266,7 +260,7 @@ describe( 'no instances', function() {
         }
       })
       var count = 0
-      a.b.c.on('$change', function(){
+      a.b.c.on('$change', function () {
         count++
       })
       a.b.remove()
@@ -275,19 +269,19 @@ describe( 'no instances', function() {
   )
 
   it('should emit fire once for specific value (.fire)',
-    function(){
+    function () {
       var a = new Observable({
         $key: 'a',
         b: {
           c: true
         }
       })
-      function listener(){
+      function listener () {
         count++
       }
       var count = 0
-      a.b.c.on('$change', listener )
-      a.b.c.$on.$change.fire( listener )
+      a.b.c.on('$change', listener)
+      a.b.c.$on.$change.fire(listener)
       expect(count).to.equal(1)
     }
   )

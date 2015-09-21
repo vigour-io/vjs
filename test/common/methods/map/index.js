@@ -3,10 +3,10 @@ var Map = require('../../../../lib/methods/map')
 
 Base.prototype.inject(Map)
 
-describe('map', function() {
+describe('map', function () {
   var a, spy, result
 
-  beforeEach(function() {
+  beforeEach(function () {
     a = new Base({
       $key: 'a',
       x: {
@@ -19,27 +19,27 @@ describe('map', function() {
       }
     })
 
-    spy = sinon.spy(function(eachProp, key, base) {
+    spy = sinon.spy(function (eachProp, key, base) {
       return eachProp.$key
     })
 
     result = a.map(spy)
   })
 
-  it('should have been called with the correct parameters', function() {
+  it('should have been called with the correct parameters', function () {
     expect(spy).to.have.been.calledWith(a.x, 'x', a)
   })
 
-  it('should call argument function in each root prop of the base object', function() {
-    expect(spy).to.have.been.calledTwice //root props [x. y]
+  it('should call argument function in each root prop of the base object', function () {
+    expect(spy).to.have.been.calledTwice // root props [x. y]
   })
 
-  it('should return the correct mapped array', function() {
+  it('should return the correct mapped array', function () {
     expect(result).to.eql(['x', 'y'])
   })
 
-  it('should allow exclude some results with optional function', function() {
-    var newResult = a.map(spy, function(currentProp) {
+  it('should allow exclude some results with optional function', function () {
+    var newResult = a.map(spy, function (currentProp) {
       if (currentProp.$key === 'x') {
         return true
       }
