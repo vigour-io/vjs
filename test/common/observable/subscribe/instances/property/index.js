@@ -1,5 +1,5 @@
+/* global expect, it, describe, beforeEach */
 var Observable = require('../../../../../../lib/observable')
-var subcription
 var count
 var instance
 
@@ -7,14 +7,14 @@ beforeEach(function () {
   count = 0
 })
 
-describe('subscribing to single existing field on instance', function () {
+describe('subscribing to single existing field on original', function () {
   var a = new Observable({
     $key: 'a',
     aField: 1
   })
 
   it('subcribes to field', function () {
-    subcription = a.subscribe({
+    a.subscribe({
       aField: true
     }, function () {
       instance = this
@@ -31,17 +31,16 @@ describe('subscribing to single existing field on instance', function () {
     expect(count).equals(1)
     expect(instance.$key).equals('b')
   })
-
 })
 
-describe('subscribing to parent on instance', function () {
+describe('subscribing to parent on original', function () {
   var a = new Observable({
     $key: 'a',
     b: {}
   })
 
   it('subcribes to field', function () {
-    subcription = a.b.subscribe({
+    a.b.subscribe({
       $parent: {
         $parent: true
       }
@@ -61,10 +60,9 @@ describe('subscribing to parent on instance', function () {
     expect(count).equals(1)
     expect(instance === b.c.specialUseValA.b).ok
   })
-
 })
 
-describe('subscribing to nested field on instance', function () {
+describe('subscribing to nested field on original', function () {
   var a = new Observable({
     $key: 'a',
     aField: {
@@ -73,7 +71,7 @@ describe('subscribing to nested field on instance', function () {
   })
 
   it('subcribes to field', function () {
-    subcription = a.subscribe({
+    a.subscribe({
       aField: {
         bField: true
       }
@@ -97,10 +95,9 @@ describe('subscribing to nested field on instance', function () {
     expect(count).equals(1)
     expect(instance.$key).equals('b')
   })
-
 })
 
-describe('subscribing to single existing field on instance', function () {
+describe('subscribing to single existing field on original', function () {
   var a = new Observable({
     $key: 'aOrignator',
     aField: {
@@ -109,7 +106,7 @@ describe('subscribing to single existing field on instance', function () {
   })
 
   it('subcribes to field', function () {
-    subcription = a.subscribe({
+    a.subscribe({
       $parent: {
         $parent: {
           c: {
@@ -143,7 +140,152 @@ describe('subscribing to single existing field on instance', function () {
 
     expect(count).equals(1)
     expect(instance.$key).equals('b')
+  })
+})
 
+describe('subscribing to single existing field on instance', function () {
+  var a = new Observable({
+    $key: 'a',
+    aField: {
+      $on: {
+        $change: {}
+      }
+    }
   })
 
+  var b = new a.$Constructor({
+    $key: 'b'
+  })
+
+  it('subscribes on fields', function () {
+    b.subscribe({
+      aField: true
+    }, function () {
+      instance = this
+      count++
+    })
+  })
+
+  it('fires once per set on instance', function () {
+    a.set({
+      aField: 2
+    })
+
+    expect(count).equals(1)
+    expect(instance.$key).equals('b')
+  })
+})
+
+describe('subscribing to two existing fields on instance', function () {
+  var a = new Observable({
+    $key: 'a',
+    aField: {
+      $on: {
+        $change: {}
+      }
+    },
+    anotherField: {
+      $on: {
+        $change: {}
+      }
+    }
+  })
+
+  var b = new a.$Constructor({
+    $key: 'b'
+  })
+
+  it('subscribes on fields', function () {
+    b.subscribe({
+      aField: true,
+      anotherField: true
+    }, function () {
+      instance = this
+      count++
+    })
+  })
+
+  it('fires once per set on instance', function () {
+    a.set({
+      aField: 2
+    })
+
+    a.set({
+      anotherField: 2
+    })
+
+    expect(count).equals(2)
+    expect(instance.$key).equals('b')
+  })
+})
+
+describe('subscribing to single non-existing field on instance', function () {
+  var a = new Observable({
+    $on: {
+      $property: {}
+    },
+    $key: 'a'
+  })
+
+  var b = new a.$Constructor({
+    $key: 'b'
+  })
+
+  it('subscribes on fields', function () {
+    b.subscribe({
+      aField: true
+    }, function () {
+      instance = this
+      count++
+    })
+  })
+
+  it('fires once per set on instance', function () {
+    a.set({
+      aField: {
+        $val: 2,
+        $on: {
+          $change: {}
+        }
+      }
+    })
+
+    expect(count).equals(1)
+    expect(instance.$key).equals('b')
+  })
+})
+
+describe('subscribing to single non-existing nested field on instance', function () {
+  var a = new Observable({
+    $on: {
+      $property: {}
+    },
+    $key: 'a'
+  })
+
+  var b = new a.$Constructor({
+    $key: 'b'
+  })
+
+  it('subscribes on fields', function () {
+    b.subscribe({
+      aField: {
+        nestedField: true
+      }
+    }, function () {
+      instance = this
+      count++
+    })
+  })
+
+  it('fires once per set on instance', function () {
+    a.set({
+      aField: {
+        nestedField: 1
+      }
+    })
+
+    expect(count).equals(1)
+    expect(instance.$key).equals('b')
+  })
 })
