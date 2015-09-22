@@ -1,4 +1,4 @@
-describe('condition', function() {
+describe('condition', function () {
   require('./single')
   require('./instances')
 })

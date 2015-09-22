@@ -1,11 +1,10 @@
 var Observable = require('../../../../../lib/observable')
 
-describe('parent', function() {
-
+describe('parent', function () {
   var Event = require('../../../../../lib/event')
-  Event.prototype.inject( require('../../../../../lib/event/toString' ))
+  Event.prototype.inject(require('../../../../../lib/event/toString'))
 
-  
+
   var util = require('../../../../../lib/util')
 
   var On = require('../../../../../lib/observable/on/constructor')
@@ -13,9 +12,9 @@ describe('parent', function() {
   var Emitter = require('../../../../../lib/emitter')
 
   var measure = {
-    a:{},
-    holder:{},
-    element:{}
+    a: {},
+    holder: {},
+    element: {}
   }
 
   var Element
@@ -24,32 +23,31 @@ describe('parent', function() {
   var element
   var a
 
-  it( 'create element, add to a parent', function() {
-
+  it('create element, add to a parent', function () {
     measure.element.$addToParent = {
       val: {
-        total:0
+        total: 0
       }
     }
 
     measure.element.$new = {
       val: {
-        total:0
+        total: 0
       }
     }
 
     element = new Observable({
       $on: {
-        $addToParent:function() {
-          var keyCnt =  measure.element.$addToParent.val[this.$key]
-          measure.element.$addToParent.val.total+=1
-          measure.element.$addToParent.val[this.$key] = keyCnt ? (keyCnt+1) : 1
+        $addToParent: function () {
+          var keyCnt = measure.element.$addToParent.val[this.$key]
+          measure.element.$addToParent.val.total += 1
+          measure.element.$addToParent.val[this.$key] = keyCnt ? (keyCnt + 1) : 1
         },
-        $new:function() {
-          measure.element.$new.val.total+=1
+        $new: function () {
+          measure.element.$new.val.total += 1
         }
       },
-      $useVal:true
+      $useVal: true
     })
     Element = element.$Constructor
 
@@ -61,47 +59,47 @@ describe('parent', function() {
       c: new Element()
     })
 
-    expect( measure.element.$new.val.total ).to.equal(4)
+    expect(measure.element.$new.val.total).to.equal(4)
 
-    expect( measure.element.$addToParent.val.total ).to.equal(3)
-    expect( measure.element.$addToParent.val.a ).to.equal(1)
-    expect( measure.element.$addToParent.val.b ).to.equal(1)
-    expect( measure.element.$addToParent.val.c ).to.equal(1)
+    expect(measure.element.$addToParent.val.total).to.equal(3)
+    expect(measure.element.$addToParent.val.a).to.equal(1)
+    expect(measure.element.$addToParent.val.b).to.equal(1)
+    expect(measure.element.$addToParent.val.c).to.equal(1)
 
   })
 
-  it( 'create new holder --> holder2', function() {
+  it('create new holder --> holder2', function () {
     holder2 = new holder.$Constructor()
-    expect( measure.element.$new.val.total ).to.equal(5)
-    expect( measure.element.$addToParent.val.total ).to.equal(3)
+    expect(measure.element.$new.val.total).to.equal(5)
+    expect(measure.element.$addToParent.val.total).to.equal(3)
   })
 
 })
 
-describe('add to parent one instance', function() {
+describe('add to parent one instance', function () {
   var measure = {
-    a:0,
-    b:0
+    a: 0,
+    b: 0
   }
   var a = new Observable({
-    $key:'a',
-    $trackInstances:true,
-    $on:{
-      $addToParent:function(){
+    $key: 'a',
+    $trackInstances: true,
+    $on: {
+      $addToParent: function () {
         measure[this.$key]++
-    
+
       }
     }
   })
 
   var b = new a.$Constructor({
-    $key:'b'
+    $key: 'b'
   })
 
-  it( 'should fire for own context', function(){
+  it('should fire for own context', function () {
     var parent = new Observable({
-      a:{
-        $useVal:a
+      a: {
+        $useVal: a
       }
     })
 
