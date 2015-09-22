@@ -1,4 +1,4 @@
-console.clear()
+/* global expect, it, describe */
 var Observable = require('../../../../lib/observable/')
 var tracking = require('../../../../lib/tracking/')
 var trackerEmitter = require('../../../../lib/tracking/emitter')
@@ -53,6 +53,27 @@ describe('direct tracking', function () {
   })
 
   it('reference (other event origin)', function (done) {
+<<<<<<< HEAD
+=======
+    var exampleReference = new Observable({
+      b: {
+        $key: 'aReference'
+      }
+    })
+
+    Observable({
+      $key: 'a',
+      b: {
+        $val: exampleReference.b,
+        $inject: tracking,
+        $on: {
+          $error: function (event, meta) {}
+        },
+        $track: true
+      }
+    })
+
+>>>>>>> 350ec2e449de31d1057954240c0301754af5d781
     trackerEmitter.$services.test = function (obj) {
       obj = obj.convert({
         plain: true

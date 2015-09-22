@@ -48,6 +48,17 @@
     }
   },
   "standard": {
-    "globals": [ "describe", "it" ]
+    "globals": [
+      "describe",
+      "it",
+      "assert",
+      "expect",
+      "should",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach",
+      "sinon"
+    ]
   }
 }

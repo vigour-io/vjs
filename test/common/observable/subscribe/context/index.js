@@ -1,5 +1,4 @@
 var Observable = require('../../../../../lib/observable')
-var Event = require('../../../../../lib/event')
 var hash = require('../../../../../lib/util/hash')
 
 describe('multiple instances', function () {
@@ -19,9 +18,7 @@ describe('multiple instances', function () {
   a.lurf.subscribe({
     gurk: true
   }, function () {
-    measure[this.$path[0]] = measure[this.$path[0]]
-      ? measure[this.$path[0]] + 1
-      : 1
+    measure[this.$path[0]] = measure[this.$path[0]] ? measure[this.$path[0]] + 1 : 1
     measure.total++
   })
 
@@ -40,7 +37,6 @@ describe('multiple instances', function () {
     expect(measure.c).equals(1)
     expect(measure.total).equals(3)
   })
-
 })
 
 describe('spawned listeners should not fire in context', function () {
@@ -55,7 +51,7 @@ describe('spawned listeners should not fire in context', function () {
   var subsHash = hash(JSON.stringify(subsObj))
   var TestObservable = new Observable({
     $define: {
-      emit: function ( type ) {
+      emit: function (type) {
         measure.type[type] = measure.type[type] ? measure.type[type] + 1 : 1
         return emit.apply(this, arguments)
       }
@@ -73,9 +69,7 @@ describe('spawned listeners should not fire in context', function () {
   })
 
   a.lurf.subscribe(subsObj, function () {
-    measure[this.$path[0]] = measure[this.$path[0]]
-      ? measure[this.$path[0]] + 1
-      : 1
+    measure[this.$path[0]] = measure[this.$path[0]] ? measure[this.$path[0]] + 1 : 1
     measure.total++
   })
 
@@ -121,7 +115,6 @@ describe('spawned listeners should not fire in context', function () {
   it('should emit 5 times in total', function () {
     expect(measure.total).equals(5)
   })
-
 })
 
 describe('fire for correct instance', function () {
@@ -136,9 +129,7 @@ describe('fire for correct instance', function () {
   a.subscribe({
     aField: true
   }, function () {
-    measure[this.$path[0]] = measure[this.$path[0]]
-      ? measure[this.$path[0]] + 1
-      : 1
+    measure[this.$path[0]] = measure[this.$path[0]] ? measure[this.$path[0]] + 1 : 1
     measure.total++
   })
 
@@ -165,13 +156,9 @@ describe('fire for correct instance using $useVal', function () {
   a.subscribe({
     aField: true
   }, function () {
-    measure[this.$path[0]] = measure[this.$path[0]]
-      ? measure[this.$path[0]] + 1
-      : 1
+    measure[this.$path[0]] = measure[this.$path[0]] ? measure[this.$path[0]] + 1 : 1
     measure.total++
   })
-
-
 
   it('should fire only for b (useVal)', function () {
     var aRandomObs = new Observable({
@@ -187,17 +174,5 @@ describe('fire for correct instance using $useVal', function () {
     expect(measure.total).equals(1)
   })
 
-  it('should fire only for b (useConstructor)', function () {
-    measure = { total: 0 }
-    var aRandomObs = new Observable({
-      c: {
-        $useConstructor: a.$Constructor,
-        aField: 'hello'
-      }
-    })
-    expect(measure.a).not.ok
-    expect(measure.c).equals(1)
-    expect(measure.total).equals(1)
-  })
-
+  it('should fire only for b (useConstructor)')
 })

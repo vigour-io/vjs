@@ -1,7 +1,5 @@
 var Base = require('../../../../lib/base/')
 
-console.clear()
-
 Base.prototype.inject(
   require('../../../../lib/methods/convert')
 )

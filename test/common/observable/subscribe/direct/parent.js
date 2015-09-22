@@ -1,4 +1,5 @@
-var Observable = require('../../../../../../lib/observable')
+/* global expect, it, describe, beforeEach */
+var Observable = require('../../../../../lib/observable')
 var count
 
 beforeEach(function () {
@@ -12,13 +13,17 @@ describe('subscribing to existing parent', function () {
   })
   var parent = new Observable({
     $key: 'a-parent',
-    a: { $useVal: a }
+    a: {
+      $useVal: a
+    }
   })
 
   it('subcribes to parent on a', function () {
     a.b.subscribe({
-      $parent: {$parent: true}
-    }, function ( event, meta ) {
+      $parent: {
+        $parent: true
+      }
+    }, function (event, meta) {
       count++
     })
   })
@@ -28,13 +33,14 @@ describe('subscribing to existing parent', function () {
   })
 
   it('fires when parent changes', function () {
-    console.warn('lets fire this parent!')
     parent.$val = 1
     expect(count).equals(1)
   })
 
-  // it('fires for a deeper level')
-
+  it('fires when parent is removed', function () {
+    parent.remove()
+    expect(count).equals(1)
+  })
 })
 
 describe('subscribing to nested field on existing parent', function () {
@@ -55,28 +61,36 @@ describe('subscribing to nested field on existing parent', function () {
           b: true
         }
       }
-    }, function ( event, meta ) {
-      console.error('ghello', this.$path)
+    }, function (event, meta) {
       count++
     })
 
-    console.error('murder it!')
     a.b.$val = 1
-    console.error('--------')
 
     expect(count).equals(1)
   })
 
-// it('fires for a deeper level')
+  it('fires when a.b is removed', function () {
+    a.b.remove()
+    expect(count).equals(1)
+  })
+
+  it('fires when a.b is added again', function () {
+    a.set({b: true})
+    expect(count).equals(1)
+  })
 })
 
 describe('subscribing to non existing parent', function () {
-  var a = new Observable({$key: 'a'})
+  var parent
+  var a = new Observable({
+    $key: 'a'
+  })
 
   it('subcribes to parent on a', function () {
     a.subscribe({
       $parent: true
-    }, function ( event, meta ) {
+    }, function (event, meta) {
       count++
     })
   })
@@ -86,11 +100,17 @@ describe('subscribing to non existing parent', function () {
   })
 
   it('fires when a is added to parent', function () {
-    var parent = new Observable({
-      blurf: {$useVal: a}
+    parent = new Observable({
+      blurf: {
+        $useVal: a
+      }
     })
-    console.error('----------------')
+    expect(parent).ok
     expect(count).equals(1)
   })
 
+  it('fires when parent is removed', function () {
+    parent.remove()
+    expect(count).equals(1)
+  })
 })

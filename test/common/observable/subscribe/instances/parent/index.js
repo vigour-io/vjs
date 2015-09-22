@@ -1,5 +1,5 @@
+/* global expect, it, describe, beforeEach */
 var Observable = require('../../../../../../lib/observable')
-var subcription
 var count
 var instance
 
@@ -13,7 +13,7 @@ describe('subscribing to same parent with multiple instances', function () {
   })
 
   it('subcribes to field', function () {
-    subcription = a.subscribe({
+    a.subscribe({
       $parent: true
     }, function () {
       instance = this
@@ -26,13 +26,11 @@ describe('subscribing to same parent with multiple instances', function () {
   })
 
   it('fires on instance', function () {
-    var parent = new Observable({
+    new Observable({
       a: {$useVal: a},
-      b: {$useVal: b},
-      c: {$useVal: new b.$Constructor()}
+      b: {$useVal: b}
     })
-  // expect(count).equals(1)
-  // expect(instance.$key).equals('b')
+    expect(count).equals(2)
+    expect(instance.$key).equals('b')
   })
-
 })
