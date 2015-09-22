@@ -27,25 +27,28 @@ describe('convert', function () {
     expect(convertedObj).to.eql(expectedObject)
   })
 
-  xit('should output normal object', function () {
+  it('should output normal object', function () {
     var convertedObj = a.convert({
       plain: true
     })
-    expect(convertedObj).to.be.an('object').and
-                        .to.have.deep.property('x.y')
+    expect(convertedObj)
+      .to.be.an('object').and
+      .to.have.deep.property('x.y')
   })
 
-  xit('should convert function to string', function () {
+  it('should convert function to string', function () {
     var convertedObj = a.convert({
       string: true
     })
-    expect(convertedObj).to.be.an('string').and
-                        .to.equal('{\n  "x": {\n    "y": {\n      "val": 123\n    }\n  }\n}')
+    expect(convertedObj)
+      .to.be.an('string').and
+      .to.equal('{\n  "x": {\n    "y": {\n      "val": 123\n    }\n  }\n}')
   })
-  xit('should exclude key/value', function () {
+
+  it('should exclude key/value', function () {
     var convertedObj = a.convert({
-      exclude: function (val) {
-        if (val === 'y') {
+      exclude: function (property, key) {
+        if (key === 'y') {
           return true
         }
       }
@@ -53,10 +56,11 @@ describe('convert', function () {
     expect(convertedObj.x.y).to.be.undefined
   })
 
-  xit('should flatten Base object', function () {
+  it('should flatten Base object', function () {
     var convertedObj = a.convert({
       flatten: true
     })
+    console.log(convertedObj)
     expect(convertedObj).to.have.property('x.y.val')
   })
 })
