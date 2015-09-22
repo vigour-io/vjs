@@ -19,7 +19,7 @@ describe('unflatten', function () {
     expect(unflattened).to.deep.equal(expected)
   })
 
-  it('should flatten accept an optional separator argument', function () {
+  it('should unflatten and accept an optional separator argument', function () {
     var original = {'a/b/c': 'Shwisha', 'a/b/d': 'Full', 'a/b/e': 'Of', 'a/c': 'Dat', 'b': 1}
     var unflattened = unflatten(original, '/')
     expect(unflattened).to.deep.equal(expected)
