@@ -72,4 +72,6 @@ describe('util', function () {
       util.isRemoved
     })
   })
+
+  require('./flatten')
 })
