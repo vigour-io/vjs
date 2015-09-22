@@ -13,24 +13,18 @@ describe('util', function () {
 
   describe('isNumberLike', function () {
     it('should check if parameter is like a number ("2", "-10") and return a boolean value', function () {
-      // must pass
       expect(util.isNumberLike(2)).to.be.ok
       expect(util.isNumberLike(-10)).to.be.ok
       expect(util.isNumberLike('2')).to.be.ok
-
-      // must fail
       expect(util.isNumberLike('two')).to.not.be.ok
     })
   })
 
   describe('isPlainObj', function () {
     it('should check if parameter is a plain object and return a boolean value', function () {
-      // must pass
       expect(util.isPlainObj({})).to.be.true
       expect(util.isPlainObj({x: 1})).to.be.true
       expect(util.isPlainObj([])).to.be.true
-
-      // mast fail
       expect(util.isPlainObj('two')).to.not.be.true
     })
   })
