@@ -116,6 +116,7 @@ describe('each', function () {
     })
 
     it('should exclude gurk, key and _aField', function () {
+      console.log(a)
       a.each(function () {
         count++
       })
@@ -134,7 +135,7 @@ describe('each', function () {
         count++
       }, function (property, key, target) {
         var properties = target._properties
-        return properties[key]
+          return properties[key]
       })
       expect(count).equals(1)
     })

@@ -1,18 +1,16 @@
 var Base = require('../../../../lib/base/')
 
-// require('../../../../lib/')
-console.clear()
-
 Base.prototype.inject(
   require('../../../../lib/methods/convert')
 )
 
+console.clear()
+
 describe('convert', function () {
   var a
-
   beforeEach(function () {
     a = new Base({
-      $key: 'a',
+      key: 'a',
       x: {
         y: 123
       }
@@ -24,30 +22,29 @@ describe('convert', function () {
     var expectedObject = {
       x: {
         y: {
-          $val: 123
-        },
-      },
+          val: 123
+        }
+      }
     }
-
     expect(convertedObj).to.eql(expectedObject)
   })
 
-  it('should output normal object', function () {
+  xit('should output normal object', function () {
     var convertedObj = a.convert({
       plain: true
     })
-    expect(convertedObj).to.be.an('object')
+    expect(convertedObj).to.be.an('object').and
+                        .to.have.deep.property('x.y')
   })
 
-  it('should convert function to string', function () {
+  xit('should convert function to string', function () {
     var convertedObj = a.convert({
       string: true
     })
-    expect(convertedObj).to.be.an('string')
-
+    expect(convertedObj).to.be.an('string').and
+                        .to.equal('{\n  "x": {\n    "y": {\n      "val": 123\n    }\n  }\n}')
   })
-
-  it('should exclude key/value', function () {
+  xit('should exclude key/value', function () {
     var convertedObj = a.convert({
       exclude: function (val) {
         if (val === 'y') {
@@ -58,8 +55,10 @@ describe('convert', function () {
     expect(convertedObj.x.y).to.be.undefined
   })
 
-  // fnToString
-  // exclude
-  // plain
-
+  xit('should flatten Base object', function () {
+    var convertedObj = a.convert({
+      flatten: true
+    })
+    expect(convertedObj).to.have.property('x.y.val')
+  })
 })
