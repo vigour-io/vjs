@@ -1,4 +1,3 @@
-/* global describe, it, expect, beforeEach, sinon */
 var Base = require('../../../lib/base')
 
 describe('base', function () {
