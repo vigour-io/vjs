@@ -4,8 +4,6 @@ Base.prototype.inject(
   require('../../../../lib/methods/convert')
 )
 
-console.clear()
-
 describe('convert', function () {
   var a
   beforeEach(function () {
