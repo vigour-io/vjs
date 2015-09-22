@@ -4,7 +4,7 @@ var flatten = require('../../../lib/util/flatten')
 
 describe('flatten', function () {
   var original = { a: { b: { c: { e: 1, f: 2, g: 3 } } } }
-  it('should flatten, duh'
+  it('should flatten'
     , function () {
       var expected = {
         'a/b/c/e': 1,

@@ -1,5 +1,5 @@
-describe('property',function(){
-	require('./property')
+describe('property', function () {
+  require('./property')
 })
 
 // describe('parent',function(){
