@@ -1,10 +1,9 @@
-describe('util', function() {
-
+describe('util', function () {
   var Base = require('../../../lib/base')
   var util = require('../../../lib/util')
 
-  describe('isNumber', function() {
-    it('should check if parameter is a number and return a boolean value', function() {
+  describe('isNumber', function () {
+    it('should check if parameter is a number and return a boolean value', function () {
       // must pass
       expect(util.isNumber(2)).to.be.ok
       expect(util.isNumber(-10)).to.be.ok
@@ -15,8 +14,8 @@ describe('util', function() {
     })
   })
 
-  describe('isNumberLike', function() {
-    it('should check if parameter is like a number ("2", "-10") and return a boolean value', function() {
+  describe('isNumberLike', function () {
+    it('should check if parameter is like a number ("2", "-10") and return a boolean value', function () {
       // must pass
       expect(util.isNumberLike(2)).to.be.ok
       expect(util.isNumberLike(-10)).to.be.ok
@@ -27,8 +26,8 @@ describe('util', function() {
     })
   })
 
-  describe('isPlainObj', function() {
-    it('should check if parameter is a plain object and return a boolean value', function() {
+  describe('isPlainObj', function () {
+    it('should check if parameter is a plain object and return a boolean value', function () {
       // must pass
       expect(util.isPlainObj({})).to.be.true
       expect(util.isPlainObj({x: 1})).to.be.true
@@ -39,23 +38,23 @@ describe('util', function() {
     })
   })
 
-  describe('convertToArray', function() {
-    it('should convert an object into an array', function() {
-      var testFunc = function(){
+  describe('convertToArray', function () {
+    it('should convert an object into an array', function () {
+      var testFunc = function () {
         return arguments
       }
 
       // must pass
       expect(
         Array.isArray(
-          util.convertToArray(testFunc(1,2,3,4))
+          util.convertToArray(testFunc(1, 2, 3, 4))
         )
       ).to.be.true
 
       // must fail
       expect(
         Array.isArray(
-          testFunc(1,2,3,4)
+          testFunc(1, 2, 3, 4)
         )
       ).to.not.be.true
     })
@@ -63,20 +62,18 @@ describe('util', function() {
 
   describe('isEmpty', function () {
     it('should check if object is empty and return a boolean value', function () {
-      // must pass
-      expect(
-        util.isEmpty({})
-      ).to.be.true
+      expect(util.isEmpty({})).be.true
+      expect(util.isEmpty({a: 1})).not.be.true
+    })
 
-      // must fail
-      expect(
-        util.isEmpty({a: 1})
-      ).to.not.be.true
+    it('should exclude properties in base', function () {
+      var a = new Base({ key: 'a' })
+      expect(util.isEmpty(a)).be.true
     })
   })
 
   describe('isRemoved', function () {
-    it('should check if an observable is remove', function() {
+    it('should check if an observable is remove', function () {
       var a = new Base()
       a.remove()
       util.isRemoved
