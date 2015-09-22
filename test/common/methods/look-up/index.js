@@ -3,10 +3,10 @@ var LookUp = require('../../../../lib/methods/lookUp')
 
 Base.prototype.inject(LookUp)
 
-describe('lookUp', function() {
+describe('lookUp', function () {
   var a
 
-  beforeEach(function() {
+  beforeEach(function () {
     a = new Base({
       $key: 'b',
       x: {
@@ -34,22 +34,22 @@ describe('lookUp', function() {
     })
   })
 
-  it('should look up simple field', function() {
+  it('should look up simple field', function () {
     var result = a.x.y.z.w.lookUp('y.$val')
     expect(result).to.eql('test')
   })
 
-  it('should look up with path array', function() {
+  it('should look up with path array', function () {
     var result = a.x.y.z.w.lookUp(['y', '$val'])
     expect(result).to.eql('test')
   })
 
-  it('should look up and execute function', function() {
+  it('should look up and execute function', function () {
     var result = a.i.j.x.lookUp('i').lookDown('y.$val')
     expect(result).to.eql(321)
   })
 
-  it('should look up and execute function in string', function() {
+  it('should look up and execute function in string', function () {
     var result = a.i.j.x.lookUp('i.lookDown.y.$val')
     expect(result).to.eql(321)
   })

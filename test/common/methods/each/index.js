@@ -1,4 +1,3 @@
-/* global describe, it, expect, beforeEach, sinon */
 var each = require('../../../../lib/methods/each').define.each
 
 describe('each', function () {

@@ -276,4 +276,5 @@ describe('base', function () {
   })
 
   require('./output.js')
+  require('./property.js')
 })

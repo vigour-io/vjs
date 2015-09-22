@@ -1,4 +1,4 @@
-describe( 'methods', function() {
+describe('methods', function () {
   require('./convert/')
   require('./each/')
   require('./filter/')
@@ -10,4 +10,4 @@ describe( 'methods', function() {
   require('./map/')
   require('./set-with-path/')
   require('./to-string/')
-} )
+})

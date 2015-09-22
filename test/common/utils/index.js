@@ -15,15 +15,15 @@ describe('util', function() {
     })
   })
 
-  describe('isLikeNumber', function() {
+  describe('isNumberLike', function() {
     it('should check if parameter is like a number ("2", "-10") and return a boolean value', function() {
       // must pass
-      expect(util.isLikeNumber(2)).to.be.ok
-      expect(util.isLikeNumber(-10)).to.be.ok
-      expect(util.isLikeNumber('2')).to.be.ok
+      expect(util.isNumberLike(2)).to.be.ok
+      expect(util.isNumberLike(-10)).to.be.ok
+      expect(util.isNumberLike('2')).to.be.ok
 
       // must fail
-      expect(util.isLikeNumber('two')).to.not.be.ok
+      expect(util.isNumberLike('two')).to.not.be.ok
     })
   })
 
