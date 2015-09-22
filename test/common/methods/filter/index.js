@@ -9,13 +9,11 @@ describe('filter', function () {
     var result = filter.call([3, 2, 23, 10, 50], function (item) {
       return item % 2 === 0
     })
-
     expect(result).to.have.length(3)
   })
 
   describe('object', function () {
     var a
-
     beforeEach(function () {
       a = new Base({
         $key: 'a',
