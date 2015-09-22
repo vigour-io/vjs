@@ -102,7 +102,10 @@ describe('each', function () {
     var Base = require('../../../../lib/base')
     var a = new Base({
       key: 20,
-      hello: true,
+      hello: {
+        doit: true,
+        dont: true
+      },
       properties: {
         gurk: true
       },
@@ -138,6 +141,16 @@ describe('each', function () {
           return properties[key]
       })
       expect(count).equals(1)
+    })
+
+    it('each has to exclude parent for deeper field', function () {
+      a.hello.each(function () {
+        count++
+      }, function (property, key, target) {
+        var properties = target._properties
+        return properties[key]
+      })
+      expect(count).equals(2)
     })
   })
 })
