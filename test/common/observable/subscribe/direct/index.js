@@ -7,5 +7,5 @@ describe('parent', function () {
 })
 
 describe('upward', function () {
-  require('./up')
+  require('./upward')
 })

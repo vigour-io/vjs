@@ -1,5 +1,5 @@
 /* global expect, it, describe, beforeEach */
-var Observable = require('../../../../../../lib/observable')
+var Observable = require('../../../../../lib/observable')
 var count
 
 beforeEach(function () {
@@ -48,7 +48,6 @@ describe('subscribing to non existing upward, two levels, nested field', functio
     })
     expect(count).equals(1)
   })
-
 })
 
 describe('subscribing to rendered', function () {
