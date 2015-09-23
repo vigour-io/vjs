@@ -19,5 +19,4 @@ describe('keys', function () {
     var results = a.keys()
     expect(results).to.eql(['x', 'z'])
   })
-
 })

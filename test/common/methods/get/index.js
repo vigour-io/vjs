@@ -27,5 +27,4 @@ describe('get', function () {
     expect(a.get('y')).to.be.undefined
     expect(a.get(['x', 'z'])).to.be.undefined
   })
-
 })

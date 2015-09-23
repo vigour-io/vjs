@@ -89,5 +89,4 @@ describe('lookDown', function () {
 
     expect(b.lookDown('myProp.val')).to.eql(1010)
   })
-
 })
