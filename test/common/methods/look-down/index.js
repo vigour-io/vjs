@@ -24,8 +24,7 @@ describe('lookDown', function () {
             q: 957
           }
         }
-      },
-
+      }
     })
   })
 
@@ -35,8 +34,8 @@ describe('lookDown', function () {
   })
 
   it('should look down and find a property by path string', function () {
-    var result = a.lookDown('y.$val')
-    expect(result).to.be.eql(a.x.y.$val)
+    var result = a.lookDown('y.val')
+    expect(result).to.be.eql(a.x.y.val)
   })
 
   it('should look down and find a property by path array', function () {
@@ -45,18 +44,18 @@ describe('lookDown', function () {
   })
 
   it('should look down for the first occurence of q.$val', function () {
-    var result = a.x.lookDown('q.$val')
-    expect(result).to.eql(a.x.j.q.$val)
+    var result = a.x.lookDown('q.val')
+    expect(result).to.eql(a.x.j.q.val)
   })
 
-  it('should look down for the first occurence of q.$val 2 levels', function () {
+  it('should look down for the first occurence of q.val 2 levels', function () {
     a.x.j.remove()
 
-    var result = a.x.lookDown('q.$val')
+    var result = a.x.lookDown('q.val')
     expect(result).to.eql(132)
   })
 
-  it('should look down for the first occurence of q.$val 3 levels', function () {
+  it('should look down for the first occurence of q.val 3 levels', function () {
     var b = new Base({
       $key: 'b',
       e: {
@@ -88,7 +87,7 @@ describe('lookDown', function () {
       }
     })
 
-    expect(b.lookDown('myProp.$val')).to.eql(1010)
+    expect(b.lookDown('myProp.val')).to.eql(1010)
   })
 
 })

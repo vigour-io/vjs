@@ -11,7 +11,7 @@ describe('lookUp', function () {
       $key: 'b',
       x: {
         y: {
-          $val: 'test',
+          val: 'test',
           z: {
             w: {
               myProp: 1010
@@ -22,12 +22,12 @@ describe('lookUp', function () {
       i: {
         j: {
           x: {
-            $val: 123
+            val: 123
           }
         },
         k: {
           y: {
-            $val: 321
+            val: 321
           }
         }
       }
@@ -35,22 +35,22 @@ describe('lookUp', function () {
   })
 
   it('should look up simple field', function () {
-    var result = a.x.y.z.w.lookUp('y.$val')
+    var result = a.x.y.z.w.lookUp('y.val')
     expect(result).to.eql('test')
   })
 
   it('should look up with path array', function () {
-    var result = a.x.y.z.w.lookUp(['y', '$val'])
+    var result = a.x.y.z.w.lookUp(['y', 'val'])
     expect(result).to.eql('test')
   })
 
   it('should look up and execute function', function () {
-    var result = a.i.j.x.lookUp('i').lookDown('y.$val')
+    var result = a.i.j.x.lookUp('i').lookDown('y.val')
     expect(result).to.eql(321)
   })
 
   it('should look up and execute function in string', function () {
-    var result = a.i.j.x.lookUp('i.lookDown.y.$val')
+    var result = a.i.j.x.lookUp('i.lookDown.y.val')
     expect(result).to.eql(321)
   })
 

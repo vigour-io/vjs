@@ -1,19 +1,19 @@
 var Base = require('../../../../lib/base/')
-var Find = require('../../../../lib/methods/find')
+var find = require('../../../../lib/methods/find')
 
-Base.prototype.inject(Find)
+Base.prototype.inject(find)
 
 describe('find', function () {
   var a
 
   beforeEach(function () {
     a = new Base({
-      $key: 'a',
+      key: 'a',
       x: {
         y: {
           z: 123,
           w: 456
-        },
+        }
       },
       alfa: 789
     })
@@ -21,14 +21,13 @@ describe('find', function () {
 
   it('should find nested property', function () {
     var result = a.find('w')
-
+    console.log(result)
     expect(result).to.have.length(1)
     expect(result[0]).to.be.eql(a.x.y.w)
   })
 
   it('should not find nested property', function () {
     var result = a.find('j')
-
     expect(result).to.have.length(0)
   })
 
@@ -46,10 +45,9 @@ describe('find', function () {
   })
 
   it('should find property by path string', function () {
-    var result = a.find('x.y.w.$val')
-
+    var result = a.find('x.y.w.val')
     expect(result).to.have.length(1)
-    expect(result[0]).to.be.eql(a.x.y.w.$val)
+    expect(result[0]).to.be.eql(a.x.y.w.val)
   })
 
   it('should allow pass option cap and stop after certain number of matches', function () {

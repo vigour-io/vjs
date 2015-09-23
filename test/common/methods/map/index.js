@@ -8,7 +8,7 @@ describe('map', function () {
 
   beforeEach(function () {
     a = new Base({
-      $key: 'a',
+      key: 'a',
       x: {
         k: {
           l: 123
@@ -20,7 +20,7 @@ describe('map', function () {
     })
 
     spy = sinon.spy(function (eachProp, key, base) {
-      return eachProp.$key
+      return eachProp.key
     })
 
     result = a.map(spy)
@@ -39,13 +39,11 @@ describe('map', function () {
   })
 
   it('should allow exclude some results with optional function', function () {
-    var newResult = a.map(spy, function (currentProp) {
-      if (currentProp.$key === 'x') {
+    var newResult = a.map(spy, function (property, key) {
+      if (property.key === 'x' || a._properties[key]) {
         return true
       }
     })
-
     expect(newResult).to.eql(['y'])
   })
-
 })
