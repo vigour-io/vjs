@@ -60,7 +60,6 @@ describe('convert', function () {
     var convertedObj = a.convert({
       flatten: true
     })
-    console.log(convertedObj)
     expect(convertedObj).to.have.property('x.y.val')
   })
 })
