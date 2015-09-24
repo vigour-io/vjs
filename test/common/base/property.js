@@ -25,14 +25,14 @@ describe('properties', function () {
     expect(a.rick).instanceof(rick.Constructor)
   })
 
-  describe('custom overides', function () {
+  describe('custom overrides', function () {
     var a, b, c
     it('add and set base property on a custom field (constructor)', function () {
       var rick = new Base()
       a = new Base({
         key: 'a',
         properties: {
-          rick: { val: rick, overide: '_rick' }
+          rick: { val: rick, override: '_rick' }
         }
       })
       a.set({ rick: 'dope' })
