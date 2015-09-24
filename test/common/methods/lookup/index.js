@@ -44,8 +44,9 @@ describe('lookUp', function () {
     expect(result).to.eql('test')
   })
 
-  it('should look up and execute function in string', function () {
-    var result = a.i.j.x.lookUp('i.lookDown.y.val')
+  it('should look up and execute function', function () {
+    var result = a.i.j.x.lookUp('i').lookDown('y.val')
     expect(result).to.eql(321)
   })
+
 })
