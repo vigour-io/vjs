@@ -82,4 +82,13 @@ describe('emitter', function () {
       expect(a.attach).to.be.not.ok
     })
   })
+
+  describe('use val listener (default)', function () {
+    var a = new Emitter()
+    function listener (event, type) {}
+    it('should have add listener', function () {
+      a.on(listener, 'val')
+      console.error(a)
+    })
+  })
 })
