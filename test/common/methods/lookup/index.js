@@ -48,5 +48,4 @@ describe('lookUp', function () {
     var result = a.i.j.x.lookUp('i').lookDown('y.val')
     expect(result).to.eql(321)
   })
-
 })
