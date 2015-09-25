@@ -50,7 +50,6 @@ describe('subscribing to non existing upward, two levels, nested field', functio
   })
 
   it('fires when adding other sub field to parent', function () {
-    console.info('setting power on parent')
     parent.set({
       power: true
     })
@@ -58,7 +57,6 @@ describe('subscribing to non existing upward, two levels, nested field', functio
   })
 
   it('does not fire when updating field on grandparent which is also on parent', function () {
-    console.info('updating power on grandparent')
     grandParent.set({
       power: 1
     })

@@ -140,7 +140,7 @@ describe('subscribing to single existing field on original', function () {
     })
 
     expect(count).equals(1)
-    expect(instance.key).equals('b')
+    expect(instance.key).equals('hahaFuckeriDo')
   })
 })
 
