@@ -1,5 +1,5 @@
 describe('basics', function () {
-  var Observable = require('../../../../../lib/observable')
+  var Observable = require('../../../../lib/observable')
 
   it('create new observable (obs)', function () {
     var specialobs = new Observable(10)
