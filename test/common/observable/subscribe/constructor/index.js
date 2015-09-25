@@ -1,6 +1,6 @@
 /* global expect, it, describe */
 var Observable = require('../../../../../lib/observable')
-var SubsEmitter = require('../../../../../lib/observable/subscribe/constructor')
+var SubsEmitter = require('../../../../../lib/observable/subscribe/emitter')
 var On = require('../../../../../lib/observable/on/constructor')
 
 describe('multiple instances', function () {
