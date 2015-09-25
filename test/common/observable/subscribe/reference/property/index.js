@@ -1,7 +1,5 @@
 var Observable = require('../../../../../../lib/observable')
 var subcription
-var change
-var property
 var count
 
 beforeEach(function () {
@@ -17,7 +15,6 @@ beforeEach(function () {
       }
     })
   }
-
 })
 
 describe('subscribing to single existing field, existing reference', function () {
@@ -43,21 +40,21 @@ describe('subscribing to single existing field, existing reference', function ()
       }, function () {
         count++
       })
-    } catch(e) {
+    } catch (e) {
       console.error(e.stack)
     }
   })
 
   it('has added a change listener on a.aField', function () {
-    expect(a.aField.on.change).ok
+    expect(a.aField._on.change).ok
   })
 
   it('has added a property listener on b', function () {
-    expect(b.on.property).ok
+    expect(b._on.property).ok
   })
 
   it('has not added a property listener on a', function () {
-    expect(a.on.property).not.ok
+    expect(a._on.property).not.ok
   })
 
   it("doesn't fire on subscribing", function () {
@@ -79,15 +76,15 @@ describe('subscribing to single existing field, existing reference', function ()
   })
 
   it('has added a change listener on b.aField', function () {
-    expect(b.aField.on.change).ok
+    expect(b.aField._on.change).ok
   })
 
   it('has removed the change listener on a.aField', function () {
-    expect(a.aField.on.change.attach).not.ok
+    expect(a.aField._on.change.attach).not.ok
   })
 
   it('has removed the property listener on b', function () {
-    expect(b.on.property.attach).not.ok
+    expect(b._on.property.attach).not.ok
   })
 
   it("doesn't fire when field is updated on referenced obj", function () {
@@ -96,12 +93,13 @@ describe('subscribing to single existing field, existing reference', function ()
   })
 
   it('removing b.aField adds a change listener to a.aField', function () {
+    console.info('removing b.aField')
     b.aField.remove()
-    expect(a.aField.on.change.attach).ok
+    expect(a.aField._on.change.attach).ok
   })
 
   it('and adds a property listener to b', function () {
-    expect(b.on.property.attach).ok
+    expect(b._on.property.attach).ok
   })
 })
 
@@ -121,15 +119,15 @@ describe('subscribing to existing field, and non existing field, existing refere
   })
 
   it('has added a change listener on a.aField', function () {
-    expect(a.aField.on.change).ok
+    expect(a.aField._on.change).ok
   })
 
   it('has added a property listener on a', function () {
-    expect(a.on.property).ok
+    expect(a._on.property).ok
   })
 
   it('has added a property listener on b', function () {
-    expect(b.on.property).ok
+    expect(b._on.property).ok
   })
 
   it("doesn't fire on subscribing", function () {
@@ -147,15 +145,15 @@ describe('subscribing to existing field, and non existing field, existing refere
   })
 
   it('has added a change listener on b.aField', function () {
-    expect(b.aField.on.change).ok
+    expect(b.aField._on.change).ok
   })
 
   it('has removed the change listener on a.aField', function () {
-    expect(a.aField.on.change.attach).not.ok
+    expect(a.aField._on.change.attach).not.ok
   })
 
   it('has not removed the property listener on b', function () {
-    expect(b.on.property.attach).ok
+    expect(b._on.property.attach).ok
   })
 
   it("doesn't fire when field is updated on referenced obj", function () {
@@ -169,11 +167,11 @@ describe('subscribing to existing field, and non existing field, existing refere
   })
 
   it('has added a change listener on b.aField', function () {
-    expect(b.bField.on.change).ok
+    expect(b.bField._on.change).ok
   })
 
   it('has removed the property listener on b', function () {
-    expect(b.on.property.attach).not.ok
+    expect(b._on.property.attach).not.ok
   })
 
 })
@@ -201,15 +199,15 @@ describe('subscribing to single existing field, existing reference, switch refer
   })
 
   it('has added a change listener on a.aField', function () {
-    expect(a.aField.on.change).ok
+    expect(a.aField._on.change).ok
   })
 
   it('has added a property listener on b', function () {
-    expect(b.on.property).ok
+    expect(b._on.property).ok
   })
 
   it('has not added a property listener on a', function () {
-    expect(a.on.property).not.ok
+    expect(a._on.property).not.ok
   })
 
   it("doesn't fire on subscribing", function () {
@@ -222,11 +220,11 @@ describe('subscribing to single existing field, existing reference, switch refer
   })
 
   it('has removed listeners on a', function () {
-    expect(a.aField.on.change.attach).not.ok
+    expect(a.aField._on.change.attach).not.ok
   })
 
   it('has added a change listener on c.aField', function () {
-    expect(c.aField.on.change).ok
+    expect(c.aField._on.change).ok
   })
 
 })
