@@ -193,7 +193,7 @@ describe('remove', function () {
 
     a.$val = null
 
-    // 
+    //
     // console.error(changeEmitter)
 
     expect(isRemoved(changeEmitter))
@@ -468,7 +468,7 @@ describe('remove', function () {
   })
 
   it('nested (virtual) fields 2 levels remove', function () {
-    // 
+    //
     var cnt = {
       total: 0,
       a: 0,
@@ -531,7 +531,7 @@ describe('remove', function () {
   })
 
   it('remove tests with a deep nested on', function () {
-    // 
+    //
     var cnt = 0
     var metaCnt = 0
     var a = new Observable({
@@ -555,7 +555,7 @@ describe('remove', function () {
   })
 
   it('remove tests with a deep nested on and instances', function () {
-    // 
+    //
     var cnt = 0
     var metaCnt = 0
     var measure = {}
@@ -617,3 +617,45 @@ describe('remove', function () {
   })
 
 })
+
+
+
+
+// ---- !!!TO REMOVE !!!-----
+//   it('should emit change event when property is removed due to ' +
+//   'parent / ancestor properties being removed',
+//     function () {
+//       var a = new Observable({
+//         $key: 'a',
+//         b: {
+//           c: true
+//         }
+//       })
+//       var count = 0
+//       a.b.c.on('$change', function () {
+//         count++
+//       })
+//       a.b.remove()
+//       expect(count).to.equal(1)
+//     }
+//   )
+//
+//   it('should emit fire once for specific value (.fire)',
+//     function () {
+//       var a = new Observable({
+//         $key: 'a',
+//         b: {
+//           c: true
+//         }
+//       })
+//       function listener () {
+//         count++
+//       }
+//       var count = 0
+//       a.b.c.on('$change', listener)
+//       a.b.c.$on.$change.fire(listener)
+//       expect(count).to.equal(1)
+//     }
+//   )
+//
+// })
