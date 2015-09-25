@@ -1,27 +1,9 @@
 describe('listeners', function () {
-  var Event = require('../../../../../lib/event')
-  Event.prototype.inject(require('../../../../../lib/event/toString'))
-
   var Observable = require('../../../../../lib/observable')
   var measure = {
-    obs: {},
-    obs2: {},
-    obs3: {},
-    obs4: {}
+    obs: {}
   }
-
   var obs
-  var obs2
-  var obs3
-  var obs4
-  var referencedObs
-  var referencedObs2
-
-  it('create new observable (obs)', function () {
-    var specialobs = new Observable(10)
-    expect(specialobs).instanceof(Observable)
-    expect(specialobs.val).equals(10)
-  })
 
   it('create new observable (obs), add change listener', function () {
     measure.obs.val = 0
@@ -68,18 +50,17 @@ describe('listeners', function () {
     expect(measure.obs.val).msg('val listener').to.equal(1)
   })
 
-  //
-  //   obs.val = 'value has changed'
-  //
-  //   expect(measure.obs.val).msg('val listener').to.equal(2)
-  //   expect(measure.obs.second).msg('second listener').to.equal(2)
-  //   expect(measure.obs.third).msg('third listener').to.equal(1)
-  //
-  //   obs.val = 'value has changed'
-  //
-  //   // value is the same so expect zero changes
-  //   expect(measure.obs.val).msg('val listener').to.equal(2)
-  //   expect(measure.obs.second).msg('second listener').to.equal(2)
-  //   expect(measure.obs.third).msg('third listener').to.equal(1)
-  // })
+  it('change value, should fire listeners', function () {
+    obs.val = 'value has changed'
+    expect(measure.obs.val).msg('val listener').to.equal(2)
+    expect(measure.obs.second).msg('second listener').to.equal(2)
+    expect(measure.obs.third).msg('third listener').to.equal(1)
+  })
+
+  it('change value to the same, should not fire listeners', function () {
+    obs.val = 'value has changed'
+    expect(measure.obs.val).msg('val listener').to.equal(2)
+    expect(measure.obs.second).msg('second listener').to.equal(2)
+    expect(measure.obs.third).msg('third listener').to.equal(1)
+  })
 })
