@@ -321,7 +321,7 @@ describe('instances', function () {
   })
 
   describe('set on instance nested field', function () {
-    // console.clear()
+    // 
     var cnt = 0
 
     var a = new Observable({
@@ -355,7 +355,7 @@ describe('instances', function () {
     })
 
     it('listener fired 3 times', function () {
-      // console.clear()
+      // 
       aInstance.b.set({
         c: '?'
       })

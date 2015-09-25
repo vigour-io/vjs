@@ -193,7 +193,7 @@ describe('remove', function () {
 
     a.$val = null
 
-    // console.clear()
+    // 
     // console.error(changeEmitter)
 
     expect(isRemoved(changeEmitter))
@@ -468,7 +468,7 @@ describe('remove', function () {
   })
 
   it('nested (virtual) fields 2 levels remove', function () {
-    // console.clear()
+    // 
     var cnt = {
       total: 0,
       a: 0,
@@ -531,7 +531,7 @@ describe('remove', function () {
   })
 
   it('remove tests with a deep nested on', function () {
-    // console.clear()
+    // 
     var cnt = 0
     var metaCnt = 0
     var a = new Observable({
@@ -555,7 +555,7 @@ describe('remove', function () {
   })
 
   it('remove tests with a deep nested on and instances', function () {
-    // console.clear()
+    // 
     var cnt = 0
     var metaCnt = 0
     var measure = {}

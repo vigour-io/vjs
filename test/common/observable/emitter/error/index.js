@@ -1,7 +1,6 @@
 var Observable = require('../../../../../lib/observable/')
 var ErrorEmitter = require('../../../../../lib/emitter/error')
 
-console.clear()
 describe('value change emitter', function () {
   var rick = {
     randomthings: true

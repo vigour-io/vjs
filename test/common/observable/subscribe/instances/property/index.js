@@ -9,7 +9,7 @@ beforeEach(function () {
 
 describe('subscribing to single existing field on instance', function () {
   var a = new Observable({
-    $key: 'a',
+    key: 'a',
     aField: 1
   })
 
@@ -22,28 +22,28 @@ describe('subscribing to single existing field on instance', function () {
     })
   })
 
-  var b = new a.$Constructor({
-    $key: 'b'
+  var b = new a.Constructor({
+    key: 'b'
   })
 
   it('fires on instance', function () {
     b.set({aField: true})
     expect(count).equals(1)
-    expect(instance.$key).equals('b')
+    expect(instance.key).equals('b')
   })
 
 })
 
 describe('subscribing to parent on instance', function () {
   var a = new Observable({
-    $key: 'a',
+    key: 'a',
     b: {}
   })
 
   it('subcribes to field', function () {
     subcription = a.b.subscribe({
-      $parent: {
-        $parent: true
+      parent: {
+        parent: true
       }
     }, function () {
       instance = this
@@ -52,11 +52,10 @@ describe('subscribing to parent on instance', function () {
   })
 
   it('fires on instance', function () {
-    console.clear()
     var b = new Observable({
-      $key: 'obsB',
+      key: 'obsB',
       c: {
-        specialUseValA: { $useVal: a }
+        specialUseValA: { useVal: a }
       }
     })
     expect(count).equals(1)
@@ -67,7 +66,7 @@ describe('subscribing to parent on instance', function () {
 
 describe('subscribing to nested field on instance', function () {
   var a = new Observable({
-    $key: 'a',
+    key: 'a',
     aField: {
       bField: true
     }
@@ -85,8 +84,8 @@ describe('subscribing to nested field on instance', function () {
   })
 
   it('fires on instance', function () {
-    var b = new a.$Constructor({
-      $key: 'b'
+    var b = new a.Constructor({
+      key: 'b'
     })
 
     b.set({
@@ -96,14 +95,14 @@ describe('subscribing to nested field on instance', function () {
     })
 
     expect(count).equals(1)
-    expect(instance.$key).equals('b')
+    expect(instance.key).equals('b')
   })
 
 })
 
 describe('subscribing to single existing field on instance', function () {
   var a = new Observable({
-    $key: 'aOrignator',
+    key: 'aOrignator',
     aField: {
       bField: true
     }
@@ -112,8 +111,8 @@ describe('subscribing to single existing field on instance', function () {
   it('subcribes to field', function () {
     console.error('------------------\n')
     subcription = a.subscribe({
-      $parent: {
-        $parent: {
+      parent: {
+        parent: {
           c: {
             ballz: true
           }
@@ -125,11 +124,10 @@ describe('subscribing to single existing field on instance', function () {
   })
 
   it('fires on instance', function () {
-    console.clear()
     console.error('---- interesting shit----')
     var b = new Observable({
-      $key: 'b',
-      $trackInstances: true,
+      key: 'b',
+      trackInstances: true,
       c: {
         ballz: 1
       }
@@ -140,13 +138,13 @@ describe('subscribing to single existing field on instance', function () {
     b.set({
       d: {
         hahaFuckeriDo: {
-          $useVal: new a.$Constructor()
+          useVal: new a.Constructor()
         }
       }
     })
 
     expect(count).equals(1)
-    expect(instance.$key).equals('b')
+    expect(instance.key).equals('b')
 
   })
 

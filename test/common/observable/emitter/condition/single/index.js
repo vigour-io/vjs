@@ -1,4 +1,3 @@
-console.clear()
 var Observable = require('../../../../../../lib/observable')
 
 describe('single instance', function () {

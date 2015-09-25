@@ -1,5 +1,3 @@
-console.clear()
-
 var Observable = require('../../../../lib/observable/')
 var tracking = require('../../../../lib/tracking/')
 var DataLayer = require('../../../../lib/tracking/datalayer')

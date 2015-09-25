@@ -1,7 +1,6 @@
 var http = require('http')
 var Observable = require('../../../../lib/observable/')
 var stream = require('stream')
-console.clear()
 
 describe('streams', function () {
   this.timeout(15000)
