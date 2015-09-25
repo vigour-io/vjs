@@ -51,6 +51,6 @@
     }
   },
   "standard": {
-    "globals": [ "describe", "it", "beforeEach", "sinon", "expect" ]
+    "globals": [ "describe", "it", "beforeEach", "sinon", "expect", "xit" ]
   }
 }
