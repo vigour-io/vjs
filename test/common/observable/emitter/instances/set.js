@@ -1,8 +1,6 @@
 describe('set on instance nested field', function () {
   var Observable = require('../../../../../lib/observable')
-
   var cnt = 0
-
   var a = new Observable({
     key: 'a',
     trackInstances: true,
@@ -34,12 +32,10 @@ describe('set on instance nested field', function () {
   })
 
   it('listener fired 3 times', function () {
-    //
     aInstance.b.set({
       c: '?'
     })
     // we are now doing resolving of context!
     expect(cnt).to.equal(3)
   })
-
 })
