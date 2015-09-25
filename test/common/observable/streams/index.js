@@ -4,17 +4,15 @@ var stream = require('stream')
 
 describe('streams', function () {
   this.timeout(15000)
-
   it('can consume a stream', function (done) {
     var readable = new stream.Readable({
       objectMode: true
     })
     readable._read = function () {}
-
     var a = new Observable({
-      $key: 'a',
-      $on: {
-        $change: function ( event, meta ) {
+      key: 'a',
+      on: {
+        change: function (event, meta) {
           if (meta) {
             expect(meta).to.equal('hey')
             done()
@@ -23,13 +21,13 @@ describe('streams', function () {
       }
     })
     // maybe dont fire when setting to stream?
-    a.$val = readable
+    a.val = readable
     readable.push('hey')
   })
 
   it('can be piped from', function (done) {
     var a = new Observable({
-      $key: 'a'
+      key: 'a'
     })
     var writable = new stream.Writable({
       objectMode: true
@@ -39,15 +37,15 @@ describe('streams', function () {
       done()
     }
     a.pipe(writable)
-    a.$val = 'hey'
+    a.val = 'hey'
   })
 
   it('can be piped to', function (done) {
     // make this test better later...
     var a = new Observable({
-      $key: 'a',
-      $on: {
-        $change: function (event, meta) {}
+      key: 'a',
+      on: {
+        change: function (event, meta) {}
       }
     })
     var largeFile = http.request({
@@ -62,5 +60,4 @@ describe('streams', function () {
     })
     largeFile.end()
   })
-
 })
