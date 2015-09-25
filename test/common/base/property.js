@@ -1,6 +1,6 @@
 var Base = require('../../../lib/base')
 
-// console.clear()
+// 
 
 describe('properties', function () {
   it('add and set basic property', function () {

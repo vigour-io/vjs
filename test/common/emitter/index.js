@@ -16,7 +16,7 @@ describe('emitter', function () {
 
   describe('add and remove listener', function () {
     var emitter = new Emitter()
-    console.clear()
+
     function listener (event, type) {}
     it('should have a fn field', function () {
       emitter.on(listener)
