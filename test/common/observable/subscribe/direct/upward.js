@@ -1,4 +1,5 @@
-var Observable = require('../../../../../../lib/observable')
+/* global expect, it, describe, beforeEach */
+var Observable = require('../../../../../lib/observable')
 var count
 
 beforeEach(function () {
@@ -16,7 +17,7 @@ describe('subscribing to non existing upward, two levels, nested field', functio
         field: true,
         power: true
       }
-    }, function ( event, meta ) {
+    }, function (event, meta) {
       count++
     })
   })
@@ -24,7 +25,9 @@ describe('subscribing to non existing upward, two levels, nested field', functio
   it('fires when added to parent', function () {
     parent = new Observable({
       field: true,
-      a: {useVal: a}
+      a: {
+        useVal: a
+      }
     })
     expect(count).equals(1)
   })
@@ -32,7 +35,9 @@ describe('subscribing to non existing upward, two levels, nested field', functio
   it('does not fire when parent is added to grandparent', function () {
     grandParent = new Observable({
       field: true,
-      p: {useVal: parent}
+      p: {
+        useVal: parent
+      }
     })
     expect(count).equals(0)
   })
@@ -44,6 +49,21 @@ describe('subscribing to non existing upward, two levels, nested field', functio
     expect(count).equals(1)
   })
 
+  it('fires when adding other sub field to parent', function () {
+    console.info('setting power on parent')
+    parent.set({
+      power: true
+    })
+    expect(count).equals(1)
+  })
+
+  it('does not fire when updating field on grandparent which is also on parent', function () {
+    console.info('updating power on grandparent')
+    grandParent.set({
+      power: 1
+    })
+    expect(count).equals(0)
+  })
 })
 
 describe('subscribing to rendered', function () {
@@ -55,7 +75,7 @@ describe('subscribing to rendered', function () {
       upward: {
         rendered: true
       }
-    }, function ( event, meta ) {
+    }, function (event, meta) {
       count++
     })
   })
@@ -63,7 +83,9 @@ describe('subscribing to rendered', function () {
   it('does not fire when added to parent (loop)', function () {
     for (var i = 10; i >= 0; i--) {
       parent = new Observable({
-        a: {useVal: a}
+        a: {
+          useVal: a
+        }
       })
       a = parent
     }
@@ -71,7 +93,9 @@ describe('subscribing to rendered', function () {
   })
 
   it('fires when rendered set to true', function () {
-    parent.set({rendered: true})
+    parent.set({
+      rendered: true
+    })
     expect(count).equals(1)
   })
 })

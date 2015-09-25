@@ -1,5 +1,7 @@
 var Observable = require('../../../../../../lib/observable')
 var subcription
+var change
+var property
 var count
 
 beforeEach(function () {
@@ -15,6 +17,7 @@ beforeEach(function () {
       }
     })
   }
+
 })
 
 describe('subscribing to single existing field, existing reference', function () {
@@ -40,7 +43,7 @@ describe('subscribing to single existing field, existing reference', function ()
       }, function () {
         count++
       })
-    } catch (e) {
+    } catch(e) {
       console.error(e.stack)
     }
   })
@@ -62,15 +65,11 @@ describe('subscribing to single existing field, existing reference', function ()
   })
 
   it('fires when field is updated on referenced obj', function () {
-    console.error('---- now lets do some stuff-----')
-
     a.aField.val = 2
     expect(count).equals(1)
   })
 
   it('fires when field is created on obj', function () {
-    console.error('---- now lets do some other stuff (removing etc)-----')
-
     b.set({aField: true})
     expect(count).equals(1)
   })
@@ -93,7 +92,6 @@ describe('subscribing to single existing field, existing reference', function ()
   })
 
   it('removing b.aField adds a change listener to a.aField', function () {
-    console.info('removing b.aField')
     b.aField.remove()
     expect(a.aField._on.change.attach).ok
   })
@@ -173,7 +171,6 @@ describe('subscribing to existing field, and non existing field, existing refere
   it('has removed the property listener on b', function () {
     expect(b._on.property.attach).not.ok
   })
-
 })
 
 describe('subscribing to single existing field, existing reference, switch reference', function () {

@@ -1,4 +1,7 @@
-describe('subscribe' , function () {
+describe('subscribe', function () {
+  describe('constructor', function () {
+    require('./constructor')
+  })
   describe('direct', function () {
     require('./direct')
   })
@@ -13,5 +16,9 @@ describe('subscribe' , function () {
 
   describe('context', function () {
     require('./context')
+  })
+
+  describe('util', function () {
+    require('./util')
   })
 })

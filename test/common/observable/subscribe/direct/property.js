@@ -1,4 +1,5 @@
-var Observable = require('../../../../../../lib/observable')
+/* global expect, it, describe, beforeEach */
+var Observable = require('../../../../../lib/observable')
 var count
 
 beforeEach(function () {
@@ -13,7 +14,7 @@ describe('subscribing to single existing field', function () {
   it('subcribes to field', function () {
     a.subscribe({
       aField: true
-    }, function ( event, meta ) {
+    }, function (event, meta) {
       count++
     })
   })
@@ -27,6 +28,16 @@ describe('subscribing to single existing field', function () {
     expect(count).equals(1)
   })
 
+  it('fires when field is removed', function () {
+    a.aField.remove()
+    expect(count).equals(1)
+  })
+
+  it('fires when field is added again', function () {
+    console.info('setting aField again')
+    a.set({aField: 3})
+    expect(count).equals(1)
+  })
 })
 
 describe('subscribing on non-existent field', function () {
@@ -45,7 +56,9 @@ describe('subscribing on non-existent field', function () {
   })
 
   it('fires when field is created', function () {
-    a.set({aField: true})
+    a.set({
+      aField: true
+    })
     expect(count).equals(1)
   })
 
@@ -54,6 +67,61 @@ describe('subscribing on non-existent field', function () {
     expect(count).equals(1)
   })
 
+  it('fires when field is removed', function () {
+    a.aField.remove()
+    expect(count).equals(1)
+  })
+
+  it('fires when field is added again', function () {
+    a.set({aField: 3})
+    expect(count).equals(1)
+  })
+})
+
+describe('subscribing on one non-existent field, one existing field', function () {
+  var a = new Observable({
+    aField: 1
+  })
+
+  it('subcribes to two fields', function () {
+    a.subscribe({
+      aField: true,
+      anotherField: true
+    }, function () {
+      count++
+    })
+  })
+
+  it("doesn't fire on subscribing", function () {
+    expect(count).equals(0)
+  })
+
+  it('fires when one field is updated', function () {
+    a.aField.val = 2
+    expect(count).equals(1)
+  })
+
+  it('fires when other field is created', function () {
+    a.set({
+      anotherField: true
+    })
+    expect(count).equals(1)
+  })
+
+  it('fires when other field is updated', function () {
+    a.anotherField.val = 2
+    expect(count).equals(1)
+  })
+
+  it('fires when one field is removed', function () {
+    a.aField.remove()
+    expect(count).equals(1)
+  })
+
+  it('fires when field is added again', function () {
+    a.set({aField: 3})
+    expect(count).equals(1)
+  })
 })
 
 describe('subscribing on two non-existent fields', function () {
@@ -73,12 +141,16 @@ describe('subscribing on two non-existent fields', function () {
   })
 
   it('fires when one field is created', function () {
-    a.set({aField: true})
+    a.set({
+      aField: true
+    })
     expect(count).equals(1)
   })
 
   it('fires when other field is created', function () {
-    a.set({anotherField: true})
+    a.set({
+      anotherField: true
+    })
     expect(count).equals(1)
   })
 
@@ -92,6 +164,20 @@ describe('subscribing on two non-existent fields', function () {
     expect(count).equals(1)
   })
 
+  it('fires when one field is removed', function () {
+    a.aField.remove()
+    expect(count).equals(1)
+  })
+
+  it('fires when field is added again', function () {
+    a.set({aField: 3})
+    expect(count).equals(1)
+  })
+
+  it('fires when other field is updated', function () {
+    a.anotherField.val = 3
+    expect(count).equals(1)
+  })
 })
 
 describe('subscribing on existent nested field', function () {
@@ -120,6 +206,22 @@ describe('subscribing on existent nested field', function () {
     expect(count).equals(1)
   })
 
+  it('fires when parent field is removed', function () {
+    a.aField.remove()
+    expect(count).equals(1)
+  })
+
+  it('does not fire when parent field is added again', function () {
+    a.set({aField: 3})
+    expect(count).equals(0)
+  })
+
+  it('fires when nested field is added again', function () {
+    a.aField.set({
+      anotherField: 1
+    })
+    expect(count).equals(1)
+  })
 })
 
 describe('subscribing on non-existent nested field in existing field', function () {
@@ -142,7 +244,9 @@ describe('subscribing on non-existent nested field in existing field', function 
   })
 
   it('fires when nested field is created', function () {
-    a.aField.set({anotherField: true})
+    a.aField.set({
+      anotherField: true
+    })
     expect(count).equals(1)
   })
 
@@ -151,6 +255,22 @@ describe('subscribing on non-existent nested field in existing field', function 
     expect(count).equals(1)
   })
 
+  it('fires when parent field is removed', function () {
+    a.aField.remove()
+    expect(count).equals(1)
+  })
+
+  it('does not fire when parent field is added again', function () {
+    a.set({aField: 3})
+    expect(count).equals(0)
+  })
+
+  it('fires when nested field is added again', function () {
+    a.aField.set({
+      anotherField: 1
+    })
+    expect(count).equals(1)
+  })
 })
 
 describe('subscribe on non-existent nested field in non-existent field', function () {
@@ -171,12 +291,16 @@ describe('subscribe on non-existent nested field in non-existent field', functio
   })
 
   it("doesn't fire on setting top level field", function () {
-    a.set({aField: true})
+    a.set({
+      aField: true
+    })
     expect(count).equals(0)
   })
 
   it('fires when nested field is created', function () {
-    a.aField.set({anotherField: true})
+    a.aField.set({
+      anotherField: true
+    })
     expect(count).equals(1)
   })
 
@@ -185,4 +309,20 @@ describe('subscribe on non-existent nested field in non-existent field', functio
     expect(count).equals(1)
   })
 
+  it('fires when parent field is removed', function () {
+    a.aField.remove()
+    expect(count).equals(1)
+  })
+
+  it('does not fire when parent field is added again', function () {
+    a.set({aField: 3})
+    expect(count).equals(0)
+  })
+
+  it('fires when nested field is added again', function () {
+    a.aField.set({
+      anotherField: 1
+    })
+    expect(count).equals(1)
+  })
 })
