@@ -465,7 +465,6 @@ describe('context', function () {
           on: {
             change: function (event) {
               // path is suddenly wrong here!
-              console.log('(-:', this.path.join('.'))
               measure[this.path[0]] = measure[this.path[0]]
                 ? measure[this.path[0]] + 1
                 : 1
