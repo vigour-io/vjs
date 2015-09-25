@@ -17,10 +17,10 @@ describe('references', function () {
       val: 'a string'
     })
 
-    referencedObs2 = new Observable({
-      key: 'referencedObs',
-      val: 'a string'
-    })
+    // referencedObs2 = new Observable({
+    //   key: 'referencedObs',
+    //   val: 'a string'
+    // })
 
     obs = new Observable({
       key: 'obs2',
@@ -37,17 +37,19 @@ describe('references', function () {
     expect(measure.obs.val).msg('val listener').to.equal(0)
     expect(obs).to.have.property('listensOnBase')
   })
+
+  it('should have the correct ammount of listeners', function () {
+    var keyCount = 0
+    obs.listensOnBase.each(function (property, key) {
+      console.log(key)
+      keyCount++
+    })
+    expect(keyCount).msg('amount of listeners on listensOnBase').to.equal(1)
+    expect(obs.listensOnBase).to.have.property(1)
+  })
 })
 
-//
-//     var keyCount = 0
-//     obs2.$listensOnBase.each(function (property, key) {
-//       keyCount++
-//     })
-//
-//     expect(keyCount).msg('amount of listeners on listensOnBase').to.equal(1)
-//
-//     expect(obs2.$listensOnBase).to.have.property(1)
+
 //
 //     referencedObs.$val = 'changed a string'
 //
