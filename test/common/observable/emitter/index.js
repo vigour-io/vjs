@@ -8,5 +8,5 @@ describe('emitter', function () {
   require('./off')
   // require('./condition')
   require('./context')
-  // require('./combined')
+  require('./combined')
 })
