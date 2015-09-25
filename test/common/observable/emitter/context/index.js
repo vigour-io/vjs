@@ -465,7 +465,7 @@ describe('context', function () {
           on: {
             change: function (event) {
               // path is suddenly wrong here!
-              console.log('------ hey!!1', this.path.join('.'))
+              console.log('(-:', this.path.join('.'))
               measure[this.path[0]] = measure[this.path[0]]
                 ? measure[this.path[0]] + 1
                 : 1
@@ -474,26 +474,28 @@ describe('context', function () {
         }
       })
 
-      // deze moet ook fire
       var firstUseVal = new Observable({
         key: 'firstUseVal',
         trackInstances: true,
+        // on:{change:{}},
         useVal: true,
         nest1: new a.Constructor()
       })
 
+      // this one gets overwritten somewhere
       var secondUseVal = new Observable({
         key: 'secondUseVal',
-        // trackInstances: true,
         nest2: new firstUseVal.Constructor()
       })
+
+      console.log('---->', firstUseVal.instances)
 
       a.b.val = 'rick'
 
       expect(secondUseVal.nest2).instanceof(firstUseVal.Constructor)
-      expect(measure.secondUseVal).to.equal(1)
       expect(measure.a).to.equal(1)
       expect(measure.firstUseVal).to.equal(1)
+      expect(measure).to.have.property('secondUseVal').which.equals(1)
     })
   })
 
