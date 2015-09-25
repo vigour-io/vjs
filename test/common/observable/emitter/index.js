@@ -3,7 +3,7 @@
 describe('emitter', function () {
   require('./direct')
   require('./instances')
-  // require('./references')
+  require('./references')
   // require('./parent')
   // require('./off')
   // require('./condition')
