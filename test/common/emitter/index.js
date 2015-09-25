@@ -85,10 +85,22 @@ describe('emitter', function () {
 
   describe('use val listener (default)', function () {
     var a = new Emitter()
-    function listener (event, type) {}
+    var cnt = 0
+    function listener (event, type) {
+      cnt++
+    }
     it('should have add listener', function () {
       a.on(listener, 'val')
-      console.error(a)
+      a.emit('change')
+      expect(cnt).equals(1)
+      expect(a.fn).to.be.ok
+      expect(a.fn.val).to.be.ok
+    })
+
+    it('remove val listener', function () {
+      expect(a.fn).to.be.ok
+      a.off('val')
+      expect(a.fn).to.be.not.ok
     })
   })
 })
