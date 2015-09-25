@@ -12,9 +12,7 @@ describe('subscribing to single existing field', function () {
 
   it('subcribes to field', function () {
     a.subscribe({
-      aField: {
-        val: true
-      }
+      aField: true
     }, function ( event, meta ) {
       count++
     })
@@ -47,9 +45,7 @@ describe('subscribing on non-existent field', function () {
   })
 
   it('fires when field is created', function () {
-    console.error("allrgith this bitch aint firin'")
     a.set({aField: true})
-    console.error('-----------------')
     expect(count).equals(1)
   })
 
