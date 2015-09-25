@@ -1,6 +1,5 @@
+'use strict'
 var Base = require('../../../lib/base')
-
-// 
 
 describe('properties', function () {
   it('add and set basic property', function () {
@@ -23,6 +22,34 @@ describe('properties', function () {
     a.set({ rick: 'dope' })
     expect(a.rick.val).equals('dope')
     expect(a.rick).instanceof(rick.Constructor)
+  })
+
+  describe('boolean property definition', function () {
+    it('should set the property (normally)', function () {
+      var a = new Base({
+        properties: {
+          youri: true
+        }
+      })
+      a.set({
+        youri: 'hello'
+      })
+      expect(a.youri).equals('hello')
+    })
+  })
+
+  describe('string property definition', function () {
+    it('should set the defined field', function () {
+      var a = new Base({
+        properties: {
+          youri: '_youri'
+        }
+      })
+      a.set({
+        youri: 'hello'
+      })
+      expect(a._youri).equals('hello')
+    })
   })
 
   describe('custom overrides', function () {

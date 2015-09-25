@@ -40,7 +40,7 @@
     "gaston": "git+ssh://git@github.com:vigour-io/gaston.git#dev"
   },
   "gaston": {
-    "source-maps":true
+    "source-maps":false
   },
   "vigour": {
     "services": {
