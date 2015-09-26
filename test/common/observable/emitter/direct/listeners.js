@@ -11,7 +11,7 @@ describe('listeners', function () {
       key: 'obs',
       on: {
         change: function testObservable (event, meta) {
-          console.log('????')
+          console.log('%c fire gun', 'color:teal;', 'val')
           measure.obs.val++
         }
       }
@@ -20,11 +20,13 @@ describe('listeners', function () {
   })
 
   it('add extra change listeners on obs ', function () {
+    console.warn('second')
     measure.obs.second = 0
     obs.set({
       on: {
         change: {
           second: function () {
+            console.log('%c fire gun', 'color:teal;', 'second')
             measure.obs.second++
           }
         }
@@ -38,7 +40,7 @@ describe('listeners', function () {
     measure.obs.third = 0
 
     console.warn('change value@!#@!#!@#')
-    
+
     obs.set({
       on: {
         change: {
@@ -54,17 +56,17 @@ describe('listeners', function () {
     expect(measure.obs.second).msg('second listener').to.equal(1)
   })
 
-  // it('change value, should fire listeners', function () {
-  //   obs.val = 'value has changed'
-  //   expect(measure.obs.val).msg('val listener').to.equal(2)
-  //   expect(measure.obs.second).msg('second listener').to.equal(2)
-  //   expect(measure.obs.third).msg('third listener').to.equal(1)
-  // })
-  //
-  // it('change value to the same, should not fire listeners', function () {
-  //   obs.val = 'value has changed'
-  //   expect(measure.obs.val).msg('val listener').to.equal(2)
-  //   expect(measure.obs.second).msg('second listener').to.equal(2)
-  //   expect(measure.obs.third).msg('third listener').to.equal(1)
-  // })
+  it('change value, should fire listeners', function () {
+    obs.val = 'value has changed'
+    expect(measure.obs.val).msg('val listener').to.equal(2)
+    expect(measure.obs.second).msg('second listener').to.equal(2)
+    expect(measure.obs.third).msg('third listener').to.equal(1)
+  })
+
+  it('change value to the same, should not fire listeners', function () {
+    obs.val = 'value has changed'
+    expect(measure.obs.val).msg('val listener').to.equal(2)
+    expect(measure.obs.second).msg('second listener').to.equal(2)
+    expect(measure.obs.third).msg('third listener').to.equal(1)
+  })
 })
