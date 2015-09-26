@@ -20,7 +20,6 @@ describe('Config', function () {
       expect(config.userdecay.val).to.equal(5)
       expect(config.special.val).to.equal(false)
     })
-
     it('should have settings of merged package', function () {
       expect(config.somesetting.val).to.equal(true)
     })
