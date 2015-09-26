@@ -59,4 +59,10 @@ describe('convert', function () {
     })
     expect(convertedObj).to.have.property('x.y.$val')
   })
+
+  it('should handle arrays', function () {
+    var original = { arr: [1, 2, 3] }
+    var convertedObj = original.convert({ plain: true })
+    expect(convertedObj).to.deep.equal(original)
+  })
 })
