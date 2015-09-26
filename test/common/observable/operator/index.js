@@ -12,12 +12,10 @@ describe('operator', function () {
 
   var Operator = require('../../../../lib/operator')
 
-  var util = require('../../../../lib/util')
-
   var a
   var b
   var c
-
+  
   var measure = {
     c: {}
   }

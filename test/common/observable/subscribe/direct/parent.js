@@ -8,20 +8,20 @@ beforeEach(function () {
 
 describe('subscribing to existing parent', function () {
   var a = new Observable({
-    $key: 'a',
+    key: 'a',
     b: {}
   })
   var parent = new Observable({
-    $key: 'a-parent',
+    key: 'a-parent',
     a: {
-      $useVal: a
+      useVal: a
     }
   })
 
   it('subcribes to parent on a', function () {
     a.b.subscribe({
-      $parent: {
-        $parent: true
+      parent: {
+        parent: true
       }
     }, function (event, meta) {
       count++
@@ -33,7 +33,7 @@ describe('subscribing to existing parent', function () {
   })
 
   it('fires when parent changes', function () {
-    parent.$val = 1
+    parent.val = 1
     expect(count).equals(1)
   })
 
@@ -45,7 +45,7 @@ describe('subscribing to existing parent', function () {
 
 describe('subscribing to nested field on existing parent', function () {
   var a = new Observable({
-    $key: 'a',
+    key: 'a',
     b: 0,
     c: {
       d: {
@@ -56,8 +56,8 @@ describe('subscribing to nested field on existing parent', function () {
 
   it('subcribes to parent on a', function () {
     a.c.d.subscribe({
-      $parent: {
-        $parent: {
+      parent: {
+        parent: {
           b: true
         }
       }
@@ -65,7 +65,7 @@ describe('subscribing to nested field on existing parent', function () {
       count++
     })
 
-    a.b.$val = 1
+    a.b.val = 1
 
     expect(count).equals(1)
   })
@@ -84,12 +84,12 @@ describe('subscribing to nested field on existing parent', function () {
 describe('subscribing to non existing parent', function () {
   var parent
   var a = new Observable({
-    $key: 'a'
+    key: 'a'
   })
 
   it('subcribes to parent on a', function () {
     a.subscribe({
-      $parent: true
+      parent: true
     }, function (event, meta) {
       count++
     })
@@ -102,7 +102,7 @@ describe('subscribing to non existing parent', function () {
   it('fires when a is added to parent', function () {
     parent = new Observable({
       blurf: {
-        $useVal: a
+        useVal: a
       }
     })
     expect(parent).ok

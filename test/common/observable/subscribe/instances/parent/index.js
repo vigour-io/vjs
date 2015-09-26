@@ -9,28 +9,31 @@ beforeEach(function () {
 
 describe('subscribing to same parent with multiple instances', function () {
   var a = new Observable({
-    $key: 'a'
+    key: 'a'
   })
 
   it('subcribes to field', function () {
     a.subscribe({
-      $parent: true
+      parent: {
+        field: true
+      }
     }, function () {
       instance = this
       count++
     })
   })
 
-  var b = new a.$Constructor({
-    $key: 'b'
+  var b = new a.Constructor({
+    key: 'b'
   })
 
   it('fires on instance', function () {
     new Observable({
-      a: {$useVal: a},
-      b: {$useVal: b}
+      field: 1,
+      a: {useVal: a},
+      b: {useVal: b}
     })
     expect(count).equals(2)
-    expect(instance.$key).equals('b')
+    expect(instance.key).equals('b')
   })
 })

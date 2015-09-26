@@ -13,7 +13,7 @@ describe('subscribing to non existing upward, two levels, nested field', functio
 
   it('subcribes to parent on a', function () {
     a.subscribe({
-      $upward: {
+      upward: {
         field: true,
         power: true
       }
@@ -26,7 +26,7 @@ describe('subscribing to non existing upward, two levels, nested field', functio
     parent = new Observable({
       field: true,
       a: {
-        $useVal: a
+        useVal: a
       }
     })
     expect(count).equals(1)
@@ -36,7 +36,7 @@ describe('subscribing to non existing upward, two levels, nested field', functio
     grandParent = new Observable({
       field: true,
       p: {
-        $useVal: parent
+        useVal: parent
       }
     })
     expect(count).equals(0)
@@ -48,6 +48,20 @@ describe('subscribing to non existing upward, two levels, nested field', functio
     })
     expect(count).equals(1)
   })
+
+  it('fires when adding other sub field to parent', function () {
+    parent.set({
+      power: true
+    })
+    expect(count).equals(1)
+  })
+
+  it('does not fire when updating field on grandparent which is also on parent', function () {
+    grandParent.set({
+      power: 1
+    })
+    expect(count).equals(0)
+  })
 })
 
 describe('subscribing to rendered', function () {
@@ -56,7 +70,7 @@ describe('subscribing to rendered', function () {
 
   it('subcribes to parent on a', function () {
     a.subscribe({
-      $upward: {
+      upward: {
         rendered: true
       }
     }, function (event, meta) {
@@ -68,7 +82,7 @@ describe('subscribing to rendered', function () {
     for (var i = 10; i >= 0; i--) {
       parent = new Observable({
         a: {
-          $useVal: a
+          useVal: a
         }
       })
       a = parent

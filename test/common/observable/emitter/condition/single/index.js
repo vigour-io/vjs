@@ -9,14 +9,8 @@ describe('single instance', function () {
       transform
     }
   */
-  it('fire with a timeout of 200ms')
-  // it('fire with a timeout of 200ms', function (done) {
-  //   var Condition = require('../../../../../../lib/emitter/condition/constructor')
-
-  //   Condition.prototype.inject(
-  //     require('../../../../../../lib/operator/transform'),
-  //     require('../../../../../../lib/operator/add')
-  //   )
+  it('fire with a timeout of 200ms', function (done) {
+    var Condition = require('../../../../../../lib/emitter/condition/constructor')
 
   //   var a = new Observable({
   //     $on: {
@@ -27,7 +21,7 @@ describe('single instance', function () {
   //         },
   //         $condition: {
   //           $transform: function ( emit ) {
-  //             console.log(this)
+  //         
   //             // as val send the obs val
   //             // bind differently??? wtf to do...
   //             // harsh operators asume certain things ofc
@@ -42,8 +36,32 @@ describe('single instance', function () {
   //     }
   //   })
 
-  //   a.$val = 'hello'
-  // })
+    var a = new Observable({
+      $on: {
+        $change: {
+          $val: function () {
+            expect(this.$on.$change.$condition.$inProgress).to.be.null
+            done()
+          },
+          $condition: {
+            $transform: function ( val ) {
+          
+              // as val send the obs val
+              // bind differently??? wtf to do...
+              // harsh operators asume certain things ofc
+              // what would mean valid?
+              // is it ---> true / false
+              // or are we transforming what were going to send as a payload
+              // think true false is sort of ok (we are doing the condition of change)
+              return 'geintje'
+            }
+          }
+        }
+      }
+    })
+
+    a.$val = 'hello'
+  })
 
   it('remove condition', function ( done ) {
     var cnt = 0

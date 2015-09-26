@@ -24,7 +24,7 @@ describe('subscribing to single existing field', function () {
   })
 
   it('fires when field is updated', function () {
-    a.aField.$val = 2
+    a.aField.val = 2
     expect(count).equals(1)
   })
 
@@ -34,6 +34,7 @@ describe('subscribing to single existing field', function () {
   })
 
   it('fires when field is added again', function () {
+    console.info('setting aField again')
     a.set({aField: 3})
     expect(count).equals(1)
   })
@@ -62,7 +63,7 @@ describe('subscribing on non-existent field', function () {
   })
 
   it('fires when field is updated', function () {
-    a.aField.$val = 2
+    a.aField.val = 2
     expect(count).equals(1)
   })
 
@@ -96,7 +97,7 @@ describe('subscribing on one non-existent field, one existing field', function (
   })
 
   it('fires when one field is updated', function () {
-    a.aField.$val = 2
+    a.aField.val = 2
     expect(count).equals(1)
   })
 
@@ -108,7 +109,7 @@ describe('subscribing on one non-existent field, one existing field', function (
   })
 
   it('fires when other field is updated', function () {
-    a.anotherField.$val = 2
+    a.anotherField.val = 2
     expect(count).equals(1)
   })
 
@@ -154,12 +155,12 @@ describe('subscribing on two non-existent fields', function () {
   })
 
   it('fires when one field is updated', function () {
-    a.aField.$val = 2
+    a.aField.val = 2
     expect(count).equals(1)
   })
 
   it('fires when other field is updated', function () {
-    a.anotherField.$val = 2
+    a.anotherField.val = 2
     expect(count).equals(1)
   })
 
@@ -174,7 +175,7 @@ describe('subscribing on two non-existent fields', function () {
   })
 
   it('fires when other field is updated', function () {
-    a.anotherField.$val = 3
+    a.anotherField.val = 3
     expect(count).equals(1)
   })
 })
@@ -201,7 +202,7 @@ describe('subscribing on existent nested field', function () {
   })
 
   it('fires when nested field is updated', function () {
-    a.aField.anotherField.$val = 2
+    a.aField.anotherField.val = 2
     expect(count).equals(1)
   })
 
@@ -250,7 +251,7 @@ describe('subscribing on non-existent nested field in existing field', function 
   })
 
   it('fires when nested field is updated', function () {
-    a.aField.anotherField.$val = 2
+    a.aField.anotherField.val = 2
     expect(count).equals(1)
   })
 
@@ -304,7 +305,7 @@ describe('subscribe on non-existent nested field in non-existent field', functio
   })
 
   it('fires when nested field is updated', function () {
-    a.aField.anotherField.$val = 2
+    a.aField.anotherField.val = 2
     expect(count).equals(1)
   })
 

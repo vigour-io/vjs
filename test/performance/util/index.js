@@ -3,20 +3,20 @@ describe('util test', function () {
   var Base = require('../../../lib/base')
   var util = require('../../../lib/util')
 
-  it('isLikeNumber vs lodash isNumber', function ( done ) {
+  it('isNumberLike vs lodash isNumber', function( done ) {
     this.timeout(50e3)
     var convertToArray = util.convertToArray
     var slice = Array.prototype.slice
     var amount = 1e6
-    var isLikeNumber = util.isLikeNumber
+    var isNumberLike = util.isNumberLike
     var isNumber = require('lodash/lang/isNumber')
 
-    expect(function () {
-      for (var i = 0; i < amount; i++) {
-        isLikeNumber('a' + i)
+    expect( function() {
+      for(var i = 0; i < amount; i++ ) {
+        isNumberLike( 'a'+i )
       }
-      for (var i = 0; i < amount; i++) {
-        isLikeNumber(i)
+      for(var i = 0; i < amount; i++ ) {
+        isNumberLike( i )
       }
     }).performance({
       margin: 3,

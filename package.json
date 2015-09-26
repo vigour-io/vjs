@@ -39,6 +39,9 @@
     "jsdoc-to-markdown": "^1.1.1",
     "gaston": "git+ssh://git@github.com:vigour-io/gaston.git#dev"
   },
+  "gaston": {
+    "source-maps":false
+  },
   "vigour": {
     "services": {
       "sentinel": {
@@ -48,17 +51,6 @@
     }
   },
   "standard": {
-    "globals": [
-      "describe",
-      "it",
-      "assert",
-      "expect",
-      "should",
-      "before",
-      "beforeEach",
-      "after",
-      "afterEach",
-      "sinon"
-    ]
+    "globals": [ "describe", "it", "beforeEach", "sinon", "expect", "xit" ]
   }
 }
