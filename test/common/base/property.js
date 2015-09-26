@@ -52,6 +52,32 @@ describe('properties', function () {
     })
   })
 
+  describe('custom set', function () {
+    var a
+    it('add and use set shortcut on a custom field', function () {
+      a = new Base({
+        key: 'a',
+        properties: {
+          something: { val: 'blurf' }
+        }
+      })
+      expect(a.something).equals('blurf')
+    })
+
+    it('use overide', function () {
+      a = new Base({
+        key: 'a',
+        properties: {
+          something: {
+            val: 'blurf',
+            override: '_something'
+          }
+        }
+      })
+      expect(a._something).equals('blurf')
+    })
+  })
+
   describe('custom overrides', function () {
     var a, b, c
     it('add and set base property on a custom field (constructor)', function () {
