@@ -66,4 +66,11 @@ describe('convert', function () {
     var convertedObj = base.convert({ plain: true })
     expect(convertedObj).to.deep.equal(original)
   })
+
+  it('should handle empty arrays', function () {
+    var original = { arr: [] }
+    var base = new Base(original)
+    var convertedObj = base.convert({ plain: true })
+    expect(convertedObj).to.deep.equal(original)
+  })
 })
