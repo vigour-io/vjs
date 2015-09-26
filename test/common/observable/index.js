@@ -3,8 +3,7 @@ describe('observable', function () {
   require('./emitter')
   require('./remove')
   require('./streams')
-
-  // require('./subscribe')
+  require('./subscribe')
   // also add operators test for purely base
   // require('./operators')
 })
