@@ -61,8 +61,9 @@ describe('convert', function () {
   })
 
   it('should handle arrays', function () {
-    var original = { arr: [1, 2, 3] }
-    var convertedObj = original.convert({ plain: true })
+    var original = { arr: [1, { x: true, y: false, z: ['a', 'b', ['c']] }, 3] }
+    var base = new Base(original)
+    var convertedObj = base.convert({ plain: true })
     expect(convertedObj).to.deep.equal(original)
   })
 })
