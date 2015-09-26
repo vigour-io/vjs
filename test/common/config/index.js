@@ -44,6 +44,7 @@ describe('Config', function () {
   describe('Resolve', function () {
     describe('Resolve Branch', function () {
       it('should not crash', function () {
+        config.key = 'CONFIG'
         config.resolve('#develop')
       })
       it('should have applied root level settings from #develop', function () {
@@ -55,31 +56,30 @@ describe('Config', function () {
         expect(config.somesetting.nested.val).to.equal(false)
       })
     })
+  })
 
-    describe('Resolve Region', function () {
-      it('should not crash', function () {
-        config = new Config(service_package_json)
-          .merge(project_package_json)
-          .resolve('#master')
-      })
-
-      it('should have regions because #master resolved', function () {
-        expect(config).to.have.property('regions')
-      })
-
-      it('should resolve region settings', function () {
-        config.resolve('regions').resolve('AT', {
-          skipVal: true
-        })
-        expect(config).to.have.property('specialAT')
-          .which.has.property('val', true)
-      })
-      it('should not have resolved AT region val', function () {
-        expect(config._input).to.equal('{region}-{service}.{app}.{domain}')
-      })
-
+  describe('Resolve Region', function () {
+    it('should not crash', function () {
+      config = new Config(service_package_json)
+        .merge(project_package_json)
+        .resolve('#master')
     })
 
+    it('should have regions because #master resolved', function () {
+      console.error('???', config)
+      expect(config).to.have.property('regions')
+    })
+
+    it('should resolve region settings', function () {
+      config.resolve('regions').resolve('AT', {
+        skipVal: true
+      })
+      expect(config).to.have.property('specialAT')
+        .which.has.property('val', true)
+    })
+    it('should not have resolved AT region val', function () {
+      expect(config._input).to.equal('{region}-{service}.{app}.{domain}')
+    })
   })
 
   describe('Template language', function () {
@@ -103,7 +103,6 @@ describe('Config', function () {
   //
   //     log.info('burk test', burk._input)
   //
-  //
   //     var setobj = config.convert({
   //       exclude: function excludeKey(key) {
   //         return key[0] === ''
@@ -114,9 +113,9 @@ describe('Config', function () {
   //   })
   // })
   //
-  // if(!ISNODE){
-  //   describe('crack', function(){
-  //     it.skip('put c in window', function(){
+  // if (!ISNODE){
+  //   describe('crack', function (){
+  //     it.skip('put c in window', function (){
   //       window.c = config
   //     })
   //   })
