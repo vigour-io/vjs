@@ -93,7 +93,7 @@ describe('add to parent one instance', function () {
     })
     expect(parent).ok
     expect(b).instanceof(a.Constructor)
+    expect(measure.b).msg('b').equals(0)
     expect(measure.a).equals(1)
-    expect(measure.b).equals(0)
   })
 })
