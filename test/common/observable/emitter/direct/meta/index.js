@@ -9,11 +9,10 @@ describe('meta', function () {
       key: 'a',
       on: {
         change: function (event, meta) {
-          console.log('fire change', meta)
           measure.a.change = meta
         },
         property: function (event, meta) {
-          console.log('fire prop', meta)
+          console.error('fire prop!', meta)
           measure.a.property = meta
         }
       }
@@ -24,9 +23,8 @@ describe('meta', function () {
     expect(a._on.property.triggerEvent).equals(false)
   })
 
-  it('passes correct meta to change', function () {
+  xit('passes correct meta to change', function () {
     a.val = 'a'
-    console.log(measure.a.change)
     expect(measure.a.change).equals('a')
   })
 
@@ -37,6 +35,7 @@ describe('meta', function () {
   })
 
   it('change meta should be null when removed', function () {
+    console.warn('-------')
     a.remove()
     expect(measure.a.change).equals(null)
   })
