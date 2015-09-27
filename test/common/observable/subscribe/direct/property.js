@@ -34,7 +34,7 @@ describe('subscribing to single existing field', function () {
   })
 
   it('fires when field is added again', function () {
-    console.info('setting aField again')
+
     a.set({aField: 3})
     expect(count).equals(1)
   })

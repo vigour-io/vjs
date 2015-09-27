@@ -473,11 +473,11 @@ describe('remove', function () {
         b: {
           on: {
             change: function (event, removed) {
-              // console.info(this._context && this._context.key)
+
               cnt[this.path[0]]++
               cnt.total++
             // make parent better from context resolves current contexts and goes up
-            // console.info('\nDO!',cnt, this.path)
+
             }
           }
         }

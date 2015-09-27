@@ -11,7 +11,7 @@ describe('listeners', function () {
       key: 'obs',
       on: {
         change: function testObservable (event, meta) {
-          console.log('%c fire gun', 'color:teal;', 'val')
+
           measure.obs.val++
         }
       }
@@ -26,7 +26,7 @@ describe('listeners', function () {
       on: {
         change: {
           second: function () {
-            console.log('%c fire gun', 'color:teal;', 'second')
+
             measure.obs.second++
           }
         }

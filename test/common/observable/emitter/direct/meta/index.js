@@ -12,7 +12,6 @@ describe('meta', function () {
           measure.a.change = meta
         },
         property: function (event, meta) {
-          console.error('fire prop!', meta)
           measure.a.property = meta
         }
       }
@@ -30,7 +29,6 @@ describe('meta', function () {
 
   it('passes correct meta to property', function () {
     a.set({ afield: true })
-    console.log(measure.a.property)
     expect(measure.a.property)
       .to.have.property('added')
       .which.has.property(0)
