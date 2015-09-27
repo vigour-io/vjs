@@ -23,7 +23,7 @@ describe('meta', function () {
     expect(a._on.property.triggerEvent).equals(false)
   })
 
-  xit('passes correct meta to change', function () {
+  it('passes correct meta to change', function () {
     a.val = 'a'
     expect(measure.a.change).equals('a')
   })
@@ -31,12 +31,21 @@ describe('meta', function () {
   it('passes correct meta to property', function () {
     a.set({ afield: true })
     console.log(measure.a.property)
-    // expect(measure.a.property).equals('a')
+    expect(measure.a.property)
+      .to.have.property('added')
+      .which.has.property(0)
+      .which.equals('afield')
   })
 
   it('change meta should be null when removed', function () {
-    console.warn('-------')
     a.afield.remove()
     expect(measure.a.change).equals(null)
+  })
+
+  it('should have passed a removed array to property meta', function () {
+    expect(measure.a.property)
+      .to.have.property('removed')
+      .which.has.property(0)
+      .which.equals('afield')
   })
 })
