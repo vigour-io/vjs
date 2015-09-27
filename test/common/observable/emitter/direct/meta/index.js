@@ -36,7 +36,7 @@ describe('meta', function () {
 
   it('change meta should be null when removed', function () {
     console.warn('-------')
-    a.remove()
+    a.afield.remove()
     expect(measure.a.change).equals(null)
   })
 })
