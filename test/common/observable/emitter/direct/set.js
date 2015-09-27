@@ -21,7 +21,6 @@ describe('set', function () {
       on: {
         change: function (event) {
           cnt++
-          event.block = true
           this.set({
             specialField: 'xxxx',
             letsSee: true
@@ -29,7 +28,6 @@ describe('set', function () {
           this.set({
             specialField: 'hello'
           }, event)
-          event.block = null
         }
       }
     })
@@ -63,6 +61,44 @@ describe('set', function () {
       x: true
     })
     expect(cnt).to.equal(0)
+    expect(cnt2).to.equal(1)
+  })
+
+  it('extends emit to fire parents , fire correct emitters', function () {
+    var emitInternal = Observable.prototype.emitInternal
+    var valueIsSet
+    var a = new Observable({
+      key: 'a',
+      on: {
+        change: function () {
+          valueIsSet = this.x.val
+          cnt++
+        }
+      },
+      x: {
+        define: {
+          emitInternal: function (event, bind, meta, key, trigger, ignore) {
+            var parent = this.parent
+            var ret = emitInternal.apply(this, arguments)
+            while (parent) {
+              parent.emit(key, event, meta, ignore)
+              parent = parent.parent
+            }
+            return ret
+          }
+        },
+        on: {
+          change: function (event, meta) {
+            cnt2++
+          }
+        }
+      }
+    })
+    a.set({
+      x: true
+    })
+    expect(cnt).msg('a').to.equal(1)
+    expect(valueIsSet).to.equal(true)
     expect(cnt2).to.equal(1)
   })
 })
