@@ -20,7 +20,6 @@ describe('listeners', function () {
   })
 
   it('add extra change listeners on obs ', function () {
-    console.warn('second')
     measure.obs.second = 0
     obs.set({
       on: {
@@ -38,9 +37,6 @@ describe('listeners', function () {
 
   it('add third change listener on obs, set obs', function () {
     measure.obs.third = 0
-
-    console.warn('change value@!#@!#!@#')
-
     obs.set({
       on: {
         change: {

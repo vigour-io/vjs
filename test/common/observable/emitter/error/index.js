@@ -10,7 +10,7 @@ describe('value change emitter', function () {
 
   var aErrorEmitter = new ErrorEmitter()
   aErrorEmitter.on(function ( event, error ) {
-    console.error('omg error', error)
+
   })
   aErrorEmitter.emit(false, false, false, new Error('rick error'))
 
@@ -25,7 +25,7 @@ describe('value change emitter', function () {
             rick: function () {}
           },
           $error: function ( event, error ) {
-            console.error(error)
+        
           }
         }
       }
