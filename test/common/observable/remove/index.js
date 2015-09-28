@@ -449,182 +449,182 @@ describe('remove', function () {
    // expect( aInstance.b ).to.be.null
   })
 
-  // it('nested (virtual) fields 1 level remove', function () {
-  //   var cnt = {
-  //     total: 0,
-  //     a: 0,
-  //     b: 0
-  //   }
-  //   var a = new Observable({
-  //     key: 'a',
-  //     trackInstances: true,
-  //     b: {
-  //       on: {
-  //         change: function (event, removed) {
-  //           cnt[this.path[0]]++
-  //           cnt.total++
-  //         }
-  //       }
-  //     }
-  //   })
-  //   var b = new a.Constructor({
-  //     key: 'b'
-  //   })
-  //   a.b.remove()
-  //   expect(cnt.a).to.equal(1)
-  //   expect(cnt.b).to.equal(1)
-  //   expect(cnt.total).to.equal(2)
-  //   expect(b.b).to.not.be.ok
-  //   expect(a.b).to.not.be.ok
-  // })
+  it('nested (virtual) fields 1 level remove', function () {
+    var cnt = {
+      total: 0,
+      a: 0,
+      b: 0
+    }
+    var a = new Observable({
+      key: 'a',
+      trackInstances: true,
+      b: {
+        on: {
+          change: function (event, removed) {
+            cnt[this.path[0]]++
+            cnt.total++
+          }
+        }
+      }
+    })
+    var b = new a.Constructor({
+      key: 'b'
+    })
+    a.b.remove()
+    expect(cnt.a).to.equal(1)
+    expect(cnt.b).to.equal(1)
+    expect(cnt.total).to.equal(2)
+    expect(b.b).to.not.be.ok
+    expect(a.b).to.not.be.ok
+  })
   //
-  // it('nested (virtual) fields 2 levels remove', function () {
-  //   //
-  //   var cnt = {
-  //     total: 0,
-  //     a: 0,
-  //     b: 0
-  //   }
-  //   var a = new Observable({
-  //     key: 'a',
-  //     trackInstances: true,
-  //     c: {
-  //       b: {
-  //         on: {
-  //           change: function (event, removed) {
+  it('nested (virtual) fields 2 levels remove', function () {
+    //
+    var cnt = {
+      total: 0,
+      a: 0,
+      b: 0
+    }
+    var a = new Observable({
+      key: 'a',
+      trackInstances: true,
+      c: {
+        b: {
+          on: {
+            change: function (event, removed) {
+
+              cnt[this.path[0]]++
+              cnt.total++
+            // make parent better from context resolves current contexts and goes up
+
+            }
+          }
+        }
+      }
+    })
+
+    var b = new a.Constructor({
+      key: 'b'
+    })
+
+    a.c.b.remove()
+
+    expect(cnt.total).to.equal(2)
+    expect(a.c.b).to.not.be.ok
+    expect(a.c).to.be.ok
+    expect(b.c).to.be.ok
+    expect(b.c.b).msg('removed virtual child b.c.b').to.not.be.ok
+    // what goes wrong? ---
+    expect(cnt.b).to.equal(1)
+    expect(cnt.a).to.equal(1)
+  })
   //
-  //             cnt[this.path[0]]++
-  //             cnt.total++
-  //           // make parent better from context resolves current contexts and goes up
-  //
-  //           }
-  //         }
-  //       }
-  //     }
-  //   })
-  //
-  //   var b = new a.Constructor({
-  //     key: 'b'
-  //   })
-  //
-  //   a.c.b.remove()
-  //
-  //   expect(cnt.total).to.equal(2)
-  //   expect(a.c.b).to.not.be.ok
-  //   expect(a.c).to.be.ok
-  //   expect(b.c).to.be.ok
-  //   expect(b.c.b).msg('removed virtual child b.c.b').to.not.be.ok
-  //   // what goes wrong? ---
-  //   expect(cnt.b).to.equal(1)
-  //   expect(cnt.a).to.equal(1)
-  // })
-  //
-  // it('remove tests with a nested on', function () {
-  //   // create nested removes on instances
-  //   var cnt = 0
-  //   var metaCnt = 0
-  //   var a = new Observable({
-  //     key: 'a',
-  //     b: {
-  //       on: {
-  //         change: function (event, removed) {
-  //           if (removed) {
-  //             metaCnt++
-  //           }
-  //           cnt++
-  //         }
-  //       }
-  //     }
-  //   })
-  //   a.remove()
-  //   expect(metaCnt).to.equal(1)
-  //   expect(cnt).to.equal(1)
-  // })
-  //
-  // it('remove tests with a deep nested on', function () {
-  //   //
-  //   var cnt = 0
-  //   var metaCnt = 0
-  //   var a = new Observable({
-  //     key: 'a',
-  //     b: {
-  //       c: {
-  //         on: {
-  //           change: function (event, removed) {
-  //             if (removed) {
-  //               metaCnt++
-  //             }
-  //             cnt++
-  //           }
-  //         }
-  //       }
-  //     }
-  //   })
-  //   a.remove()
-  //   expect(cnt).to.equal(1)
-  //   expect(metaCnt).to.equal(1)
-  // })
-  //
-  // it('remove tests with a deep nested on and instances', function () {
-  //   //
-  //   var cnt = 0
-  //   var metaCnt = 0
-  //   var measure = {}
-  //   var i
-  //   var a = new Observable({
-  //     key: 'a',
-  //     trackInstances: true,
-  //     b: {
-  //       trackInstances: true,
-  //       c: {
-  //         on: {
-  //           change: function (event, removed) {
-  //             measure[this.path[0]] = !measure[this.path[0]] ? 1 : measure[this.path[0]] + 1
-  //             if (removed) {
-  //               metaCnt++
-  //             }
-  //             cnt++
-  //           }
-  //         }
-  //       }
-  //     }
-  //   })
-  //   var arr = []
-  //   for (i = 0; i < 10; i++) {
-  //     arr.push(new a.Constructor({key: i}))
-  //   }
-  //   a.remove()
-  //   expect(cnt).to.equal(11)
-  //   expect(metaCnt).to.equal(11)
-  //   for (i = 0; i < 10; i++) {
-  //     expect(measure[i]).to.equal(1)
-  //   }
-  // })
-  //
-  // describe('references', function () {
-  //   it('reference listener fires twice', function () {
-  //     var cnt = 0
-  //     var a = new Observable({
-  //       key: 'a',
-  //       on: {
-  //         reference: function () {
-  //           cnt++
-  //         }
-  //       }
-  //     })
-  //
-  //     var b = new Observable({
-  //       key: 'b',
-  //       val: 'hello'
-  //     })
-  //     a.val = b
-  //
-  //     a.remove()
-  //     expect(isRemoved(a)).to.equal(true)
-  //     expect(b.val).to.equal('hello')
-  //     expect(cnt).to.equal(2)
-  //   })
-  // })
+  it('remove tests with a nested on', function () {
+    // create nested removes on instances
+    var cnt = 0
+    var metaCnt = 0
+    var a = new Observable({
+      key: 'a',
+      b: {
+        on: {
+          change: function (event, meta) {
+            if (meta === null) {
+              metaCnt++
+            }
+            cnt++
+          }
+        }
+      }
+    })
+    a.remove()
+    expect(metaCnt).to.equal(1)
+    expect(cnt).to.equal(1)
+  })
+
+  it('remove tests with a deep nested on', function () {
+    //
+    var cnt = 0
+    var metaCnt = 0
+    var a = new Observable({
+      key: 'a',
+      b: {
+        c: {
+          on: {
+            change: function (event, meta) {
+              if (meta === null) {
+                metaCnt++
+              }
+              cnt++
+            }
+          }
+        }
+      }
+    })
+    a.remove()
+    expect(cnt).to.equal(1)
+    expect(metaCnt).to.equal(1)
+  })
+
+  it('remove tests with a deep nested on and instances', function () {
+    //
+    var cnt = 0
+    var metaCnt = 0
+    var measure = {}
+    var i
+    var a = new Observable({
+      key: 'a',
+      trackInstances: true,
+      b: {
+        trackInstances: true,
+        c: {
+          on: {
+            change: function (event, meta) {
+              measure[this.path[0]] = !measure[this.path[0]] ? 1 : measure[this.path[0]] + 1
+              if (meta===null) {
+                metaCnt++
+              }
+              cnt++
+            }
+          }
+        }
+      }
+    })
+    var arr = []
+    for (i = 0; i < 10; i++) {
+      arr.push(new a.Constructor({key: i}))
+    }
+    a.remove()
+    expect(cnt).to.equal(11)
+    expect(metaCnt).to.equal(11)
+    for (i = 0; i < 10; i++) {
+      expect(measure[i]).to.equal(1)
+    }
+  })
+
+  describe('references', function () {
+    it('reference listener fires twice', function () {
+      var cnt = 0
+      var a = new Observable({
+        key: 'a',
+        on: {
+          reference: function () {
+            cnt++
+          }
+        }
+      })
+      var b = new Observable({
+        key: 'b',
+        val: 'hello'
+      })
+      a.val = b
+      expect(cnt).to.equal(1)
+      a.remove()
+      //ref does not fire (is correct did not add yet)
+      expect(cnt).to.equal(2)
+      expect(isRemoved(a)).to.equal(true)
+      expect(b.val).to.equal('hello')
+    })
+  })
   //
   // describe('emitters', function () {
   //   it('should emit change event when property is removed due to ' +
