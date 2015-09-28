@@ -1,27 +1,112 @@
-// console.clear()
-
 var Observable = require('../../../../lib/observable/')
 var tracking = require('../../../../lib/tracking/')
 var trackerEmitter = require('../../../../lib/tracking/emitter')
+var Event = require('../../../../lib/event/')
 
-trackerEmitter.$plugins.rick = function() {
-  console.log('omg rick plugin')
-}
+trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
+Event.prototype.inject(require('../../../../lib/event/toString'))
 
-describe('value change emitter', function() {
-  // Observable.prototype.inject( tracking )
-  var a = new Observable({
-    $inject: tracking,
-    $on: {
-      //random emitter
-      rick: function( event, meta ) {
-        console.error('rick is firing')
-      },
-      // $value, $remove, $error, $reference, $property, $change, $new, $addToParent, $
-    },
-    $track: true, //should listen for listeners as well
+// this is just to log stuff (.toString yields nicer result for events)
+var Event = require('../../../../lib/event/')
+Event.prototype.inject(require('../../../../lib/event/toString'))
+
+describe('direct tracking', function () {
+  it('should contain all default keys', function (done) {
+    var a = new Observable({
+      key: 'a',
+      b: {
+        inject: tracking,
+        _on: {
+          error: function ( event, meta ) {}
+        },
+        track: true
+      }
+    })
+
+<<<<<<< HEAD
+    trackerEmitter.$services.test = function ( obj ) {
+
+=======
+    trackerEmitter.services.test = function ( obj ) {
+>>>>>>> feature/refactorEmitter
+      expect(obj)
+        .to.have.deep.property('eventobject')
+      done()
+    }
+    a.b.emit('change')
   })
-  a.$val = 'rick'
-  a.$val = 'james'
-  a.emit('rick')
+
+  it('should track an error event correctly', function (done) {
+    var a = new Observable({
+      key: 'a',
+      b: {
+        inject: tracking,
+        _on: {
+          error: function ( event, meta ) {
+            alert()
+          }
+        },
+        track: true
+      }
+    })
+
+    trackerEmitter.services.test = function ( obj ) {
+      // check for error type
+      expect(obj.eventobject.metaMessage).to.be.ok
+      expect(obj.eventobject.eventType).to.equal('error')
+      done()
+    }
+    a.b.emit('error')
+  })
+
+  it('reference (other event origin)', function (done) {
+    var exampleReference = new Observable({
+      b: {
+        key: 'aReference'
+      }
+    })
+
+    var a = new Observable({
+      key: 'a',
+      b: {
+        val: exampleReference.b,
+        inject: tracking,
+        _on: {
+          error: function ( event, meta ) {}
+        },
+        track: true
+      }
+    })
+
+    trackerEmitter.services.test = function ( obj ) {
+      // check for change type
+
+<<<<<<< HEAD
+      expect(obj.eventobject.eventOriginator.$val).to.equal('aReference')
+=======
+      expect(obj.eventobject.eventOriginator.val).to.equal('aReference')
+>>>>>>> feature/refactorEmitter
+      done()
+    }
+    exampleReference.b.val = 'rick'
+  })
+
+  it('should overwride id if tracking val is a string', function (done) {
+    var a = new Observable({
+      key: 'a',
+      b: {
+        inject: tracking,
+        _on: {
+          change: function ( event, meta ) {}
+        },
+        track: 'test string'
+      }
+    })
+
+    trackerEmitter.services.test = function ( obj ) {
+      expect(obj.id.val).to.have.string('test string')
+      done()
+    }
+    a.b.emit('change')
+  })
 })

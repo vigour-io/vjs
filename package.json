@@ -1,6 +1,6 @@
 {
   "name": "vjs",
-  "version": "0.1.8",
+  "version": "0.2",
   "author": "Vigour.io <dev@vigour.io>",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "url": "https://github.com/vigour-io/vjs/issues"
   },
   "dependencies": {
-    "lodash": "3.6.x",
+    "lodash": "3.10.x",
     "promise": "6.x.x"
   },
   "homepage": "https://github.com/vigour-io/vjs",
@@ -40,21 +40,7 @@
     "gaston": "git+ssh://git@github.com:vigour-io/gaston.git#dev"
   },
   "gaston": {
-    "port": 8080,
-    "socket-port": 9000,
-    "no-auto-reload": false,
-    "no-package": false,
-    "bundle": "./",
-    "build": "./",
-    "browserify": {
-      "transforms": []
-    },
-    "less": {
-      "options": {}
-    },
-    "remote-logging": false,
-    "require-paths": {},
-    "source-maps": true
+    "source-maps":false
   },
   "vigour": {
     "services": {
@@ -63,5 +49,8 @@
         "unignoreFolders": []
       }
     }
+  },
+  "standard": {
+    "globals": [ "describe", "it", "beforeEach", "sinon", "expect", "xit" ]
   }
 }

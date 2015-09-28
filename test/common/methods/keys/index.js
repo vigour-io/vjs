@@ -3,10 +3,10 @@ var Keys = require('../../../../lib/methods/keys')
 
 Base.prototype.inject(Keys)
 
-describe('keys', function() {
+describe('keys', function () {
   var a
 
-  beforeEach(function() {
+  beforeEach(function () {
     a = new Base({
       x: {
         y: 123
@@ -15,9 +15,8 @@ describe('keys', function() {
     })
   })
 
-  it('should return object keys', function() {
-    var results = a.keys();
+  it('should return object keys', function () {
+    var results = a.keys()
     expect(results).to.eql(['x', 'z'])
   })
-
-});
+})

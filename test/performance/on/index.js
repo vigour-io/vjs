@@ -1,71 +1,69 @@
-
 var Obs = require('../../../lib/observable')
 var util = require('../../../lib/util')
 var Event = require('../../../lib/event')
 
-describe( 'on change emitters', function() {
-
-  it( 'on multiple instances', function( done ) {
+describe('on change emitters', function () {
+  it('on multiple instances', function ( done ) {
     var amount = 1e4
     var measure = 0
     this.timeout(50000)
-    expect(function() {
+    expect(function () {
       var A = new Obs({
-      $key:'a',
+        $key: 'a',
         $on: {
-          $change:function() {
+          $change: function () {
             measure++
           }
         }
       }).$Constructor
 
       var arr = []
-      for( var i = 0; i < amount; i++ ) {
-        arr.push( new A({ i: i } ) )
+      for ( var i = 0; i < amount; i++) {
+        arr.push(new A({ i: i }))
       }
       expect(measure).to.equal(amount)
     }).performance({
-      margin:7,
-      method: function() {
+      margin: 7,
+      method: function () {
         var B = new Obs({
-          $key:'b'
+          $key: 'b'
         }).$Constructor
         var arr = []
-        for( var i = 0; i < amount; i++ ) {
-          arr.push( new B({ i: i }) )
+        for ( var i = 0; i < amount; i++) {
+          arr.push(new B({ i: i }))
         }
       }
     }, done)
   })
 
-  it( 'update a', function( done ) {
+  it('update a', function ( done ) {
     this.timeout(50000)
     var amount = 1e5
     var measure = 0
 
     var instances = []
     var a = new Obs({
-    $key:'a',
+      $key: 'a',
       $on: {
-        $change:function() {
+        $change: function () {
           measure++
         }
       }
     })
     var A = a.$Constructor
-    for(var i = 0 ; i < amount; i++) {
-      instances.push( new A() )
+    for (var i = 0; i < amount; i++) {
+      instances.push(new A())
     }
 
-    expect(function() {
+    expect(function () {
       instances[0].$val = 'y'
     }).performance({
-      method: function() {
+      method: function () {
         a.$val = 'x'
       },
-      margin: (1/amount) * 100 //add ms
-    }, function() {
-      expect(measure).to.equal( (amount+2) )
+      margin: (1 / amount) * 100 // add ms
+    }, function () {
+      expect(measure).to.equal((amount + 2))
       done()
     })
   })

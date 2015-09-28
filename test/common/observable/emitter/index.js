@@ -1,13 +1,12 @@
-
-//add some more set checks and tests
-//nested case etc
-describe( 'emitter', function() {
-  require('./change' )
-  require('./instances' )
-  require('./references' )
-  require('./parent' )
-  require('./off' )
-  require('./defer' )
-  require('./context' )
-  require('./combined' )
+// add some more set checks and tests
+// nested case etc
+describe('emitter', function () {
+  require('./direct')
+  require('./instances')
+  require('./references')
+  require('./parent')
+  require('./off')
+  // require('./condition')
+  require('./context')
+  require('./combined')
 })

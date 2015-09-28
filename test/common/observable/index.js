@@ -1,6 +1,10 @@
-describe( 'observable', function() {
+describe('observable', function () {
+  require('./basics')
   require('./emitter')
   require('./remove')
-  require('./operator')
+  require('./streams')
   require('./subscribe')
-} )
+  // require('./tracking')
+  // also add operators test for purely base
+  // require('./operators')
+})
