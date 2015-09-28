@@ -13,7 +13,7 @@ describe('streams', function () {
       key: 'a',
       on: {
         change: function (event, meta) {
-          // console.log('change', meta)
+
           if (meta === 'hey') {
             done()
           }
@@ -33,7 +33,6 @@ describe('streams', function () {
       objectMode: true
     })
     writable._write = function (chunk, encoding, callback) {
-      console.log(chunk.toString())
       expect(chunk.toString()).to.equal('hey')
       done()
     }

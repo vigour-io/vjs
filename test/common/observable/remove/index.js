@@ -172,7 +172,6 @@ describe('remove', function () {
       on: {
         change: {
           val: function (event, meta) {
-            console.warn('i should be gettin removed', meta, this.path)
             var keyCnt = measure.a.val[this.key]
             // second time is null should be b else things become very unclear
             measure.a.val[this.key] = keyCnt ? (keyCnt + 1) : 1
@@ -231,13 +230,13 @@ describe('remove', function () {
 
     expect(cnt).msg('listensOn in a').to.equal(2)
 
-    console.error('\n\n--- ok ok ok ---')
+
 
     reffed.remove()
 
     cnt = 0
     a.listensOnBase.each(function (prop, key) {
-      console.log(key, prop._input === null ? 'REMOVED' : 'OK')
+
       cnt++
     })
 
@@ -394,7 +393,7 @@ describe('remove', function () {
       key: 'a',
       on: {
         change: function () {
-          console.log('need this update bitch')
+
           change++
         },
         property: function () {
@@ -418,12 +417,9 @@ describe('remove', function () {
       key: 'a',
       on: {
         change: function (event) {
-          console.warn('?????', this.path, event.stamp)
           change++
         },
         property: function () {
-          console.warn('???22??')
-
           propertyChange++
         }
       },
@@ -437,9 +433,9 @@ describe('remove', function () {
 
     console.clear()
 
-    console.log('do it should have godamn context!')
+
     aInstance.b.remove()
-    console.log('done')
+
     expect(aInstance.b).to.be.not.ok
     expect(a.b.val).equals(true)
     // should not fire for a only for aInstance...
