@@ -8,7 +8,7 @@ describe('convert', function () {
   var a
   beforeEach(function () {
     a = new Base({
-      key: 'a',
+      $key: 'a',
       x: {
         y: 123
       }
@@ -20,7 +20,7 @@ describe('convert', function () {
     var expectedObject = {
       x: {
         y: {
-          val: 123
+          $val: 123
         }
       }
     }
@@ -31,24 +31,21 @@ describe('convert', function () {
     var convertedObj = a.convert({
       plain: true
     })
-    expect(convertedObj)
-      .to.be.an('object').and
-      .to.have.deep.property('x.y')
+    expect(convertedObj).to.be.an('object').and
+                        .to.have.deep.property('x.y')
   })
 
   it('should convert function to string', function () {
     var convertedObj = a.convert({
       string: true
     })
-    expect(convertedObj)
-      .to.be.an('string').and
-      .to.equal('{\n  "x": {\n    "y": {\n      "val": 123\n    }\n  }\n}')
+    expect(convertedObj).to.be.an('string').and
+                        .to.equal('{\n  "x": {\n    "y": {\n      "$val": 123\n    }\n  }\n}')
   })
-
   it('should exclude key/value', function () {
     var convertedObj = a.convert({
-      exclude: function (property, key) {
-        if (key === 'y') {
+      exclude: function (val) {
+        if (val === 'y') {
           return true
         }
       }
@@ -60,6 +57,20 @@ describe('convert', function () {
     var convertedObj = a.convert({
       flatten: true
     })
-    expect(convertedObj).to.have.property('x.y.val')
+    expect(convertedObj).to.have.property('x.y.$val')
+  })
+
+  it('should handle arrays', function () {
+    var original = { arr: [1, { x: true, y: false, z: ['a', 'b', ['c']] }, 3] }
+    var base = new Base(original)
+    var convertedObj = base.convert({ plain: true })
+    expect(convertedObj).to.deep.equal(original)
+  })
+
+  it('should handle empty arrays', function () {
+    var original = { arr: [] }
+    var base = new Base(original)
+    var convertedObj = base.convert({ plain: true })
+    expect(convertedObj).to.deep.equal(original)
   })
 })
