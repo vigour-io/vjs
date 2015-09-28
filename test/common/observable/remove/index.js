@@ -230,13 +230,10 @@ describe('remove', function () {
 
     expect(cnt).msg('listensOn in a').to.equal(2)
 
-
-
     reffed.remove()
 
     cnt = 0
     a.listensOnBase.each(function (prop, key) {
-
       cnt++
     })
 
@@ -393,7 +390,6 @@ describe('remove', function () {
       key: 'a',
       on: {
         change: function () {
-
           change++
         },
         property: function () {
@@ -483,11 +479,9 @@ describe('remove', function () {
         b: {
           on: {
             change: function (event, removed) {
-
               cnt[this.path[0]]++
               cnt.total++
             // make parent better from context resolves current contexts and goes up
-
             }
           }
         }
@@ -570,7 +564,7 @@ describe('remove', function () {
           on: {
             change: function (event, meta) {
               measure[this.path[0]] = !measure[this.path[0]] ? 1 : measure[this.path[0]] + 1
-              if (meta===null) {
+              if (meta === null) {
                 metaCnt++
               }
               cnt++
@@ -609,7 +603,7 @@ describe('remove', function () {
       a.val = b
       expect(cnt).to.equal(1)
       a.remove()
-      //ref does not fire (is correct did not add yet)
+      // ref does not fire (is correct did not add yet)
       expect(cnt).to.equal(2)
       expect(isRemoved(a)).to.equal(true)
       expect(b.val).to.equal('hello')
