@@ -11,7 +11,7 @@ var Event = require('../../../../lib/event/')
 Event.prototype.inject(require('../../../../lib/event/toString'))
 
 describe('direct tracking', function () {
-  xit('should contain all default keys', function (done) {
+  it('should contain all default keys', function (done) {
     var a = new Observable({
       $key: 'a',
       b: {
@@ -24,7 +24,7 @@ describe('direct tracking', function () {
     })
 
     trackerEmitter.$services.test = function ( obj ) {
-  
+
       expect(obj)
         .to.have.deep.property('eventobject')
       done()
@@ -32,7 +32,7 @@ describe('direct tracking', function () {
     a.b.emit('$change')
   })
 
-  xit('should track an error event correctly', function (done) {
+  it('should track an error event correctly', function (done) {
     var a = new Observable({
       $key: 'a',
       b: {
@@ -74,14 +74,14 @@ describe('direct tracking', function () {
 
     trackerEmitter.$services.test = function ( obj ) {
       // check for change type
-     
+
       expect(obj.eventobject.eventOriginator.$val).to.equal('aReference')
       done()
     }
     exampleReference.b.$val = 'rick'
   })
 
-  xit('should overwride id if tracking val is a string', function (done) {
+  it('should overwride id if tracking val is a string', function (done) {
     var a = new Observable({
       $key: 'a',
       b: {

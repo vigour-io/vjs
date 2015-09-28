@@ -62,4 +62,18 @@ describe('convert', function () {
     })
     expect(convertedObj).to.have.property('x.y.val')
   })
+
+  it('should handle arrays', function () {
+    var original = { arr: [1, { x: true, y: false, z: ['a', 'b', ['c']] }, 3] }
+    var base = new Base(original)
+    var convertedObj = base.convert({ plain: true })
+    expect(convertedObj).to.deep.equal(original)
+  })
+
+  xit('should handle empty arrays', function () {
+    var original = { arr: [] }
+    var base = new Base(original)
+    var convertedObj = base.convert({ plain: true })
+    expect(convertedObj).to.deep.equal(original)
+  })
 })
