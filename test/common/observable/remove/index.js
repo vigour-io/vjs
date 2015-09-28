@@ -566,7 +566,6 @@ describe('remove', function () {
   })
 
   it('remove tests with a deep nested on and instances', function () {
-    //
     var cnt = 0
     var metaCnt = 0
     var measure = {}
@@ -625,39 +624,23 @@ describe('remove', function () {
       expect(b.val).to.equal('hello')
     })
   })
-  //
-  // describe('emitters', function () {
-  //   it('should emit change event when property is removed due to ' +
-  //   'parent / ancestor properties being removed',
-  //   function () {
-  //     var a = new Observable({
-  //       key: 'a',
-  //       b: {
-  //         c: true
-  //       }
-  //     })
-  //     var count = 0
-  //     a.b.c.on('change', function () {
-  //       count++
-  //     })
-  //     a.b.remove()
-  //     expect(count).to.equal(1)
-  //   })
-  //
-  //   it('should emit trigger once for specific value (.trigger)', function () {
-  //     var a = new Observable({
-  //       key: 'a',
-  //       b: {
-  //         c: true
-  //       }
-  //     })
-  //     function listener () {
-  //       count++
-  //     }
-  //     var count = 0
-  //     a.b.c.on('change', listener)
-  //     a.b.c._on.change.trigger(listener)
-  //     expect(count).to.equal(1)
-  //   })
-  // })
+
+  describe('nested', function () {
+    it('should emit change event when property is removed due to ' +
+    'parent / ancestor properties being removed',
+    function () {
+      var a = new Observable({
+        key: 'a',
+        b: {
+          c: true
+        }
+      })
+      var count = 0
+      a.b.c.on('change', function () {
+        count++
+      })
+      a.b.remove()
+      expect(count).to.equal(1)
+    })
+  })
 })
