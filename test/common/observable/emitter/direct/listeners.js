@@ -11,6 +11,7 @@ describe('listeners', function () {
       key: 'obs',
       on: {
         change: function testObservable (event, meta) {
+
           measure.obs.val++
         }
       }
@@ -24,6 +25,7 @@ describe('listeners', function () {
       on: {
         change: {
           second: function () {
+
             measure.obs.second++
           }
         }
@@ -46,8 +48,8 @@ describe('listeners', function () {
       val: 'a value'
     })
     expect(measure.obs.third).msg('third listener').to.equal(0)
-    expect(measure.obs.second).msg('second listener').to.equal(1)
     expect(measure.obs.val).msg('val listener').to.equal(1)
+    expect(measure.obs.second).msg('second listener').to.equal(1)
   })
 
   it('change value, should fire listeners', function () {

@@ -31,7 +31,7 @@ describe('remove', function () {
         val: 'hello',
         on: {
           change: function (event, meta) {
-            expect(meta).to.equal(true)
+            expect(meta).to.equal(null)
             expect(this.val).to.equal(null)
           }
         }
@@ -176,7 +176,7 @@ describe('remove', function () {
             // second time is null should be b else things become very unclear
             measure.a.val[this.key] = keyCnt ? (keyCnt + 1) : 1
             measure.a.val.total++
-            if (meta === true) {
+            if (meta === null) {
               measure.a.val.removed++
             }
           }
@@ -195,14 +195,11 @@ describe('remove', function () {
       .msg('check if changeEmitter is removed').to.be.true
     expect(isRemoved(fn))
       .msg('check if fn is removed').to.be.true
-
     expect(measure.a.val.a).msg('a val change context:a').to.equal(1)
     expect(measure.a.val.b).msg('a val change context:b').to.equal(1)
     expect(measure.a.val.total).to.equal(2)
-
     expect(isRemoved(a)).msg('check if a is removed').to.be.true
     expect(isRemoved(b)).msg('check if b is removed').to.be.true
-
     expect(measure.a.val.removed).msg('correct removed (meta) count').to.equal(2)
   })
 
@@ -233,10 +230,13 @@ describe('remove', function () {
 
     expect(cnt).msg('listensOn in a').to.equal(2)
 
+
+
     reffed.remove()
 
     cnt = 0
     a.listensOnBase.each(function (prop, key) {
+
       cnt++
     })
 
@@ -393,6 +393,7 @@ describe('remove', function () {
       key: 'a',
       on: {
         change: function () {
+
           change++
         },
         property: function () {
@@ -403,17 +404,19 @@ describe('remove', function () {
     })
     a.b.remove()
     expect(change).to.equal(1)
-    expect(propertyChange).to.equal(1)
+    expect(propertyChange).msg('property').to.equal(1)
     expect(a.b).to.be.null
   })
 
   it('instances - remove a nested field fire listener', function () {
+    console.clear()
+
     var change = 0
     var propertyChange = 0
     var a = new Observable({
       key: 'a',
       on: {
-        change: function () {
+        change: function (event) {
           change++
         },
         property: function () {
@@ -422,12 +425,24 @@ describe('remove', function () {
       },
       b: true
     })
+    expect(change).to.equal(0)
+
     var aInstance = new a.Constructor({key: 'aInstance'})
+
+    expect(change).to.equal(1)
+
+    console.clear()
+
+
     aInstance.b.remove()
+
+    expect(aInstance.b).to.be.not.ok
+    expect(a.b.val).equals(true)
+    // should not fire for a only for aInstance...
     expect(change).to.equal(2)
-  // expect( propertyChange ).to.equal(1)
-  // expect( aInstance.b ).to.be.null
-  // expect( a.b ).to.be.ok
+
+    expect(propertyChange).to.equal(1)
+   // expect( aInstance.b ).to.be.null
   })
 
   it('nested (virtual) fields 1 level remove', function () {
@@ -458,7 +473,7 @@ describe('remove', function () {
     expect(b.b).to.not.be.ok
     expect(a.b).to.not.be.ok
   })
-
+  //
   it('nested (virtual) fields 2 levels remove', function () {
     //
     var cnt = {
@@ -473,11 +488,11 @@ describe('remove', function () {
         b: {
           on: {
             change: function (event, removed) {
-              // console.info(this._context && this._context.key)
+
               cnt[this.path[0]]++
               cnt.total++
             // make parent better from context resolves current contexts and goes up
-            // console.info('\nDO!',cnt, this.path)
+
             }
           }
         }
@@ -499,7 +514,7 @@ describe('remove', function () {
     expect(cnt.b).to.equal(1)
     expect(cnt.a).to.equal(1)
   })
-
+  //
   it('remove tests with a nested on', function () {
     // create nested removes on instances
     var cnt = 0
@@ -508,8 +523,8 @@ describe('remove', function () {
       key: 'a',
       b: {
         on: {
-          change: function (event, removed) {
-            if (removed) {
+          change: function (event, meta) {
+            if (meta === null) {
               metaCnt++
             }
             cnt++
@@ -531,8 +546,8 @@ describe('remove', function () {
       b: {
         c: {
           on: {
-            change: function (event, removed) {
-              if (removed) {
+            change: function (event, meta) {
+              if (meta === null) {
                 metaCnt++
               }
               cnt++
@@ -547,7 +562,6 @@ describe('remove', function () {
   })
 
   it('remove tests with a deep nested on and instances', function () {
-    //
     var cnt = 0
     var metaCnt = 0
     var measure = {}
@@ -559,9 +573,9 @@ describe('remove', function () {
         trackInstances: true,
         c: {
           on: {
-            change: function (event, removed) {
+            change: function (event, meta) {
               measure[this.path[0]] = !measure[this.path[0]] ? 1 : measure[this.path[0]] + 1
-              if (removed) {
+              if (meta===null) {
                 metaCnt++
               }
               cnt++
@@ -593,21 +607,21 @@ describe('remove', function () {
           }
         }
       })
-
       var b = new Observable({
         key: 'b',
         val: 'hello'
       })
       a.val = b
-
+      expect(cnt).to.equal(1)
       a.remove()
+      //ref does not fire (is correct did not add yet)
+      expect(cnt).to.equal(2)
       expect(isRemoved(a)).to.equal(true)
       expect(b.val).to.equal('hello')
-      expect(cnt).to.equal(2)
     })
   })
 
-  describe('emitters', function () {
+  describe('nested', function () {
     it('should emit change event when property is removed due to ' +
     'parent / ancestor properties being removed',
     function () {
@@ -622,22 +636,6 @@ describe('remove', function () {
         count++
       })
       a.b.remove()
-      expect(count).to.equal(1)
-    })
-
-    it('should emit trigger once for specific value (.trigger)', function () {
-      var a = new Observable({
-        key: 'a',
-        b: {
-          c: true
-        }
-      })
-      function listener () {
-        count++
-      }
-      var count = 0
-      a.b.c.on('change', listener)
-      a.b.c._on.change.trigger(listener)
       expect(count).to.equal(1)
     })
   })

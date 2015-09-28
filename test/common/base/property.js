@@ -64,6 +64,19 @@ describe('properties', function () {
       expect(a.something).equals('blurf')
     })
 
+    it('sets correct field', function () {
+      a.set({ something: 'xxx' })
+      expect(a.something).to.equal('xxx')
+    })
+
+    it('make instance', function () {
+      a = new a.Constructor({
+        key: 'aInstance',
+        something: 'blurf'
+      })
+      expect(a.something).equals('blurf')
+    })
+
     it('use overide', function () {
       a = new Base({
         key: 'a',
@@ -76,6 +89,20 @@ describe('properties', function () {
       })
       expect(a._something).equals('blurf')
     })
+
+    it('sets correct field', function () {
+      a.set({ something: 'xxx' })
+      expect(a._something).to.equal('xxx')
+    })
+
+    it('make instance', function () {
+      a = new a.Constructor({
+        key: 'aInstance',
+        something: 'blurf'
+      })
+      expect(a._something).equals('blurf')
+    })
+
   })
 
   describe('custom overrides', function () {

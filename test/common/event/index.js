@@ -1,5 +1,6 @@
 /* global describe, it, expect, beforeEach */
 var Event = require('../../../lib/event/')
+var Emitter = require('../../../lib/emitter/')
 
 describe('event', function () {
   var currentStamp
@@ -35,7 +36,8 @@ describe('event', function () {
       expect(myEvent.push).to.be.a.function
     })
     it('should add an emmiter to queue array', function () {
-      myEvent.push('Rahh')
+      var emitter = new Emitter()
+      myEvent.push(emitter)
       expect(myEvent.queue).to.be.defined
       expect(myEvent.queue).to.be.an.array
       expect(myEvent.queue).to.have.length(1)
@@ -50,7 +52,8 @@ describe('event', function () {
       expect(randomObject.push).to.be.a.function
     })
     it('should add an emmiter to queue array', function () {
-      randomObject.push('Rahh')
+      var emitter = new Emitter()
+      randomObject.push(emitter)
       expect(randomObject.queue).to.be.defined
       expect(randomObject.queue).to.be.an.array
       expect(randomObject.queue).to.have.length(1)

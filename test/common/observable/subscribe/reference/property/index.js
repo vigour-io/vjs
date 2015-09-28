@@ -44,7 +44,7 @@ describe('subscribing to single existing field, existing reference', function ()
         count++
       })
     } catch(e) {
-      console.error(e.stack)
+  
     }
   })
 
