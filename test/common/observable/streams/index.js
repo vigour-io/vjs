@@ -13,8 +13,8 @@ describe('streams', function () {
       key: 'a',
       on: {
         change: function (event, meta) {
-          if (meta) {
-            expect(meta).to.equal('hey')
+
+          if (meta === 'hey') {
             done()
           }
         }
