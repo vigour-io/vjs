@@ -409,8 +409,6 @@ describe('remove', function () {
   })
 
   it('instances - remove a nested field fire listener', function () {
-    console.clear()
-
     var change = 0
     var propertyChange = 0
     var a = new Observable({
@@ -430,9 +428,6 @@ describe('remove', function () {
     var aInstance = new a.Constructor({key: 'aInstance'})
 
     expect(change).to.equal(1)
-
-    console.clear()
-
 
     aInstance.b.remove()
 
