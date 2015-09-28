@@ -4,7 +4,7 @@ describe('observable', function () {
   require('./remove')
   require('./streams')
   require('./subscribe')
-  // require('./tracking')
+  require('./tracking')
   // also add operators test for purely base
   // require('./operators')
 })

@@ -43,7 +43,6 @@ describe('direct tracking', function () {
         inject: tracking,
         _on: {
           error: function ( event, meta ) {
-            alert()
           }
         },
         track: true
