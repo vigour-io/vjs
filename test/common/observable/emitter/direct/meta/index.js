@@ -28,7 +28,17 @@ describe('meta', function () {
   })
 
   it('passes correct meta to property', function () {
-    a.set({ afield: true })
+    measure.afield = {}
+    a.set({
+      afield: {
+        val: true,
+        on: {
+          change: function (event, meta) {
+            measure.afield = meta
+          }
+        }
+      }
+    })
     expect(measure.a.property)
       .to.have.property('added')
       .which.has.property(0)
@@ -36,8 +46,10 @@ describe('meta', function () {
   })
 
   it('change meta should be null when removed', function () {
+    expect(measure.a.change).ok
     a.afield.remove()
-    expect(measure.a.change).equals(null)
+    expect(measure.a.change).equals(void 0)
+    expect(measure.afield).equals(null)
   })
 
   it('should have passed a removed array to property meta', function () {
