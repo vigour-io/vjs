@@ -3,11 +3,9 @@ describe('property listener', function () {
   var cnt = 0
   var a = new Observable({
     key: 'a',
-    b: {},
     on: {
       property: function (event, meta) {
         cnt++
-        console.log('property fires!', meta, this.path)
       }
     }
   })
