@@ -409,7 +409,6 @@ describe('remove', function () {
   })
 
   it('instances - remove a nested field fire listener', function () {
-    console.clear()
 
     var change = 0
     var propertyChange = 0
@@ -431,7 +430,6 @@ describe('remove', function () {
 
     expect(change).to.equal(1)
 
-    console.clear()
 
 
     aInstance.b.remove()
