@@ -42,13 +42,11 @@ describe('direct tracking', function () {
     })
 
     trackerEmitter.services.test = function (obj) {
-      console.log('0000000', obj)
       // check for error type (array || error)
       expect(obj.eventobject.eventType.val).to.equal('error')
       expect(obj.eventobject.metaMessage).to.be.ok
       done()
     }
-    console.log('10000000')
     a.b.emit('error')
   })
 
