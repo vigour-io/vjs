@@ -76,4 +76,32 @@ describe('convert', function () {
     var convertedObj = base.convert({ plain: true })
     expect(convertedObj).to.deep.equal(original)
   })
+
+  describe('length', function () {
+    var l = 10
+    var short = []
+    var long = []
+    for (var i = 0; i < l; i += 1) {
+      short.push(i)
+      long.push(i)
+    }
+    long.push(i)
+    it('should handle short arrays', function () {
+      var original = {
+        arr: short
+      }
+      var base = new Base(original)
+      var convertedObj = base.convert({ plain: true })
+      expect(convertedObj).to.deep.equal(original)
+    })
+
+    it('should handle long arrays', function () {
+      var original = {
+        arr: long
+      }
+      var base = new Base(original)
+      var convertedObj = base.convert({ plain: true })
+      expect(convertedObj).to.deep.equal(original)
+    })
+  })
 })
