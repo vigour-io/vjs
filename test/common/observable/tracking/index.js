@@ -4,7 +4,6 @@ var trackerEmitter = require('../../../../lib/tracking/emitter')
 var Event = require('../../../../lib/event/')
 
 trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
-Event.prototype.inject(require('../../../../lib/event/toString'))
 
 // this is just to log stuff (.toString yields nicer result for events)
 Event.prototype.inject(require('../../../../lib/event/toString'))
@@ -15,7 +14,7 @@ describe('direct tracking', function () {
       key: 'a',
       b: {
         inject: tracking,
-        _on: {
+        on: {
           error: function (event, meta) {}
         },
         track: true
@@ -36,18 +35,20 @@ describe('direct tracking', function () {
       b: {
         inject: tracking,
         on: {
-          error: function (event, meta) {}
+          error: function () {}
         },
         track: true
       }
     })
 
     trackerEmitter.services.test = function (obj) {
+      console.log('0000000', obj)
       // check for error type (array || error)
-      expect(obj.eventobject.metaMessage).to.be.ok
       expect(obj.eventobject.eventType.val).to.equal('error')
+      expect(obj.eventobject.metaMessage).to.be.ok
       done()
     }
+    console.log('10000000')
     a.b.emit('error')
   })
 
@@ -63,8 +64,8 @@ describe('direct tracking', function () {
       b: {
         val: exampleReference.b,
         inject: tracking,
-        _on: {
-          error: function (event, meta) {}
+        on: {
+          error: function (data, event) {}
         },
         track: true
       }
@@ -83,7 +84,7 @@ describe('direct tracking', function () {
       key: 'a',
       b: {
         inject: tracking,
-        _on: {
+        on: {
           change: function (event, meta) {}
         },
         track: 'test string'
