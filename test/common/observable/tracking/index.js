@@ -3,7 +3,7 @@ var tracking = require('../../../../lib/tracking/')
 var trackerEmitter = require('../../../../lib/tracking/emitter')
 var Event = require('../../../../lib/event/')
 
-trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
+// trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
 
 // this is just to log stuff (.toString yields nicer result for events)
 Event.prototype.inject(require('../../../../lib/event/toString'))
