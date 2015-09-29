@@ -19,7 +19,6 @@ describe('streams', function () {
         }
       }
     })
-    // maybe dont fire when setting to stream?
     a.val = readable
     readable.push('hey')
   })
@@ -40,7 +39,7 @@ describe('streams', function () {
   })
 
   xit('can be piped to', function (done) {
-    // make this test better later...
+    // make this test better later... needs node server
     var a = new Observable({
       key: 'a',
       on: {

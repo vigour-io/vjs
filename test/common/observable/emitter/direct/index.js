@@ -4,4 +4,5 @@ describe('direct', function () {
   require('./attach')
   require('./set')
   require('./data')
+  require('./remove')
 })

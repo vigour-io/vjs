@@ -1,4 +1,4 @@
-describe('data', function () {
+describe('data-argument', function () {
   var Observable = require('../../../../../../lib/observable')
   var a
   var measure = {}
