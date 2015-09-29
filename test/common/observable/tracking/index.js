@@ -35,7 +35,7 @@ describe('direct tracking', function () {
       key: 'a',
       b: {
         inject: tracking,
-        _on: {
+        on: {
           error: function (event, meta) {}
         },
         track: true
@@ -43,9 +43,9 @@ describe('direct tracking', function () {
     })
 
     trackerEmitter.services.test = function (obj) {
-      // check for error type
+      // check for error type (array || error)
       expect(obj.eventobject.metaMessage).to.be.ok
-      expect(obj.eventobject.eventType).to.equal('error')
+      expect(obj.eventobject.eventType.val).to.equal('error')
       done()
     }
     a.b.emit('error')
