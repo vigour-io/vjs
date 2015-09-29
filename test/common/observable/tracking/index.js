@@ -43,8 +43,8 @@ describe('direct tracking', function () {
 
     trackerEmitter.services.test = function (obj) {
       // check for error type (array || error)
-      expect(obj.eventobject.eventType.val).to.equal('error')
       expect(obj.eventobject.metaMessage).to.be.ok
+      expect(obj.eventobject.eventType.val).to.equal('error')
       done()
     }
     a.b.emit('error')
