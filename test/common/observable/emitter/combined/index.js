@@ -31,13 +31,13 @@ describe('combined', function () {
     a = new Observable({
       key: 'a',
       on: {
-        change: function ( event, meta ) {
+        change: function () {
           measure.a.change.val.total++
         },
-        reference: function ( event, meta ) {
+        reference: function () {
           measure.a.reference.val.total++
         },
-        property: function ( event, meta ) {
+        property: function () {
           measure.a.property.val.total++
         }
       },
@@ -93,7 +93,7 @@ describe('combined', function () {
       key: 'aRef',
       on: {
         change: {
-          val: function ( event ) {
+          val: function (data, event) {
             this.remove(event)
           }
         }
@@ -118,7 +118,6 @@ describe('combined', function () {
 
     expect(util.isRemoved(aRef)).to.be.true
     expect(a.aNest._on.change.base[1]).to.be.null
-
   })
 
   it('test new emitter', function () {
@@ -135,7 +134,7 @@ describe('combined', function () {
     a = new Observable({
       key: 'a',
       on: {
-        new: function ( event ) {
+        new: function (data, event) {
           measure.a.new.val.total++
           measure.a.new.val[this.key]++
         }
@@ -182,11 +181,9 @@ describe('combined', function () {
         }
       }
     })
-
     obs.emit('someKindOfEvent')
     expect(total).to.equal(1)
     expect(total2).to.equal(1)
-
   })
 
   it('using numbers as keys, id counter for addListener global', function () {
@@ -211,13 +208,12 @@ describe('combined', function () {
 
     obs.val = 2
     expect(total).to.equal(2)
-
   })
 
   it('should remove listensOnBase[1]', function () {
     // TODO: may clean up listensOnBase when its empty
     var b = new Observable({
-      key: 'b',
+      key: 'b'
     })
 
     var a = new Observable({
@@ -241,7 +237,5 @@ describe('combined', function () {
 
     expect(b.listensOnBase[1]).to.be.not.ok
     expect(c.listensOnBase[1]).to.be.ok
-
   })
-
 })
