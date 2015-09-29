@@ -9,7 +9,7 @@ beforeEach(function () {
 
   if (subcription) {
     subcription.listensOnAttach.each(function (p) {
-      if (p.key === 'change') {
+      if (p.key === 'data') {
         change = p.attach
       }
       if (p.key === 'property') {
@@ -49,7 +49,7 @@ describe('subscribing to single existing field, existing reference', function ()
   })
 
   it('has added a change listener on a.aField', function () {
-    expect(a.aField._on.change).ok
+    expect(a.aField._on.data).ok
   })
 
   it('has added a property listener on b', function () {
@@ -75,11 +75,11 @@ describe('subscribing to single existing field, existing reference', function ()
   })
 
   it('has added a change listener on b.aField', function () {
-    expect(b.aField._on.change).ok
+    expect(b.aField._on.data).ok
   })
 
   it('has removed the change listener on a.aField', function () {
-    expect(a.aField._on.change.attach).not.ok
+    expect(a.aField._on.data.attach).not.ok
   })
 
   it('has removed the property listener on b', function () {
@@ -93,7 +93,7 @@ describe('subscribing to single existing field, existing reference', function ()
 
   it('removing b.aField adds a change listener to a.aField', function () {
     b.aField.remove()
-    expect(a.aField._on.change.attach).ok
+    expect(a.aField._on.data.attach).ok
   })
 
   it('and adds a property listener to b', function () {
@@ -117,7 +117,7 @@ describe('subscribing to existing field, and non existing field, existing refere
   })
 
   it('has added a change listener on a.aField', function () {
-    expect(a.aField._on.change).ok
+    expect(a.aField._on.data).ok
   })
 
   it('has added a property listener on a', function () {
@@ -143,11 +143,11 @@ describe('subscribing to existing field, and non existing field, existing refere
   })
 
   it('has added a change listener on b.aField', function () {
-    expect(b.aField._on.change).ok
+    expect(b.aField._on.data).ok
   })
 
   it('has removed the change listener on a.aField', function () {
-    expect(a.aField._on.change.attach).not.ok
+    expect(a.aField._on.data.attach).not.ok
   })
 
   it('has not removed the property listener on b', function () {
@@ -165,7 +165,7 @@ describe('subscribing to existing field, and non existing field, existing refere
   })
 
   it('has added a change listener on b.aField', function () {
-    expect(b.bField._on.change).ok
+    expect(b.bField._on.data).ok
   })
 
   it('has removed the property listener on b', function () {
@@ -196,7 +196,7 @@ describe('subscribing to single existing field, existing reference, switch refer
   })
 
   it('has added a change listener on a.aField', function () {
-    expect(a.aField._on.change).ok
+    expect(a.aField._on.data).ok
   })
 
   it('has added a property listener on b', function () {
@@ -217,11 +217,11 @@ describe('subscribing to single existing field, existing reference, switch refer
   })
 
   it('has removed listeners on a', function () {
-    expect(a.aField._on.change.attach).not.ok
+    expect(a.aField._on.data.attach).not.ok
   })
 
   it('has added a change listener on c.aField', function () {
-    expect(c.aField._on.change).ok
+    expect(c.aField._on.data).ok
   })
 
 })

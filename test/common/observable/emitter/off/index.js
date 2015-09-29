@@ -20,7 +20,7 @@ describe('off', function () {
     a = new Observable({
       key: 'a',
       on: {
-        change: {
+        data: {
           other: function () {},
           special: function () {}
         }
@@ -30,17 +30,17 @@ describe('off', function () {
 
     a.set({
       on: {
-        change: {
+        data: {
           special: [ function () {}, aRef ]
         }
       }
     })
     // same for attach and base
-    expect(a._on.change.fn.other).msg('fn.other').to.be.ok
-    expect(a._on.change.fn.special).msg('fn.special').to.be.null
+    expect(a._on.data.fn.other).msg('fn.other').to.be.ok
+    expect(a._on.data.fn.special).msg('fn.special').to.be.null
     // remove fn if its completely empty
-    a._on.change.fn.removeProperty(a._on.change.fn.other, 'other')
-    expect(a._on.change.fn).msg('fn').to.be.null
+    a._on.data.fn.removeProperty(a._on.data.fn.other, 'other')
+    expect(a._on.data.fn).msg('fn').to.be.null
   })
 
   it('new observable --> a --> b --> c, overwrite listeners, remove listeners', function () {
@@ -50,7 +50,7 @@ describe('off', function () {
     a = new Observable({
       key: 'a',
       on: {
-        change: {
+        data: {
           other: function () {},
           special: specialListener,
           attacher: [ specialListener ],
@@ -62,59 +62,59 @@ describe('off', function () {
     b = new a.Constructor({
       key: 'b',
       on: {
-        change: {
+        data: {
           other: function () {}
         }
       }
     })
 
-    expect(b._on.change.fn.special).to.equal(a._on.change.fn.special)
-    expect(b._on.change.fn.other).to.not.equal(a._on.change.fn.other)
+    expect(b._on.data.fn.special).to.equal(a._on.data.fn.special)
+    expect(b._on.data.fn.other).to.not.equal(a._on.data.fn.other)
     expect(b._on).to.be.an.instanceof(a._on.Constructor)
-    expect(b._on.change.fn).to.be.an.instanceof(a._on.change.fn.Constructor)
-    a.off('change', 'other')
-    expect(b._on.change.fn.other).to.be.ok
-    expect(a._on.change.fn.other).to.be.null
+    expect(b._on.data.fn).to.be.an.instanceof(a._on.data.fn.Constructor)
+    a.off('data', 'other')
+    expect(b._on.data.fn.other).to.be.ok
+    expect(a._on.data.fn.other).to.be.null
     c = new b.Constructor({
       key: 'c'
     })
 
-    c.off('change', 'special')
+    c.off('data', 'special')
 
-    expect(b._on.change.fn.special)
-      .msg('b._on.change.fn.special').to.be.ok
-    expect(c._on.change.fn.special)
-      .msg('c._on.change.fn.special').to.be.null
+    expect(b._on.data.fn.special)
+      .msg('b._on.data.fn.special').to.be.ok
+    expect(c._on.data.fn.special)
+      .msg('c._on.data.fn.special').to.be.null
     expect(c._on).to.be.an.instanceof(b._on.Constructor)
   })
 
   it('findAndRemove removals of listeners', function () {
     // removes both attach and fn (all ocurrences)
-    b.off('change', specialListener)
-    expect(a._on.change.fn.special).to.be.ok
-    expect(b._on.change.fn.special).to.be.null
-    expect(a._on.change.attach).to.be.ok
-    expect(b._on.change.attach).to.be.null
+    b.off('data', specialListener)
+    expect(a._on.data.fn.special).to.be.ok
+    expect(b._on.data.fn.special).to.be.null
+    expect(a._on.data.attach).to.be.ok
+    expect(b._on.data.attach).to.be.null
 
     ref.set({
       on: {
-        change: [ function () {}, a ]
+        data: [ function () {}, a ]
       }
     })
 
-    expect(ref._on.change.base).to.be.ok
-    expect(ref._on.change.attach).to.be.ok
+    expect(ref._on.data.base).to.be.ok
+    expect(ref._on.data.attach).to.be.ok
     expect(util.isEmpty(a.listensOnBase)).to.be.false
     expect(util.isEmpty(a.listensOnAttach)).to.be.false
 
-    ref.off('change', a)
-    expect(ref._on.change.base).to.be.null
-    expect(ref._on.change.attach).to.be.null
+    ref.off('data', a)
+    expect(ref._on.data.base).to.be.null
+    expect(ref._on.data.attach).to.be.null
     expect(util.isEmpty(a.listensOnBase)).to.be.true
     expect(util.isEmpty(a.listensOnAttach)).to.be.true
 
     a.off(weirdListener)
-    expect(a._on.change.fn.weird).to.be.null
+    expect(a._on.data.fn.weird).to.be.null
   })
 
   it('create new obserable a, findAndRemove removals of listeners with options objects', function () {
@@ -127,7 +127,7 @@ describe('off', function () {
     var a = new Observable({
       key: 'a',
       on: {
-        change: {
+        data: {
           fner: normal,
           attacher: [ normal ],
           baser: aRandomObs,
@@ -148,15 +148,15 @@ describe('off', function () {
 
     expect(a._on.randomEmitter.fn).to.be.null
     expect(a._on.randomEmitter.base).to.be.null
-    expect(a._on.change.fn).to.be.null
-    expect(a._on.change.base).to.be.null
+    expect(a._on.data.fn).to.be.null
+    expect(a._on.data.base).to.be.null
 
-    a.off('change', {
+    a.off('data', {
       attach: aRandomObs
     })
 
-    expect(a._on.change.attach.attach2).to.be.null
-    expect(a._on.change.attach.attacher).to.be.ok
+    expect(a._on.data.attach.attach2).to.be.null
+    expect(a._on.data.attach.attacher).to.be.ok
     expect(a._on.randomEmitter.attach.attacher).to.be.ok
   })
 })

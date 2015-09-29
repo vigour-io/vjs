@@ -23,7 +23,7 @@ describe('no instances', function () {
     obs = new Observable({
       $key: 'obs',
       $on: {
-        $change: function ( event, meta ) {
+        $data: function ( event, meta ) {
           measure.obs.val++
         }
       }
@@ -38,7 +38,7 @@ describe('no instances', function () {
 
     obs.set({
       $on: {
-        $change: {
+        $data: {
           second: function () {
             measure.obs.second++
           }
@@ -53,7 +53,7 @@ describe('no instances', function () {
 
     obs.set({
       $on: {
-        $change: {
+        $data: {
           third: function () {
             measure.obs.third++
           }
@@ -97,7 +97,7 @@ describe('no instances', function () {
     obs2 = new Observable({
       $key: 'obs2',
       $on: {
-        $change: {
+        $data: {
           val: function () {
             measure.obs2.val++
           }
@@ -144,7 +144,7 @@ describe('no instances', function () {
     obs3 = new Observable({
       $key: 'obs3',
       $on: {
-        $change: {
+        $data: {
           val: [
             function ( event, meta, base, extraArg1, extraArg2 ) {
               measure.obs3.val++
@@ -188,14 +188,14 @@ describe('no instances', function () {
       $key: 'obs4',
       specialField: {
         $on: {
-          $change: function () {
+          $data: function () {
             expect(this.$val).msg('specialField').to.equal('hello')
             cnt2++
           }
         }
       },
       $on: {
-        $change: function (event) {
+        $data: function (event) {
           cnt++
           event.$block = true
 
@@ -231,13 +231,13 @@ describe('no instances', function () {
     var a = new Observable({
       $key: 'a',
       $on: {
-        $change: function () {
+        $data: function () {
           measure.a++
         }
       },
       x: {
         $on: {
-          $change: function ( event, meta ) {
+          $data: function ( event, meta ) {
             measure.x++
           }
         }

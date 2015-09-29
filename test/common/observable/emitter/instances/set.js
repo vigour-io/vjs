@@ -7,7 +7,7 @@ describe('set on instance nested field', function () {
     b: {
       c: {
         on: {
-          change: function () {
+          data: function () {
             cnt++
           }
         }

@@ -94,7 +94,7 @@ describe('spawned listeners should not fire in context', function () {
   a.lurf.gurk.val = 'hey!'
 
   it('should emit for change once', function () {
-    expect(measure.type.change).equals(1)
+    expect(measure.type.data).equals(1)
   })
 
   it('should emit for value once', function () {

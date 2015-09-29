@@ -11,7 +11,7 @@ describe('on change emitters', function () {
       var A = new Obs({
         $key: 'a',
         $on: {
-          $change: function () {
+          $data: function () {
             measure++
           }
         }
@@ -45,7 +45,7 @@ describe('on change emitters', function () {
     var a = new Obs({
       $key: 'a',
       $on: {
-        $change: function () {
+        $data: function () {
           measure++
         }
       }

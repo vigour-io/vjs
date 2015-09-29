@@ -10,7 +10,7 @@ describe('context', function () {
       trackInstances: true,
       b: {
         on: {
-          change: function (event) {
+          data: function (event) {
             var key = this.path[0]
             cnt[key] = cnt[key] ? cnt[key] + 1 : 1
             cnt.total++
@@ -83,7 +83,7 @@ describe('context', function () {
         // if not trackinstances on a does not track for contexts (makes sense)
         on: {
           // if the emitter is not there it will not fire for instances!
-          change: function () {}
+          data: function () {}
         }
       }
     })
@@ -104,18 +104,18 @@ describe('context', function () {
         field: {
           val: b.nest,
           on: {
-            change: function () {
+            data: function () {
               fired = this.path
             }
           }
         }
       })
       expect(e).instanceof(d.Constructor)
-      expect(b.nest._on.change.base[1]._path).to.deep.equal(['e', 'field'])
-      expect(a.nest._on.change.base).not.ok
+      expect(b.nest._on.data.base[1]._path).to.deep.equal(['e', 'field'])
+      expect(a.nest._on.data.base).not.ok
       expect(b.nest).to.not.equal(a.nest)
       expect(b.nest._on).to.not.equal(a.nest.on)
-      expect(b.nest._on.change).msg('change emitter').to.not.equal(a.nest._on.change)
+      expect(b.nest._on.data).msg('change emitter').to.not.equal(a.nest._on.data)
       expect(b.nest._on._path).to.deep.equal(['b', 'nest', '_on'])
     })
 
@@ -127,7 +127,7 @@ describe('context', function () {
 
   describe('emit on instance', function () {
     var test = contextObservable()
-    test.aInstance.b.emit('change') // = 'b change'
+    test.aInstance.b.emit('data') // = 'b change'
     it('should fire once for "aInstance" context', function () {
       expect(test.cnt.aInstance).to.equal(1)
     })
@@ -164,7 +164,7 @@ describe('context', function () {
       b.x.b.nest.set({
         val: y,
         on: {
-          change: function () {
+          data: function () {
             fired = this.path
           }
         }
@@ -350,7 +350,7 @@ describe('context', function () {
     it('fires from context in c', function () {
       expect(test.cnt.total).msg('total').to.equal(0)
 
-      test.c.nest.b.emit('change')
+      test.c.nest.b.emit('data')
 
       // orginator does not fire for some weird reason...
       // so apparently it was fired from the emitInternal /but w a context
@@ -362,7 +362,7 @@ describe('context', function () {
     })
 
     it('fires from context in c (second time)', function () {
-      test.c.nest.b.emit('change')
+      test.c.nest.b.emit('data')
       expect(test.cnt.d).msg('d').to.equal(2)
       expect(test.cnt.e).msg('e').to.equal(2)
       expect(test.cnt.c).msg('c').to.equal(2)
@@ -391,7 +391,7 @@ describe('context', function () {
         trackInstances: true,
         c: {
           on: {
-            change: function (event) {
+            data: function (event) {
               var cnt = measure[this.path[0]]
               measure[this.path[0]] = cnt ? cnt + 1 : 1
             }
@@ -427,7 +427,7 @@ describe('context', function () {
           d: {
             e: {
               on: {
-                change: function (event) {
+                data: function (event) {
                   var cnt = measure[this.path[0]]
                   measure[this.path[0]] = cnt ? cnt + 1 : 1
                 }
@@ -463,7 +463,7 @@ describe('context', function () {
         key: 'a',
         b: {
           on: {
-            change: function (event) {
+            data: function (event) {
               // path is suddenly wrong here!
               measure[this.path[0]] = measure[this.path[0]]
                 ? measure[this.path[0]] + 1
@@ -476,7 +476,7 @@ describe('context', function () {
       var firstUseVal = new Observable({
         key: 'firstUseVal',
         trackInstances: true,
-        // on:{change:{}},
+        // on:{data:{}},
         useVal: true,
         nest1: new a.Constructor()
       })

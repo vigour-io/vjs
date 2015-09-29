@@ -14,7 +14,7 @@ describe('single instance', function () {
 
   //   var a = new Observable({
   //     $on: {
-  //       $change: {
+  //       $data: {
   //         $val: function () {
   //           expect(this.$on.$change.$condition.$inProgress).to.be.null
   //           done()
@@ -38,7 +38,7 @@ describe('single instance', function () {
 
     var a = new Observable({
       $on: {
-        $change: {
+        $data: {
           $val: function () {
             expect(this.$on.$change.$condition.$inProgress).to.be.null
             done()
@@ -67,7 +67,7 @@ describe('single instance', function () {
     var cnt = 0
     var a = new Observable({
       $on: {
-        $change: {
+        $data: {
           $val: function () {
             cnt++
           },
@@ -94,7 +94,7 @@ describe('single instance', function () {
     var cnt = 0
     var a = new Observable({
       $on: {
-        $change: {
+        $data: {
           $val: function () {
             cnt++
           },
@@ -113,7 +113,7 @@ describe('single instance', function () {
     var cnt = 0
     var a = new Observable({
       $on: {
-        $change: {
+        $data: {
           $val: function () {
             cnt++
           },
@@ -136,7 +136,7 @@ describe('single instance', function () {
     var a = new Observable({
       $val: b,
       $on: {
-        $change: {
+        $data: {
           $val: function () {
             cnt++
           },

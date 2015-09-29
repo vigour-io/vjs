@@ -91,7 +91,7 @@ describe('emitter', function () {
     }
     xit('should have add listener', function () {
       a.on(listener, 'val')
-      a.emit('change') //add meta handle
+      a.emit('data') //add meta handle
       expect(cnt).equals(1)
       expect(a.fn).to.be.ok
       expect(a.fn.val).to.be.ok

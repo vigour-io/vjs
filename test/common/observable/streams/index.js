@@ -12,7 +12,7 @@ describe('streams', function () {
     var a = new Observable({
       key: 'a',
       on: {
-        change: function (data) {
+        data: function (data) {
           if (data === 'hey') {
             done()
           }
@@ -44,7 +44,7 @@ describe('streams', function () {
     var a = new Observable({
       key: 'a',
       on: {
-        change: function () {}
+        data: function () {}
       }
     })
     var largeFile = http.request({

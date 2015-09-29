@@ -12,14 +12,14 @@ describe('set', function () {
       key: 'obs',
       specialField: {
         on: {
-          change: function () {
+          data: function () {
             expect(this.val).msg('specialField').to.equal('hello')
             cnt2++
           }
         }
       },
       on: {
-        change: function (data, event) {
+        data: function (data, event) {
           cnt++
           this.set({
             specialField: 'xxxx',
@@ -45,13 +45,13 @@ describe('set', function () {
     var a = new Observable({
       key: 'a',
       on: {
-        change: function () {
+        data: function () {
           cnt++
         }
       },
       x: {
         on: {
-          change: function (data, event) {
+          data: function (data, event) {
             cnt2++
           }
         }
@@ -70,7 +70,7 @@ describe('set', function () {
     var a = new Observable({
       key: 'a',
       on: {
-        change: function () {
+        data: function () {
           valueIsSet = this.x.val
           cnt++
         }
@@ -88,7 +88,7 @@ describe('set', function () {
           }
         },
         on: {
-          change: function (data, event) {
+          data: function (data, event) {
             cnt2++
           }
         }

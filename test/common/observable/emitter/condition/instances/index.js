@@ -6,7 +6,7 @@ describe('instances', function () {
     var a = new Observable({
       $key: 'a',
       $on: {
-        $change: {
+        $data: {
           $val: function ( event ) {
             cnt++
           },
@@ -34,7 +34,7 @@ describe('instances', function () {
     var a = new Observable({
       $key: 'a',
       $on: {
-        $change: {
+        $data: {
           $val: function ( event ) {
             cnt++
           },
@@ -76,7 +76,7 @@ describe('instances', function () {
     var a = new Observable({
       $key: 'a',
       $on: {
-        $change: {
+        $data: {
           $val: function ( event ) {
             cnt++
           },
@@ -118,7 +118,7 @@ describe('instances', function () {
     var a = new Observable({
       $key: 'a',
       $on: {
-        $change: {
+        $data: {
           $val: function ( event ) {
             cnt++
           },

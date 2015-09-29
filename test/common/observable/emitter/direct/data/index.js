@@ -8,8 +8,8 @@ describe('data', function () {
     a = new Observable({
       key: 'a',
       on: {
-        change: function (data) {
-          measure.a.change = data
+        data: function (data) {
+          measure.a.data = data
         },
         property: function (data) {
           measure.a.property = data
@@ -24,7 +24,7 @@ describe('data', function () {
 
   it('passes correct data to change', function () {
     a.val = 'a'
-    expect(measure.a.change).equals('a')
+    expect(measure.a.data).equals('a')
   })
 
   it('passes correct data to property', function () {
@@ -33,7 +33,7 @@ describe('data', function () {
       afield: {
         val: true,
         on: {
-          change: function (data) {
+          data: function (data) {
             measure.afield = data
           }
         }
@@ -46,10 +46,10 @@ describe('data', function () {
   })
 
   it('change data should be null when removed', function () {
-    expect(measure.a.change).ok
+    expect(measure.a.data).ok
     a.afield.remove()
     expect(measure.afield).equals(null)
-    expect(measure.a.change).equals(void 0)
+    expect(measure.a.data).equals(void 0)
   })
 
   it('should have passed a removed array to property data', function () {

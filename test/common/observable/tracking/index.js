@@ -26,7 +26,7 @@ describe('direct tracking', function () {
         .to.have.deep.property('eventobject')
       done()
     }
-    a.b.emit('change')
+    a.b.emit('data')
   })
 
   it('should track an error event correctly', function (done) {
@@ -83,7 +83,7 @@ describe('direct tracking', function () {
       b: {
         inject: tracking,
         on: {
-          change: function (event, meta) {}
+          data: function (event, meta) {}
         },
         track: 'test string'
       }
@@ -93,6 +93,6 @@ describe('direct tracking', function () {
       expect(obj.id.val).to.have.string('test string')
       done()
     }
-    a.b.emit('change')
+    a.b.emit('data')
   })
 })

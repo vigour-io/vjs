@@ -15,7 +15,7 @@ describe('combined', function () {
       reference: {
         val: { total: 0 }
       },
-      change: {
+      data: {
         val: { total: 0 }
       },
       property: {
@@ -31,8 +31,8 @@ describe('combined', function () {
     a = new Observable({
       key: 'a',
       on: {
-        change: function () {
-          measure.a.change.val.total++
+        data: function () {
+          measure.a.data.val.total++
         },
         reference: function () {
           measure.a.reference.val.total++
@@ -44,17 +44,17 @@ describe('combined', function () {
       val: aRef
     })
 
-    expect(aRef._on.change.base[1]).to.equal(a)
+    expect(aRef._on.data.base[1]).to.equal(a)
 
     a.val = 10
-    expect(aRef._on.change.base).to.be.null
+    expect(aRef._on.data.base).to.be.null
 
     expect(measure.a.reference.val.total).to.equal(1)
-    expect(measure.a.change.val.total).to.equal(1)
+    expect(measure.a.data.val.total).to.equal(1)
 
     a.val = 20
     expect(measure.a.reference.val.total).to.equal(1)
-    expect(measure.a.change.val.total).to.equal(2)
+    expect(measure.a.data.val.total).to.equal(2)
     expect(measure.a.property.val.total).to.equal(0)
 
     a.set({
@@ -63,9 +63,9 @@ describe('combined', function () {
     })
 
     expect(measure.a.reference.val.total).to.equal(2)
-    expect(measure.a.change.val.total).to.equal(3)
+    expect(measure.a.data.val.total).to.equal(3)
     expect(measure.a.property.val.total).to.equal(1)
-    expect(aRef._on.change.base[2]).to.equal(a)
+    expect(aRef._on.data.base[2]).to.equal(a)
   })
   //
   it('create new observable --> aO --> a --> b references - remove aRef', function () {
@@ -92,7 +92,7 @@ describe('combined', function () {
     aRef = new Observable({
       key: 'aRef',
       on: {
-        change: {
+        data: {
           val: function (data, event) {
             this.remove(event)
           }
@@ -104,7 +104,7 @@ describe('combined', function () {
     var b = new Observable({
       key: 'b',
       on: {
-        change: {
+        data: {
           b: [ function () {}, a.aNest ],
           a: a.aNest
         }
@@ -112,12 +112,12 @@ describe('combined', function () {
       val: a.aNest
     })
 
-    expect(a.aNest._on.change.base[1]).to.be.ok
+    expect(a.aNest._on.data.base[1]).to.be.ok
 
     a.aNest.val = 'x'
 
     expect(util.isRemoved(aRef)).to.be.true
-    expect(a.aNest._on.change.base[1]).to.be.null
+    expect(a.aNest._on.data.base[1]).to.be.null
   })
 
   it('test new emitter', function () {
@@ -191,7 +191,7 @@ describe('combined', function () {
     var obs = new Observable({
       key: 'obs',
       on: {
-        change: {
+        data: {
           0: function () {
             total++
           },
@@ -219,7 +219,7 @@ describe('combined', function () {
     var a = new Observable({
       key: 'a',
       on: {
-        change: b
+        data: b
       }
     })
 
@@ -231,7 +231,7 @@ describe('combined', function () {
 
     a.set({
       on: {
-        change: c
+        data: c
       }
     })
 

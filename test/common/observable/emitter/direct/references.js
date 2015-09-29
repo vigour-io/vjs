@@ -14,7 +14,7 @@ describe('references', function () {
     obs = new Observable({
       key: 'obs2',
       on: {
-        change: {
+        data: {
           val: function () {
             measure.obs.val++
           }
@@ -27,8 +27,8 @@ describe('references', function () {
   })
 
   it('should have added a listener on the referenced observable', function () {
-    expect(referencedObs._on.change.base).ok
-    expect(referencedObs._on.change.base[1]).equals(obs)
+    expect(referencedObs._on.data.base).ok
+    expect(referencedObs._on.data.base[1]).equals(obs)
   })
 
   it('should have correct listen object', function () {
@@ -38,7 +38,7 @@ describe('references', function () {
     })
     expect(keyCount).msg('amount of emitters on listensOnBase').to.equal(1)
     expect(obs.listensOnBase[1]).msg('equal referencedObs change emitter')
-      .to.equal(referencedObs._on.change)
+      .to.equal(referencedObs._on.data)
   })
 
   it('should create the correct key for the listener', function () {
@@ -60,12 +60,12 @@ describe('references', function () {
   })
 
   it('should have added listeners on the new referenced object', function () {
-    expect(referencedObs2._on.change.base).be.ok
-    expect(referencedObs2._on.change.base[1]).equals(obs)
+    expect(referencedObs2._on.data.base).be.ok
+    expect(referencedObs2._on.data.base[1]).equals(obs)
   })
 
   it('should have removed listeners on the previous value', function () {
-    expect(referencedObs._on.change.base).not.ok
+    expect(referencedObs._on.data.base).not.ok
   })
 
   it('should have correct listen object', function () {
@@ -75,7 +75,7 @@ describe('references', function () {
     })
     expect(keyCount).msg('amount of emitters on listensOnBase').to.equal(1)
     expect(obs.listensOnBase[2]).msg('equal referencedObs2 change emitter')
-      .to.equal(referencedObs2._on.change)
+      .to.equal(referencedObs2._on.data)
   })
 
   it('should not fire when val is the same', function () {

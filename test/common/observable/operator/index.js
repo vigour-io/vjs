@@ -41,7 +41,7 @@ describe('operator', function () {
       $val: a,
       $add: b,
       $on: {
-        $change: function () {
+        $data: function () {
           measure.c.val.total = measure.c.val.total + 1
         }
       }
@@ -70,7 +70,7 @@ describe('operator', function () {
 
     c = new Observable({
       $on: {
-        $change: function () {
+        $data: function () {
           measure.c.val.total++
         }
       }
@@ -86,7 +86,7 @@ describe('operator', function () {
     var ftotal = 0
     var F = new Observable({
       $on: {
-        $change: function () {
+        $data: function () {
           ftotal++
           expect(this.$val).to.equal(3)
         }
@@ -108,7 +108,7 @@ describe('operator', function () {
     var ftotal = 0
     var F = new Observable({
       $on: {
-        $change: function () {
+        $data: function () {
           ftotal++
           expect(this.$val).to.equal(30)
         }
