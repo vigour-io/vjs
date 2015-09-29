@@ -3,5 +3,5 @@ describe('direct', function () {
   require('./references')
   require('./attach')
   require('./set')
-  require('./meta')
+  require('./data')
 })
