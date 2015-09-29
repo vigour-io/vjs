@@ -78,7 +78,7 @@ describe('direct tracking', function () {
     exampleReference.b.val = 'rick'
   })
 
-  it('should overwride id if tracking val is a string', function (done) {
+  it('should override id if tracking val is a string', function (done) {
     var a = new Observable({
       key: 'a',
       b: {
