@@ -159,7 +159,7 @@ describe('instances', function () {
 
     c.val = {
       on: {
-        change: function (event, data) {
+        change: function () {
           var keyCnt = measure.c.val[this.key]
           measure.c.val.total += 1
           measure.c.val[this.key] = keyCnt ? (keyCnt + 1) : 1
@@ -213,7 +213,7 @@ describe('instances', function () {
       on: {
         change: {
           attachedThing: [
-            function (event, data, base, arg) {
+            function (data, event, base, arg) {
               var keyCnt = measure.c.attach[this.key]
               measure.c.attach.total += 1
               measure.c.attach[this.key] = keyCnt ? (keyCnt + 1) : 1
@@ -270,7 +270,7 @@ describe('instances', function () {
 
     a2.set({
       on: {
-        change: function (event, data) {
+        change: function () {
           var keyCnt = measure.a.val[this.key]
           measure.a.val.total += 1
           measure.a.val[this.key] = keyCnt ? (keyCnt + 1) : 1
@@ -298,7 +298,7 @@ describe('instances', function () {
 
     a3.set({
       on: {
-        change: function (event, data) {
+        change: function () {
           var keyCnt = measure.a.val[this.key]
           measure.a.val.total += 1
           measure.a.val[this.key] = keyCnt ? (keyCnt + 1) : 1

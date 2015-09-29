@@ -4,7 +4,7 @@ describe('property listener', function () {
   var a = new Observable({
     key: 'a',
     on: {
-      property: function (event, meta) {
+      property: function () {
         cnt++
       }
     }
