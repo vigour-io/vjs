@@ -85,6 +85,7 @@ describe('convert', function () {
       short.push(i)
       long.push(i)
     }
+    // long array has one more element
     long.push(i)
     it('should handle short arrays', function () {
       var original = {
