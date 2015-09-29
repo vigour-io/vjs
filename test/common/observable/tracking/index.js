@@ -35,7 +35,7 @@ describe('direct tracking', function () {
       key: 'a',
       b: {
         inject: tracking,
-        _on: {
+        on: {
           error: function (event, meta) {}
         },
         track: true
