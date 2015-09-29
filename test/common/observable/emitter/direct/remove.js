@@ -9,6 +9,7 @@ describe('remove emitter', function () {
         }
       }
     })
+    // console.log(a._on.removeEmitter)
     a.remove()
   })
 })
