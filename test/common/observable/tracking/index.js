@@ -30,7 +30,7 @@ describe('direct tracking', function () {
     a.b.emit('change')
   })
 
-  xit('should track an error event correctly', function (done) {
+  it('should track an error event correctly', function (done) {
     var a = new Observable({
       key: 'a',
       b: {
