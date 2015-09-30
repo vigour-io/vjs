@@ -16,7 +16,7 @@ describe('parent', function () {
   var holder2
 
   it('create element, add to a parent', function () {
-    measure.element.addToParent = {
+    measure.element.parent = {
       val: {
         total: 0
       }
@@ -30,10 +30,10 @@ describe('parent', function () {
 
     element = new Observable({
       on: {
-        addToParent: function () {
-          var keyCnt = measure.element.addToParent.val[this.key]
-          measure.element.addToParent.val.total += 1
-          measure.element.addToParent.val[this.key] = keyCnt ? (keyCnt + 1) : 1
+        parent: function () {
+          var keyCnt = measure.element.parent.val[this.key]
+          measure.element.parent.val.total += 1
+          measure.element.parent.val[this.key] = keyCnt ? (keyCnt + 1) : 1
         },
         new: function () {
           measure.element.new.val.total += 1
@@ -52,17 +52,17 @@ describe('parent', function () {
     })
 
     expect(measure.element.new.val.total).to.equal(4)
-    expect(measure.element.addToParent.val.total).to.equal(3)
-    expect(measure.element.addToParent.val.a).to.equal(1)
-    expect(measure.element.addToParent.val.b).to.equal(1)
-    expect(measure.element.addToParent.val.c).to.equal(1)
+    expect(measure.element.parent.val.total).to.equal(3)
+    expect(measure.element.parent.val.a).to.equal(1)
+    expect(measure.element.parent.val.b).to.equal(1)
+    expect(measure.element.parent.val.c).to.equal(1)
   })
 
   it('create new holder --> holder2', function () {
     holder2 = new holder.Constructor()
     expect(holder2).instanceof(holder.Constructor)
     expect(measure.element.new.val.total).to.equal(5)
-    expect(measure.element.addToParent.val.total).to.equal(3)
+    expect(measure.element.parent.val.total).to.equal(3)
   })
 })
 
@@ -75,7 +75,7 @@ describe('add to parent one instance', function () {
     key: 'a',
     trackInstances: true,
     on: {
-      addToParent: function () {
+      parent: function () {
         measure[this.key]++
       }
     }
