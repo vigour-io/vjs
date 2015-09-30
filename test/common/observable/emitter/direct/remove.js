@@ -25,4 +25,11 @@ describe('remove emitter', function () {
     })
     a.remove()
   })
+
+  it('can be set using .on method', function (done) {
+    var a = new Observable()
+    a.on('remove', function (data, event) {
+      done()
+    })
+  })
 })

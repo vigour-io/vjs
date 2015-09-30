@@ -1,3 +1,5 @@
+// TODO: clean this up, split up in multiple its, describes and files
+
 describe('remove', function () {
   var Event = require('../../../../lib/event')
   Event.prototype.inject(require('../../../../lib/event/toString'))
@@ -164,7 +166,6 @@ describe('remove', function () {
       total: 0,
       removed: 0
     }
-
     // since we defined before that we want on:{} (we are inteserted in instances)
     // it will handle instances accordingly
     // TODO:think about unifiying this system since it maye be super important for hub
