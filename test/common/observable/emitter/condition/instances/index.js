@@ -186,17 +186,18 @@ describe('context', function () {
     }
   })
 
-
- //returning void 0 in an operator will cancel all others or something
-
+//returning void 0 in an operator will cancel all others or something
 
 var a = new Observable({
-  
-
-
+  $data: 'path',
+  on: {
+    data: {
+      condition: {
+        $type:'string',
+        //condition: fn .... load some metadata
+      }
+    }
+  }
 })
-
-
-
 
 */
