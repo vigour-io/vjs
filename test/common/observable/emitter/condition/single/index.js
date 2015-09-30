@@ -5,23 +5,15 @@ describe('single instance', function () {
     var a = new Observable({
       on: {
         data: {
-          condition: function (complete, event) {
-            console.log('should do something...')
-            setTimeout(complete, 1000)
+          condition: function (done, event) {
+            setTimeout(done, 1000)
           },
           val: function () {
-            console.error('--->hey do it!')
-            // now have to think of how to exclude from operators
-            // maybe the emits is the best way
-            // handle multuple events at the same time -- then its easy
-            // if we use the binds[stamp] thing thats
             done()
           }
         }
       }
     })
-
-    console.error('no way gozee')
     a.val = 'a change!'
   })
 })
