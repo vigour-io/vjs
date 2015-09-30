@@ -33,6 +33,7 @@ describe('single instance', function () {
             if (data > 0) {
               setTimeout(cb, data)
             } else {
+              // also data
               cb(new Error('make number'))
             }
           }
@@ -43,11 +44,25 @@ describe('single instance', function () {
   })
 })
 
+// dit is eigenlijk niets meer dan een operator + cb
+// support dat ook gewoon in operator (async operator)
+// just chains callbacks
+// of alleen in condition?
+// ook special behaviour voor bijv een andere observable
+// x: x -- only fire if x fires ? zoiets
+// lijkt ook op middle ware thing
+
 /*
   condition uses parseValue
   hands in the this to parseValue and continiues from there
   -- preferbly the this .input
   -- condition is responsible for setting .output
+
+  child constructor is soort currying van demethids (chain)
+  net zoals operators eigenlijk
+
+  propberen operators dit te geven
+  cb als extra field helemaal prima
 */
 
 /*
