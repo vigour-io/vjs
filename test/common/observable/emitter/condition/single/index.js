@@ -18,12 +18,28 @@ describe('single instance', function () {
         }
       }
     })
-    try {
-      console.error('???')
-      a.val = 1500
-    } catch(e) {
-      console.error(e)
-    }
+    a.val = 100
+  })
+
+  it('fires error', function (done) {
+    var a = new Observable({
+      val: 200,
+      on: {
+        error: function (data) {
+          done()
+        },
+        data: {
+          condition: function (data, cb, event) {
+            if (data > 0) {
+              setTimeout(cb, data)
+            } else {
+              cb(new Error('make number'))
+            }
+          }
+        }
+      }
+    })
+    a.val = 'aaa'
   })
 })
 
