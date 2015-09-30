@@ -2,10 +2,15 @@ describe('single instance', function () {
   var Observable = require('../../../../../../lib/observable')
   it('fires condition trigger', function (done) {
     var a = new Observable({
+      val: 200,
       on: {
         data: {
-          condition: function (done, event) {
-            setTimeout(done, 1000)
+          condition: function (data, cb, event) {
+            if (data > 0) {
+              setTimeout(cb, data)
+            } else {
+              cb(new Error('make number', data))
+            }
           },
           val: function () {
             done()
@@ -13,7 +18,12 @@ describe('single instance', function () {
         }
       }
     })
-    a.val = 'a change!'
+    try {
+      console.error('???')
+      a.val = 1500
+    } catch(e) {
+      console.error(e)
+    }
   })
 })
 
