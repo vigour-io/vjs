@@ -1,6 +1,5 @@
 describe('single instance', function () {
   var Observable = require('../../../../../../lib/observable')
-
   it('fires condition trigger', function (done) {
     var a = new Observable({
       on: {
