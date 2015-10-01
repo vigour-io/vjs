@@ -10,8 +10,7 @@ describe('listeners', function () {
     obs = new Observable({
       key: 'obs',
       on: {
-        data: function testObservable (event, meta) {
-
+        data: function testObservable () {
           measure.obs.val++
         }
       }
@@ -25,7 +24,6 @@ describe('listeners', function () {
       on: {
         data: {
           second: function () {
-
             measure.obs.second++
           }
         }

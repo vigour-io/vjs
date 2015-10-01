@@ -21,7 +21,7 @@ a.set({
   third: 'xxxxxx'
 })
 
-//converting it to plain is not working for the custom field
+// converting it to plain is not working for the custom field
 
 console.log(a.$hello)
 console.log(a.second)
