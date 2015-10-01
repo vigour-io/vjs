@@ -1,13 +1,15 @@
 describe('direct', function () {
   var Base = require('../../../../lib/observable')
-  var obs
+  var a
 
   it('create new observable (obs), add change listener', function () {
-    obs = new Base({
-      key: 'obs',
+    a = new Base({
+      inject: require('../../../../lib/operator/inject'),
+      key: 'a',
       val: 'hello',
       $add: 'gurk'
     })
-    expect(obs.val).to.equal('hellogurk')
+    console.log(a.val)
+    expect(a.val).to.equal('hellogurk')
   })
 })
