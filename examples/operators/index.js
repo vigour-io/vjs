@@ -17,3 +17,12 @@ var a = new Cnstr({
 console.log('ok ok', a, a.val)
 a.set({ $add: 10 })
 console.log('ok ok', a, a.val)
+
+var b = new Cnstr({
+ val: 1,
+ $transform: function() {
+   return 'blargh'
+ }
+})
+
+console.log(b.val)
