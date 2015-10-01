@@ -1,20 +1,13 @@
-describe('listeners', function () {
-  var Observable = require('../../../../../lib/observable')
-  var measure = {
-    obs: {}
-  }
+describe('direct', function () {
+  var Base = require('../../../../lib/observable')
   var obs
 
   it('create new observable (obs), add change listener', function () {
-    measure.obs.val = 0
-    obs = new Observable({
+    obs = new Base({
       key: 'obs',
-      on: {
-        data: function testObservable (event, meta) {
-          measure.obs.val++
-        }
-      }
+      val: 'hello',
+      $add: 'gurk'
     })
-    expect(measure.obs.val).to.equal(0)
+    expect(obs.val).to.equal('hellogurk')
   })
 })
