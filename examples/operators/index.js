@@ -20,9 +20,17 @@ console.log('ok ok', a, a.val)
 
 var b = new Cnstr({
  val: 1,
- $transform: function() {
-   return 'blargh'
- }
+ $transform: {
+   val: function() {
+     console.log('???')
+     return 'blargh'
+   },
+   order:0
+ },
+ $add: {val:function() {
+    console.error('xxxx---');
+    return ' haha add';
+ }, order: 1 }
 })
 
 console.log(b.val)
