@@ -40,9 +40,7 @@ describe('map', function () {
 
   it('should allow exclude some results with optional function', function () {
     var newResult = a.map(spy, function (property, key) {
-      if (property.key === 'x' || a._properties[key]) {
-        return true
-      }
+      return !(property.key === 'x' || a._properties[key])
     })
     expect(newResult).to.eql(['y'])
   })
