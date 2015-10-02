@@ -6,9 +6,26 @@ describe('bind', function () {
       b: {
         bind: 'parent',
         val: function () {
+          //no bind...
           console.log(this.path)
         }
       }
     })
+    a.b.val
+  })
+
+  it('should bind the value on emitter functions and attach listeners', function () {
+    var a = new Observable({
+      key: 'a',
+      b: {
+        bind: 'parent',
+        on: {
+          data: function (data, event) {
+            console.log(this.path)
+          }
+        }
+      }
+    })
+    a.b.val = 'hello'
   })
 })
