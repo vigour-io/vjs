@@ -5,19 +5,21 @@ describe('emitter', function () {
   describe('add listener and fire once', function () {
     var emitter = new Emitter()
     var cnt = 0
-    emitter.on(function (event, type) {
+    var dataMeasure
+    emitter.on(function (data) {
+      dataMeasure = data
       cnt++
     })
-    emitter.emit()
+    emitter.emit('something')
     it('should have fired once', function () {
+      expect(dataMeasure).to.equal('something')
       expect(cnt).to.equal(1)
     })
   })
 
   describe('add and remove listener', function () {
     var emitter = new Emitter()
-
-    function listener (event, type) {}
+    function listener () {}
     it('should have a fn field', function () {
       emitter.on(listener)
       expect(emitter.fn[1]).to.be.ok
@@ -31,7 +33,7 @@ describe('emitter', function () {
 
   describe('add and remove listener by key', function () {
     var a = new Emitter()
-    function listener (event, type) {}
+    function listener () {}
     it('should have fn field', function () {
       a.on(listener, 'hello')
       expect(a.fn).ok
@@ -58,7 +60,7 @@ describe('emitter', function () {
   describe('add a attach listener remove listener by base', function () {
     var a = new Emitter()
     var base = new Base()
-    function listener (event, type) {}
+    function listener () {}
     it('should have attach field', function () {
       a.on([ listener, base ])
       expect(a.attach).to.be.ok
@@ -72,7 +74,7 @@ describe('emitter', function () {
   describe('add a attach listener remove listener by object', function () {
     var a = new Emitter()
     var base = new Base()
-    function listener (event, type) {}
+    function listener () {}
     it('should have attach field', function () {
       a.on([ listener, base ])
       expect(a.attach).to.be.ok
@@ -86,7 +88,7 @@ describe('emitter', function () {
   describe('use val listener (default)', function () {
     var a = new Emitter()
     var cnt = 0
-    function listener (event, type) {
+    function listener () {
       cnt++
     }
     it('should have add listener', function () {
@@ -96,11 +98,38 @@ describe('emitter', function () {
       expect(a.fn).to.be.ok
       expect(a.fn.val).to.be.ok
     })
-
     it('remove val listener', function () {
       expect(a.fn).to.be.ok
       a.off('val')
       expect(a.fn).to.be.not.ok
+    })
+  })
+
+  describe('multiple events at the same time', function () {
+    var a = new Emitter()
+    var Event = require('../../../lib/event')
+
+    it('can fire for multiple events', function () {
+      var dataArray = []
+      function listener (data, event) {
+        console.log(data)
+        dataArray.push(data)
+      }
+      var eventA = new Event(a)
+      eventA.isTriggered = true
+      var eventB = new Event(a)
+      a.on(listener)
+      a.emit('a', eventA)
+      // how does this work -- why does this work
+      // should override
+      a.emit('b', eventB)
+
+      eventA.isTriggered = null
+
+      a.emit('a', eventA)
+
+      // data per event
+      expect(dataArray).to.equal(['b', 'a'])
     })
   })
 })
