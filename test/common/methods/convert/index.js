@@ -5,13 +5,17 @@ Base.prototype.inject(
 )
 
 describe('convert', function () {
-  var a
+  var a, b
   beforeEach(function () {
     a = new Base({
       key: 'a',
       x: {
         y: 123
-      }
+      },
+      properties: {
+        z: '$z'
+      },
+      z: 'zContent'
     })
   })
 
@@ -22,7 +26,8 @@ describe('convert', function () {
         y: {
           val: 123
         }
-      }
+      },
+      '$z': 'zContent'
     }
     expect(convertedObj).to.eql(expectedObject)
   })
@@ -42,15 +47,16 @@ describe('convert', function () {
     })
     expect(convertedObj)
       .to.be.an('string').and
-      .to.equal('{\n  "x": {\n    "y": {\n      "val": 123\n    }\n  }\n}')
+      .to.equal('{\n  "x": {\n    "y": {\n      "val": 123\n    }\n  },\n  "$z": "zContent"\n}')
   })
 
   it('should exclude key/value', function () {
     var convertedObj = a.convert({
-      exclude: function (property, key) {
+      filter: function (property, key) {
         if (key === 'y') {
-          return true
+          return false
         }
+        return true
       }
     })
     expect(convertedObj.x.y).to.be.undefined
