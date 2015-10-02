@@ -36,7 +36,6 @@ describe('context', function () {
             setTimeout(done, this.time.val)
           },
           val: function () {
-            console.log('????', this.path)
             cnt++
             if (cnt === 3) {
               done()

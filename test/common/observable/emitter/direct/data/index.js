@@ -12,7 +12,6 @@ describe('data-argument', function () {
           measure.a.data = data
         },
         property: function (data) {
-          console.error(data)
           measure.a.property = data
         }
       }
