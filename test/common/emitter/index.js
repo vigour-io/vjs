@@ -112,7 +112,6 @@ describe('emitter', function () {
     it('can fire for multiple events', function () {
       var cnt = 0
       function listener (data, event) {
-        console.log('hey hey', data)
         cnt++
       }
       var eventA = new Event(a)
@@ -120,8 +119,10 @@ describe('emitter', function () {
       var eventB = new Event(a)
       a.on(listener)
       a.emit('a', eventA)
+      // how does this work -- why does this work
+
       a.emit('b', eventB)
-      eventA.isTriggered = true
+      eventA.isTriggered = null
       a.emit('a', eventA)
       expect(cnt).to.equal(2)
     })
