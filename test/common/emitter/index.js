@@ -110,9 +110,10 @@ describe('emitter', function () {
     var Event = require('../../../lib/event')
 
     it('can fire for multiple events', function () {
-      var cnt = 0
+      var dataArray = []
       function listener (data, event) {
-        cnt++
+        console.log(data)
+        dataArray.push(data)
       }
       var eventA = new Event(a)
       eventA.isTriggered = true
@@ -120,11 +121,15 @@ describe('emitter', function () {
       a.on(listener)
       a.emit('a', eventA)
       // how does this work -- why does this work
-
+      // should override
       a.emit('b', eventB)
+
       eventA.isTriggered = null
+
       a.emit('a', eventA)
-      expect(cnt).to.equal(2)
+
+      // data per event
+      expect(dataArray).to.equal(['b', 'a'])
     })
   })
 })
