@@ -5,6 +5,7 @@ describe('observable', function () {
   require('./streams')
   require('./subscribe')
   require('./tracking')
+  require('./bind')
   // also add operators test for purely base
   // require('./operators')
 })

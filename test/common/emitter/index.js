@@ -112,7 +112,6 @@ describe('emitter', function () {
     it('can fire for multiple events', function () {
       var dataArray = []
       function listener (data, event) {
-        console.log(data)
         dataArray.push(data)
       }
       var eventA = new Event(a)
@@ -120,16 +119,10 @@ describe('emitter', function () {
       var eventB = new Event(a)
       a.on(listener)
       a.emit('a', eventA)
-      // how does this work -- why does this work
-      // should override
       a.emit('b', eventB)
-
       eventA.isTriggered = null
-
       a.emit('a', eventA)
-
-      // data per event
-      expect(dataArray).to.equal(['b', 'a'])
+      expect(dataArray).to.deep.equal(['b', 'a'])
     })
   })
 })

@@ -16,6 +16,7 @@ build.js
 build.html
 
 vendor/
+report/
 
 results.json
 .idea/*
