@@ -89,15 +89,15 @@ describe('emitter', function () {
     function listener (event, type) {
       cnt++
     }
-    xit('should have add listener', function () {
+    it('should have add listener', function () {
       a.on(listener, 'val')
-      a.emit('data') //add meta handle
+      a.emit('data') // add meta handle
       expect(cnt).equals(1)
       expect(a.fn).to.be.ok
       expect(a.fn.val).to.be.ok
     })
 
-    xit('remove val listener', function () {
+    it('remove val listener', function () {
       expect(a.fn).to.be.ok
       a.off('val')
       expect(a.fn).to.be.not.ok
