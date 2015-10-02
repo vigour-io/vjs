@@ -1,29 +1,36 @@
 var Observable = require('../../lib/observable/')
+Observable.prototype.inject(require('../../lib/operator/inject'))
+
+var reffed = new Observable({
+  key: 'reffed',
+  val: 10
+})
+
+
+var reffed2 = new Observable({
+  key: 'reffed2',
+  val: reffed,
+  $add:'murder'
+})
 
 var a = new Observable({
   key: 'a',
+  val: reffed2,
   trackInstances: true,
-  field: {
-    on: {
-      data: function(data) {
-        console.log('fires', data, this.path)
-      }
+  $add:'weed',
+  on: {
+    data: function (data) {
+      console.log('fires', data, this.path, this.val)
     }
   }
 })
 
 
-var b = new a.Constructor({
-  key:'b'
-})
+console.log('a', a.val)
 
 
-var c = new b.Constructor({
-  key:'c'
-})
+reffed.val = 20
 
-b.field.val = 'valerio'
-// b.field.val = 'valerio'
-b.field.emit('data', 'jim')
-console.log('----', b.field.val)
-// a.field.val = 'valerio'
+reffed.val = 30
+
+a.val = 'my own '
