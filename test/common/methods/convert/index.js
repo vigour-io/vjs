@@ -52,10 +52,11 @@ describe('convert', function () {
 
   it('should exclude key/value', function () {
     var convertedObj = a.convert({
-      exclude: function (property, key) {
+      filter: function (property, key) {
         if (key === 'y') {
-          return true
+          return false
         }
+        return true
       }
     })
     expect(convertedObj.x.y).to.be.undefined
