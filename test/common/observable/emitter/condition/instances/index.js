@@ -25,7 +25,7 @@ describe('instances', function () {
 
 describe('context', function () {
   var Observable = require('../../../../../../lib/observable')
-  it('fires condition trigger', function (done) {
+  xit('fires condition trigger', function (done) {
     var cnt = 0
     var a = new Observable({
       key:'a',
