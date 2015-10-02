@@ -18,8 +18,7 @@
     "url": "https://github.com/vigour-io/vjs/issues"
   },
   "dependencies": {
-    "lodash": "3.10.x",
-    "promise": "6.x.x"
+    "lodash": "3.10.x"
   },
   "homepage": "https://github.com/vigour-io/vjs",
   "directories": {
