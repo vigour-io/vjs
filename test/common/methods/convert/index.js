@@ -102,7 +102,7 @@ describe('convert', function () {
       expect(convertedObj).to.deep.equal(original)
     })
 
-    xit('should handle long arrays', function () {
+    it('should handle long arrays', function () {
       var original = {
         arr: long
       }
