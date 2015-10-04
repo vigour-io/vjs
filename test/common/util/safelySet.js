@@ -1,10 +1,9 @@
 var Base = require('../../../lib/base')
 var Observable = require('../../../lib/observable')
 
-describe('safelySet on Base', function () {
+describe('safely set on Base', function () {
   it('should store the reserved fields elsewhere', function () {
-    var test = new Base()
-    test.set({
+    var test = new Base({
       set: 'test',
       get: 'yoyo',
       setKey: 'funtimes',
@@ -18,11 +17,11 @@ describe('safelySet on Base', function () {
         }
       },
       on: false
-    }, void 0, void 0, true)
+    }, void 0, void 0, void 0, true)
   })
 })
 
-describe('safelySet on Observable', function () {
+describe('safely set on Observable', function () {
   it('should store the reserved fields elsewhere', function () {
     var test = new Observable()
     test.set({
@@ -42,18 +41,6 @@ describe('safelySet on Observable', function () {
         }
       },
       on: false
-    }, void 0, void 0, 'test_')
+    }, void 0, void 0, 'randomPrefix_')
   })
 })
-
-// function startsWith (str, start) {
-//   var i = 0
-//   var letter = start[i]
-//   while (letter) {
-//     if (letter !== str[i]) {
-//       return false
-//     }
-//     letter = start[++i]
-//   }
-//   return true
-// }
