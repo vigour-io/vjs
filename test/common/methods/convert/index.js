@@ -5,7 +5,7 @@ Base.prototype.inject(
 )
 
 describe('convert', function () {
-  var a, b
+  var a
   beforeEach(function () {
     a = new Base({
       key: 'a',
