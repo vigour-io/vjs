@@ -69,4 +69,5 @@ describe('util', function () {
 
   require('./flatten')
   require('./unflatten')
+  require('./safelySet')
 })

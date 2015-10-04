@@ -3,7 +3,8 @@ var Observable = require('../../../lib/observable')
 
 describe('safely set on Base', function () {
   it('should store the reserved fields elsewhere', function () {
-    var test = new Base({
+    var test = new Base()
+    test.set({
       set: 'test',
       get: 'yoyo',
       setKey: 'funtimes',
@@ -17,7 +18,7 @@ describe('safely set on Base', function () {
         }
       },
       on: false
-    }, void 0, void 0, void 0, true)
+    }, void 0, void 0, true)
   })
 })
 
