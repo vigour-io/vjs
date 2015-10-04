@@ -98,6 +98,9 @@ describe('safelySet on Observable', function () {
       set: 'test',
       get: 'yoyo',
       setKey: 'funtimes',
+      setKeyInternal: {
+        add: 12
+      },
       nerdje: {
         set: {
           get: {
@@ -108,7 +111,7 @@ describe('safelySet on Observable', function () {
         }
       },
       on: false
-    }, void 0, void 0, true)
+    }, void 0, void 0, 'test_')
     console.log(JSON.stringify(test.convert(), false, 2))
   })
 })
