@@ -25,6 +25,7 @@ var c = new Observable({
 })
 
 var b = new Observable({
+  key: 'b',
   val: a,
   $add: 100,
   $transform: 200,
@@ -36,11 +37,13 @@ var b = new Observable({
   }
 })
 
-console.log('b val', b.val)
 
 c.val = 1000
 
 var time = Date.now()
+
+console.info('b val', b.val, window.cnt)
+
 
 for (var i = 0; i < 100000; i++) {
   b.val
@@ -48,4 +51,4 @@ for (var i = 0; i < 100000; i++) {
 
 time = Date.now() - time
 
-console.warn(time/1000+' s')
+console.warn(time/1000+' s', window.cnt)
