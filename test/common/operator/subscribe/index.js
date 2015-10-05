@@ -14,6 +14,14 @@ describe('subscribe and bind', function () {
 
     // child.$subscribe.output = new Observable(1)
     // child.$subscribe.emit('data')
+    child.subscribe({
+      upward: {
+        title: true
+      }
+    }, function () {
+      this.$subscribe.output = 'yeeey'
+    // console.log('struggles!', this)
+    })
 
     var parent = new Observable({
       title: 'myTitle',
@@ -74,3 +82,30 @@ describe('subscribe and bind', function () {
 //     subtitle: true
 //   }
 // })
+
+/*
+var list = new Element({
+  collection: {
+    element: new Element({
+      title: {
+        text: {
+          $subscribe: 'upward.title'
+        }
+      }
+    })
+  }
+})
+*/
+
+/*
+var list = new Element({
+  ChildConstructor: new Element({
+    title: {
+      text: {
+        $data:'title'
+      }
+    }
+  }),
+  $subscribe:'upward.$data.shows'
+})
+*/
