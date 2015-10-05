@@ -12,7 +12,7 @@ describe('base', function () {
     expect(a.val).to.equal('hellogurk')
   })
 
-  // still gets wrong order bu defailt
+  // still gets wrong order by defailt
   it('create a new base inject operators, check if order works', function () {
     a = new Base({
       inject: require('../../../../lib/operator/all'),
@@ -25,6 +25,12 @@ describe('base', function () {
       // now it takes the order of things in the operators thing -- however it should be set when you set the field
       // add order when setting a operator
     })
+    console.warn('?x')
+    console.log(a._operators, a.val)
+    // delete a._operators
+    console.warn('?x', a._operators)
+
+    console.error('\n\n\n\nXXxx-----------------------------------------------------------xxXXXX')
     expect(a.val).to.equal('hellogurk')
   })
 })
@@ -40,7 +46,6 @@ describe('observable', function () {
       val: 'hello',
       $add: 'gurk'
     })
-    
     expect(a.val).to.equal('hellogurk')
   })
 })
