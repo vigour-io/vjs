@@ -11,8 +11,11 @@ var a = new Observable({
 })
 
 var c = new Observable({
+  key: 'c',
   val: 10,
   $add: function (value) {
+    // operators have bind on default (may not be nessecary)
+    // console.log(this.path)
     if (value > 10) {
       return 20
     } else {
@@ -23,11 +26,12 @@ var c = new Observable({
 
 var b = new Observable({
   val: a,
-  $add: c,
+  $add: 100,
+  $transform: 200,
   // support on fn (fn will be on data)
   on: {
-    data: function (data) {
-      console.error('fire it fire it!', data, this.val)
+    data: function (data, event) {
+      console.error('fire it fire it!', data, this.val, event.origin.path)
     }
   }
 })
@@ -35,3 +39,13 @@ var b = new Observable({
 console.log('b val', b.val)
 
 c.val = 1000
+
+var time = Date.now()
+
+for (var i = 0; i < 100000; i++) {
+  b.val
+}
+
+time = Date.now() - time
+
+console.warn(time/1000+' s')
