@@ -52,3 +52,21 @@ for (var i = 0; i < 100000; i++) {
 time = Date.now() - time
 
 console.warn(time/1000+' s', window.cnt)
+
+
+// var properties =
+
+console.error('-----------------')
+
+var e = new Observable({
+  properties: {
+    bla: new Observable({
+      on: {
+        data: function(val) {
+          console.error('ok data', val)
+        }
+      }
+    })
+  },
+  bla: 20
+})
