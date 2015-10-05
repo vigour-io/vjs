@@ -9,8 +9,8 @@ var reffed = new Observable({
 
 var reffed2 = new Observable({
   key: 'reffed2',
-  val: reffed,
-  $add:'murder'
+  val: reffed ,
+  $add: 'murder'
 })
 
 var a = new Observable({
@@ -25,9 +25,7 @@ var a = new Observable({
   }
 })
 
-
 console.log('a', a.val)
-
 
 reffed.val = 20
 
