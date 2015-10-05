@@ -34,4 +34,4 @@ var b = new Observable({
 
 console.log('b val', b.val)
 
-c.val = 100
+c.val = 1000
