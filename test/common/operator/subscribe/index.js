@@ -14,7 +14,7 @@ describe('subscribe and bind', function () {
     })
 
     // child.$subscribe.output = new Observable(1)
-    child.$subscribe.emit('data')
+    // child.$subscribe.emit('data')
 
     var parent = new Observable({
       title: 'myTitle',
@@ -52,26 +52,26 @@ describe('subscribe and bind', function () {
 //   })
 // })
 
-var obs = new Observable({
-  $data: {
-    title: true,
-    description: true
-  }
-})
+// var obs = new Observable({
+//   $data: {
+//     title: true,
+//     description: true
+//   }
+// })
 
-var obs = new Observable({
-  title: {
-    $data: 'title'
-  },
-  subtitle: {
-    $data: 'subtitle'
-  }
-})
+// var obs = new Observable({
+//   title: {
+//     $data: 'title'
+//   },
+//   subtitle: {
+//     $data: 'subtitle'
+//   }
+// })
 
-var obs = new Observable({
-  $data: 'info',
-  $filter: {
-    title: true,
-    subtitle: true
-  }
-})
+// var obs = new Observable({
+//   $data: 'info',
+//   $filter: {
+//     title: true,
+//     subtitle: true
+//   }
+// })
