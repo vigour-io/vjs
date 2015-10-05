@@ -13,15 +13,7 @@ var a = new Observable({
 var c = new Observable({
   key: 'c',
   val: 10,
-  $add: function (value) {
-    // operators have bind on default (may not be nessecary)
-    // console.log(this.path)
-    if (value > 10) {
-      return 20
-    } else {
-      return -20
-    }
-  }
+  $add: a
 })
 
 var b = new Observable({
@@ -37,8 +29,9 @@ var b = new Observable({
   }
 })
 
-
 c.val = 1000
+
+a.val = 2000
 
 var time = Date.now()
 
