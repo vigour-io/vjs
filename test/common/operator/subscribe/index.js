@@ -7,13 +7,13 @@ describe('subscribe and bind', function () {
       key: 'a',
       $subscribe: {
         upward: {
-          smells: true
+          title: true
         }
       }
     })
 
     // child.$subscribe.output = new Observable(1)
-    // child.$subscribe.emit('data')
+    child.$subscribe.emit('data')
 
     var parent = new Observable({
       title: 'myTitle',
