@@ -5,10 +5,9 @@ describe('subscribe and bind', function () {
     var child = new Observable({
       inject: require('../../../../lib/operator/subscribe'),
       key: 'a',
-      // val: 'hello',
       $subscribe: {
         upward: {
-          title: true
+          smells: true
         }
       }
     })
