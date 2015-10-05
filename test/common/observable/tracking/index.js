@@ -6,13 +6,41 @@ var Event = require('../../../../lib/event/')
 // trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
 
 // this is just to log stuff (.toString yields nicer result for events)
-trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
+// trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
 Event.prototype.inject(require('../../../../lib/event/toString'))
 
 console.clear()
 
 describe('direct tracking', function () {
-  xit('should contain all default keys', function (done) {
+
+  it('reference (other event origin)', function (done) {
+    var exampleReference = new Observable ({
+      exampleKey: {
+        key: 'aReference'
+      }
+    })
+
+    var exampleObservable = new Observable ({
+      b: {
+        val: exampleReference.exampleKey,
+        inject: tracking,
+        on: {
+          data: function (data, event) {}
+        },
+        track: true
+      }
+    })
+
+    trackerEmitter.services.test = function (obj) {
+      // check for change type
+      console.log(obj)
+      expect(obj.eventobject.eventOriginator.val).to.equal('aReference')
+      done()
+    }
+    exampleReference.exampleKey.val = 'rick'
+  })
+
+  it('should contain all default keys', function (done) {
     var a = new Observable({
       key: 'a',
       b: {
@@ -31,7 +59,8 @@ describe('direct tracking', function () {
     }
     a.b.emit('data')
   })
-  xit('should fire all tracking info from array', function (done) {
+
+  it('should fire all tracking info from array', function (done) {
     var example = ['new', 'remove', 'parent', 'click']
     var a = new Observable({
       key: 'a',
@@ -53,6 +82,7 @@ describe('direct tracking', function () {
         done()
       }
       if(cnt===3) {
+        console.log(obj)
         a.remove()
       }
     }
@@ -63,34 +93,43 @@ describe('direct tracking', function () {
     }
   })
 
-  xit('reference (other event origin)', function (done) {
-    var exampleReference = new Observable({
-      b: {
-        key: 'aReference'
-      }
-    })
+  it('should handle objects', function (done) {
+    function returnValue (value) {
+      return value
+    }
 
-    var a = new Observable({
-      key: 'a',
+    var ObjectwithObject = new Observable ({
       b: {
-        val: exampleReference.b,
         inject: tracking,
         on: {
-          data: function (data, event) {}
+          data: function(event, meta) {}
         },
-        track: true
+        track: {
+          click: 'super',
+          remove: returnValue(10),
+          new: returnValue(10),
+          parent: returnValue(10),
+          customObject: {
+            customProperty: 'customValue'
+          }
+        }
       }
     })
-
+  //
     trackerEmitter.services.test = function (obj) {
-      // check for change type
-      expect(obj.eventobject.eventOriginator.val).to.equal('aReference')
+      expect(obj)
+        .to.have.deep.property('eventobject')
       done()
     }
-    exampleReference.b.val = 'rick'
+
+    ObjectwithObject.b.emit('new')
+    ObjectwithObject.b.emit('parent')
+    ObjectwithObject.b.emit('click')
+    ObjectwithObject.b.emit('remove')
+    ObjectwithObject.b.emit('data')
   })
 
-  xit('should track an error event correctly', function (done) {
+  it('should track an error event correctly', function (done) {
     var a = new Observable({
       key: 'a',
       b: {
@@ -110,7 +149,7 @@ describe('direct tracking', function () {
     a.b.emit('error')
   })
 
-  xit('should override id if tracking val is a string', function (done) {
+  it('should override id if tracking val is a string', function (done) {
     var a = new Observable({
       key: 'a',
       b: {
@@ -126,41 +165,6 @@ describe('direct tracking', function () {
       expect(obj.id.val).to.have.string('test string')
       done()
     }
-    a.b.emit('data')
-  })
-
-  it('should handle objects', function (done) {
-
-    function returnValue (value) {
-      return value
-    }
-
-    var a = new Observable({
-      key: 'a',
-      b: {
-        inject: tracking,
-        on: {
-          data: function(event, meta) {}
-        },
-        track: {
-          click: 'super',
-          remove: returnValue(10),
-          new: returnValue(10),
-          parent: returnValue(10),
-          parent: {
-            customProperty: 'customValue'
-          },
-        }
-      }
-    })
-
-    trackerEmitter.services.test = function (obj) {
-      done()
-    }
-    a.b.emit('new')
-    a.b.emit('parent')
-    a.b.emit('click')
-    a.b.emit('remove')
     a.b.emit('data')
   })
 })
