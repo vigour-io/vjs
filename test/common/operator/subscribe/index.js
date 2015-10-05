@@ -13,7 +13,7 @@ describe('subscribe and bind', function () {
     })
 
     // child.$subscribe.output = new Observable(1)
-    child.$subscribe.emit('data')
+    // child.$subscribe.emit('data')
 
     var parent = new Observable({
       title: 'myTitle',
