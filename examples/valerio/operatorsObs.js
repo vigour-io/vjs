@@ -27,8 +27,8 @@ var c = new Observable({
 var b = new Observable({
   key: 'b',
   val: a,
-  $add: 100,
-  $transform: 200,
+  $add: c,
+  // $transform: 200,
   // support on fn (fn will be on data)
   on: {
     data: function (data, event) {
@@ -51,11 +51,7 @@ for (var i = 0; i < 100000; i++) {
 
 time = Date.now() - time
 
-console.warn(time/1000+' s', window.cnt)
-
-
-// var properties =
-
+console.warn(time / 1000 + ' s', window.cnt)
 console.error('-----------------')
 
 var e = new Observable({
