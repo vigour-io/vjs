@@ -62,7 +62,7 @@ var e = new Observable({
   properties: {
     bla: new Observable({
       on: {
-        data: function(val) {
+        data: function (val) {
           console.error('ok data', val)
         }
       }
