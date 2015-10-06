@@ -32,26 +32,6 @@ describe('convert', function () {
     expect(convertedObj).to.eql(expectedObject)
   })
 
-  it('should be able to convert to plain JSON', function () {
-    var expected = {
-      x: {
-        y: 123
-      },
-      '$z': 'zContent'
-    }
-  })
-
-  it('should have a `plain` method able to convert to plain JSON', function () {
-    var expected = {
-      x: {
-        y: 123
-      },
-      '$z': 'zContent'
-    }
-    expect(a.plain())
-      .to.eql(expected)
-  })
-
   it('should be able to apply a filter to the converted result', function () {
     var expected = {
       x: {},
@@ -69,21 +49,6 @@ describe('convert', function () {
     })).to.eql(expected)
   })
 
-  it('should have a `plain` method wich filters base properties by default', function () {
-    var expected = {
-      x: {},
-      '$z': 'zContent'
-    }
-    var filterFn = function (prop, key) {
-      if (key === 'y') {
-        return false
-      }
-      return true
-    }
-    expect(a.plain(filterFn))
-      .to.eql(expected)
-  })
-
   it('should convert function to string', function () {
     var convertedObj = a.convert({
       string: true
@@ -97,7 +62,6 @@ describe('convert', function () {
     expect(a.flatten()).to.have.property('x.y.val')
   })
 
-  /*
   it('should handle arrays', function () {
     var original = { arr: [1, { x: true, y: false, z: ['a', 'b', ['c']] }, 3] }
     var base = new Base(original)
@@ -140,5 +104,4 @@ describe('convert', function () {
       expect(convertedObj).to.deep.equal(original)
     })
   })
-  */
 })
