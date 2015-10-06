@@ -141,7 +141,7 @@ describe('direct tracking', function () {
     a.b.emit('error')
   })
 
-  it('should override id if tracking val is a string', function (done) {
+  xit('should override id if tracking val is a string', function (done) {
     var a = new Observable({
       b: {
         inject: tracking,
