@@ -58,10 +58,6 @@ describe('convert', function () {
       .to.equal('{\n  "x": {\n    "y": {\n      "val": 123\n    }\n  },\n  "$z": "zContent"\n}')
   })
 
-  it('should flatten Base object', function () {
-    expect(a.flatten()).to.have.property('x.y.val')
-  })
-
   it('should handle arrays', function () {
     var original = { arr: [1, { x: true, y: false, z: ['a', 'b', ['c']] }, 3] }
     var base = new Base(original)
