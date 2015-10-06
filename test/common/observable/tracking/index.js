@@ -3,10 +3,9 @@ var tracking = require('../../../../lib/tracking/')
 var trackerEmitter = require('../../../../lib/tracking/emitter')
 var Event = require('../../../../lib/event/')
 
-// trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
+trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
 
 // this is just to log stuff (.toString yields nicer result for events)
-// trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
 Event.prototype.inject(require('../../../../lib/event/toString'))
 
 console.clear()
@@ -21,6 +20,7 @@ describe('direct tracking', function () {
     })
 
     var exampleObservable = new Observable ({
+      key: 'a',
       b: {
         val: exampleReference.exampleKey,
         inject: tracking,
@@ -33,7 +33,6 @@ describe('direct tracking', function () {
 
     trackerEmitter.services.test = function (obj) {
       // check for change type
-      console.log(obj)
       expect(obj.eventobject.eventOriginator.val).to.equal('aReference')
       done()
     }
@@ -42,7 +41,6 @@ describe('direct tracking', function () {
 
   it('should contain all default keys', function (done) {
     var a = new Observable({
-      key: 'a',
       b: {
         inject: tracking,
         on: {
@@ -63,7 +61,6 @@ describe('direct tracking', function () {
   it('should fire all tracking info from array', function (done) {
     var example = ['new', 'remove', 'parent', 'click']
     var a = new Observable({
-      key: 'a',
       b: {
         inject: tracking,
         on: {
@@ -77,12 +74,12 @@ describe('direct tracking', function () {
     trackerEmitter.services.test = function (obj) {
       cnt++
       // console.error(cnt, obj.convert({string:true}))
+
       if (cnt === example.length) {
         expect(cnt).to.equal(4)
         done()
       }
       if(cnt===3) {
-        console.log(obj)
         a.remove()
       }
     }
@@ -108,14 +105,11 @@ describe('direct tracking', function () {
           click: 'super',
           remove: returnValue(10),
           new: returnValue(10),
-          parent: returnValue(10),
-          customObject: {
-            customProperty: 'customValue'
-          }
+          parent: returnValue(10)
         }
       }
     })
-  //
+  //event should contain custom value
     trackerEmitter.services.test = function (obj) {
       expect(obj)
         .to.have.deep.property('eventobject')
@@ -126,12 +120,10 @@ describe('direct tracking', function () {
     ObjectwithObject.b.emit('parent')
     ObjectwithObject.b.emit('click')
     ObjectwithObject.b.emit('remove')
-    ObjectwithObject.b.emit('data')
   })
 
   it('should track an error event correctly', function (done) {
     var a = new Observable({
-      key: 'a',
       b: {
         inject: tracking,
         on: {
@@ -151,7 +143,6 @@ describe('direct tracking', function () {
 
   it('should override id if tracking val is a string', function (done) {
     var a = new Observable({
-      key: 'a',
       b: {
         inject: tracking,
         on: {
