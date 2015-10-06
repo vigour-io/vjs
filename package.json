@@ -36,7 +36,7 @@
   "devDependencies": {
     "dmd": "^1.1.1",
     "jsdoc-to-markdown": "^1.1.1",
-    "gaston": "git+ssh://git@github.com:vigour-io/gaston.git#dev"
+    "gaston": "git+ssh://git@github.com:vigour-io/gaston.git#develop"
   },
   "gaston": {
     "source-maps":false
