@@ -1,7 +1,7 @@
 describe('methods', function () {
-  require('./convert/')
   require('./plain/')
   require('./flatten/')
+  require('./convert/')
   require('./each/')
   require('./filter/')
   require('./find/')

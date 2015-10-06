@@ -19,7 +19,7 @@ describe('convert', function () {
     })
   })
 
-  it('should provide a base functionality', function () {
+  it('should convert and be the deep equal to expected object', function () {
     var convertedObj = a.convert()
     var expectedObject = {
       x: {
@@ -32,21 +32,13 @@ describe('convert', function () {
     expect(convertedObj).to.eql(expectedObject)
   })
 
-  it('should be able to apply a filter to the converted result', function () {
-    var expected = {
-      x: {},
-      '$z': 'zContent'
-    }
-    var filterFn = function (prop, key, base) {
-      if (key === 'y' || base.properties[key]) {
-        return false
-      }
-      return true
-    }
-    expect(a.convert({
-      plain: true,
-      filter: filterFn
-    })).to.eql(expected)
+  it('should output normal object', function () {
+    var convertedObj = a.convert({
+      plain: true
+    })
+    expect(convertedObj)
+      .to.be.an('object').and
+      .to.have.deep.property('x.y')
   })
 
   it('should convert function to string', function () {
@@ -56,6 +48,25 @@ describe('convert', function () {
     expect(convertedObj)
       .to.be.an('string').and
       .to.equal('{\n  "x": {\n    "y": {\n      "val": 123\n    }\n  },\n  "$z": "zContent"\n}')
+  })
+
+  it('should exclude key/value', function () {
+    var convertedObj = a.convert({
+      filter: function (property, key) {
+        if (key === 'y') {
+          return false
+        }
+        return true
+      }
+    })
+    expect(convertedObj.x.y).to.be.undefined
+  })
+
+  it('should flatten Base object', function () {
+    var convertedObj = a.convert({
+      flatten: true
+    })
+    expect(convertedObj).to.have.property('x.y.val')
   })
 
   it('should handle arrays', function () {

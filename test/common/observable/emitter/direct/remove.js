@@ -1,6 +1,6 @@
 describe('remove emitter', function () {
   var Observable = require('../../../../../lib/observable')
-  var isRemoved = require('../../../../../lib/util').isRemoved
+  var isRemoved = require('../../../../../lib/util/is/removed')
 
   it('fires the remove emitter', function (done) {
     var a = new Observable({

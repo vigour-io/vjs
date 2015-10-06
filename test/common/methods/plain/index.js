@@ -31,7 +31,22 @@ describe('plain', function () {
     expect(a.plain()).to.eql(expected)
   })
 
-  it('should return an empty JSON if Base doesn\'t have properties', function () {
+  it('should be able to return ther original js object used for creating a Base obj', function () {
+    var original = {
+      a: 1,
+      b: 'string',
+      c: {
+        d: 123,
+        e: 'string'
+      },
+      f: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      g: ['string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string']
+    }
+    var base = new Base(original)
+    expect(base.plain()).to.eql(original)
+  })
+
+  it('should return an empty js object if Base doesn\'t have properties', function () {
     var expected = {}
     var newBase = new Base()
     expect(newBase.plain()).to.eql(expected)
