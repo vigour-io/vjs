@@ -1,6 +1,6 @@
 describe('combined', function () {
   var Observable = require('../../../../../lib/observable')
-  var util = require('../../../../../lib/util')
+  var isRemoved = require('../../../../../lib/util/is/removed')
   var On = require('../../../../../lib/observable/on/constructor')
   var Emitter = require('../../../../../lib/emitter')
   var measure = {
@@ -116,7 +116,7 @@ describe('combined', function () {
 
     a.aNest.val = 'x'
 
-    expect(util.isRemoved(aRef)).to.be.true
+    expect(isRemoved(aRef)).to.be.true
     expect(a.aNest._on.data.base[1]).to.be.null
   })
 

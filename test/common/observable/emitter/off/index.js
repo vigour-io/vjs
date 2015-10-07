@@ -1,6 +1,6 @@
 describe('off', function () {
   var Observable = require('../../../../../lib/observable')
-  var util = require('../../../../../lib/util')
+  var isEmpty = require('../../../../../lib/util/is/empty')
 
   var aRef
   var a
@@ -104,14 +104,14 @@ describe('off', function () {
 
     expect(ref._on.data.base).to.be.ok
     expect(ref._on.data.attach).to.be.ok
-    expect(util.isEmpty(a.listensOnBase)).to.be.false
-    expect(util.isEmpty(a.listensOnAttach)).to.be.false
+    expect(isEmpty(a.listensOnBase)).to.be.false
+    expect(isEmpty(a.listensOnAttach)).to.be.false
 
     ref.off('data', a)
     expect(ref._on.data.base).to.be.null
     expect(ref._on.data.attach).to.be.null
-    expect(util.isEmpty(a.listensOnBase)).to.be.true
-    expect(util.isEmpty(a.listensOnAttach)).to.be.true
+    expect(isEmpty(a.listensOnBase)).to.be.true
+    expect(isEmpty(a.listensOnAttach)).to.be.true
 
     a.off(weirdListener)
     expect(a._on.data.fn.weird).to.be.null
