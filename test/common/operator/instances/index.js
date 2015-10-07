@@ -34,7 +34,7 @@ describe('instances', function () {
       inject: require('../../../../lib/operator/all'),
       val: 'y',
       key: 'a',
-      $add: function() {
+      $add: function () {
         // work on bind for this...
         operator.push(this.key)
         return 'xxx'
