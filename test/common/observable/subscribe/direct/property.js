@@ -114,7 +114,8 @@ describe('subscribing on one non-existent field, one existing field', function (
 
   it('fires when one field is removed', function () {
     a.aField.remove()
-    expect(count).equals(1)
+    a.anotherField.remove()
+    expect(count).equals(2)
   })
 
   it('fires when field is added again', function () {
