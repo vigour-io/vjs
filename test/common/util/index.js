@@ -1,6 +1,5 @@
 describe('util', function () {
   var Base = require('../../../lib/base')
-  var util = require('../../../lib/util')
   var isPlainObj = require('../../../lib/util/is/plainobj')
   var isNumber = require('../../../lib/util/is/number')
   var isEmpty = require('../../../lib/util/is/empty')
