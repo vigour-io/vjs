@@ -25,12 +25,7 @@ describe('base', function () {
       // now it takes the order of things in the operators thing -- however it should be set when you set the field
       // add order when setting a operator
     })
-    console.warn('?x')
-    console.log(a._operators, a.val)
     // delete a._operators
-    console.warn('?x', a._operators)
-
-    console.error('\n\n\n\nXXxx-----------------------------------------------------------xxXXXX')
     expect(a.val).to.equal('hellogurk')
   })
 })
