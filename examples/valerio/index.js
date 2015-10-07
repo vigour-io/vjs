@@ -52,6 +52,8 @@ console.log('3', a.third.blurf === aBase.blurf, aBase.x.y.z.val, a.third.x.y.z.v
 console.log(a.toString())
 
 
+
+
 // a.jim.valerio.getRoot()
 
 // console.log(a.convert({plain:true, string:true}))
@@ -72,3 +74,19 @@ b.jim.val = { hello: true }
 // b --> get jim it will check is jim my own prop? no --> set context for jim on b with contextLevel 1
 // b.jim.valerio  do i have context? yes allright use context contextLevel = 2
 console.log(b.jim.valerio._path, b.jim instanceof a.jim.Constructor)
+
+
+
+var x = new Base()
+
+var y = new Base()
+
+
+x.set({
+  y: { useVal: y},
+  z: y
+})
+
+
+
+console.log( x.y, x.z._input === x.y )
