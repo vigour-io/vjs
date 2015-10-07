@@ -1,7 +1,7 @@
 describe('methods', function () {
   require('./plain/')
   require('./flatten/')
-  require('./convert/')
+  require('./serialize/')
   require('./each/')
   require('./filter/')
   require('./find/')
