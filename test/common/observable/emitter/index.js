@@ -9,4 +9,5 @@ describe('emitter', function () {
   require('./condition')
   require('./context')
   require('./combined')
+  require('./error')
 })

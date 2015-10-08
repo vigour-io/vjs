@@ -6,9 +6,8 @@ describe('remove', function () {
   var Base = require('../../../../lib/base')
   Base.prototype.inject(require('../../../../lib/methods/toString'))
   var Observable = require('../../../../lib/observable')
-  var util = require('../../../../lib/util')
   var setKeyInternal = Observable.prototype.setKeyInternal
-  var isRemoved = util.isRemoved
+  var isRemoved = require('../../../../lib/util/is/removed')
   var measure = {
     a: {}
   }

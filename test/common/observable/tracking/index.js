@@ -2,8 +2,11 @@
 // var tracking = require('../../../../lib/tracking/')
 // var trackerEmitter = require('../../../../lib/tracking/emitter')
 var Event = require('../../../../lib/event/')
-// this is just to log stuff (.toString yields nicer result for events)
 
+// trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
+// this is just to log stuff (.toString yields nicer result for events)
+trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
+Event.prototype.inject(require('../../../../lib/event/toString'))
 // parent and error are still weird
 
 Event.prototype.inject(require('../../../../lib/event/toString'))

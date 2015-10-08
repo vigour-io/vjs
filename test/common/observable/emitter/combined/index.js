@@ -1,6 +1,6 @@
 describe('combined', function () {
   var Observable = require('../../../../../lib/observable')
-  var util = require('../../../../../lib/util')
+  var isRemoved = require('../../../../../lib/util/is/removed')
   var On = require('../../../../../lib/observable/on/constructor')
   var Emitter = require('../../../../../lib/emitter')
   var measure = {
@@ -44,7 +44,7 @@ describe('combined', function () {
       val: aRef
     })
 
-    expect(aRef._on.data.base[1]).to.equal(a)
+    expect(aRef._on.data.base[a.uid]).to.equal(a)
 
     a.val = 10
     expect(aRef._on.data.base).to.be.null
@@ -65,7 +65,7 @@ describe('combined', function () {
     expect(measure.a.reference.val.total).to.equal(2)
     expect(measure.a.data.val.total).to.equal(3)
     expect(measure.a.property.val.total).to.equal(1)
-    expect(aRef._on.data.base[2]).to.equal(a)
+    expect(aRef._on.data.base[a.uid]).to.equal(a)
   })
   //
   it('create new observable --> aO --> a --> b references - remove aRef', function () {
@@ -112,12 +112,12 @@ describe('combined', function () {
       val: a.aNest
     })
 
-    expect(a.aNest._on.data.base[1]).to.be.ok
+    expect(a.aNest._on.data.base[aRef.uid]).to.be.ok
 
     a.aNest.val = 'x'
 
-    expect(util.isRemoved(aRef)).to.be.true
-    expect(a.aNest._on.data.base[1]).to.be.null
+    expect(isRemoved(aRef)).to.be.true
+    expect(a.aNest._on.data.base[aRef.uid]).to.be.not.ok
   })
 
   it('test new emitter', function () {
@@ -234,6 +234,9 @@ describe('combined', function () {
         data: c
       }
     })
+
+
+    console.log(a._on.data.base)
 
     expect(b.listensOnBase[1]).to.be.not.ok
     expect(c.listensOnBase[1]).to.be.ok
