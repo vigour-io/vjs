@@ -111,7 +111,7 @@ describe('context', function () {
         }
       })
       expect(e).instanceof(d.Constructor)
-      expect(b.nest._on.data.base[1]._path).to.deep.equal(['e', 'field'])
+      expect(b.nest._on.data.base[e.field.uid]._path).to.deep.equal(['e', 'field'])
       expect(a.nest._on.data.base).not.ok
       expect(b.nest).to.not.equal(a.nest)
       expect(b.nest._on).to.not.equal(a.nest.on)
@@ -487,7 +487,7 @@ describe('context', function () {
         nest2: new firstUseVal.Constructor()
       })
 
-  
+
 
       a.b.val = 'rick'
 

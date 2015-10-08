@@ -72,7 +72,7 @@ describe('bind', function () {
       key: 'a',
       val: 20,
       b: {
-        inject: require('../../../lib/operator/inject'),
+        inject: require('../../../lib/operator/all'),
         val: 10,
         $add: 20
       }

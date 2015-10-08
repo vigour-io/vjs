@@ -119,4 +119,6 @@ describe('references', function () {
     expect(measure.b.second.b).msg('b context (b second)').to.equal(3)
     expect(measure.b.second.total).to.equal(3)
   })
+
+  require('./unique')
 })
