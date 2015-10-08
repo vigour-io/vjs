@@ -28,7 +28,7 @@ describe('references', function () {
 
   it('should have added a listener on the referenced observable', function () {
     expect(referencedObs._on.data.base).ok
-    expect(referencedObs._on.data.base[1]).equals(obs)
+    expect(referencedObs._on.data.base[obs.uid]).equals(obs)
   })
 
   it('should have correct listen object', function () {
@@ -61,7 +61,7 @@ describe('references', function () {
 
   it('should have added listeners on the new referenced object', function () {
     expect(referencedObs2._on.data.base).be.ok
-    expect(referencedObs2._on.data.base[1]).equals(obs)
+    expect(referencedObs2._on.data.base[obs.uid]).equals(obs)
   })
 
   it('should have removed listeners on the previous value', function () {
