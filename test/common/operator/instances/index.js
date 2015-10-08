@@ -52,7 +52,6 @@ describe('instances', function () {
     var c = new b.Constructor({
       key: 'c'
     })
-    console.log('allright lets go')
     reffed.on(a.$add)
     fired = []
     operator = []
