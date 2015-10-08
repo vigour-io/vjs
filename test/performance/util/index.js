@@ -1,22 +1,19 @@
 describe('util test', function () {
   // this is buggy shit
-  var Base = require('../../../lib/base')
   var util = require('../../../lib/util')
+  var isNumberLike = require('../../../lib/util/is/numberlike')
 
-  it('isNumberLike vs lodash isNumber', function( done ) {
+  it('isNumberLike vs lodash isNumber', function (done) {
     this.timeout(50e3)
-    var convertToArray = util.convertToArray
-    var slice = Array.prototype.slice
     var amount = 1e6
-    var isNumberLike = util.isNumberLike
     var isNumber = require('lodash/lang/isNumber')
 
-    expect( function() {
-      for(var i = 0; i < amount; i++ ) {
-        isNumberLike( 'a'+i )
+    expect(function () {
+      for (var i = 0; i < amount; i++) {
+        isNumberLike('a' + i)
       }
-      for(var i = 0; i < amount; i++ ) {
-        isNumberLike( i )
+      for (i = 0; i < amount; i++) {
+        isNumberLike(i)
       }
     }).performance({
       margin: 3,
@@ -24,14 +21,14 @@ describe('util test', function () {
         for (var i = 0; i < amount; i++) {
           isNumber('a' + i)
         }
-        for (var i = 0; i < amount; i++) {
+        for (i = 0; i < amount; i++) {
           isNumber(i)
         }
       }
     }, done)
   })
 
-  it('convertToArray vs Array.prototype.slice', function ( done ) {
+  it('convertToArray vs Array.prototype.slice', function (done) {
     this.timeout(50e3)
     var convertToArray = util.convertToArray
     var slice = Array.prototype.slice
@@ -39,19 +36,18 @@ describe('util test', function () {
 
     expect(function () {
       function fn () {
-        var arr = convertToArray(arguments)
+        convertToArray(arguments)
       }
       for (var i = 0; i < amount; i++) {
         fn(1, 2, 3, 4, 5, 6)
       }
     }).performance(function () {
       function fn2 () {
-        var arr = slice.apply(arguments)
+        slice.apply(arguments)
       }
       for (var i = 0; i < amount; i++) {
         fn2(1, 2, 3, 4, 5, 6)
       }
     }, done)
   })
-
 })
