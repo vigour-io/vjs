@@ -11,7 +11,7 @@ describe('Config in node.js', function () {
 
   it('should look for package.json', function () {
     expect(config).to.have.property('name')
-      .which.has.property('val', 'vjs')
+      .which.has.property('val', 'config')
   })
 
   it.skip('should have vigour settings from package', function () {
