@@ -20,12 +20,22 @@ describe('unique', function () {
   })
 
   it('attach same reference, should not add an extra', function () {
-    b.val = a
+    a.on('data', b)
     var cnt = 0
     a._on.data.base.each(function (property, key) {
       cnt++
       expect(property).eqls(b)
     })
     expect(cnt).eqls(1)
+    console.log(a)
+  })
+
+  it('attach other reference', function () {
+    a.on('data', c)
+    var cnt = 0
+    a._on.data.base.each(function (property, key) {
+      cnt++
+    })
+    expect(cnt).eqls(2)
   })
 })
