@@ -2,23 +2,6 @@ describe('base', function () {
   var Base = require('../../../../lib/observable')
   var a
 
-  var f = () => console.log('x?')
-  var restargs = function (a, b, ...args) {
-    console.log(args)
-  }
-
-  restargs(1,2, 132, 123)
-
-  var obj = {
-    ['xxxx' + 1]: 123132,
-    a: true
-  }
-  var ac, bc
-  [ac, bc] = [1, 2]
-  //
-  var xxx = `${ac} hello ${bc}`
-  console.log(xxx)
-
   it('create a new base inject operators', function () {
     a = new Base({
       inject: require('../../../../lib/operator/all'),
