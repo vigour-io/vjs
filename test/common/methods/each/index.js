@@ -56,7 +56,7 @@ describe('each', function () {
       }
     })
 
-    it('should iterate in an object', function () {
+    xit('should iterate in an object', function () {
       var count = 0
       var name, objRef
       each.call(obj, function (val, key, self) {
@@ -71,7 +71,7 @@ describe('each', function () {
       expect(objRef).to.be.eql(obj)
     })
 
-    it('should allow pass filter function', function () {
+    xit('should allow pass filter function', function () {
       var count = 0
       var filter = function (val, key) {
         return key !== 'age'
@@ -84,7 +84,7 @@ describe('each', function () {
       expect(filterSpy).to.have.callCount(2)
     })
 
-    it('should return and cancel the iteration', function () {
+    xit('should return and cancel the iteration', function () {
       var count = 0
       each.call(obj, function (val, key) {
         count++
