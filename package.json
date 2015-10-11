@@ -18,6 +18,7 @@
     "url": "https://github.com/vigour-io/vjs/issues"
   },
   "dependencies": {
+    "babelify": "^6.3.0",
     "lodash": "3.10.x"
   },
   "homepage": "https://github.com/vigour-io/vjs",
@@ -34,12 +35,13 @@
   ],
   "license": "GPL",
   "devDependencies": {
+    "babelify": "6.3.0",
     "dmd": "^1.1.1",
     "jsdoc-to-markdown": "^1.1.1",
     "gaston": "git+ssh://git@github.com:vigour-io/gaston.git#develop"
   },
   "gaston": {
-    "source-maps":false
+    "source-maps": false
   },
   "vigour": {
     "services": {
@@ -50,6 +52,13 @@
     }
   },
   "standard": {
-    "globals": [ "describe", "it", "beforeEach", "sinon", "expect", "xit" ]
+    "globals": [
+      "describe",
+      "it",
+      "beforeEach",
+      "sinon",
+      "expect",
+      "xit"
+    ]
   }
 }
