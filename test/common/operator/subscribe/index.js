@@ -39,6 +39,30 @@ describe('subscribe and bind, instance', function () {
   })
 })
 
+describe('subscribe and bind, instances', function () {
+  it('subscribe it', function () {
+    var Child = new Observable({
+      key: 'a',
+      $subscribe: 'nested.title'
+    }).Constructor
+
+    var son = new Child({
+      nested: {
+        title: 'Johnny'
+      }
+    })
+
+    var daughter = new Child({
+      nested: {
+        title: 'Amy'
+      }
+    })
+
+    expect(son.val).equals('Johnny')
+    expect(daughter.val).equals('Amy')
+  })
+})
+
 describe('subscribe and bind existing nested field', function () {
   it('subscribe it', function () {
     var child = new Observable({
