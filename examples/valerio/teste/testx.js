@@ -1,4 +1,4 @@
-require('./regen.js')
+// require('./regen.js')
 
 console.log('hey!')
 
