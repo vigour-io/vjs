@@ -32,10 +32,12 @@ describe('context', function () {
       on: {
         data: {
           condition: function (data, done, event) {
+            console.log('??hey hey hey??')
             setTimeout(done, this.time.val)
           },
           val: function () {
             cnt++
+            console.log('time', cnt, this.path)
             if (cnt === 3) {
               done()
             }

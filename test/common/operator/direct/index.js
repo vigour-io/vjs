@@ -4,6 +4,17 @@ describe('direct', function () {
     var Base = require('../../../../lib/observable')
     var a
 
+
+    var x = new Base({
+      // inject: require('../../../../lib/methods/iterator'),
+      blurf: 'hey hey hey'
+    })
+
+  
+    for(var i of x) {
+      console.log('?', i)
+    }
+
     it('create a new base inject operators', function () {
       a = new Base({
         inject: require('../../../../lib/operator/all'),
