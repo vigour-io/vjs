@@ -4,22 +4,6 @@ describe('direct', function () {
     var Base = require('../../../../lib/observable')
     var a
 
-    var x = new Base({
-      blurf: 'hey hey hey',
-      x: true
-    })
-
-    for(var i of x) {
-      console.log('?', i)
-    }
-
-    console.log( '??',[...x] )
-
-    // function ax(...x) {
-    //   console.log('x?', x)
-    // }
-    // ax(x)
-
     it('create a new base inject operators', function () {
       a = new Base({
         inject: require('../../../../lib/operator/all'),
