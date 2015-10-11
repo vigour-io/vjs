@@ -25,6 +25,7 @@ describe('instances', function () {
 describe('context', function () {
   var Observable = require('../../../../../../lib/observable')
   it('fires condition trigger', function (done) {
+    console.clear()
     var cnt = 0
     var a = new Observable({
       key:'a',
@@ -46,8 +47,8 @@ describe('context', function () {
       }
     })
 
-    var b = new a.Constructor({time: 300})
-    var c = new b.Constructor({time: 500})
+    var b = new a.Constructor({time: 300, key: 'b'})
+    var c = new b.Constructor({time: 500, key: 'c'})
     a.val = 'a change!'
   })
 })
