@@ -78,9 +78,9 @@ describe('operators', function () {
       key: 'a',
       $transform: {
         order: -1,
-        val: function () {
-          console.log('DOING TRANSFORM!', this.path)
-          return 'xxx'
+        val: function (val) {
+          console.log('DOING TRANSFORM!', this.path, val)
+          return false
         }
       },
       on: {
