@@ -99,9 +99,8 @@ describe('object', function () {
         expect(a.val).equals(a._cache)
       })
 
-      it('should have field', function () {
-        expect(a.val.d).has.property('_input')
-          .which.equals(a.$transform.d)
+      it('should have d field', function () {
+        expect(a.val.each((property) => property._input)).equals(a.$transform.d)
       })
     })
   })
