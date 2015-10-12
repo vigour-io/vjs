@@ -36,7 +36,7 @@ describe('context', function () {
         data: {
           condition: function (data, done, event) {
             console.log('fire condition in context', this.path, this.time.val, data.key)
-            setTimeout(done, this.time.val)
+            setTimeout(() => done(), this.time.val)
           },
           val: function (data) {
             fired.push(this.path[0])
