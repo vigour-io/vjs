@@ -1,4 +1,4 @@
-describe('object operations', function () {
+describe('object', function () {
   var Observable = require('../../../../lib/observable')
 
   describe('add', function () {
@@ -29,7 +29,6 @@ describe('object operations', function () {
 
   describe('transform', function () {
     var a
-    arr = []
     it('create a new observable, should return a cache object', function () {
       a = new Observable({
         inject: [
