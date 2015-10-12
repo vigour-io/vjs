@@ -1,4 +1,4 @@
-describe('object ', function () {
+describe('object operations', function () {
   var Observable = require('../../../../lib/observable')
 
   describe('add', function () {
@@ -27,20 +27,30 @@ describe('object ', function () {
     })
   })
 
-  it('create a new observable, use objects, test transform', function () {
+  describe('transform', function () {
     var a
-
-    a = new Observable({
-      inject: require('../../../../lib/operator/all'),
-      key: 'a',
-      b: 'its b',
-      // merge er ook bij
-      $add: function () {
-        return { c: 'its c' }
-      }
+    it('create a new observable, should return a cache object', function () {
+      a = new Observable({
+        inject: [
+          require('../../../../lib/operator/all'),
+          require('../../../../lib/methods/map')
+        ],
+        key: 'a',
+        b: 'its b',
+        c: 'its c',
+        $transform: function () {
+          return this.map((property, key) => { return { wow: property } })
+        }
+      })
+      expect(a.val).equals(a._cache)
     })
-    expect(a.val).equals(a._cache)
-    expect(a.val.b._input).equals(a.b)
-    expect(a.val).to.have.property('c').which.has.property('_input').which.equals('its c')
+
+    it('should have all fields', function () {
+      var arr = []
+      a.val.each((property, key) => {
+        arr.push(property.wow._input)
+      })
+      expect(arr).to.deep.equal([a.b, a.c])
+    })
   })
 })
