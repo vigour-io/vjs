@@ -127,23 +127,5 @@ describe('emitter', function () {
       expect(dataArray).to.deep.equal(['b', 'a'])
     })
   })
-  describe('add error listener', function () {
-    var a = new Emitter()
-    var cnt = 0
-    function listener () {
-      cnt++
-      console.log(a.data)
-    }
-    it('should display error message', function () {
-      a.on(listener, 'val')
-      a.emit('error') // add meta handle
-      expect(cnt).equals(1)
-      // expect(a.fn.val).to.be.ok
-    })
-    it('remove val listener', function () {
-      expect(a.fn).to.be.ok
-      a.off('val')
-      expect(a.fn).to.be.not.ok
-    })
-  })
+  require('./error')
 })
