@@ -2,10 +2,6 @@ var Observable = require('../../../../lib/observable/')
 var tracking = require('../../../../lib/tracking/')
 var trackerEmitter = require('../../../../lib/tracking/emitter')
 
-trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
-
-console.clear()
-
 it('should handle objects', function (done) {
   function returnValue (value) {
     return value
@@ -21,9 +17,7 @@ it('should handle objects', function (done) {
         click: 'super',
         remove: returnValue(10),
         new: returnValue(10),
-        parent: returnValue(10),
-        rickEvent: 600
-
+        parent: 100,
       }
     }
   })
@@ -37,6 +31,5 @@ it('should handle objects', function (done) {
   ObjectwithObject.b.emit('new')
   ObjectwithObject.b.emit('parent')
   ObjectwithObject.b.emit('click')
-  ObjectwithObject.b.emit('rickEvent')
   ObjectwithObject.b.emit('remove')
 })

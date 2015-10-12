@@ -11,7 +11,6 @@ describe('fire error event', function () {
     error.emit('b', event)
     event.trigger()
     function listener (data, event) {
-      console.log(this)
       this.data = data
     }
     expect(error.data).to.eql(["a", "b"])
