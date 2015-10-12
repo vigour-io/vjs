@@ -46,5 +46,4 @@ describe('direct', function () {
       expect(a.val).to.equal('hellogurk')
     })
   })
-
 })
