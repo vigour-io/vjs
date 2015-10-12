@@ -7,7 +7,7 @@
     "url": "https://github.com/vigour-io/vjs.git"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": "^4.1.1"
   },
   "scripts": {
     "test": "./node_modules/.bin/gaston test browser -f test/common/",
@@ -18,6 +18,7 @@
     "url": "https://github.com/vigour-io/vjs/issues"
   },
   "dependencies": {
+    "babelify": "^6.3.0",
     "lodash": "3.10.x"
   },
   "homepage": "https://github.com/vigour-io/vjs",
@@ -39,7 +40,7 @@
     "gaston": "git+ssh://git@github.com:vigour-io/gaston.git#develop"
   },
   "gaston": {
-    "source-maps":false
+    "source-maps": false
   },
   "vigour": {
     "services": {
@@ -50,6 +51,13 @@
     }
   },
   "standard": {
-    "globals": [ "describe", "it", "beforeEach", "sinon", "expect", "xit" ]
+    "globals": [
+      "describe",
+      "it",
+      "beforeEach",
+      "sinon",
+      "expect",
+      "xit"
+    ]
   }
 }

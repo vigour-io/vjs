@@ -2,7 +2,7 @@ describe('single instance', function () {
   var Observable = require('../../../../../../lib/observable')
   it('fires condition trigger', function (done) {
     var a = new Observable({
-      val: 200,
+      val: 10,
       on: {
         data: {
           condition: function (data, cb, event) {
@@ -18,12 +18,12 @@ describe('single instance', function () {
         }
       }
     })
-    a.val = 100
+    a.val = 20
   })
 
   it('fires error', function (done) {
     var a = new Observable({
-      val: 200,
+      val: 10,
       on: {
         error: function (data) {
           done()
