@@ -2,10 +2,9 @@ var Observable = require('../../../../lib/observable/')
 var tracking = require('../../../../lib/tracking/')
 var trackerEmitter = require('../../../../lib/tracking/emitter')
 
-trackerEmitter.inject(require('../../../../lib/tracking/service/log'))
-
 
 it('should override id if tracking val is a string', function (done) {
+
   var a = new Observable({
     b: {
       inject: tracking,

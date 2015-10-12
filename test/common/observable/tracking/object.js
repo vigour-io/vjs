@@ -15,11 +15,9 @@ it('should handle objects', function (done) {
       },
       track: {
         click: 'super',
-        // remove: returnValue(10),
+        remove: returnValue(10),
         new: returnValue(10),
-        // parent: returnValue(10)
-        rickEvent: 600
-
+        parent: 100,
       }
     }
   })
@@ -31,8 +29,7 @@ it('should handle objects', function (done) {
   }
 
   ObjectwithObject.b.emit('new')
-  // ObjectwithObject.b.emit('parent')
+  ObjectwithObject.b.emit('parent')
   ObjectwithObject.b.emit('click')
-  ObjectwithObject.b.emit('rickEvent')
-  // ObjectwithObject.b.emit('remove')
+  ObjectwithObject.b.emit('remove')
 })

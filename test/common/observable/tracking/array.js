@@ -7,8 +7,8 @@ var trackerEmitter = require('../../../../lib/tracking/emitter')
 
 // parent and error emitter are still weird
 
-xit('should fire all tracking info from array', function (done) {
-  var example = ['new', 'remove', 'parent', 'click']
+it('should fire all tracking info from array', function (done) {
+  var example = ['new', 'parent', 'click']
   var a = new Observable({
     b: {
       inject: tracking,
@@ -23,7 +23,7 @@ xit('should fire all tracking info from array', function (done) {
   trackerEmitter.services.test = function (obj) {
     cnt++
     if (cnt === example.length) {
-      expect(cnt).to.equal(4)
+      expect(cnt).to.equal(3)
       done()
     }
     if(cnt===3) {

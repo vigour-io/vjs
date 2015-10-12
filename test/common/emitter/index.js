@@ -127,12 +127,15 @@ describe('emitter', function () {
       expect(dataArray).to.deep.equal(['b', 'a'])
     })
   })
+
+  require('./error')
+
   describe('add error listener', function () {
     var a = new Emitter()
     var cnt = 0
     function listener () {
       cnt++
-      
+
     }
     it('should display error message', function () {
       a.on(listener, 'val')
