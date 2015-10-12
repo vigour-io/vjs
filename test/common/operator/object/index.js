@@ -1,12 +1,10 @@
 describe('object ', function () {
   var Observable = require('../../../../lib/observable')
+  var a
 
-  // it should create a results observable
-  // result is a listlike object -- make the key moving easy (tmrw)
-
-  it('create a new observable, use objects, create results object', function () {
+  it('create a new observable, use objects, create cache object', function () {
     console.clear()
-    var a = new Observable({
+    a = new Observable({
       inject: require('../../../../lib/operator/all'),
       key: 'a',
       b: 'its b',
@@ -14,8 +12,6 @@ describe('object ', function () {
         return { c: 'its c' }
       }
     })
-
-    console.log(a.val)
-
+    expect(a.val).equals(a._cache)
   })
 })
