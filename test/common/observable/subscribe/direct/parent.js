@@ -76,7 +76,9 @@ describe('subscribing to nested field on existing parent', function () {
   })
 
   it('fires when a.b is added again', function () {
-    a.set({b: true})
+    a.set({
+      b: true
+    })
     expect(count).equals(1)
   })
 })
@@ -113,4 +115,8 @@ describe('subscribing to non existing parent', function () {
     parent.remove()
     expect(count).equals(1)
   })
+})
+
+describe('collection experiment', function () {
+  it('subscribe it!', function () {})
 })

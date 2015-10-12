@@ -1,8 +1,8 @@
 var Observable = require('../../../../lib/observable')
 Observable.prototype.inject(require('../../../../lib/operator/subscribe'))
 
-describe('subscribe and bind', function () {
-  it('subscribe it', function () {
+describe('subscribe and bind', () => {
+  it('subscribe it', () => {
     var child = new Observable({
       key: 'a',
       $subscribe: 'parent.title'
@@ -20,17 +20,17 @@ describe('subscribe and bind', function () {
   })
 })
 
-describe('subscribe and bind, instance', function () {
-  it('subscribe it', function () {
-    var child = new Observable({
+describe('subscribe and bind, instance', () => {
+  it('subscribe it', () => {
+    var Child = new Observable({
       key: 'a',
       $subscribe: 'parent.title'
-    })
+    }).Constructor
 
     var parent = new Observable({
       title: 'myTitle',
       a: {
-        useVal: new child.Constructor()
+        useVal: new Child()
       }
     })
 
@@ -39,8 +39,8 @@ describe('subscribe and bind, instance', function () {
   })
 })
 
-describe('subscribe and bind, instances', function () {
-  it('subscribe it', function () {
+describe('subscribe and bind, instances', () => {
+  it('subscribe it', () => {
     var Child = new Observable({
       key: 'a',
       $subscribe: 'nested.title'
@@ -63,8 +63,8 @@ describe('subscribe and bind, instances', function () {
   })
 })
 
-describe('subscribe and bind existing nested field', function () {
-  it('subscribe it', function () {
+describe('subscribe and bind existing nested field', () => {
+  it('subscribe it', () => {
     var child = new Observable({
       key: 'a',
       field: {
@@ -79,8 +79,8 @@ describe('subscribe and bind existing nested field', function () {
   })
 })
 
-describe('subscribe and bind non existent nested field', function () {
-  it('subscribe it', function () {
+describe('subscribe and bind non existent nested field', () => {
+  it('subscribe it', () => {
     var child = new Observable({
       key: 'a',
       $subscribe: 'field.nested.title'
@@ -98,8 +98,8 @@ describe('subscribe and bind non existent nested field', function () {
   })
 })
 
-describe('subscribe and bind multiple levels', function () {
-  it('subscribe it', function () {
+describe('subscribe and bind multiple levels', () => {
+  it('subscribe it', () => {
     var child = new Observable({
       key: 'a',
       $subscribe: 'upward.title'
@@ -123,8 +123,8 @@ describe('subscribe and bind multiple levels', function () {
   })
 })
 
-describe('subscribe and bind multiple levels, multiple steps', function () {
-  it('subscribe it', function () {
+describe('subscribe and bind multiple levels, multiple steps', () => {
+  it('subscribe it', () => {
     var child = new Observable({
       key: 'a',
       $subscribe: 'parent.title'
@@ -153,8 +153,8 @@ describe('subscribe and bind multiple levels, multiple steps', function () {
   })
 })
 
-describe('subscribe and bind multiple levels, multiple steps, references', function () {
-  it('subscribe it', function () {
+describe('subscribe and bind multiple levels, multiple steps, references', () => {
+  it('subscribe it', () => {
     var child = new Observable({
       key: 'a',
       $subscribe: 'parent.title'
@@ -187,8 +187,8 @@ describe('subscribe and bind multiple levels, multiple steps, references', funct
   })
 })
 
-describe('subscribe and bind, parent, instances', function () {
-  it('subscribe it', function () {
+describe('subscribe and bind, parent, instances', () => {
+  it('subscribe it', () => {
     var child = new Observable({
       key: 'a',
       $subscribe: 'parent.title'
@@ -216,27 +216,27 @@ describe('subscribe and bind, parent, instances', function () {
   })
 })
 
-describe('subscribe and bind, nested, instances, existing field', function () {
-  it('subscribe it', function () {
-    var child = new Observable({
+describe('subscribe and bind, nested, instances, existing field', () => {
+  it('subscribe it', () => {
+    var Child = new Observable({
       key: 'a',
       nested: {
         title: 'nestedTitle'
       },
       $subscribe: 'nested.title'
-    })
+    }).Constructor
 
     var mother = new Observable({
       key: 'mother',
       a: {
-        useVal: new child.Constructor()
+        useVal: new Child()
       }
     })
 
     var father = new Observable({
       key: 'father',
       a: {
-        useVal: new child.Constructor()
+        useVal: new Child()
       }
     })
 
@@ -246,17 +246,17 @@ describe('subscribe and bind, nested, instances, existing field', function () {
   })
 })
 
-describe('subscribe and bind, nested, instances, non existing field', function () {
-  it('subscribe it', function () {
-    var child = new Observable({
+describe('subscribe and bind, nested, instances, non existing field', () => {
+  it('subscribe it', () => {
+    var Child = new Observable({
       key: 'a',
       $subscribe: 'nested.title'
-    })
+    }).Constructor
 
     var mother = new Observable({
       key: 'mother',
       a: {
-        useVal: new child.Constructor({
+        useVal: new Child({
           nested: {
             title: 'motherTitle'
           }
@@ -267,7 +267,7 @@ describe('subscribe and bind, nested, instances, non existing field', function (
     var father = new Observable({
       key: 'father',
       a: {
-        useVal: new child.Constructor({
+        useVal: new Child({
           nested: {
             title: 'fatherTitle'
           }
@@ -278,7 +278,5 @@ describe('subscribe and bind, nested, instances, non existing field', function (
     expect(mother && father)
     expect(father.a.val).equals('fatherTitle')
     expect(mother.a.val).equals('motherTitle')
-    console.clear()
-    console.log(child.val)
   })
 })
