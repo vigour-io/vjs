@@ -1,7 +1,7 @@
 describe('operators', function () {
   var Observable = require('../../../../../lib/observable')
   it('fires condition trigger', function (done) {
-    console.clear()
+
     var a = new Observable({
       inject: require('../../../../../lib/operator/all'),
       key: 'a',
@@ -34,7 +34,7 @@ describe('operators', function () {
   })
 
   it('cancel on false', function () {
-    console.clear()
+
     var cnt = 0
     var a = new Observable({
       key: 'a',
@@ -52,7 +52,7 @@ describe('operators', function () {
         }
       }
     })
-    console.clear()
+
     a.val = false
     expect(cnt).to.equal(0)
   })
