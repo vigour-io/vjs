@@ -22,7 +22,7 @@ describe('references', function () {
     a = new Observable({
       key: 'a',
       on: {
-        change: function (event) {
+        data: function (data, event) {
           var originkeyCnt = measure.a.val.origin[event.origin.key]
           measure.a.val.origin[event.origin.key] = originkeyCnt ? (originkeyCnt + 1) : 1
           var keyCnt = measure.a.val[this.key]
@@ -59,8 +59,8 @@ describe('references', function () {
     measure.b.second = { total: 0, origin: {} }
     b.val = {
       on: {
-        change: {
-          second: function (event) {
+        data: {
+          second: function (data, event) {
             var originkeyCnt = measure.b.second.origin[event.origin.key]
             measure.b.second.origin[event.origin.key] = originkeyCnt ? (originkeyCnt + 1) : 1
             var keyCnt = measure.b.second[this.key]
@@ -119,4 +119,6 @@ describe('references', function () {
     expect(measure.b.second.b).msg('b context (b second)').to.equal(3)
     expect(measure.b.second.total).to.equal(3)
   })
+
+  require('./unique')
 })

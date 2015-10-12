@@ -149,7 +149,7 @@ describe('base', function () {
     })
   })
 
-  describe('change', function () {
+  describe('data', function () {
     var c, setValueSpy
     beforeEach(function () {
       c = new Base({

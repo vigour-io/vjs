@@ -13,7 +13,7 @@ describe('attach', function () {
     obs = new Observable({
       key: 'obs',
       on: {
-        change: {
+        data: {
           val: [
             function (event, meta, base, extraArg1, extraArg2) {
               measure.obs.val++
@@ -28,7 +28,7 @@ describe('attach', function () {
       }
     })
     expect(referencedObs).have.property('listensOnAttach')
-    expect(obs._on.change.attach).ok
+    expect(obs._on.data.attach).ok
   })
 
   it('should have the correct amount of attached properties', function () {

@@ -12,15 +12,13 @@ describe('streams', function () {
     var a = new Observable({
       key: 'a',
       on: {
-        change: function (event, meta) {
-
-          if (meta === 'hey') {
+        data: function (data) {
+          if (data === 'hey') {
             done()
           }
         }
       }
     })
-    // maybe dont fire when setting to stream?
     a.val = readable
     readable.push('hey')
   })
@@ -41,11 +39,11 @@ describe('streams', function () {
   })
 
   xit('can be piped to', function (done) {
-    // make this test better later...
+    // make this test better later... needs node server
     var a = new Observable({
       key: 'a',
       on: {
-        change: function (event, meta) {}
+        data: function () {}
       }
     })
     var largeFile = http.request({

@@ -7,7 +7,7 @@ describe('set on instance nested field', function () {
     b: {
       c: {
         on: {
-          change: function () {
+          data: function () {
             cnt++
           }
         }
@@ -17,7 +17,7 @@ describe('set on instance nested field', function () {
 
   var aInstance
 
-  it('listener fires once', function () {
+  it('create instance, listener does not fire', function () {
     aInstance = new a.Constructor({
       key: 'aInstance'
     })
@@ -28,6 +28,7 @@ describe('set on instance nested field', function () {
     a.b.set({
       c: true
     })
+    
     expect(cnt).to.equal(2)
   })
 

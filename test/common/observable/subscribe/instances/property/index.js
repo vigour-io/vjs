@@ -149,7 +149,7 @@ describe('subscribing to single existing field on instance', function () {
     key: 'a',
     aField: {
       on: {
-        change: {}
+        data: {}
       }
     }
   })
@@ -182,12 +182,12 @@ describe('subscribing to two existing fields on instance', function () {
     key: 'a',
     aField: {
       on: {
-        change: {}
+        data: {}
       }
     },
     anotherField: {
       on: {
-        change: {}
+        data: {}
       }
     }
   })
@@ -246,7 +246,7 @@ describe('subscribing to single non-existing field on instance', function () {
       aField: {
         val: 2,
         on: {
-          change: {}
+          data: {}
         }
       }
     })

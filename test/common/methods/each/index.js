@@ -19,19 +19,17 @@ describe('each', function () {
       expect(total).to.be.equal(220)
     })
 
-    it('should allow pass exclude function', function () {
+    it('should allow pass filter function', function () {
       var count = 0
-      var exclude = function (val, index) {
-        if (val === 40) {
-          return true
-        }
+      var filter = function (val, index) {
+        return val !== 40
       }
-      var excludeSpy = sinon.spy(exclude)
+      var filterSpy = sinon.spy(filter)
       each.call(arr, function () {
         count++
-      }, excludeSpy)
+      }, filterSpy)
       expect(count).to.equal(3)
-      expect(excludeSpy).to.have.callCount(4)
+      expect(filterSpy).to.have.callCount(4)
     })
 
     it('should return and cancel the iteration', function () {
@@ -73,17 +71,17 @@ describe('each', function () {
       expect(objRef).to.be.eql(obj)
     })
 
-    it('should allow pass exclude function', function () {
+    it('should allow pass filter function', function () {
       var count = 0
-      var exclude = function (val, key) {
-        return key === 'age'
+      var filter = function (val, key) {
+        return key !== 'age'
       }
-      var excludeSpy = sinon.spy(exclude)
+      var filterSpy = sinon.spy(filter)
       each.call(obj, function () {
         count++
-      }, excludeSpy)
+      }, filterSpy)
       expect(count).to.equal(1)
-      expect(excludeSpy).to.have.callCount(2)
+      expect(filterSpy).to.have.callCount(2)
     })
 
     it('should return and cancel the iteration', function () {
@@ -118,7 +116,7 @@ describe('each', function () {
       count = 0
     })
 
-    it('should exclude gurk, key and _aField', function () {
+    it('should filter gurk, key and _aField', function () {
 
       a.each(function () {
         count++
@@ -126,29 +124,31 @@ describe('each', function () {
       expect(count).equals(1)
     })
 
-    it('added exclude function should exclude gurk, _aField', function () {
+    it('added empty fitler function should filter gurk, _aField', function () {
       a.each(function () {
         count++
-      }, function () {})
+      }, function () {
+        return true
+      })
       expect(count).equals(3)
     })
 
-    it('added exclude function should exclude gurk, key and _aField', function () {
+    it('added filter function should filter gurk, key and _aField', function () {
       a.each(function () {
         count++
       }, function (property, key, target) {
         var properties = target._properties
-          return properties[key]
+          return !properties[key]
       })
       expect(count).equals(1)
     })
 
-    it('each has to exclude parent for deeper field', function () {
+    it('each has to filter parent for deeper field', function () {
       a.hello.each(function () {
         count++
       }, function (property, key, target) {
         var properties = target._properties
-        return properties[key]
+        return !properties[key]
       })
       expect(count).equals(2)
     })

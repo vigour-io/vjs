@@ -1,6 +1,7 @@
 var http = require('http')
 http.createServer(function (req, res) {
   req.rcnt = 1
+  
 
   res.writeHead(200,
     {
@@ -10,7 +11,6 @@ http.createServer(function (req, res) {
     })
   var t = setInterval(function () {
     req.rcnt++
-
     res.write(String(' funsies! '))
     if (req.rcnt === 20) {
       clearInterval(t)
