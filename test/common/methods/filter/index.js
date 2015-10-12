@@ -16,7 +16,7 @@ describe('filter', function () {
     var a
     beforeEach(function () {
       a = new Base({
-        $key: 'a',
+        key: 'a',
         z: 123,
         x: {
           ab: 456,
