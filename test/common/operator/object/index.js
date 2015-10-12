@@ -29,6 +29,7 @@ describe('object operations', function () {
 
   describe('transform', function () {
     var a
+    arr = []
     it('create a new observable, should return a cache object', function () {
       a = new Observable({
         inject: [
