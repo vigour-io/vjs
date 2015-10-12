@@ -1,7 +1,7 @@
 var http = require('http')
 http.createServer(function (req, res) {
   req.rcnt = 1
-  console.log('hey!')
+  
 
   res.writeHead(200,
     {

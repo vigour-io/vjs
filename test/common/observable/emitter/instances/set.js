@@ -28,7 +28,7 @@ describe('set on instance nested field', function () {
     a.b.set({
       c: true
     })
-    console.log(a.b.c)
+    
     expect(cnt).to.equal(2)
   })
 

@@ -42,7 +42,7 @@ describe('operators', function () {
         data: {
           condition: {
             val: function (val, next) {
-              console.log(val)
+
               cnt++
             }
           },

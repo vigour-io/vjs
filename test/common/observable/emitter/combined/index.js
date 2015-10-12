@@ -236,7 +236,7 @@ describe('combined', function () {
     })
 
 
-    console.log(a._on.data.base)
+    
 
     expect(b.listensOnBase[1]).to.be.not.ok
     expect(c.listensOnBase[1]).to.be.ok

@@ -35,7 +35,7 @@ describe('context', function () {
       on: {
         data: {
           condition: function (data, done, event) {
-            console.log('fire condition in context', this.path, this.time.val, data.key)
+
             setTimeout(() => done(), this.time.val)
           },
           val: function (data) {
@@ -45,7 +45,7 @@ describe('context', function () {
               dataCnt++
             }
             if (cnt === 5 && dataCnt === 3) {
-              console.log(fired)
+
               // expect(fired).to.deep.eql(['b', 'c', 'a', 'b', 'c'])
               done()
             }
@@ -59,11 +59,11 @@ describe('context', function () {
 
     // think about the inputs what to do with them -- context will become a nightmare -- context condition is only from the original
     // -- last things are fired with wrong time i geuss (the a time)
-    console.log('b!')
+
     var b = new a.Constructor({time: 200, key: 'b'})
-    console.log('c!')
+
     var c = new b.Constructor({time: 30, key: 'c'})
-    console.log('a!', 'context of condition needs to work')
+
     a.val = 'a change!'
   })
 })
