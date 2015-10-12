@@ -2,7 +2,7 @@ describe('emitter', function () {
   var Emitter = require('../../../lib/emitter')
   var Base = require('../../../lib/base')
 
-  console.clear()
+  
 
   describe('add listener and fire once', function () {
     var emitter = new Emitter()
