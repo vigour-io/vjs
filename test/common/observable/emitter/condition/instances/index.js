@@ -34,11 +34,13 @@ describe('context', function () {
         data: {
           condition: function (data, done, event) {
             console.log('??hey hey hey??')
+            console.log('bitch do my update')
+
             setTimeout(done, this.time.val)
           },
-          val: function () {
+          val: function (data) {
             cnt++
-            console.log('time', cnt, this.path)
+            console.log('time', cnt, this.path, data)
             if (cnt === 3) {
               done()
             }
@@ -47,8 +49,11 @@ describe('context', function () {
       }
     })
 
+    console.warn('OK BITCH 1')
     var b = new a.Constructor({time: 300, key: 'b'})
+    console.warn('OK BITCH 2')
     var c = new b.Constructor({time: 500, key: 'c'})
+    console.warn('OK BITCH')
     a.val = 'a change!'
   })
 })

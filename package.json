@@ -7,7 +7,7 @@
     "url": "https://github.com/vigour-io/vjs.git"
   },
   "engines": {
-    "node": ">=4.1.0"
+    "node": "4.1.1"
   },
   "scripts": {
     "test": "./node_modules/.bin/gaston test browser -f test/common/",
@@ -35,7 +35,6 @@
   ],
   "license": "GPL",
   "devDependencies": {
-    "babelify": "6.3.0",
     "dmd": "^1.1.1",
     "jsdoc-to-markdown": "^1.1.1",
     "gaston": "git+ssh://git@github.com:vigour-io/gaston.git#develop"
