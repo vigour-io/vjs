@@ -27,7 +27,7 @@ describe('unique', function () {
       expect(property).eqls(b)
     })
     expect(cnt).eqls(1)
-    console.log(a)
+    
   })
 
   it('attach other reference', function () {

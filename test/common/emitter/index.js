@@ -132,7 +132,7 @@ describe('emitter', function () {
     var cnt = 0
     function listener () {
       cnt++
-      console.log(a.data)
+      
     }
     it('should display error message', function () {
       a.on(listener, 'val')

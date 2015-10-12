@@ -18,7 +18,7 @@ describe('multiple instances', function () {
   a.lurf.subscribe({
     gurk: true
   }, function (data, event) {
-    console.log('-----', this.path, event.stamp)
+    
     measure[this.path[0]] = measure[this.path[0]] ? measure[this.path[0]] + 1 : 1
     measure.total++
   })
