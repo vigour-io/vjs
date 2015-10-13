@@ -41,6 +41,9 @@
   "gaston": {
     "source-maps": false
   },
+  "browser": {
+    "./lib/base/iterator/": "./lib/base/iterator/browser.js"
+  },
   "vigour": {
     "services": {
       "sentinel": {
