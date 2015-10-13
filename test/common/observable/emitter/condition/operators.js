@@ -42,7 +42,7 @@ describe('operators', function () {
         data: {
           condition: {
             val: function (val, next, event) {
-              console.log(event.type, event, val)
+
               cnt++
             }
           },
@@ -52,7 +52,7 @@ describe('operators', function () {
         }
       }
     })
-    console.log(cnt)
+
     a.val = false
     expect(cnt).to.equal(0)
   })

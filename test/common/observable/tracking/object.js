@@ -25,10 +25,10 @@ describe('object', function () {
       }
     })
     trackerEmitter.services.test = (obj) => {
-      console.log('???xxxx')
+
       expect(obj).to.have.deep.property('eventobject')
     }
-    console.log('?')
+
     a.b.emit('parent')
     a.b.emit('new')
     a.b.emit('click')
