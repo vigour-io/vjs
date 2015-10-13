@@ -9,7 +9,7 @@ describe('object', function () {
           inject: require('../../../../lib/operator/all'),
           key: 'a',
           b: 'its b',
-          $add: function () {
+          $add () {
             return { c: 'its c' }
           }
         })
@@ -66,7 +66,7 @@ describe('object', function () {
           key: 'a',
           b: 'its b',
           c: 'its c',
-          $transform: function () {
+          $transform () {
             return this.map((property, key) => { return { wow: property } })
           }
         })
@@ -75,9 +75,7 @@ describe('object', function () {
 
       it('should have all fields', function () {
         var arr = []
-        a.val.each((property, key) => {
-          arr.push(property.wow._input)
-        })
+        a.val.each((property, key) => { arr.push(property.wow._input) })
         expect(arr).to.deep.equal([a.b, a.c])
       })
     })

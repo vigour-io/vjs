@@ -117,7 +117,6 @@ describe('each', function () {
     })
 
     it('should filter gurk, key and _aField', function () {
-
       a.each(function () {
         count++
       })
@@ -138,7 +137,7 @@ describe('each', function () {
         count++
       }, function (property, key, target) {
         var properties = target._properties
-          return !properties[key]
+        return !properties[key]
       })
       expect(count).equals(1)
     })

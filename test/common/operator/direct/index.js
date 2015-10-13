@@ -20,7 +20,7 @@ describe('direct', function () {
         inject: require('../../../../lib/operator/all'),
         key: 'a',
         val: 'no',
-        $transform: function () {
+        $transform () {
           return 'hello'
         },
         $add: 'gurk'

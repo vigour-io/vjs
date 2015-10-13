@@ -12,7 +12,7 @@ describe('instances', function () {
       key: 'a',
       $add: 'xxx',
       on: {
-        data: function () {
+        data () {
           fired.push(this.path[0])
         }
       }
@@ -34,13 +34,13 @@ describe('instances', function () {
       inject: require('../../../../lib/operator/all'),
       val: 'y',
       key: 'a',
-      $add: function () {
+      $add () {
         // work on bind for this...
         operator.push(this.key)
         return 'xxx'
       },
       on: {
-        data: function () {
+        data () {
           this.val
           fired.push(this.path[0])
         }
