@@ -34,15 +34,15 @@ describe('operators', function () {
   })
 
   it('cancel on false', function () {
-
+    console.clear()
     var cnt = 0
     var a = new Observable({
       key: 'a',
       on: {
         data: {
           condition: {
-            val: function (val, next) {
-
+            val: function (val, next, event) {
+              console.log(event.type, event, val)
               cnt++
             }
           },
@@ -52,7 +52,7 @@ describe('operators', function () {
         }
       }
     })
-
+    console.log(cnt)
     a.val = false
     expect(cnt).to.equal(0)
   })

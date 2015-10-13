@@ -100,14 +100,15 @@ describe('add to parent one instance', function () {
 
 describe('fires after set', function () {
   it('fires after nested set', function () {
+    console.clear()
     var a = new Observable({
       on: {
         parent: function () {
+          console.warn(this.path, this.parent.parent.youzi)
           expect(this.parent.parent.youzi).ok
         }
       }
     })
-
     var parent = new Observable({
       key: 'uberparent',
       youzi: {
