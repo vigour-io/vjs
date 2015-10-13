@@ -97,3 +97,46 @@ describe('add to parent one instance', function () {
     expect(measure.a).equals(1)
   })
 })
+
+describe('fires after set', function () {
+  it('fires after nested set', function () {
+    var a = new Observable({
+      on: {
+        parent: function () {
+          expect(this.parent.parent.youzi).ok
+        }
+      }
+    })
+
+    var parent = new Observable({
+      key: 'uberparent',
+      youzi: {
+        a: {
+          useVal: a
+        }
+      }
+    })
+  })
+})
+
+describe('fires after set, properties', function () {
+  it('fires after set', function () {
+    var a = new Observable({
+      on: {
+        parent: function () {
+          expect(this.parent.a.nerdje).ok
+        }
+      }
+    })
+
+    var parent = new Observable({
+      key: 'uberparent',
+      properties: {
+        a: a
+      },
+      a: {
+        nerdje: true
+      }
+    })
+  })
+})
