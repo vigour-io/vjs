@@ -7,27 +7,35 @@ describe('object', function () {
     function returnValue (value) {
       return value
     }
-    var ObjectwithObject = new Observable({
+    console.clear()
+
+    var a = new Observable({
       b: {
         inject: tracking,
         on: {
-          data: function (event, meta) {}
+          data: (event, meta) => {}
         },
         track: {
           click: 'super',
           remove: returnValue(10),
           new: returnValue(10),
+          // parent fired straight...
           parent: 100
         }
       }
     })
     trackerEmitter.services.test = (obj) => {
+      console.log('???xxxx')
       expect(obj).to.have.deep.property('eventobject')
     }
-    ObjectwithObject.b.emit('new')
-    ObjectwithObject.b.emit('parent')
-    ObjectwithObject.b.emit('click')
-    ObjectwithObject.b.emit('remove')
-    delete trackerEmitter.services.test
+    console.log('?')
+    a.b.emit('parent')
+    a.b.emit('new')
+    a.b.emit('click')
+    a.b.emit('remove')
+
+    console.error('0-0==-------')
+
+    delete a.services.test
   })
 })
