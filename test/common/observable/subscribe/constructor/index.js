@@ -25,8 +25,6 @@ describe('multiple instances', function () {
         spesh: function () {}
       }
     })
-    console.error(window.obj._on, a._on)
-    console.error(window.obj === a)
     expect(a._on.property).ok
   })
 })
