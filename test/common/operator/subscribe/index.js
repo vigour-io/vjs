@@ -6,7 +6,7 @@ describe('subscribe', () => {
     it('subscribe it', () => {
       var child = new Observable({
         key: 'a',
-        $subscribe: 'parent.title'
+        $: 'parent.title'
       })
 
       var parent = new Observable({
@@ -25,7 +25,7 @@ describe('subscribe', () => {
     it('subscribe it', () => {
       var Child = new Observable({
         key: 'a',
-        $subscribe: 'parent.title'
+        $: 'parent.title'
       }).Constructor
 
       var parent = new Observable({
@@ -44,7 +44,7 @@ describe('subscribe', () => {
     it('subscribe it', () => {
       var Child = new Observable({
         key: 'a',
-        $subscribe: 'nested.title'
+        $: 'nested.title'
       }).Constructor
 
       var son = new Child({
@@ -73,7 +73,7 @@ describe('subscribe', () => {
             title: 'myTitle'
           }
         },
-        $subscribe: 'field.nested.title'
+        $: 'field.nested.title'
       })
 
       expect(child.val).equals('myTitle')
@@ -84,7 +84,7 @@ describe('subscribe', () => {
     it('subscribe it', () => {
       var child = new Observable({
         key: 'a',
-        $subscribe: 'field.nested.title'
+        $: 'field.nested.title'
       })
 
       child.set({
@@ -103,7 +103,7 @@ describe('subscribe', () => {
     it('subscribe it', () => {
       var child = new Observable({
         key: 'a',
-        $subscribe: 'upward.title'
+        $: 'upward.title'
       })
 
       var parent = new Observable({
@@ -128,13 +128,13 @@ describe('subscribe', () => {
     it('subscribe it', () => {
       var child = new Observable({
         key: 'a',
-        $subscribe: 'parent.title'
+        $: 'parent.title'
       })
 
       var parent = new Observable({
         key: 'parent',
         title: {
-          $subscribe: 'parent.parent.title'
+          $: 'parent.parent.title'
         },
         a: {
           useVal: child
@@ -158,13 +158,13 @@ describe('subscribe', () => {
     it('subscribe it', () => {
       var child = new Observable({
         key: 'a',
-        $subscribe: 'parent.title'
+        $: 'parent.title'
       })
 
       var parent = new Observable({
         key: 'parent',
         title: {
-          $subscribe: 'parent.parent.title'
+          $: 'parent.parent.title'
         },
         a: {
           useVal: child
@@ -192,7 +192,7 @@ describe('subscribe', () => {
     it('subscribe it', () => {
       var child = new Observable({
         key: 'a',
-        $subscribe: 'parent.title'
+        $: 'parent.title'
       })
 
       var mother = new Observable({
@@ -224,7 +224,7 @@ describe('subscribe', () => {
         nested: {
           title: 'nestedTitle'
         },
-        $subscribe: 'nested.title'
+        $: 'nested.title'
       }).Constructor
 
       var mother = new Observable({
@@ -251,7 +251,7 @@ describe('subscribe', () => {
     it('subscribe it', () => {
       var Child = new Observable({
         key: 'a',
-        $subscribe: 'nested.title'
+        $: 'nested.title'
       }).Constructor
 
       var mother = new Observable({
