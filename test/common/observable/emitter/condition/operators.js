@@ -33,7 +33,6 @@ describe('operators', function () {
   })
 
   it('cancel on false', function () {
-    console.clear()
     var cnt = 0
     var a = new Observable({
       key: 'a',
@@ -41,7 +40,6 @@ describe('operators', function () {
         data: {
           condition: {
             val: function (val, next, event) {
-              console.error(val)
               cnt++
             }
           },

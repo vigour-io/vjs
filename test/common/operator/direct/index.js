@@ -20,7 +20,6 @@ describe('direct', function () {
     var a
 
     it('create a new base inject operators', function () {
-      console.clear()
       a = new Observable({
         inject: require('../../../../lib/operator/all'),
         key: 'a',
@@ -32,7 +31,6 @@ describe('direct', function () {
 
     // still gets wrong order by defailt
     it('create a new Observable inject operators, check if order works', function () {
-      console.clear()
       a = new Observable({
         inject: require('../../../../lib/operator/all'),
         key: 'a',
@@ -44,7 +42,6 @@ describe('direct', function () {
         // now it takes the order of things in the operators thing -- however it should be set when you set the field
         // add order when setting a operator
       })
-      console.log('done mofo done!')
       // delete a._operators
       expect(a.val).to.equal('hellogurk')
     })

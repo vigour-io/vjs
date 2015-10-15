@@ -7,7 +7,6 @@ describe('object', function () {
     function returnValue (value) {
       return value
     }
-    console.clear()
 
     var a = new Observable({
       b: {
