@@ -21,6 +21,28 @@ describe('subscribe', () => {
     })
   })
 
+  describe('bind object', () => {
+    it('subscribe it', () => {
+      var child = new Observable({
+        key: 'a',
+        $: 'parent.info'
+      })
+
+      var parent = new Observable({
+        info: {
+          title:'myTitle',
+          subtitle:'mySubstitle'
+        },
+        a: {
+          useVal: child
+        }
+      })
+
+      expect(parent)
+      expect(child.val.title.val).equals('myTitle')
+    })
+  })
+
   describe('bind instance', () => {
     it('subscribe it', () => {
       var Child = new Observable({
@@ -40,20 +62,45 @@ describe('subscribe', () => {
     })
   })
 
+  describe('bind object, instance', () => {
+    it('subscribe it', () => {
+      var Child = new Observable({
+        key: 'a',
+        $: 'parent.info'
+      }).Constructor
+
+      var parent = new Observable({
+        info: {
+          title:'myTitle',
+          subtitle:'mySubstitle'
+        },
+        a: {
+          useVal: new Child()
+        }
+      })
+
+      expect(parent)
+      expect(parent.a.val.title.val).equals('myTitle')
+    })
+  })
+
   describe('bind instances', () => {
     it('subscribe it', () => {
       var Child = new Observable({
+        trackInstances: true,
         key: 'a',
         $: 'nested.title'
       }).Constructor
 
       var son = new Child({
+        key:'son',
         nested: {
           title: 'Johnny'
         }
       })
 
       var daughter = new Child({
+        key:'daughter',
         nested: {
           title: 'Amy'
         }
