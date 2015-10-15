@@ -13,11 +13,27 @@ describe('direct', function () {
       })
       expect(a.val).to.equal('hellogurk')
     })
+  })
+
+  describe('observable', function () {
+    var Observable = require('../../../../lib/observable')
+    var a
+
+    it('create a new base inject operators', function () {
+      console.clear()
+      a = new Observable({
+        inject: require('../../../../lib/operator/all'),
+        key: 'a',
+        val: 'hello',
+        $add: 'gurk'
+      })
+      expect(a.val).to.equal('hellogurk')
+    })
 
     // still gets wrong order by defailt
-    it('create a new base inject operators, check if order works', function () {
+    it('create a new Observable inject operators, check if order works', function () {
       console.clear()
-      a = new Base({
+      a = new Observable({
         inject: require('../../../../lib/operator/all'),
         key: 'a',
         val: 'no',
@@ -30,21 +46,6 @@ describe('direct', function () {
       })
       console.log('done mofo done!')
       // delete a._operators
-      expect(a.val).to.equal('hellogurk')
-    })
-  })
-
-  describe('observable', function () {
-    var Observable = require('../../../../lib/observable')
-    var a
-
-    it('create a new base inject operators', function () {
-      a = new Observable({
-        inject: require('../../../../lib/operator/all'),
-        key: 'a',
-        val: 'hello',
-        $add: 'gurk'
-      })
       expect(a.val).to.equal('hellogurk')
     })
   })

@@ -1,7 +1,6 @@
 describe('operators', function () {
   var Observable = require('../../../../../lib/observable')
   it('fires condition trigger', function (done) {
-
     var a = new Observable({
       inject: require('../../../../../lib/operator/all'),
       key: 'a',
@@ -42,12 +41,12 @@ describe('operators', function () {
         data: {
           condition: {
             val: function (val, next, event) {
-
+              console.error(val)
               cnt++
             }
           },
           val: function (data) {
-            done()
+            // done()
           }
         }
       }
