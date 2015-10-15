@@ -12,7 +12,6 @@ describe('subscribing to non existing upward, two levels, nested field', functio
   var parent
 
   it('subcribes to parent on a', function () {
-    console.log(1)
     a.subscribe({
       upward: {
         field: true,
@@ -24,7 +23,6 @@ describe('subscribing to non existing upward, two levels, nested field', functio
   })
 
   it('fires when added to parent', function () {
-    console.log(2)
     parent = new Observable({
       field: true,
       a: {
@@ -35,7 +33,6 @@ describe('subscribing to non existing upward, two levels, nested field', functio
   })
 
   it('does not fire when parent is added to grandparent', function () {
-    console.log(3)
     grandParent = new Observable({
       field: true,
       p: {

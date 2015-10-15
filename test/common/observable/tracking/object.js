@@ -34,8 +34,6 @@ describe('object', function () {
     a.b.emit('click')
     a.b.emit('remove')
 
-    console.error('0-0==-------')
-
     delete a.services.test
   })
 })
