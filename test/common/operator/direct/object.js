@@ -58,59 +58,33 @@ describe('object', function () {
 
     describe('nested, useVal', function () {
       it('create a new observable, should return a cache object', function () {
-        var El = new Observable({
-          useVal:true,
-          ChildConstructor:'Constructor'
+        var UseValObservable = new Observable({
+          useVal: true,
+          ChildConstructor: 'Constructor'
         }).Constructor
 
-        // var c = new Observable({
-        //   useVal:true
-        // })
-
-        // var x = new Observable({
-        //   c: c
-        // })
-
-        // var z = new Observable(x.c)
-
-
-        // console.info(z)
-
-
-        a = new El({
+        a = new UseValObservable({
           inject: require('../../../../lib/operator/all'),
           key: 'a',
           b: 'its b',
-          // merge er ook bij
-          // $add: {
-          //   c: 'its c'
-          // }
+          $add:{
+            c:new UseValObservable('nerdje')
+          }
         })
-
-        console.log(a.b)
-
-
-        var s = new Observable({
-          x: a.b
-        })
-
-        console.warn( s )
-
-
-        console.error('-->', a.val)
+        console.log('.....>',a.val)
         expect(a.val).equals(a._cache)
       })
 
-      it('should have field a.b', function () {
-        expect(a.val.b._input).equals(a.b)
-      })
+      // it('should have field x.b', function () {
+      //   expect(s.val.b._input).equals(a.b)
+      // })
 
-      it('should have field a.b.c', function () {
-        expect(a.val).has.property('c')
-          .which.has.property('_input')
-          .which.has.property('_input')
-          .which.equals('its c')
-      })
+      // it('should have field a.b.c', function () {
+      //   expect(a.val).has.property('c')
+      //     .which.has.property('_input')
+      //     .which.has.property('_input')
+      //     .which.equals('its c')
+      // })
     })
   })
 
