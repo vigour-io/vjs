@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "lodash": "3.10.x",
-    "monotonic-timestamp": "0.0.9"
+    "murmurhash3js": "3.0.1"
   },
   "homepage": "https://github.com/vigour-io/vjs",
   "directories": {

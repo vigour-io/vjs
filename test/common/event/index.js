@@ -3,12 +3,12 @@ var Event = require('../../../lib/event/')
 var Emitter = require('../../../lib/emitter/')
 
 describe('event', function () {
-  var currentStamp
+  // var currentStamp
   var theOrigin = {}
 
   beforeEach(function () {
     var myEvent = new Event(theOrigin)
-    currentStamp = myEvent.stamp
+    // currentStamp = myEvent.stamp
   })
 
   it('should have stamp', function () {
