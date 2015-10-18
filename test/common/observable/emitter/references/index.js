@@ -178,20 +178,16 @@ describe('on reference, switching reference multiple times', function () {
   })
 })
 
-describe('on reference, multiple instances with different reference each', function () {
+describe('on reference, nested multiple instances with different reference each', function () {
   var count = 0
 
-  var a = new Observable({
-    key: 'a'
-  })
-  var b = new Observable({
-    key: 'b'
-  })
-  var c = new Observable({
-    key: 'c'
-  })
-  var d = new Observable({
-    key: 'd'
+  var content = new Observable({
+    nested:{
+      a: {},
+      b: {},
+      c: {},
+      d: {}
+    }
   })
 
   var Obs = new Observable({
@@ -207,22 +203,22 @@ describe('on reference, multiple instances with different reference each', funct
   })
 
   it('a instance, fires listener', function () {
-    new Obs(a)
+    new Obs(content.nested.a)
     expect(count).equals(1)
   })
 
   it('b instance, fires listener', function () {
-    new Obs(b)
+    new Obs(content.nested.b)
     expect(count).equals(1)
   })
 
   it('c instance, fires listener', function () {
-    new Obs(c)
+    new Obs(content.nested.c)
     expect(count).equals(1)
   })
 
   it('d instance, fires listener', function () {
-    new Obs(d)
+    new Obs(content.nested.d)
     expect(count).equals(1)
   })
 

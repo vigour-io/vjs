@@ -1,13 +1,12 @@
 /* global expect, it, describe, beforeEach */
 var Observable = require('../../../../../../lib/observable')
 var count
-var instance
 
 beforeEach(() => {
   count = 0
 })
 
-describe('subscribing to different fields on same parent, multiple instances different references', function () {
+describe('multiple instances with different references', function () {
   var content = new Observable({
     nested: {
       a: {
@@ -26,14 +25,11 @@ describe('subscribing to different fields on same parent, multiple instances dif
 
   it('subcribes to field', function () {
     one.subscribe({
-      // parent: {
       title: true
-        // }
     }, function (data) {
-      console.log('myPath',this.path)
-      console.log('originPath',data.origin.path)
-      instance = this
       count++
+      console.log('.',count,'myPath',this.path)
+      console.log('.',count,'originPath',data.origin.path)
     })
   })
 
