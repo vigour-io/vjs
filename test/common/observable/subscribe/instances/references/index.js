@@ -1,115 +1,154 @@
 /* global expect, it, describe, beforeEach */
 var Observable = require('../../../../../../lib/observable')
 var count
+var origins
+var targets
 
 beforeEach(() => {
   count = 0
+  origins = []
+  targets = []
 })
 
 describe('multiple instances with different references', function () {
   var content = new Observable({
-    nested: {
-      a: {
-        title: 'aTitle'
-      },
-      b: {
-        title: 'bTitle'
-      },
-      c: {
-        title: 'cTitle'
-      }
+    a: {
+      title: 'aTitle'
+    },
+    b: {
+      title: 'bTitle'
+    },
+    c: {
+      title: 'cTitle'
     }
   })
 
-  var one = new Observable()
+  var obs = new Observable({
+    // trackInstances: true
+  })
 
   it('subcribes to field', function () {
-    one.subscribe({
+    obs.subscribe({
       title: true
     }, function (data) {
+      targets.push(this.key)
+      origins.push(data.origin.val)
       count++
-      console.log('.',count,'myPath',this.path)
-      console.log('.',count,'originPath',data.origin.path)
+      console.info(count, this.path, '<-', data.origin.path, data.origin.val)
     })
   })
 
-  it('fires on instance', function () {
-    new Observable({
-      one: {
-        useVal: new one.Constructor({
-          key: 'one',
-          val: content.nested.a
-        })
-      },
-      two: {
-        useVal: new one.Constructor({
-          key: 'two',
-          val: content.nested.b
-        })
-      },
-      three: {
-        useVal: new one.Constructor({
-          key: 'three',
-          val: content.nested.c
-        })
-      }
+  it('create instances with different refs, fires correct for each instance', function () {
+    new obs.Constructor({
+      key: 'one',
+      val: content.a
+    })
+    new obs.Constructor({
+      key: 'two',
+      val: content.b
+    })
+    new obs.Constructor({
+      key: 'three',
+      val: content.c
     })
     expect(count).equals(3)
-      // expect(instance.key).equals('b')
+    expect(origins).contains('aTitle')
+    expect(origins).contains('bTitle')
+    expect(origins).contains('cTitle')
+    expect(targets).contains('one')
+    expect(targets).contains('two')
+    expect(targets).contains('three')
+  })
+
+  it('update one reference, fires correct for each instance', function () {
+    console.log('------------------')
+    content.b.title.val = 'bUpdatedTitle'
+    expect(count).equals(1)
+    expect(origins).contains('bUpdatedTitle')
+    expect(targets).contains('two')
+  })
+
+  it('update another reference, fires correct for each instance', function () {
+    console.log('------------------')
+    content.c.title.val = 'cUpdatedTitle'
+    expect(count).equals(1)
+    expect(origins).contains('cUpdatedTitle')
+    expect(targets).contains('three')
   })
 })
 
-// describe('subscribing to same parent with more instances', function () {
-//   var keys = []
+describe('multiple instances with different references, with nested subscriptions', function () {
+  var content = new Observable({
+    a: {
+      title: 'aTitle'
+    },
+    b: {
+      title: 'bTitle'
+    },
+    c: {
+      title: 'cTitle'
+    }
+  })
 
-//   var a = new Observable({
-//     trackInstances: true,
-//     key: 'a'
-//   })
+  var obs = new Observable({
+    // nested:{
 
-//   it('subcribes to field', function () {
-//     a.subscribe({
-//       parent: {
-//         field: true
-//       }
-//     }, function () {
-//       keys.push(this.key)
-//       count++
-//     })
-//   })
+    // }
+  })
 
-//   var b = new a.Constructor({
-//     key: 'b'
-//   })
+  it('subcribes to field', function () {
+    console.clear()
+    obs.subscribe({
+      nested:{
+        title: true
+      }
+    }, function (data) {
+      targets.push(this.key)
+      origins.push(data.origin.val)
+      count++
+      console.info(count, this.path, '<-', data.origin.path, data.origin.val)
+    })
+  })
 
-//   var c = new b.Constructor({
-//     key: 'c'
-//   })
+  it('create instances with different refs, fires correct for each instance', function () {
+    console.log('------------------1')
+    console.info('--one--')
+    new obs.Constructor({
+      key: 'one',
+      nested: content.a
+    })
+    console.info('--two--')
+    new obs.Constructor({
+      key: 'two',
+      nested: content.b
+    })
+    console.info('--three--')
+    new obs.Constructor({
+      key: 'three',
+      nested: content.c
+    })
+    expect(count).equals(3)
+    expect(origins).contains('aTitle')
+    expect(origins).contains('bTitle')
+    expect(origins).contains('cTitle')
+    expect(targets).contains('one')
+    expect(targets).contains('two')
+    expect(targets).contains('three')
+  })
 
-//   var d = new c.Constructor({
-//     key: 'd'
-//   })
+  it('update one reference, fires correct for each instance', function () {
+    console.log('------------------2')
+    content.b.title.val = 'bUpdatedTitle'
+    expect(count).equals(1)
+    expect(origins).contains('bUpdatedTitle')
+    expect(targets).contains('two')
+  })
 
-//   it('fires on instance', function () {
-//     new Observable({
-//       field: 1,
-//       a: {
-//         useVal: a
-//       },
-//       b: {
-//         useVal: b
-//       },
-//       c: {
-//         useVal: c
-//       },
-//       d: {
-//         useVal: d
-//       }
-//     })
-//     expect(count).equals(4)
-//     expect(keys).contains('a')
-//     expect(keys).contains('b')
-//     expect(keys).contains('c')
-//     expect(keys).contains('d')
-//   })
-// })
+  it('update another reference, fires correct for each instance', function () {
+    console.log('------------------3')
+    content.c.title.val = 'cUpdatedTitle'
+    expect(count).equals(1)
+    expect(origins).contains('cUpdatedTitle')
+    expect(targets).contains('three')
+  })
+})
