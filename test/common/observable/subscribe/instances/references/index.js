@@ -34,7 +34,6 @@ describe('multiple instances with different references', function () {
       targets.push(this.key)
       origins.push(data.origin.val)
       count++
-      console.info(count, this.path, '<-', data.origin.path, data.origin.val)
     })
   })
 
@@ -61,7 +60,6 @@ describe('multiple instances with different references', function () {
   })
 
   it('update one reference, fires correct for each instance', function () {
-    console.log('------------------')
     content.b.title.val = 'bUpdatedTitle'
     expect(count).equals(1)
     expect(origins).contains('bUpdatedTitle')
@@ -69,7 +67,6 @@ describe('multiple instances with different references', function () {
   })
 
   it('update another reference, fires correct for each instance', function () {
-    console.log('------------------')
     content.c.title.val = 'cUpdatedTitle'
     expect(count).equals(1)
     expect(origins).contains('cUpdatedTitle')
@@ -97,7 +94,6 @@ describe('multiple instances with different references, with nested subscription
   })
 
   it('subcribes to field', function () {
-    console.clear()
     obs.subscribe({
       nested:{
         title: true
@@ -106,23 +102,18 @@ describe('multiple instances with different references, with nested subscription
       targets.push(this.key)
       origins.push(data.origin.val)
       count++
-      console.info(count, this.path, '<-', data.origin.path, data.origin.val)
     })
   })
 
   it('create instances with different refs, fires correct for each instance', function () {
-    console.log('------------------1')
-    console.info('--one--')
     new obs.Constructor({
       key: 'one',
       nested: content.a
     })
-    console.info('--two--')
     new obs.Constructor({
       key: 'two',
       nested: content.b
     })
-    console.info('--three--')
     new obs.Constructor({
       key: 'three',
       nested: content.c
@@ -137,7 +128,6 @@ describe('multiple instances with different references, with nested subscription
   })
 
   it('update one reference, fires correct for each instance', function () {
-    console.log('------------------2')
     content.b.title.val = 'bUpdatedTitle'
     expect(count).equals(1)
     expect(origins).contains('bUpdatedTitle')
@@ -145,7 +135,6 @@ describe('multiple instances with different references, with nested subscription
   })
 
   it('update another reference, fires correct for each instance', function () {
-    console.log('------------------3')
     content.c.title.val = 'cUpdatedTitle'
     expect(count).equals(1)
     expect(origins).contains('cUpdatedTitle')
