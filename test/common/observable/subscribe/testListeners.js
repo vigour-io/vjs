@@ -1,10 +1,11 @@
 var info = require('../../../../lib/observable/subscribe/emitter/info')
+var SubsEmitter = require('../../../../lib/observable/subscribe/emitter')
 var getId = info.getId
 var getLateral = info.getLateral
 var getDepth = info.getDepth
 
-module.exports = function testListeners(subscribtion) {
-  var hash = subscribtion.key
+module.exports = function testListeners(obj) {
+  var hash = obj.key
   var listeners = []
   listeners.numberOf = function (value) {
     var count = 0
@@ -15,9 +16,16 @@ module.exports = function testListeners(subscribtion) {
     }
     return count
   }
+
   var ids = []
-  if (subscribtion.listensOnAttach) {
-    subscribtion.listensOnAttach.each((property) => {
+  var storage = obj instanceof SubsEmitter ? obj.listensOnAttach : obj._on
+
+  if (storage) {
+    for(let i in storage){
+      var property = storage[i]
+      if(!property.attach){
+        continue
+      }
       if (property.key === 'data') {
         property.attach.each((prop) => {
           listeners.push(property.key)
@@ -49,10 +57,9 @@ module.exports = function testListeners(subscribtion) {
           listeners.push(property.key)
           let info = prop[3]
           console.info(hash, '-', property.key, ':', info, '- id:', getId(info), '- lateral:', getLateral(info), '- depth:', getDepth(info))
-          expect(typeof info).equals('number')
         })
       }
-    })
+    }
   }
   console.info('--listeners:', listeners)
   return listeners

@@ -8,7 +8,7 @@ beforeEach(function () {
 })
 
 describe('subscribing to existing parent', function () {
-  var subscribtion
+  var subscription
   var a = new Observable({
     key: 'a',
     b: {}
@@ -22,7 +22,7 @@ describe('subscribing to existing parent', function () {
   })
 
   it('subcribes to parent on a', function () {
-    subscribtion = a.b.subscribe({
+    subscription = a.b.subscribe({
       parent: {
         parent: true
       }
@@ -33,7 +33,7 @@ describe('subscribing to existing parent', function () {
   })
 
   it('added a data listener', () => {
-    var listeners = testListeners(subscribtion)
+    var listeners = testListeners(subscription)
     expect(listeners.length).equals(1)
     expect(listeners).contains('data')
   })
@@ -49,13 +49,13 @@ describe('subscribing to existing parent', function () {
   })
 
   it('removed all listeners', () => {
-    var listeners = testListeners(subscribtion)
+    var listeners = testListeners(subscription)
     expect(listeners.length).equals(0)
   })
 })
 
 describe('subscribing to nested field on existing parent', function () {
-  var subscribtion
+  var subscription
   var a = new Observable({
     key: 'a',
     b: 0,
@@ -67,7 +67,7 @@ describe('subscribing to nested field on existing parent', function () {
   })
 
   it('subcribes to parent on a', function () {
-    subscribtion = a.c.d.subscribe({
+    subscription = a.c.d.subscribe({
       parent: {
         parent: {
           b: true
@@ -81,7 +81,7 @@ describe('subscribing to nested field on existing parent', function () {
   })
 
   it('added a data listener', () => {
-    var listeners = testListeners(subscribtion)
+    var listeners = testListeners(subscription)
     expect(listeners.length).equals(1)
     expect(listeners).contains('data')
   })
@@ -97,7 +97,7 @@ describe('subscribing to nested field on existing parent', function () {
   })
 
   it('added a reference and property listener', () => {
-    var listeners = testListeners(subscribtion)
+    var listeners = testListeners(subscription)
     expect(listeners.length).equals(4)
     expect(listeners.numberOf('reference')).equals(3)
     expect(listeners).contains('property')
@@ -111,7 +111,7 @@ describe('subscribing to nested field on existing parent', function () {
   })
 
   it('added a data listener, removed other listeners', () => {
-    var listeners = testListeners(subscribtion)
+    var listeners = testListeners(subscription)
     expect(listeners.length).equals(1)
     expect(listeners).contains('data')
   })
@@ -119,13 +119,13 @@ describe('subscribing to nested field on existing parent', function () {
 
 describe('subscribing to non existing parent', function () {
   var parent
-  var subscribtion
+  var subscription
   var a = new Observable({
     key: 'a'
   })
 
   it('subcribes to parent on a', function () {
-    subscribtion = a.subscribe({
+    subscription = a.subscribe({
       parent: true
     }, function (event, meta) {
       count++
@@ -134,7 +134,7 @@ describe('subscribing to non existing parent', function () {
   })
 
   it('added parent and reference listener', () => {
-    var listeners = testListeners(subscribtion)
+    var listeners = testListeners(subscription)
     expect(listeners.length).equals(2)
     expect(listeners).contains('reference')
     expect(listeners).contains('parentEmitter')
@@ -151,7 +151,7 @@ describe('subscribing to non existing parent', function () {
   })
 
   it('added a data listener, keeps parent listener (for potential instances)', () => {
-    var listeners = testListeners(subscribtion)
+    var listeners = testListeners(subscription)
     expect(listeners.length).equals(2)
     expect(listeners).contains('data')
     expect(listeners).contains('parentEmitter')
@@ -163,7 +163,7 @@ describe('subscribing to non existing parent', function () {
   })
 
   it('removed all listeners', () => {
-    var listeners = testListeners(subscribtion)
+    var listeners = testListeners(subscription)
     expect(listeners.length).equals(0)
   })
 })
