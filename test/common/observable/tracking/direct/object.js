@@ -1,6 +1,6 @@
-var Observable = require('../../../../lib/observable/')
-var tracking = require('../../../../lib/tracking/')
-var trackerEmitter = require('../../../../lib/tracking/emitter')
+var Observable = require('../../../../../lib/observable/')
+var tracking = require('../../../../../lib/tracking/')
+var trackerEmitter = require('../../../../../lib/tracking/emitter')
 
 describe('object', function () {
   it('should handle objects', function () {

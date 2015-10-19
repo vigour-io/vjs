@@ -1,6 +1,6 @@
-var Observable = require('../../../../lib/observable/')
-var tracking = require('../../../../lib/tracking/')
-var trackerEmitter = require('../../../../lib/tracking/emitter')
+var Observable = require('../../../../../lib/observable/')
+var tracking = require('../../../../../lib/tracking/')
+var trackerEmitter = require('../../../../../lib/tracking/emitter')
 
 describe('array', function () {
   it('should fire all tracking info from array', function (done) {
