@@ -9,15 +9,18 @@ var count
 function testListeners(subscribtion) {
   var hash = subscribtion.key
   var listeners = []
-  console.info('---testListeners--')
+  var ids = []
   subscribtion.listensOnAttach.each((property) => {
     if (property.key === 'data') {
       property.attach.each((prop) => {
         listeners.push(property.key)
         let info = prop[3]
+        let id = getId(info)
         expect(typeof info).equals('number')
-        expect(getId(info)).ok
-        console.info(hash, '-', property.key, ':', info, '- id:', getId(info), '- lateral:', getLateral(info))
+        expect(id).ok
+        expect(ids).not.contains(id)
+        ids.push(id)
+        console.info(hash, '-', property.key, ':', info, '- id:', getId(info), '- lateral:', getLateral(info),ids)
       })
     }
     if (property.key === 'property') {
@@ -44,7 +47,7 @@ function testListeners(subscribtion) {
       })
     }
   })
-  console.info('listeners:', listeners)
+  console.info('---listeners:', listeners)
   return listeners
 }
 
@@ -221,29 +224,37 @@ describe('subscribing on one non-existent field, one existing field', function (
     expect(count).equals(1)
   })
 
-  it('fires twice when fields are removed', function () {
-    console.clear()
-    console.info('remove aField')
+  it('fires once when aField is removed', function () {
     a.aField.remove()
-    testListeners(subscribtion)
-    console.info('remove anotherField')
-    a.anotherField.remove()
-    expect(count).equals(2)
+    expect(count).equals(1)
   })
 
-  it('removed data listeners, added property and reference listener', () => {
+  it('removed one data listener, added property and reference listener', () => {
     var listeners = testListeners(subscribtion)
-    expect(listeners.length).equals(2)
+    expect(listeners.length).equals(3)
+    expect(listeners).contains('data')
     expect(listeners).contains('reference')
     expect(listeners).contains('property')
   })
 
-  it('fires when field is added again', function () {
-    a.set({
-      aField: 3
-    })
-    expect(count).equals(1)
-  })
+  // it('fires once when anotherField is removed', function () {
+  //   a.anotherField.remove()
+  //   expect(count).equals(1)
+  // })  
+
+  // it('removed data listeners, added property and reference listener', () => {
+  //   var listeners = testListeners(subscribtion)
+  //   expect(listeners.length).equals(2)
+  //   expect(listeners).contains('reference')
+  //   expect(listeners).contains('property')
+  // })
+
+  // it('fires when field is added again', function () {
+  //   a.set({
+  //     aField: 3
+  //   })
+  //   expect(count).equals(1)
+  // })
 })
 
 // describe('subscribing on two non-existent fields', function () {
