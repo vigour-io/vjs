@@ -26,28 +26,31 @@ describe('nested', function () {
   describe('ChildConstructor', function () {
     var Observable = require('../../../../../../lib/observable')
     var dataRecieved
+    beforeEach(function () {
+      dataRecieved = {}
+    })
     var obs = new Observable({
+      key: 'root',
       on: {
         data: function (data, event) {
-          dataRecieved = data
-          console.log(this.path, 'datax', data)
+          dataRecieved[this.path.join('.')] = data
         }
       },
       ChildConstructor: 'Constructor'
     })
 
-    it('set a.b.c pass correct data', function () {
-      var b = new obs.Constructor()
-      console.clear()
+    it('set a.b.c pass correct data to each level', function () {
+      var obsInstance = new obs.Constructor()
       // ok so for this we only want to send the correct information!
-
-      b.set({
+      obsInstance.set({
         a: {
           b: 200
         }
       })
+      expect(dataRecieved['root']).deep.equals({a: {b: 200}})
+      expect(dataRecieved['root.a']).deep.equals({b: 200})
+      expect(dataRecieved['root.a.b']).deep.equals(200)
       // expect(dataRecieved).to.deep.equal({ a: { b: 200 }})
     })
-
   })
 })
