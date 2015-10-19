@@ -30,7 +30,7 @@ describe('nested', function () {
       on: {
         data: function (data, event) {
           dataRecieved = data
-          console.log(this.path, data, event.origin)
+          console.log(this.path, 'datax', data)
         }
       },
       ChildConstructor: 'Constructor'
@@ -38,7 +38,7 @@ describe('nested', function () {
 
     it('set a.b.c pass correct data', function () {
       var b = new obs.Constructor()
-
+      console.clear()
       // ok so for this we only want to send the correct information!
 
       b.set({
