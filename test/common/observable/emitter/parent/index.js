@@ -139,3 +139,65 @@ describe('fires after set, properties', function () {
     })
   })
 })
+
+
+describe('fires for multiple instances on same parent', function () {
+  it('fires after set', function () {
+    var keys = []
+    var a = new Observable({
+      on: {
+        parent: function () {
+          keys.push(this.key)
+        }
+      }
+    })
+
+    var b = new a.Constructor()
+
+    var parent = new Observable({
+      key: 'uberparent',
+      a: {
+        useVal:a
+      },
+      b:{
+        useVal:b
+      }
+    })
+
+    expect(keys.length).equals(2)
+    expect(keys).contains('a')
+    expect(keys).contains('b')
+  })
+})
+
+describe('fires for multiple instances on different parents', function () {
+  it('fires after set', function () {
+    var keys = []
+    var a = new Observable({
+      on: {
+        parent: function () {
+          keys.push(this.key)
+        }
+      }
+    })
+
+    var b = new a.Constructor()
+    console.log('-- adding first')
+    var parent = new Observable({
+      a: {
+        useVal:a
+      }
+    })
+
+    console.log('-- adding second')
+    var anotherParent = new Observable({
+      b: {
+        useVal:b
+      }
+    })
+
+    expect(keys.length).equals(2)
+    expect(keys).contains('a')
+    expect(keys).contains('b')
+  })
+})
