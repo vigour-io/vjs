@@ -28,7 +28,6 @@ var b = new Cnstr({
   },
   $transform: {
     val: function () {
-      console.log('???')
       return 'blargh'
     },
     order: 0

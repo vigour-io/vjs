@@ -1,10 +1,10 @@
-var Observable = require('../../../../lib/observable/')
-var tracking = require('../../../../lib/tracking/')
-var trackerEmitter = require('../../../../lib/tracking/emitter')
+var Observable = require('../../../../../lib/observable/')
+var tracking = require('../../../../../lib/tracking/')
+var trackerEmitter = require('../../../../../lib/tracking/emitter')
 
 describe('array', function () {
   it('should fire all tracking info from array', function (done) {
-    var example = ['new', 'parent', 'click']
+    var example = ['new', 'parent', 'click', 'remove']
     var a = new Observable({
       b: {
         inject: tracking,
@@ -19,7 +19,8 @@ describe('array', function () {
     trackerEmitter.services.test = function (obj) {
       cnt++
       if (cnt === example.length) {
-        expect(cnt).to.equal(3)
+        expect(cnt).to.equal(4)
+        expect(obj.name.val).to.equal('removeEmitter')
         done()
       }
       if (cnt === 3) {

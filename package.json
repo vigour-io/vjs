@@ -18,7 +18,8 @@
     "url": "https://github.com/vigour-io/vjs/issues"
   },
   "dependencies": {
-    "lodash": "3.10.x"
+    "lodash": "3.10.x",
+    "murmurhash3js": "3.0.1"
   },
   "homepage": "https://github.com/vigour-io/vjs",
   "directories": {

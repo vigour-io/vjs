@@ -1,6 +1,6 @@
-var Observable = require('../../../../lib/observable/')
-var tracking = require('../../../../lib/tracking/')
-var trackerEmitter = require('../../../../lib/tracking/emitter')
+var Observable = require('../../../../../lib/observable/')
+var tracking = require('../../../../../lib/tracking/')
+var trackerEmitter = require('../../../../../lib/tracking/emitter')
 
 describe('default', function () {
   var exampleReference = new Observable({
@@ -33,8 +33,11 @@ describe('default', function () {
 
   it('should contain all default keys', function (done) {
     trackerEmitter.services.test = function (obj) {
-      expect(obj)
-        .to.have.deep.property('eventobject')
+      expect(obj.id.val).to.equal('a.b._on.data')
+      expect(obj.app.val).to.equal('my app id')
+      expect(obj).to.have.deep.property('eventobject')
+      expect(obj.eventobject.eventOriginator.val).to.equal('a')
+      expect(obj.eventobject.eventType.val).to.equal('data')
       done()
     }
     exampleObservable.b.emit('data')
@@ -45,9 +48,12 @@ describe('default', function () {
     trackerEmitter.services.test = function (obj) {
       expect(obj.eventobject.metaMessage).to.be.ok
       expect(obj.eventobject.eventType.val).to.equal('error')
+
       done()
     }
     exampleObservable.b.emit('error')
     delete trackerEmitter.services.test
   })
+
+  //
 })

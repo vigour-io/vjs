@@ -1,6 +1,6 @@
-var Observable = require('../../../../lib/observable/')
-var tracking = require('../../../../lib/tracking/')
-var trackerEmitter = require('../../../../lib/tracking/emitter')
+var Observable = require('../../../../../lib/observable/')
+var tracking = require('../../../../../lib/tracking/')
+var trackerEmitter = require('../../../../../lib/tracking/emitter')
 
 describe('string', function () {
   it('should override id if tracking val is a string', function (done) {
@@ -13,8 +13,8 @@ describe('string', function () {
         track: 'test string'
       }
     })
-
     trackerEmitter.services.test = function (obj) {
+      console.log(obj)
       expect(obj.id.val).to.have.string('test string')
       done()
     }
