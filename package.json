@@ -39,7 +39,7 @@
     "gaston": "git+ssh://git@github.com:vigour-io/gaston.git#develop"
   },
   "gaston": {
-    "source-maps": false
+    "source-maps": true
   },
   "browser": {
     "./lib/base/iterator/": "./lib/base/iterator/browser.js"
