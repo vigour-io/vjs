@@ -1,5 +1,6 @@
 /* global expect, it, describe, beforeEach */
-var Observable = require('../../../../../../lib/observable')
+var Observable = require('../../../../../lib/observable')
+var testListeners = require('../testListeners')
 var count
 var instance
 
@@ -8,23 +9,25 @@ beforeEach(() => {
 })
 
 describe('subscribing to same parent with multiple instances', function () {
+  var keys = []
   var a = new Observable({
     key: 'a'
   })
-
+  var b
   it('subcribes to field', function () {
     a.subscribe({
       parent: {
         field: true
       }
     }, function () {
-      instance = this
+      keys.push(this.key)
       count++
     })
-  })
 
-  var b = new a.Constructor({
-    key: 'b'
+    b = new a.Constructor({
+      key: 'b'
+    })
+    expect(count).equals(0)
   })
 
   it('fires on instance', function () {
@@ -38,7 +41,8 @@ describe('subscribing to same parent with multiple instances', function () {
       }
     })
     expect(count).equals(2)
-    expect(instance.key).equals('b')
+    expect(keys).contains('a')
+    expect(keys).contains('b')
   })
 })
 

@@ -1,5 +1,5 @@
 /* global expect, it, describe, beforeEach */
-var Observable = require('../../../../../../lib/observable')
+var Observable = require('../../../../../lib/observable')
 var count
 var origins
 var targets
@@ -88,9 +88,9 @@ describe('multiple instances with different references, with nested subscription
   })
 
   var obs = new Observable({
-    // nested:{
+    nested:{
 
-    // }
+    }
   })
 
   it('subcribes to field', function () {
