@@ -106,62 +106,45 @@ describe('subscribing to different parent with several instances', function () {
 
   var a = new Observable({
     trackInstances: true,
-    key: 'a'
   })
 
-  a.on('parent', () => {
-    console.error('ballz')
+  it('subcribes to field', function () {
+    a.subscribe({
+      parent: {
+        field: true
+      }
+    }, function (data) {
+      console.log('---->', data.origin.val)
+      keys.push(this.key)
+      count++
+    })
   })
 
-  var b = new a.Constructor({
-    key: 'b'
-  })
-
-  it('add a to parent one', () => {
+  it('add a to parent one', function () {
     console.log('-- add a to parent one')
     new Observable({
-      key: 'one',
+      key:'one',
       field: 1,
       a: {
-        useVal: a
+        useVal: new a.Constructor({
+          key: 'a'
+        })
       }
     })
   })
 
-  it('add b to parent two', () => {
+  it('add b to parent two', function () {
     console.log('-- add b to parent two')
     new Observable({
-      key: 'two',
+      key:'two',
       field: 2,
-      a: {
-        useVal: new a.Constructor()
+      b: {
+        useVal: new a.Constructor({
+          key: 'b'
+        })
       }
     })
   })
-
-  // it('subcribes to field', function () {
-  //   a.subscribe({
-  //     parent: {
-  //       field: true
-  //     }
-  //   }, function (data) {
-  //     console.log('---->', data.origin.val)
-  //     keys.push(this.key)
-  //     count++
-  //   })
-  // })
-
-
-
-  // var c = new a.Constructor({
-  //   key: 'c'
-  // })
-
-  // var d = new a.Constructor({
-  //   key: 'd'
-  // })
-
-
 
 
 
