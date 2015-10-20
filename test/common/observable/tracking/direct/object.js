@@ -56,7 +56,7 @@ describe('object', function () {
       expect(obj.eventobject.value).to.equal(10)
       expect(obj.eventobject.eventType.val).to.equal('remove')
     }
-    a.remove()
+    a.b.remove()
     delete trackerEmitter.services.test
   })
 })
