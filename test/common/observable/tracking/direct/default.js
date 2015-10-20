@@ -48,7 +48,6 @@ describe('default', function () {
     trackerEmitter.services.test = function (obj) {
       expect(obj.eventobject.metaMessage).to.be.ok
       expect(obj.eventobject.eventType.val).to.equal('error')
-
       done()
     }
     exampleObservable.b.emit('error')
