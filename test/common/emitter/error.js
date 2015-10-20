@@ -25,6 +25,7 @@ describe('error emitter', function () {
       this.data = data
     }
     it('fires for multiple error events', function () {
+      console.clear()
       var event = new Event()
       event.isTriggered = true
       emitter.on(listener)
@@ -36,6 +37,7 @@ describe('error emitter', function () {
     })
 
     it('returns an array as data', function () {
+      console.log(data)
       expect(data).instanceof(Array)
     })
 
