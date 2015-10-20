@@ -14,7 +14,6 @@ describe('string', function () {
       }
     })
     trackerEmitter.services.test = function (obj) {
-      console.log(obj)
       expect(obj.id.val).to.have.string('test string')
       done()
     }
