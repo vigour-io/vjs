@@ -60,7 +60,6 @@ describe('multiple instances with different references', function () {
   })
 
   it('update one reference, fires correct for each instance', function () {
-    console.log('----a')
     content.a.title.val = 'aUpdatedTitle'
     expect(count).equals(1)
     expect(origins).contains('aUpdatedTitle')
@@ -68,7 +67,6 @@ describe('multiple instances with different references', function () {
   })
 
   it('update one reference, fires correct for each instance', function () {
-    console.log('----b')
     content.b.title.val = 'bUpdatedTitle'
     expect(count).equals(1)
     expect(origins).contains('bUpdatedTitle')
@@ -76,7 +74,6 @@ describe('multiple instances with different references', function () {
   })
 
   it('update another reference, fires correct for each instance', function () {
-    console.log('----c')
     content.c.title.val = 'cUpdatedTitle'
     expect(count).equals(1)
     expect(origins).contains('cUpdatedTitle')

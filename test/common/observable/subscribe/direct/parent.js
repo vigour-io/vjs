@@ -141,7 +141,6 @@ describe('subscribing to non existing parent', function () {
   })
 
   it('fires when a is added to parent', function () {
-    console.log('.......')
     parent = new Observable({
       blurf: {
         useVal: a
