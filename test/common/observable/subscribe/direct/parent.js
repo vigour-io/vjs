@@ -141,6 +141,7 @@ describe('subscribing to non existing parent', function () {
   })
 
   it('fires when a is added to parent', function () {
+    console.log('.......')
     parent = new Observable({
       blurf: {
         useVal: a
@@ -150,21 +151,21 @@ describe('subscribing to non existing parent', function () {
     expect(count).equals(1)
   })
 
-  it('added a data listener, keeps parent listener (for potential instances)', () => {
+  it('added a data listener, keeps parent listener (for potential instances) and keeps reference listener', () => {
     var listeners = testListeners(subscription)
-    expect(listeners.length).equals(2)
+    expect(listeners.length).equals(3)
     expect(listeners).contains('data')
-    // expect(listeners).contains('reference')
+    expect(listeners).contains('reference')
     expect(listeners).contains('parentEmitter')
   })
 
-  // it('fires when parent is removed', function () {
-  //   parent.remove()
-  //   expect(count).equals(1)
-  // })
+  it('fires when parent is removed', function () {
+    parent.remove()
+    expect(count).equals(1)
+  })
 
-  // it('removed all listeners', () => {
-  //   var listeners = testListeners(subscription)
-  //   expect(listeners.length).equals(0)
-  // })
+  it('removed all listeners', () => {
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(0)
+  })
 })
