@@ -10,7 +10,7 @@
     "node": "^4.1.1"
   },
   "scripts": {
-    "test": "gaston test browser -f test/common/",
+    "test": "gaston test",
     "doc": "node documentation.js"
   },
   "description": "A javascript libary created and used by Vigour",
