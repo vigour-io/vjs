@@ -1,7 +1,11 @@
 var Base = require('../../../../lib/base/')
 var ToString = require('../../../../lib/methods/toString')
 
+
+console.log('???')
 Base.prototype.inject(ToString)
+console.log('2???')
+
 
 describe('toString', function () {
   var a
