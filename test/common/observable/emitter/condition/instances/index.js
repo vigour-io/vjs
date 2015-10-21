@@ -25,7 +25,6 @@ describe('instances', function () {
 describe('context', function () {
   var Observable = require('../../../../../../lib/observable')
   it('fires condition trigger', function (done) {
-
     var cnt = 0
     var dataCnt = 0
     var fired = []
@@ -53,15 +52,11 @@ describe('context', function () {
         }
       }
     })
-
     // behaviour now is fire for each -- im fix operator first
     // then we have batch
-
     // think about the inputs what to do with them -- context will become a nightmare -- context condition is only from the original
     // -- last things are fired with wrong time i geuss (the a time)
-
     var b = new a.Constructor({time: 200, key: 'b'})
-
     var c = new b.Constructor({time: 30, key: 'c'})
 
     a.val = 'a change!'
