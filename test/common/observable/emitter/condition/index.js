@@ -1,5 +1,5 @@
 describe('condition', function () {
-  require('./single')
+  require('./direct')
   require('./instances')
   require('./operators')
   require('./combined')

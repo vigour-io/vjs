@@ -58,7 +58,6 @@ describe('context', function () {
     // -- last things are fired with wrong time i geuss (the a time)
     var b = new a.Constructor({time: 200, key: 'b'})
     var c = new b.Constructor({time: 30, key: 'c'})
-
     a.val = 'a change!'
   })
 })
