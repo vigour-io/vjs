@@ -16,7 +16,7 @@ describe('context', function () {
           val: function (data) {
             fired.push(this.path[0])
             cnt++
-            if(data === 'a change!') {
+            if (data === 'a change!') {
               dataCnt++
             }
             if (cnt === 5 && dataCnt === 3) {
