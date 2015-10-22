@@ -34,7 +34,6 @@ describe('context', function () {
       on: {
         data: {
           condition: function (data, done, event) {
-
             setTimeout(() => done(), this.time.val)
           },
           val: function (data) {
@@ -61,8 +60,28 @@ describe('context', function () {
     a.val = 'a change!'
   })
 
+  describe('references', function () {
 
-  describe('childConstructors', function () {
+    it('should fire conditions over references over instances', function (done) {
+      var b = new Observable({
+        val: a
+      })
+      var a = new Observable({
+        key: 'a',
+        val: b,
+        on: {
+          data: {
+            condition: function (val) {
+              expect(val).equals(200)
+              done()
+            }
+          }
+        }
+      })
+      var c = new a.Constructor()
+      b.val = 200
+    })
+
     // var bla = new Observable({
     //   on: {
     //     data: {
