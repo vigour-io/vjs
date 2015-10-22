@@ -60,4 +60,34 @@ describe('context', function () {
     var c = new b.Constructor({time: 30, key: 'c'})
     a.val = 'a change!'
   })
+
+
+  describe('childConstructors', function () {
+    // var bla = new Observable({
+    //   on: {
+    //     data: {
+    //       condition () {
+    //         console.log('????')
+    //       }
+    //     }
+    //   }
+    // })
+    //
+    // var blax = new Observable({
+    //   ChildConstructor: new Observable({
+    //     on: {
+    //       data: {
+    //         condition () {
+    //
+    //         }
+    //       }
+    //     },
+    //     ChildConstructor: 'Constructor'
+    //   }).Constructor
+    // })
+    //
+    // var blaxx = new Observable({
+    //   xxxx: {}
+    // })
+  })
 })
