@@ -106,15 +106,12 @@ describe('context', function () {
     })
 
     it('should fire condition over ChildConstructors over nested fields', function (done) {
+      var results = []
       var b = new Observable({
         on: {
           data: {
             condition (val, next) {
-              console.log('hey hey', val, this.path)
-              // expect(val).equals('fires')
-              // expect(this.path[0]).equals('d')
-              // next()
-              // done()
+              results.push(this.path.join('.'))
             }
           }
         },
@@ -130,6 +127,8 @@ describe('context', function () {
         }
       })
       d.field.nestedField.val = 'fire'
+      expect(results).to.deep
+        .equal(['d.field', 'd.field.nestedField', 'd.field.nestedField'])
     })
   })
 })
