@@ -81,32 +81,28 @@ describe('context', function () {
       var c = new a.Constructor()
       b.val = 200
     })
+  })
 
-    // var bla = new Observable({
-    //   on: {
-    //     data: {
-    //       condition () {
-    //         console.log('????')
-    //       }
-    //     }
-    //   }
-    // })
-    //
-    // var blax = new Observable({
-    //   ChildConstructor: new Observable({
-    //     on: {
-    //       data: {
-    //         condition () {
-    //
-    //         }
-    //       }
-    //     },
-    //     ChildConstructor: 'Constructor'
-    //   }).Constructor
-    // })
-    //
-    // var blaxx = new Observable({
-    //   xxxx: {}
-    // })
+  describe('ChildConstructor', function () {
+    it('should fire conditions over ChildConstructors', function (done) {
+      var b = new Observable({
+        on: {
+          data: {
+            condition (val) {
+              expect(val).equals('fires')
+              expect(this.path[0]).equals('d')
+              done()
+            }
+          }
+        }
+      })
+      var c = new Observable({
+        ChildConstructor: b.Constructor
+      })
+      var d = new c.Constructor({
+        key: 'd',
+        field: 'fires'
+      })
+    })
   })
 })
