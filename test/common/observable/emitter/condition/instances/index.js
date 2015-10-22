@@ -84,7 +84,7 @@ describe('context', function () {
   })
 
   describe('ChildConstructor', function () {
-    it('should fire conditions over ChildConstructors', function (done) {
+    it('should fire condition over ChildConstructors', function (done) {
       var b = new Observable({
         on: {
           data: {
@@ -103,6 +103,33 @@ describe('context', function () {
         key: 'd',
         field: 'fires'
       })
+    })
+
+    it('should fire condition over ChildConstructors over nested fields', function (done) {
+      var b = new Observable({
+        on: {
+          data: {
+            condition (val, next) {
+              console.log('hey hey', val, this.path)
+              // expect(val).equals('fires')
+              // expect(this.path[0]).equals('d')
+              // next()
+              // done()
+            }
+          }
+        },
+        ChildConstructor: 'Constructor'
+      })
+      var c = new Observable({
+        ChildConstructor: b.Constructor
+      })
+      var d = new c.Constructor({
+        key: 'd',
+        field: {
+          nestedField: 'start' //should fire for start as well!!!
+        }
+      })
+      d.field.nestedField.val = 'fire'
     })
   })
 })
