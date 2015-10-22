@@ -111,6 +111,7 @@ describe('context', function () {
         on: {
           data: {
             condition (val, next) {
+              // why does this not fire ? add test for without condition
               results.push(this.path.join('.'))
             }
           }
