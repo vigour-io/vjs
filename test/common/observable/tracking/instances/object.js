@@ -2,7 +2,7 @@ var Observable = require('../../../../../lib/observable/')
 var tracking = require('../../../../../lib/tracking/')
 var trackerEmitter = require('../../../../../lib/tracking/emitter')
 
-describe('object', function () {
+describe('object', () => {
   function returnValue(value) {
     return value
   }
@@ -23,8 +23,8 @@ describe('object', function () {
     }
   })
 
-  it('should override id if object val is a string', function () {
-    trackerEmitter.services.test = function (obj) {
+  it('should override id if object val is a string', () => {
+    trackerEmitter.services.test = (obj) => {
       expect(obj.eventobject.eventType.val).to.equal('click')
       expect(obj.id.val).to.have.string('super')
     }
@@ -32,8 +32,8 @@ describe('object', function () {
     delete trackerEmitter.services.test
   })
 
-  it('should handle parent', function () {
-    trackerEmitter.services.test = function (obj) {
+  it('should handle parent', () => {
+    trackerEmitter.services.test = (obj) => {
       expect(obj.eventobject.eventType.val).to.equal('parent')
       expect(obj.eventobject.value).to.equal(100)
     }
@@ -41,8 +41,8 @@ describe('object', function () {
     delete trackerEmitter.services.test
   })
 
-  it('should handle new correctly', function () {
-    trackerEmitter.services.test = function (obj) {
+  it('should handle new correctly', () => {
+    trackerEmitter.services.test = (obj) => {
       expect(obj.eventobject.eventType.val).to.equal('new')
       expect(obj.eventobject.value).to.equal(20)
     }
@@ -50,8 +50,8 @@ describe('object', function () {
     delete trackerEmitter.services.test
   })
 
-  xit('should handle remove correctly', function () {
-    trackerEmitter.services.test = function (obj) {
+  xit('should handle remove correctly', () => {
+    trackerEmitter.services.test = (obj) => {
       expect(obj.id.val).to.equal('b._on.remove')
       expect(obj.eventobject.value).to.equal(10)
       expect(obj.eventobject.eventType.val).to.equal('remove')

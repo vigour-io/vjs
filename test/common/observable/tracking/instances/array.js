@@ -4,13 +4,13 @@ var trackerEmitter = require('../../../../../lib/tracking/emitter')
 
 describe('array', function() {
   var example = ['new', 'parent', 'click', 'remove']
-  var a = new Observable({
+  let a = new Observable({
     b: {
       track: example
     }
   })
 
-  var bInstance = new a.b.Constructor({
+  let bInstance = new a.b.Constructor({
     on: {
       data: function() {}
     },
