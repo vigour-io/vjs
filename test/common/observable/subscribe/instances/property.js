@@ -28,7 +28,9 @@ describe('subscribing to single existing field on original', function () {
   })
 
   it('fires on instance', function () {
-    b.set({aField: true})
+    b.set({
+      aField: true
+    })
     expect(count).equals(1)
     expect(instance.key).equals('b')
   })
@@ -55,7 +57,9 @@ describe('subscribing to parent on original', function () {
     var b = new Observable({
       key: 'obsB',
       c: {
-        specialUseValA: { useVal: a }
+        specialUseValA: {
+          useVal: a
+        }
       }
     })
     expect(count).equals(1)
@@ -289,5 +293,42 @@ describe('subscribing to single non-existing nested field on instance', function
 
     expect(count).equals(1)
     expect(instance.key).equals('b')
+  })
+})
+
+describe('multiple instances', () => {
+  it('subscribe it', () => {
+    var obj = {}
+    console.clear()
+    var Child = new Observable({
+      trackInstances: true,
+      key: 'a'
+    }).Constructor
+
+    Child.prototype.subscribe({
+      nested: {
+        title: true
+      }
+    }, function (data, event) {
+      console.log(this.path,'<---',data.origin.path)
+      obj[this.key] = data.origin.val
+    })
+
+    var son = new Child({
+      key: 'son',
+      nested: {
+        title: 'Johnny'
+      }
+    })
+
+    var daughter = new Child({
+      key: 'daughter',
+      nested: {
+        title: 'Amy'
+      }
+    })
+
+    expect(obj.son).equals('Johnny')
+    expect(obj.daughter).equals('Amy')
   })
 })
