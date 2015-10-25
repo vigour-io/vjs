@@ -46,5 +46,4 @@ describe('instances', function () {
 
   require('./childconstructor')
   require('./context')
-
 })

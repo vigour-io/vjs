@@ -487,8 +487,6 @@ describe('context', function () {
         nest2: new firstUseVal.Constructor()
       })
 
-
-
       a.b.val = 'rick'
 
       expect(secondUseVal.nest2).instanceof(firstUseVal.Constructor)

@@ -41,7 +41,7 @@ describe('ChildConstructor', function () {
     var d = new c.Constructor({
       key: 'd',
       field: {
-        nestedField: 'start' //should fire for start as well!!!
+        nestedField: 'start' // should fire for start as well!!!
       }
     })
     d.field.nestedField.val = 'fire'

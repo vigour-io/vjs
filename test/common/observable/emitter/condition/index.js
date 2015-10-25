@@ -3,4 +3,6 @@ describe('condition', function () {
   require('./instances')
   require('./operators')
   require('./combined')
+  require('./single')
+  require('./multiple')
 })
