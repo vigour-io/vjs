@@ -1,5 +1,5 @@
+var Observable = require('../../../../../lib/observable')
 describe('references', function () {
-  var Observable = require('../../../../../lib/observable')
   var measure = {
     a: {},
     b: {},
@@ -17,7 +17,10 @@ describe('references', function () {
   })
 
   it('create new observable --> a, add change listener "val", set val to aRef', function () {
-    measure.a.val = { total: 0, origin: {} }
+    measure.a.val = {
+      total: 0,
+      origin: {}
+    }
 
     a = new Observable({
       key: 'a',
@@ -56,7 +59,10 @@ describe('references', function () {
   })
 
   it('add change listener "second" on b', function () {
-    measure.b.second = { total: 0, origin: {} }
+    measure.b.second = {
+      total: 0,
+      origin: {}
+    }
     b.val = {
       on: {
         data: {
@@ -121,4 +127,99 @@ describe('references', function () {
   })
 
   require('./unique')
+})
+
+describe('on reference, switching reference multiple times', function () {
+  var count = 0
+
+  var a = new Observable({
+    key: 'a'
+  })
+  var b = new Observable({
+    key: 'b'
+  })
+  var c = new Observable({
+    key: 'c'
+  })
+  var d = new Observable({
+    key: 'd'
+  })
+
+  var obs = new Observable({
+    on: {
+      reference() {
+        count++
+      }
+    }
+  })
+
+  beforeEach(function () {
+    count = 0
+  })
+
+  it('add reference, fires listener', function () {
+    obs.val = a
+    expect(count).equals(1)
+  })
+
+  it('change reference, fires listener', function () {
+    obs.val = b
+    expect(count).equals(1)
+  })
+
+  it('change reference, fires listener', function () {
+    obs.val = c
+    expect(count).equals(1)
+  })
+
+  it('change reference, fires listener', function () {
+    obs.val = d
+    expect(count).equals(1)
+  })
+})
+
+describe('on reference, nested multiple instances with different reference each', function () {
+  var count = 0
+
+  var content = new Observable({
+    nested:{
+      a: {},
+      b: {},
+      c: {},
+      d: {}
+    }
+  })
+
+  var Obs = new Observable({
+    on: {
+      reference() {
+        count++
+      }
+    }
+  }).Constructor
+
+  beforeEach(function () {
+    count = 0
+  })
+
+  it('a instance, fires listener', function () {
+    new Obs(content.nested.a)
+    expect(count).equals(1)
+  })
+
+  it('b instance, fires listener', function () {
+    new Obs(content.nested.b)
+    expect(count).equals(1)
+  })
+
+  it('c instance, fires listener', function () {
+    new Obs(content.nested.c)
+    expect(count).equals(1)
+  })
+
+  it('d instance, fires listener', function () {
+    new Obs(content.nested.d)
+    expect(count).equals(1)
+  })
+
 })

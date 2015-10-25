@@ -1,5 +1,6 @@
 /* global expect, it, describe, beforeEach */
-var Observable = require('../../../../../../lib/observable')
+var Observable = require('../../../../../lib/observable')
+var testListeners = require('../testListeners')
 var count
 var instance
 

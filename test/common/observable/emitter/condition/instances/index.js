@@ -20,50 +20,62 @@ describe('instances', function () {
     var b = new a.Constructor()
     a.val = 'a change!'
   })
-})
 
-describe('context', function () {
-  var Observable = require('../../../../../../lib/observable')
-  it('fires condition trigger', function (done) {
-
-    var cnt = 0
-    var dataCnt = 0
-    var fired = []
-    var a = new Observable({
-      key: 'a',
-      time: 10,
+  it('fires for inherited condition, new listener', function (done) {
+    var count = 0
+    var A = new Observable({
+      val: 10,
       on: {
         data: {
-          condition: function (data, done, event) {
-
-            setTimeout(() => done(), this.time.val)
+          condition: function (data, cb, event) {
+            count += 1
+            setTimeout(cb, data)
+          }
+        }
+      }
+    })
+    var a = new A.Constructor({
+      on: {
+        data: {
+          condition: function (data, cb, event) {
+            count += 1
+            setTimeout(cb, data)
           },
-          val: function (data) {
-            fired.push(this.path[0])
-            cnt++
-            if(data === 'a change!') {
-              dataCnt++
-            }
-            if (cnt === 5 && dataCnt === 3) {
-
-              // expect(fired).to.deep.eql(['b', 'c', 'a', 'b', 'c'])
+          val: function () {
+            expect(count).to.equal(2)
+            if (count === 2) {
               done()
             }
           }
         }
       }
     })
-
-    // behaviour now is fire for each -- im fix operator first
-    // then we have batch
-
-    // think about the inputs what to do with them -- context will become a nightmare -- context condition is only from the original
-    // -- last things are fired with wrong time i geuss (the a time)
-
-    var b = new a.Constructor({time: 200, key: 'b'})
-
-    var c = new b.Constructor({time: 30, key: 'c'})
-
-    a.val = 'a change!'
+    a.val = 20
   })
+
+  describe('references', function () {
+    var Observable = require('../../../../../../lib/observable')
+    it('should fire conditions over references over instances', function (done) {
+      var b = new Observable({
+        val: a
+      })
+      var a = new Observable({
+        key: 'a',
+        val: b,
+        on: {
+          data: {
+            condition: function (val) {
+              expect(val).equals(200)
+              done()
+            }
+          }
+        }
+      })
+      var c = new a.Constructor()
+      b.val = 200
+    })
+  })
+
+  require('./childconstructor')
+  require('./context')
 })

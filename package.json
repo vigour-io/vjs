@@ -10,7 +10,8 @@
     "node": "^4.1.1"
   },
   "scripts": {
-    "test": "./node_modules/.bin/gaston test browser -f test/common/",
+    "test": "gaston test",
+    "test-config": "gaston test -r node -s test/node/config",
     "doc": "node documentation.js"
   },
   "description": "A javascript libary created and used by Vigour",
@@ -33,14 +34,27 @@
     "performance",
     "crossplatform"
   ],
+  "contributors": [
+    "Jim de beer <jim@vigour.io>",
+    "Youri Daamen <youzi@vigour.io>",
+    "Marcus Besjes <marcus@vigour.io>",
+    "Rick Smit <rick@vigour.io>",
+    "Andre Padez <andre@vigour.io>",
+    "Danillo Corvalan <danillo@vigour.io>",
+    "Valerio Barilla <valerio@vigour.io>",
+    "Shawn Inder <shawn@vigour.io>",
+    "Andrew Yavtushenko <andrew@vigour.io>",
+    "Renan Carvalho <renan@vigour.io>",
+    "Nika Tomadze <nika@vigour.io>",
+    "Michiel Van Liempt <michiel@vigour.io>"
+  ],
   "license": "GPL",
   "devDependencies": {
     "dmd": "^1.1.1",
-    "gaston": "^0.21.2",
     "jsdoc-to-markdown": "^1.1.1"
   },
   "gaston": {
-    "source-maps": false
+    "source-maps": true
   },
   "browser": {
     "./lib/base/iterator/": "./lib/base/iterator/browser.js"
