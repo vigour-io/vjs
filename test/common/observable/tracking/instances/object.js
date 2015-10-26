@@ -23,12 +23,16 @@ describe('object', () => {
     }
   })
 
+  var bInstance = new a.Constructor({
+
+  })
+
   it('should override id if object val is a string', () => {
     trackerEmitter.services.test = (obj) => {
       expect(obj.eventobject.eventType.val).to.equal('click')
       expect(obj.id.val).to.have.string('super')
     }
-    a.b.emit('click')
+    bInstance.b.emit('click')
     delete trackerEmitter.services.test
   })
 
@@ -37,7 +41,7 @@ describe('object', () => {
       expect(obj.eventobject.eventType.val).to.equal('parent')
       expect(obj.eventobject.value).to.equal(100)
     }
-    a.b.emit('parent')
+    bInstance.b.emit('parent')
     delete trackerEmitter.services.test
   })
 
@@ -46,17 +50,17 @@ describe('object', () => {
       expect(obj.eventobject.eventType.val).to.equal('new')
       expect(obj.eventobject.value).to.equal(20)
     }
-    a.b.emit('new')
+    bInstance.b.emit('new')
     delete trackerEmitter.services.test
   })
 
-  xit('should handle remove correctly', () => {
+  it('should handle remove correctly', () => {
     trackerEmitter.services.test = (obj) => {
       expect(obj.id.val).to.equal('b._on.remove')
       expect(obj.eventobject.value).to.equal(10)
       expect(obj.eventobject.eventType.val).to.equal('remove')
     }
-    a.remove()
+    bInstance.remove()
     delete trackerEmitter.services.test
   })
 })

@@ -4,36 +4,45 @@ var trackerEmitter = require('../../../../../lib/tracking/emitter')
 
 describe('array', function() {
   var example = ['new', 'parent', 'click', 'remove']
-  let a = new Observable({
+  var a = new Observable({
     b: {
+      inject: tracking,
+      on: {
+        data: function(event, meta) {}
+      },
       track: example
     }
   })
 
-  let bInstance = new a.b.Constructor({
-    on: {
-      data: function() {}
-    },
-    inject: tracking
+  var bInstance = new a.Constructor ({
+
   })
 
-  it('should fire all tracking info from array', function() {
-    trackerEmitter.services.test = function(obj) {
+  it('should fire all tracking info from array', function () {
+    trackerEmitter.services.test = function (obj) {
+      console.log(obj)
       expect(obj.eventobject.eventType.val).to.equal('new')
+      expect(obj.eventobject.eventOriginator.val).to.equal('b')
     }
-    bInstance.emit(example[0])
+    bInstance.b.emit(example[0])
     delete trackerEmitter.services.test
 
-    trackerEmitter.services.test = function(obj) {
+    trackerEmitter.services.test = function (obj) {
       expect(obj.eventobject.eventType.val).to.equal('parent')
     }
-    bInstance.emit(example[1])
+    bInstance.b.emit(example[1])
     delete trackerEmitter.services.test
 
-    trackerEmitter.services.test = function(obj) {
+    trackerEmitter.services.test = function (obj) {
       expect(obj.eventobject.eventType.val).to.equal('click')
     }
-    bInstance.emit(example[2])
+    bInstance.b.emit(example[2])
     delete trackerEmitter.services.test
+    // error is giving TypeError: Cannot assign to read only property 'remove' of [object Object]
+    // trackerEmitter.services.test = function (obj) {
+    //   expect(obj.eventobject.eventType.val).to.equal('remove')
+    // }
+    // a.remove()
+    // delete trackerEmitter.services.test
   })
 })
