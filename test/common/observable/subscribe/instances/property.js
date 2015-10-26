@@ -299,7 +299,7 @@ describe('subscribing to single non-existing nested field on instance', function
 describe('multiple instances', () => {
   it('subscribe it', () => {
     var obj = {}
-    console.clear()
+    
     var Child = new Observable({
       trackInstances: true,
       key: 'a'

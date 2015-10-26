@@ -196,7 +196,7 @@ describe('subscribing on one non-existent field, one existing field', () => {
   })
 
   it('fires when field is added again', () => {
-    console.clear()
+    
     a.set({
       aField: 3
     })
@@ -312,7 +312,7 @@ describe('subscribing on existent nested field', () => {
   })
 
   it('subcribes to nested field', () => {
-    console.clear()
+    
     subscription = a.subscribe({
       aField: {
         anotherField: true
