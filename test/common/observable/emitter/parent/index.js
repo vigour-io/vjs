@@ -127,7 +127,6 @@ describe('fires after set, properties', function () {
         }
       }
     })
-
     var parent = new Observable({
       key: 'uberparent',
       properties: {
@@ -150,9 +149,7 @@ describe('fires for multiple instances on same parent', function () {
         }
       }
     })
-
     var b = new a.Constructor()
-
     var parent = new Observable({
       key: 'uberparent',
       a: {
@@ -162,7 +159,6 @@ describe('fires for multiple instances on same parent', function () {
         useVal:b
       }
     })
-
     expect(keys.length).equals(2)
     expect(keys).contains('a')
     expect(keys).contains('b')
@@ -181,14 +177,12 @@ describe('fires for multiple instances on different parents', function () {
     })
 
     var b = new a.Constructor()
-    console.log('-- adding first')
     var parent = new Observable({
       a: {
         useVal:a
       }
     })
 
-    console.log('-- adding second')
     var anotherParent = new Observable({
       b: {
         useVal:b
