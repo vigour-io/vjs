@@ -13,11 +13,13 @@ describe('string', function () {
         track: 'test string'
       }
     })
+    var bInstance = new a.Constructor({
+
+    })
     trackerEmitter.services.test = function (obj) {
-      console.log(obj)
       expect(obj.id.val).to.have.string('test string')
       done()
     }
-    a.b.emit('data')
+    bInstance.b.emit('data')
   })
 })
