@@ -30,12 +30,12 @@ describe('parent', function () {
 
     element = new Observable({
       on: {
-        parent: function () {
+        parent () {
           var keyCnt = measure.element.parent.val[this.key]
           measure.element.parent.val.total += 1
           measure.element.parent.val[this.key] = keyCnt ? (keyCnt + 1) : 1
         },
-        new: function () {
+        new () {
           measure.element.new.val.total += 1
         }
       },
@@ -75,7 +75,7 @@ describe('add to parent one instance', function () {
     key: 'a',
     trackInstances: true,
     on: {
-      parent: function () {
+      parent () {
         measure[this.key]++
       }
     }
@@ -102,7 +102,7 @@ describe('fires after set', function () {
   it('fires after nested set', function () {
     var a = new Observable({
       on: {
-        parent: function () {
+        parent () {
           expect(this.parent.parent.youzi).ok
         }
       }
@@ -122,12 +122,11 @@ describe('fires after set, properties', function () {
   it('fires after set', function () {
     var a = new Observable({
       on: {
-        parent: function () {
+        parent () {
           expect(this.parent.a.nerdje).ok
         }
       }
     })
-
     var parent = new Observable({
       key: 'uberparent',
       properties: {
@@ -140,20 +139,17 @@ describe('fires after set, properties', function () {
   })
 })
 
-
 describe('fires for multiple instances on same parent', function () {
   it('fires after set', function () {
     var keys = []
     var a = new Observable({
       on: {
-        parent: function () {
+        parent () {
           keys.push(this.key)
         }
       }
     })
-
     var b = new a.Constructor()
-
     var parent = new Observable({
       key: 'uberparent',
       a: {
@@ -163,7 +159,6 @@ describe('fires for multiple instances on same parent', function () {
         useVal:b
       }
     })
-
     expect(keys.length).equals(2)
     expect(keys).contains('a')
     expect(keys).contains('b')
@@ -175,21 +170,19 @@ describe('fires for multiple instances on different parents', function () {
     var keys = []
     var a = new Observable({
       on: {
-        parent: function () {
+        parent () {
           keys.push(this.key)
         }
       }
     })
 
     var b = new a.Constructor()
-    console.log('-- adding first')
     var parent = new Observable({
       a: {
         useVal:a
       }
     })
 
-    console.log('-- adding second')
     var anotherParent = new Observable({
       b: {
         useVal:b

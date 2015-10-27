@@ -12,9 +12,7 @@ describe('instances', function () {
   var a
   var b
   var c
-  var d
   var a2
-  var b2
   var a3
   var b3
 
@@ -314,4 +312,6 @@ describe('instances', function () {
 
   require('./set')
   require('./property')
+  require('./childconstructor')
+
 })

@@ -252,7 +252,7 @@ describe('context', function () {
       expect(test.cnt.aInstance).to.equal(1)
     })
 
-    xit('should not fire for "e"', function () {
+    it('should not fire for "e"', function () {
       // TOOD: disconnected cactch irrelevant change
       // now update for update on val a (althgouht its not shared)
       expect(test.cnt.e).to.equal(1)

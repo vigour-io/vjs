@@ -5,3 +5,7 @@ describe('direct',function() {
 describe('instances',function() {
   require('./instances')
 })
+
+describe('services',function() {
+  require('./services')
+})

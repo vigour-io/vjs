@@ -10,7 +10,6 @@ describe('default', function () {
   })
 
   var exampleObservable = new Observable({
-    key: 'a',
     b: {
       val: exampleReference.exampleKey,
       inject: tracking,
@@ -22,6 +21,10 @@ describe('default', function () {
     }
   })
 
+  let bInstance = new exampleObservable.Constructor({
+    key: 'a'
+  })
+
   it('reference (other event origin)', function (done) {
     trackerEmitter.services.test = function (obj) {
       expect(obj.eventobject.eventOriginator.val).to.equal('aReference')
@@ -31,24 +34,26 @@ describe('default', function () {
     delete trackerEmitter.services.test
   })
 
-  it('should contain all default keys', function () {
+  it('should contain all default keys', function (done) {
     trackerEmitter.services.test = function (obj) {
       expect(obj.id.val).to.equal('a.b._on.data')
       expect(obj.app.val).to.equal('my app id')
       expect(obj).to.have.deep.property('eventobject')
       expect(obj.eventobject.eventOriginator.val).to.equal('a')
       expect(obj.eventobject.eventType.val).to.equal('data')
+      done()
     }
-    exampleObservable.b.emit('data')
+    bInstance.b.emit('data')
     delete trackerEmitter.services.test
   })
 
-  it('should track an error event correctly', function () {
+  it('should track an error event correctly', function (done) {
     trackerEmitter.services.test = function (obj) {
       expect(obj.eventobject.metaMessage).to.be.ok
       expect(obj.eventobject.eventType.val).to.equal('error')
+      done()
     }
-    exampleObservable.b.emit('error')
+    bInstance.b.emit('error')
     delete trackerEmitter.services.test
   })
 })
