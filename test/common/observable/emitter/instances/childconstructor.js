@@ -2,6 +2,7 @@
 describe('use a childconstructor listener', function () {
   var Observable = require('../../../../../lib/observable')
   var cnt = 0
+  // var Observable
   var a = new Observable({
     key: 'a',
     on: {
@@ -12,8 +13,15 @@ describe('use a childconstructor listener', function () {
         }
       }
     },
+    // properties: {
+    //   something:
+    // },
     ChildConstructor: 'Constructor'
     // when you use a directly it will fail, since every field is an instance!
+  })
+
+  var branch = new a.Constructor({
+    key: 'branch'
   })
 
   var aInstance = new a.Constructor({
@@ -25,7 +33,6 @@ describe('use a childconstructor listener', function () {
   })
 
   it('set fields', function () {
-    console.clear()
     cnt = 0
     aInstance.set({
       something: {
@@ -36,7 +43,6 @@ describe('use a childconstructor listener', function () {
   })
 
   it('remove field', function () {
-    console.clear()
     cnt = 0
     aInstance.something.b.remove()
     expect(cnt).to.equal(3)
