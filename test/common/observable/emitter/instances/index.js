@@ -312,4 +312,6 @@ describe('instances', function () {
 
   require('./set')
   require('./property')
+  require('./childconstructor')
+
 })
