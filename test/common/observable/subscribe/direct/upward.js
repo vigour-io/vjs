@@ -52,24 +52,24 @@ describe('subscribing to non existing upward, two levels, nested field', () => {
     expect(listeners).contains('parentEmitter')
   })
 
-  // it('does not fire when parent is added to grandparent', () => {
-  //   grandParent = new Observable({
-  //     field: true,
-  //     p: {
-  //       useVal: parent
-  //     }
-  //   })
-  //   expect(count).equals(0)
-  // })
+  it('does not fire when parent is added to grandparent', () => {
+    grandParent = new Observable({
+      field: true,
+      p: {
+        useVal: parent
+      }
+    })
+    expect(count).equals(0)
+  })
 
-  // it('listeners remain the same', () => {
-  //   var listeners = testListeners(subscription)
-  //   expect(listeners.length).equals(4)
-  //   expect(listeners).contains('data')
-  //   expect(listeners).contains('property')
-  //   expect(listeners).contains('reference')
-  //   expect(listeners).contains('parentEmitter')
-  // })
+  it('listeners remain the same', () => {
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(4)
+    expect(listeners).contains('data')
+    expect(listeners).contains('property')
+    expect(listeners).contains('reference')
+    expect(listeners).contains('parentEmitter')
+  })
 })
 
 describe('subscribing to non existing upward, two levels, multiple nested fields', () => {
@@ -137,6 +137,7 @@ describe('subscribing to non existing upward, two levels, multiple nested fields
   })
 
   it('fires when power is added to grandParent',() => {
+    console.clear()
     grandParent.set({
       power:true
     })
@@ -151,42 +152,38 @@ describe('subscribing to non existing upward, two levels, multiple nested fields
     expect(listeners.numberOf('reference')).equals(2)
     expect(listeners.numberOf('parentEmitter')).equals(3)
   })
-
-  // it('blabla',() => {
-  //   testListeners(grandParent)
-  // })
 })
 
-// describe('subscribing to rendered', () => {
-//   var a = new Observable()
-//   var parent
+describe('subscribing to rendered', () => {
+  var a = new Observable()
+  var parent
 
-//   it('subcribes to parent on a', () => {
-//     a.subscribe({
-//       upward: {
-//         rendered: true
-//       }
-//     }, function (event, meta) {
-//       count++
-//     })
-//   })
+  it('subcribes to parent on a', () => {
+    a.subscribe({
+      upward: {
+        rendered: true
+      }
+    }, function (event, meta) {
+      count++
+    })
+  })
 
-//   it('does not fire when added to parent (loop)', () => {
-//     for (var i = 10; i >= 0; i--) {
-//       parent = new Observable({
-//         a: {
-//           useVal: a
-//         }
-//       })
-//       a = parent
-//     }
-//     expect(count).equals(0)
-//   })
+  it('does not fire when added to parent (loop)', () => {
+    for (var i = 10; i >= 0; i--) {
+      parent = new Observable({
+        a: {
+          useVal: a
+        }
+      })
+      a = parent
+    }
+    expect(count).equals(0)
+  })
 
-//   it('fires when rendered set to true', () => {
-//     parent.set({
-//       rendered: true
-//     })
-//     expect(count).equals(1)
-//   })
-// })
+  it('fires when rendered set to true', () => {
+    parent.set({
+      rendered: true
+    })
+    expect(count).equals(1)
+  })
+})
