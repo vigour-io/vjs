@@ -296,38 +296,88 @@ describe('subscribing to single non-existing nested field on instance', function
   })
 })
 
-describe('multiple instances', () => {
+describe('multiple instances, existing field', () => {
+  var obj = {}
+
+  var Child = new Observable({
+    trackInstances: true,
+    key: 'a',
+    nested: {
+      title: 'Doe'
+    }
+  }).Constructor
+
+  Child.prototype.subscribe({
+    nested: {
+      title: true
+    }
+  }, function (data, event) {
+    console.log(this.path, '<---', data.origin.path)
+    obj[this.key] = data.origin.val
+  })
+
+  var son = new Child({
+    key: 'son',
+    nested: {
+      title: 'Johnny'
+    }
+  })
+
+  var daughter = new Child({
+    key: 'daughter',
+    nested: {
+      title: 'Amy'
+    }
+  })
+
   it('subscribe it', () => {
-    var obj = {}
-    
-    var Child = new Observable({
-      trackInstances: true,
-      key: 'a'
-    }).Constructor
+    expect(obj.son).equals('Johnny')
+    expect(obj.daughter).equals('Amy')
+  })
 
-    Child.prototype.subscribe({
-      nested: {
-        title: true
-      }
-    }, function (data, event) {
-      console.log(this.path,'<---',data.origin.path)
-      obj[this.key] = data.origin.val
-    })
+  xit('updating original does not fire instances', () => {
+    Child.prototype.nested.title.val = 'newTitle'
+    console.log('????',son.nested.title.val)
+    expect(obj.son).equals('Johnny')
+    expect(obj.daughter).equals('Amy')
+  })
+})
 
-    var son = new Child({
-      key: 'son',
-      nested: {
-        title: 'Johnny'
-      }
-    })
+describe('multiple instances, non-existing field', () => {
+  var obj = {}
 
-    var daughter = new Child({
-      key: 'daughter',
-      nested: {
-        title: 'Amy'
-      }
-    })
+  var Child = new Observable({
+    trackInstances: true,
+    key: 'a',
+    nested: {
+      title: 'Doe'
+    }
+  }).Constructor
 
+  Child.prototype.subscribe({
+    nested: {
+      title: true
+    }
+  }, function (data, event) {
+    console.log(this.path, '<---', data.origin.path)
+    obj[this.key] = data.origin.val
+  })
+
+  var son = new Child({
+    key: 'son',
+    nested: {
+      title: 'Johnny'
+    }
+  })
+
+  var daughter = new Child({
+    key: 'daughter',
+    nested: {
+      title: 'Amy'
+    }
+  })
+
+  it('subscribe it', () => {
     expect(obj.son).equals('Johnny')
     expect(obj.daughter).equals('Amy')
   })

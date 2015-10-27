@@ -106,7 +106,7 @@ describe('subscribing to different parent with several instances', function () {
   var one
   var two
   var a = new Observable({
-    trackInstances: true,
+    trackInstances: true
   })
 
   it('subcribes to field', function () {
@@ -115,7 +115,6 @@ describe('subscribing to different parent with several instances', function () {
         field: true
       }
     }, function (data) {
-      console.error(this.key)
       obj[this.key] = data.origin.val
       count++
     })
@@ -160,7 +159,6 @@ describe('subscribing to different parent with several instances', function () {
   })
 
   it('add another instance to parent two', function () {
-    console.clear()
     two.set({
       c:{
         useVal:new a.Constructor({
@@ -171,12 +169,12 @@ describe('subscribing to different parent with several instances', function () {
     expect(obj.c).equals(4)
   })
 
-  // it('change two.field', function () {
-  //   two.field.val = 5
-  //   expect(obj.c).equals(5)
-  //   expect(obj.b).equals(5)
-  //   expect(obj.a).equals(3)
-  // })
+  it('change two.field', function () {
+    two.field.val = 5
+    expect(obj.c).equals(5)
+    expect(obj.b).equals(5)
+    expect(obj.a).equals(3)
+  })
 
   //   new Observable({
   //     key:'two',
