@@ -1,5 +1,5 @@
-var info = require('../../../../lib/observable/subscribe/emitter/info')
-var SubsEmitter = require('../../../../lib/observable/subscribe/emitter')
+var info = require('../../../../lib/observable/subscribe/info')
+var SubsEmitter = require('../../../../lib/observable/subscribe/constructor')
 var getId = info.getId
 var getLateral = info.getLateral
 var getDepth = info.getDepth

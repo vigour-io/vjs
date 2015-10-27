@@ -27,32 +27,37 @@ describe('safely set on Observable', function () {
     var test = new Observable()
     console.clear()
     test.set({
-      // set: 'test',
-      // get: 'yoyo',
-      // setKey: 'funtimes',
-      // setKeyInternal: {
-      //   add: 12
-      // },
-      // nerdje: {
-      //   set: {
-      //     get: {
-      //       properties: {
-      //         blups: true
-      //       }
-      //     }
-      //   }
-      // },
-      // parent:true,
+      set: 'test',
+      get: 'yoyo',
+      setKey: 'funtimes',
+      setKeyInternal: {
+        add: 12
+      },
+      on:{
+
+      },
+      nerdje: {
+        set: {
+          get: {
+            properties: {
+              blups: true
+            }
+          }
+        }
+      },
+      parent:true,
       path:true,
       define: false
     }, void 0, void 0, 'randomPrefix_')
-    // expect(test.randomPrefix_set).ok
-    // expect(test.randomPrefix_get).ok
-    // expect(test.randomPrefix_setKey).ok
-    // expect(test.randomPrefix_on).ok
-    // expect(test.randomPrefix_setKeyInternal).ok
-    // expect(test.nerdje).ok
-    // expect(test.nerdje.randomPrefix_set.randomPrefix_get.randomPrefix_properties.blups).ok
+    expect(test.randomPrefix_set).ok
+    expect(test.randomPrefix_get).ok
+    expect(test.randomPrefix_setKey).ok
+    expect(test.randomPrefix_setKeyInternal).ok
+    expect(test.randomPrefix_setKeyInternal.add).ok
+    expect(test.randomPrefix_on).ok
+    expect(test.nerdje).ok
+    expect(test.nerdje.randomPrefix_set.randomPrefix_get.randomPrefix_properties.blups).ok
+    expect(test.randomPrefix_parent).ok
     expect(test.randomPrefix_path).ok
   })
 })
