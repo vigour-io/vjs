@@ -27,12 +27,13 @@ module.exports = function testListeners(obj) {
         continue
       }
       if (property.key === 'data') {
-        property.attach.each((prop) => {
+        console.info('====>',property, i)
+        property.attach.each((prop, key) => {
           listeners.push(property.key)
           let info = prop[3]
-          let id = getId(info)
-          console.info(hash, '-', property.key, ':', info, '- id:', getId(info), '- lateral:', getLateral(info), '- depth:', getDepth(info))
-          expect(typeof info).equals('number')
+          let id = key
+          console.info(hash, '-', property.key, ':', info, '- id:', id, '- lateral:', getLateral(info), '- depth:', getDepth(info))
+          // expect(typeof info).equals('number')
           expect(id).ok
           expect(ids).not.contains(id)
           ids.push(id)
