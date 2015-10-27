@@ -252,7 +252,7 @@ describe('context', function () {
       expect(test.cnt.aInstance).to.equal(1)
     })
 
-    xit('should not fire for "e"', function () {
+    it('should not fire for "e"', function () {
       // TOOD: disconnected cactch irrelevant change
       // now update for update on val a (althgouht its not shared)
       expect(test.cnt.e).to.equal(1)
@@ -494,13 +494,6 @@ describe('context', function () {
       expect(measure.firstUseVal).to.equal(1)
       expect(measure).to.have.property('secondUseVal').which.equals(1)
     })
-  })
-
-  describe('context gets cleared when trying to change the oringal again', function () {
-    var a = new Observable({
-      nested: true
-    })
-    var aInstance = new a.Constructor() //eslint-disable-line
   })
 
   // now the test for custom emits (hard case -- sets are relativly easy)
