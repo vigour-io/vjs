@@ -38,6 +38,8 @@ describe('object', () => {
 
   it('should handle parent', () => {
     trackerEmitter.services.test = (obj) => {
+      // parent has wrong id
+      expect(obj.id.val).to.equal('b')
       expect(obj.eventobject.eventType.val).to.equal('parent')
       expect(obj.eventobject.value).to.equal(100)
     }
@@ -47,6 +49,7 @@ describe('object', () => {
 
   it('should handle new correctly', () => {
     trackerEmitter.services.test = (obj) => {
+      expect(obj.id.val).to.equal('b._on.new')
       expect(obj.eventobject.eventType.val).to.equal('new')
       expect(obj.eventobject.value).to.equal(20)
     }
