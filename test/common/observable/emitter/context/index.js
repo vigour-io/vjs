@@ -496,6 +496,13 @@ describe('context', function () {
     })
   })
 
+  describe('context gets cleared when trying to change the oringal again', function () {
+    var a = new Observable({
+      nested: true
+    })
+    var aInstance = new a.Constructor() //eslint-disable-line
+  })
+
   // now the test for custom emits (hard case -- sets are relativly easy)
   // for this you need to do emits to contexts to contexts -- really strange
   // within my context search for instance but not if im emitted from context
