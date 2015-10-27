@@ -347,7 +347,6 @@ describe('subscribing on existent nested field', () => {
   })
 
   it('does not fire when parent field is added again', () => {
-    console.log('---')
     a.set({
       aField: 3
     })

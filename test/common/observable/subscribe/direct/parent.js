@@ -23,7 +23,6 @@ describe('subscribing to existing parent', function () {
 
   it('subcribes to parent on a', function () {
 
-    console.error('!!!')
     subscription = a.b.subscribe({
       parent: {
         parent: true
@@ -283,7 +282,6 @@ describe('subscribing to parent from multiple subscribers, reference 2', functio
         field1: true
       }
     }, function (event, meta) {
-      console.log('1111!!')
       count1++
     })
 
@@ -294,7 +292,6 @@ describe('subscribing to parent from multiple subscribers, reference 2', functio
         }
       }
     }, function (event, meta) {
-      console.log('2222!!')
       count2++
     })
 
@@ -326,7 +323,6 @@ describe('subscribing to parent from multiple subscribers, reference, instances'
         field1: true
       }
     }, function (event, meta) {
-      console.log('1', this.path)
       count1++
     })
     child2.nested.subscribe({
@@ -336,7 +332,6 @@ describe('subscribing to parent from multiple subscribers, reference, instances'
         }
       }
     }, function (event, meta) {
-      console.log('2', this.path)
       count2++
     })
   })

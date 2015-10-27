@@ -312,7 +312,6 @@ describe('multiple instances, existing field', () => {
       title: true
     }
   }, function (data, event) {
-    console.log(this.path, '<---', data.origin.path)
     obj[this.key] = data.origin.val
   })
 
@@ -337,7 +336,6 @@ describe('multiple instances, existing field', () => {
 
   xit('updating original does not fire instances', () => {
     Child.prototype.nested.title.val = 'newTitle'
-    console.log('????',son.nested.title.val)
     expect(obj.son).equals('Johnny')
     expect(obj.daughter).equals('Amy')
   })
@@ -359,7 +357,6 @@ describe('multiple instances, non-existing field', () => {
       title: true
     }
   }, function (data, event) {
-    console.log(this.path, '<---', data.origin.path)
     obj[this.key] = data.origin.val
   })
 

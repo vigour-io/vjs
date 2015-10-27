@@ -33,7 +33,6 @@ describe('subscribing to non existing upward, two levels, nested field', () => {
   })
 
   it('fires when added to parent', () => {
-    console.log('----------')
     parent = new Observable({
       field: true,
       a: {
@@ -137,7 +136,6 @@ describe('subscribing to non existing upward, two levels, multiple nested fields
   })
 
   it('fires when power is added to grandParent',() => {
-    console.clear()
     grandParent.set({
       power:true
     })
