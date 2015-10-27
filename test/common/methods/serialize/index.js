@@ -42,7 +42,8 @@ describe('serialize', function () {
     expect(convertedObj.x.y).to.be.undefined
   })
 
-  it('should handle arrays', function () {
+  // move this to another test -- maybe do the array as an option or other method?
+  xit('should handle arrays', function () {
     var original = {
       arr: [
         { val: 1 },

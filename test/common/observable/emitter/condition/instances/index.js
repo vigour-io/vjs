@@ -21,6 +21,38 @@ describe('instances', function () {
     a.val = 'a change!'
   })
 
+  it('fires for inherited condition, new listener', function (done) {
+    var count = 0
+    var A = new Observable({
+      val: 10,
+      on: {
+        data: {
+          condition: function (data, cb, event) {
+            count += 1
+            setTimeout(cb, data)
+          }
+        }
+      }
+    })
+    var a = new A.Constructor({
+      on: {
+        data: {
+          condition: function (data, cb, event) {
+            count += 1
+            setTimeout(cb, data)
+          },
+          val: function () {
+            expect(count).to.equal(2)
+            if (count === 2) {
+              done()
+            }
+          }
+        }
+      }
+    })
+    a.val = 20
+  })
+
   describe('references', function () {
     var Observable = require('../../../../../../lib/observable')
     it('should fire conditions over references over instances', function (done) {
