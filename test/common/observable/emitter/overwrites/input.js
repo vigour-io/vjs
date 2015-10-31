@@ -1,7 +1,7 @@
 'use strict'
 describe('input', function () {
   var Observable = require('../../../../../lib/observable')
-  xit('instance, block update on instance', function () {
+  it('instance, block update on instance', function () {
     var cnt = 0
     var a = new Observable({
       key: 'a',
