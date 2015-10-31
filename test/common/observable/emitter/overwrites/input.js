@@ -7,7 +7,6 @@ describe('input', function () {
       key: 'a',
       on: {
         data (data) {
-          console.log('fire:', data, this.path)
           cnt++
         }
       }
@@ -27,7 +26,6 @@ describe('input', function () {
       key: 'a',
       on: {
         data (data) {
-          console.log('fire:', data, this.path)
           cnt++
         }
       }
@@ -41,10 +39,60 @@ describe('input', function () {
     expect(cnt).to.equal(1)
   })
 
+  it('instance, block update on instance, using val', function () {
+    var cnt = 0
+    var a = new Observable({
+      key: 'a',
+      on: {
+        data (data) {
+          cnt++
+        }
+      }
+    })
+    var b = new a.Constructor({
+      key: 'b',
+      val: 'this is b',
+      randomField: true
+    })
+    cnt = 0
+    a.set({ val: 'this is a!' })
+    expect(cnt).to.equal(1)
+  })
+
+  it('instance, block update on instance, nested removal', function () {
+    var cnt = 0
+    var randomFieldCnt = 0
+    var a = new Observable({
+      key: 'a',
+      on: {
+        data (data) {
+          cnt++
+        }
+      },
+      randomField: {
+        on: {
+          data (data) {
+            randomFieldCnt++
+          }
+        }
+      }
+    })
+    var b = new a.Constructor({
+      key: 'b'
+    })
+    randomFieldCnt = 0
+    b.randomField.remove()
+    expect(randomFieldCnt).to.equal(1)
+    cnt = 0
+    a.set({ randomField: 'this is a!' })
+    expect(randomFieldCnt).to.equal(2)
+    expect(cnt).to.equal(0)
+  })
+
   // so why does context not have the correct data???
   // and what are the implications?
   // same for always emitting instances -- how much heavier does it make things
-  xit('context, block update on context', function () {
+  it('context, block update on context', function () {
     // console.clear()
     var cnt = 0
     var a = new Observable({
@@ -54,7 +102,6 @@ describe('input', function () {
         on: {
           data (data) {
             cnt++
-            console.log('fire:', data, this.path)
           }
         }
       }
