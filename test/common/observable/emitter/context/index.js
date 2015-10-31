@@ -10,7 +10,7 @@ describe('context', function () {
       trackInstances: true,
       b: {
         on: {
-          data: function (event) {
+          data: function () {
             var key = this.path[0]
             cnt[key] = cnt[key] ? cnt[key] + 1 : 1
             cnt.total++
@@ -44,7 +44,8 @@ describe('context', function () {
       expect(test.cnt.blurf).to.equal(1)
     })
 
-    it.skip('should fire zero times for "blurf1", should not resolve context', function () {
+    xit('should fire zero times for "blurf1", should not resolve context', function () {
+      // there is no change so prob should not resolve context
       test.blurf1 = new test.blurf.Constructor({
         key: 'blurf1',
         b: {
@@ -236,7 +237,11 @@ describe('context', function () {
     })
 
     it('sets a.b and should fire once for "a"', function () {
-      test.a.b.val = 'a'
+      console.clear()
+      test.a.set({
+        b: 'a'
+      })
+      // test.a.b.val = 'a'
       expect(test.cnt.a).to.equal(1)
     })
 
@@ -253,8 +258,8 @@ describe('context', function () {
     })
 
     it('should not fire for "e"', function () {
-      // TOOD: disconnected cactch irrelevant change
-      // now update for update on val a (althgouht its not shared)
+      // TOOD: disconnected catch irrelevant change
+      // now update for update on val a (altough its not shared) FIX!
       expect(test.cnt.e).to.equal(1)
     })
   })
@@ -495,7 +500,6 @@ describe('context', function () {
       expect(measure).to.have.property('secondUseVal').which.equals(1)
     })
   })
-
   // now the test for custom emits (hard case -- sets are relativly easy)
   // for this you need to do emits to contexts to contexts -- really strange
   // within my context search for instance but not if im emitted from context

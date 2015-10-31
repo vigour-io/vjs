@@ -10,4 +10,5 @@ describe('emitter', function () {
   require('./context')
   require('./combined')
   require('./error')
+  require('./overwrites')
 })
