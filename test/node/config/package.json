@@ -16,6 +16,11 @@
     "url": "git://github.com/vigour-io/config"
   },
   "vigour": {
-    "vigoursetting": true
+    "vigoursetting": true,
+    "fromEnvironment": {
+      "val": "default",
+      "env": "CONFIG_PARAM"
+    },
+    "configFiles": ["./extra_config"]
   }
 }
