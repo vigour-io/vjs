@@ -1,7 +1,7 @@
 describe('combined', function () {
   var Observable = require('../../../../../lib/observable')
   it('fires condition trigger', function (done) {
-    console.clear()
+    
     var a = new Observable({
       key: 'a',
       b: {

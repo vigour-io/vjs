@@ -106,7 +106,7 @@ describe('subscribing to different parent with several instances', function () {
   var one
   var two
   var a = new Observable({
-    trackInstances: true,
+    trackInstances: true
   })
 
   it('subcribes to field', function () {

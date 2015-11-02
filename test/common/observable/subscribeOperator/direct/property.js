@@ -289,7 +289,7 @@ describe('subscribing on one non-existent field, one existing field', () => {
 //   })
 
 //   it('subcribes to nested field', () => {
-//     console.clear()
+//     
 //     subscription = a.subscribe({
 //       aField: {
 //         anotherField: true
