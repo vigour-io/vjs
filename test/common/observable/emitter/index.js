@@ -11,4 +11,5 @@ describe('emitter', function () {
   require('./combined')
   require('./error')
   require('./overwrites')
+  require('./data')
 })
