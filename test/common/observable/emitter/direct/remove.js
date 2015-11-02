@@ -27,7 +27,7 @@ describe('remove emitter', function () {
     a.remove()
   })
 
-  xit('can be set using .on method', function () {
+  it('can be set using .on method', function () {
     var a = new Observable()
     var cnt = 0
     a.on('remove', function (data, event) {
