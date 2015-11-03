@@ -12,7 +12,6 @@ describe('data-argument', function () {
       key: 'a',
       on: {
         data (data) {
-          console.log('datax!', this.path, data)
           lastData = data
         }
       },
@@ -20,14 +19,12 @@ describe('data-argument', function () {
         on: {
           data (data) {
             nestedlastData = data
-            console.log('number 2!', data)
           }
         }
       },
       nested: {
         on: {
           data (data) {
-            console.log('datax!2222', this.path, data)
             nestedlastData = data
           }
         }
@@ -52,13 +49,11 @@ describe('data-argument', function () {
     })
 
     it('remove b-nested using set object', function () {
-      console.clear()
-      // instance allready removed or somethig?
-      // b.nested.remove()
-      b.set({ nested: null }) // should fire on on nested as well!
+      b.set({ nested: null })
       expect(nestedlastData).to.equal(null)
     })
-    xit('remove b', function () {
+
+    it('remove b', function () {
       b.remove()
       expect(lastData).to.equal(null)
     })

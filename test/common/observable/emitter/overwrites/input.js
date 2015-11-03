@@ -11,7 +11,7 @@ describe('input', function () {
         }
       }
     })
-    var b = new a.Constructor({
+    var b = new a.Constructor({ //eslint-disable-line
       key: 'b',
       val: 'this is b'
     })
@@ -30,7 +30,7 @@ describe('input', function () {
         }
       }
     })
-    var b = new a.Constructor({
+    var b = new a.Constructor({ //eslint-disable-line
       key: 'b',
       randomField: true
     })
@@ -49,7 +49,7 @@ describe('input', function () {
         }
       }
     })
-    var b = new a.Constructor({
+    var b = new a.Constructor({ //eslint-disable-line
       key: 'b',
       val: 'this is b',
       randomField: true
@@ -106,7 +106,7 @@ describe('input', function () {
         }
       }
     })
-    var b = new a.Constructor({
+    var b = new a.Constructor({ //eslint-disable-line
       key: 'b',
       b: 'this is b!'
     })
