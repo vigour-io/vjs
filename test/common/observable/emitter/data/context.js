@@ -19,17 +19,27 @@ describe('context', function () {
   it('fires listeners in context on creation', function () {
     b = new A({
       key: 'b',
-      field: 'field'
+      field: 'field',
+      field2: 'field2'
     })
-    expect(lastData[0]).to.deep.equal('field')
-    expect(lastData[1]).to.deep.equal({
-      key: 'b',
-      field: 'field'
-    })
+    expect(lastData).to.deep.equal([
+      'field',
+      'field2',
+      {
+        key: 'b',
+        field: 'field',
+        field2: 'field2'
+      }
+    ])
+  })
+
+  it('passes null on remove', function () {
+    b.field2.remove() // order changes since now this is the last executioner
+    expect(lastData).to.deep.equal([ void 0, null ])
   })
 
   it('passes null on remove', function () {
     b.set({ field: null }) // order changes since now this is the last executioner
-    expect(lastData[0]).to.deep.equal(null)
+    expect(lastData).to.deep.equal([ null, void 0 ])
   })
 })
