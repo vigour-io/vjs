@@ -31,27 +31,30 @@ describe('Config', function () {
       expect(someConfig.someField.val).to.equal(value)
     })
     it('should handle arrays', function () {
-      var value = ['an', 'array', 'of', 'strings', '!']
+      var innerValue = 'array'
+      var value = ['an', innerValue, 'of', 'strings', '!']
       var someConfig = new Config({
         someField: value
       })
-      expect(someConfig.someField.val).to.equal(value)
+      expect(someConfig.someField[1].val).to.equal(innerValue)
     })
     it('should handle objects', function () {
-      var value = { good: 'times' }
+      var innerValue = 'times'
+      var value = { good: innerValue }
       var someConfig = new Config({
         someField: value
       })
-      expect(someConfig.someField.val).to.equal(value)
+      expect(someConfig.someField.good.val).to.equal(innerValue)
     })
     it('should handle functions', function () {
+      var innerValue = 'boom'
       var value = function () {
-        console.log('gol.elosnoc')
+        return innerValue
       }
       var someConfig = new Config({
         someField: value
       })
-      expect(someConfig.someField.val).to.equal(value)
+      expect(someConfig.someField.val).to.equal(innerValue)
     })
     it('should handle buffers', function () {
       var value = new Buffer('boom')
