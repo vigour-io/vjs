@@ -9,7 +9,6 @@ describe('context', function () {
     key: 'a',
     on: {
       data (data) {
-        console.log(this._path, data)
         lastData.push(data)
       }
     },
