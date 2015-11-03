@@ -38,7 +38,7 @@ describe('context', function () {
     expect(lastData).to.deep.equal([ void 0, null ])
   })
 
-  it('passes null on remove', function () {
+  it('passes null on remove using set object', function () {
     b.set({ field: null }) // order changes since now this is the last executioner
     expect(lastData).to.deep.equal([ null, void 0 ])
   })
