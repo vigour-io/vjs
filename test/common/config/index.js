@@ -8,6 +8,59 @@ var project_package_json = require('./project_package.json')
 var config
 
 describe('Config', function () {
+  describe('Primitives', function () {
+    it('should handle booleans', function () {
+      var value = true
+      var someConfig = new Config({
+        someField: value
+      })
+      expect(someConfig.someField.val).to.equal(value)
+    })
+    it('should handle numbers', function () {
+      var value = 42
+      var someConfig = new Config({
+        someField: value
+      })
+      expect(someConfig.someField.val).to.equal(value)
+    })
+    it('should handle strings', function () {
+      var value = 'boom'
+      var someConfig = new Config({
+        someField: value
+      })
+      expect(someConfig.someField.val).to.equal(value)
+    })
+    it('should handle arrays', function () {
+      var value = ['an', 'array', 'of', 'strings', '!']
+      var someConfig = new Config({
+        someField: value
+      })
+      expect(someConfig.someField.val).to.equal(value)
+    })
+    it('should handle objects', function () {
+      var value = { good: 'times' }
+      var someConfig = new Config({
+        someField: value
+      })
+      expect(someConfig.someField.val).to.equal(value)
+    })
+    it('should handle functions', function () {
+      var value = function () {
+        console.log('gol.elosnoc')
+      }
+      var someConfig = new Config({
+        someField: value
+      })
+      expect(someConfig.someField.val).to.equal(value)
+    })
+    it('should handle buffers', function () {
+      var value = new Buffer('boom')
+      var someConfig = new Config({
+        someField: value
+      })
+      expect(someConfig.someField.val).to.equal(value)
+    })
+  })
   describe('Merge', function () {
     it('should not crash', function () {
       config = new Config(service_package_json)
