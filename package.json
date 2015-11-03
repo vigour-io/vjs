@@ -1,6 +1,6 @@
 {
-  "name": "vjs",
-  "version": "0.2.1",
+  "name": "vigour-js",
+  "version": "0.2.2",
   "author": "Vigour.io <dev@vigour.io>",
   "repository": {
     "type": "git",
@@ -47,7 +47,7 @@
     "Nika Tomadze <nika@vigour.io>",
     "Michiel Van Liempt <michiel@vigour.io>"
   ],
-  "license": "GPL",
+  "license": "MIT",
   "devDependencies": {
     "dmd": "^1.1.1",
     "jsdoc-to-markdown": "^1.1.1"

@@ -1,5 +1,5 @@
 'use strict'
-describe('data-argument', function () {
+describe('direct', function () {
   require('./property')
   require('./nested')
 })
