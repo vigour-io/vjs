@@ -2,58 +2,34 @@
 describe('context', function () {
   var Observable = require('../../../../../lib/observable')
   var lastData
-  var nestedlastData
   beforeEach(function () {
-    nestedlastData = void 0
-    lastData = void 0
+    lastData = []
   })
-  var a = new Observable({
+  var A = new Observable({
     key: 'a',
     on: {
       data (data) {
-        lastData = data
+        lastData.push(data)
       }
     },
-    nested2: {
-      on: {
-        data (data) {
-          nestedlastData = data
-        }
-      }
-    },
-    nested: {
-      on: {
-        data (data) {
-          nestedlastData = data
-        }
-      }
-    }
-  })
-  var b
-  it('data should be a setobj', function () {
-    b = new a.Constructor({
-      key: 'b'
+    ChildConstructor: 'Constructor'
+  }).Constructor
+  var b //eslint-disable-line
+
+  it('fires listeners in context on creation', function () {
+    b = new A({
+      key: 'b',
+      field: 'field'
     })
-    expect(lastData).to.deep.equal({ key: 'b' })
+    expect(lastData[0]).to.deep.equal('field')
+    expect(lastData[1]).to.deep.equal({
+      key: 'b',
+      field: 'field'
+    })
   })
 
-  it('set b-nested2', function () {
-    b.set({ nested2: 'b' }) // should fire on on nested as well!
-    expect(nestedlastData).to.equal('b')
-  })
-
-  it('remove b-nested2', function () {
-    b.nested2.remove()
-    expect(nestedlastData).to.equal(null)
-  })
-
-  it('remove b-nested using set object', function () {
-    b.set({ nested: null })
-    expect(nestedlastData).to.equal(null)
-  })
-
-  it('remove b', function () {
-    b.remove()
-    expect(lastData).to.equal(null)
+  it('passes null on remove', function () {
+    b.set({ field: null }) // order changes since now this is the last executioner
+    expect(lastData[0]).to.deep.equal(null)
   })
 })
