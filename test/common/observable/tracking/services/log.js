@@ -2,7 +2,7 @@ var trackerEmitter = require('../../../../../lib/tracking/emitter')
 var Observable = require('../../../../../lib/observable/')
 var tracking = require('../../../../../lib/tracking/')
 
-trackerEmitter.inject(require('../../../../../lib/tracking/service/log'))
+trackerEmitter.inject(require('../../../../../lib/tracking/service'))
 
 describe('Log service with Array', function () {
   var example = ['new', 'parent', 'click', 'remove']
@@ -26,16 +26,19 @@ describe('Log service with Array', function () {
       eventobject: {
         eventOriginator: "b",
         eventType: "click",
-        stamp: 4
+        stamp: "",
       },
       id: "b._on.click"
     }
+
     trackerEmitter.services.test = function (obj) {
+      expected.eventobject.stamp = obj.eventobject.stamp.val
       expect(obj.plain()).to.eql(expected)
     }
     bInstance.b.emit(example[2])
     delete trackerEmitter.services.test
   })
+
   it('should fire once if one event is emitted', function () {
     var cnt = 0
     trackerEmitter.services.test = function (obj) {
