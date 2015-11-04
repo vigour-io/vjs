@@ -39,20 +39,20 @@ describe('property', function () {
   })
 
   it('passes null on remove', function () {
-    c.field2.remove() // order changes since now this is the last executioner
-    expect(lastData).to.deep.equal([{removed: [ 'field2' ]}])
+    c.field2.remove()
+    expect(lastData).to.deep.equal([{ removed: [ 'field2' ] }])
   })
 
   it('passes null on remove using set object', function () {
-    c.set({ field: null }) // order changes since now this is the last executioner
-    expect(lastData).to.deep.equal([{removed: [ 'field' ]}])
+    c.set({ field: null })
+    expect(lastData).to.deep.equal([{ removed: [ 'field' ] }])
   })
 
   it('passes null on constructor remove using set object', function () {
-    b.set({ field3: null }) // order changes since now this is the last executioner
+    b.set({ field3: null })
     expect(lastData).to.deep.equal([
-      {removed: [ 'field3' ]},
-      {removed: [ 'field3' ]}
+      { removed: [ 'field3' ] },
+      { removed: [ 'field3' ] }
     ])
   })
 })
