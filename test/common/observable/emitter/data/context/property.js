@@ -1,6 +1,6 @@
 'use strict'
-describe('context', function () {
-  var Observable = require('../../../../../lib/observable')
+describe('property', function () {
+  var Observable = require('../../../../../../lib/observable')
   var lastData
   beforeEach(function () {
     lastData = []
@@ -8,7 +8,7 @@ describe('context', function () {
   var A = new Observable({
     key: 'a',
     on: {
-      data (data) {
+      property (data) {
         lastData.push(data)
       }
     },
@@ -22,6 +22,9 @@ describe('context', function () {
       key: 'b',
       field3: 'field3'
     })
+    expect(lastData[0])
+      .to.have.property('added')
+      .which.deep.equals(['field3'])
   })
 
   it('fires listeners for a second context', function () {
@@ -30,29 +33,26 @@ describe('context', function () {
       field: 'field',
       field2: 'field2'
     })
-    expect(lastData).to.deep.equal([
-      'field',
-      'field2',
-      {
-        key: 'c',
-        field: 'field',
-        field2: 'field2'
-      }
-    ])
+    expect(lastData).to.deep.equal([{
+      added: [ 'field', 'field2' ]
+    }])
   })
 
   it('passes null on remove', function () {
     c.field2.remove() // order changes since now this is the last executioner
-    expect(lastData).to.deep.equal([ void 0, null ])
+    expect(lastData).to.deep.equal([{removed: [ 'field2' ]}])
   })
 
   it('passes null on remove using set object', function () {
     c.set({ field: null }) // order changes since now this is the last executioner
-    expect(lastData).to.deep.equal([ null, void 0 ])
+    expect(lastData).to.deep.equal([{removed: [ 'field' ]}])
   })
 
   it('passes null on constructor remove using set object', function () {
     b.set({ field3: null }) // order changes since now this is the last executioner
-    expect(lastData).to.deep.equal([ null, null, void 0, void 0 ])
+    expect(lastData).to.deep.equal([
+      {removed: [ 'field3' ]},
+      {removed: [ 'field3' ]}
+    ])
   })
 })
