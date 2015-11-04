@@ -21,6 +21,10 @@ describe('nested', function () {
       a.b.val = 21
       expect(dataRecieved).to.equal(21)
     })
+    it('remove a.b pass correct data', function () {
+      a.set({b: null})
+      expect(dataRecieved).to.equal(null)
+    })
   })
 
   describe('ChildConstructor', function () {

@@ -10,7 +10,7 @@ describe('remove emitter', function () {
         }
       }
     })
-    
+
     a.remove()
   })
 
