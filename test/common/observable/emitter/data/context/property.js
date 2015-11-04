@@ -17,7 +17,7 @@ describe('property', function () {
   var b
   var c
 
-  it('fires listeners in context on creation', function () {
+  it('passes added fields for new properties', function () {
     b = new A({
       key: 'b',
       field3: 'field3'
@@ -27,7 +27,8 @@ describe('property', function () {
       .which.deep.equals(['field3'])
   })
 
-  it('fires listeners for a second context', function () {
+  it('passes added fields for new properties', function () {
+    // double check this
     c = new b.Constructor({
       key: 'c',
       field: 'field',
@@ -38,17 +39,17 @@ describe('property', function () {
     }])
   })
 
-  it('passes null on remove', function () {
+  it('passes removed fields on remove', function () {
     c.field2.remove()
     expect(lastData).to.deep.equal([{ removed: [ 'field2' ] }])
   })
 
-  it('passes null on remove using set object', function () {
+  it('passes removed fields on remove using set object', function () {
     c.set({ field: null })
     expect(lastData).to.deep.equal([{ removed: [ 'field' ] }])
   })
 
-  it('passes null on constructor remove using set object', function () {
+  it('passes removed fields on constructor remove using set object', function () {
     b.set({ field3: null })
     expect(lastData).to.deep.equal([
       { removed: [ 'field3' ] },
