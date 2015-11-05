@@ -1,6 +1,6 @@
 'use strict'
-describe('context', function () {
-  var Observable = require('../../../../../lib/observable')
+describe('ChildConstructor', function () {
+  var Observable = require('../../../../../../lib/observable')
   var lastData
   beforeEach(function () {
     lastData = []
