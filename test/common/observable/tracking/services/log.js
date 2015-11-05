@@ -2,10 +2,21 @@ var trackerEmitter = require('../../../../../lib/tracking/emitter')
 var Observable = require('../../../../../lib/observable/')
 var tracking = require('../../../../../lib/tracking/')
 
-trackerEmitter.inject(require('../../../../../lib/tracking/service'))
+trackerEmitter.inject(require('../../../../../lib/tracking/service/'))
 
-describe('Log service with Array', function () {
-  var example = ['new', 'parent', 'click', 'remove']
+describe('Log service with Array', function() {
+
+  beforeEach(function() {
+    sandbox = sinon.sandbox.create()
+    sandbox.stub(window.console, "log")
+    sandbox.stub(window.console, "error")
+  })
+
+  afterEach(function () {
+    sandbox.restore()
+  })
+
+  var example = ['click', 'lol']
   var a = new Observable({
     b: {
       inject: tracking,
@@ -16,50 +27,25 @@ describe('Log service with Array', function () {
     }
   })
 
-  var bInstance = new a.Constructor ({
+  var bInstance = new a.Constructor({
 
   })
 
-  it('should log plain object with datalayer content', function () {
-    var expected = {
-      app: "my app id",
-      eventobject: {
-        eventOriginator: "b",
-        eventType: "click",
-        stamp: "",
-      },
-      id: "b._on.click"
-    }
-
-    trackerEmitter.services.test = function (obj) {
-      expected.eventobject.stamp = obj.eventobject.stamp.val
-      expect(obj.plain()).to.eql(expected)
-    }
-    bInstance.b.emit(example[2])
-    delete trackerEmitter.services.test
-  })
-
-  it('should fire once if one event is emitted', function () {
+  it('should fire log once', function(done) {
     var cnt = 0
-    trackerEmitter.services.test = function (obj) {
-      cnt ++
-    }
-    bInstance.b.emit(example[0])
-    expect(cnt).to.equal(1)
-    delete trackerEmitter.services.test
+    var logSpy = sinon.spy(trackerEmitter.services,'log')
+    a.b.emit('click')
+    expect(logSpy.calledOnce)
+    done()
   })
 
-  it('should fire multiple times if multiple events are emitted', function () {
+  it('should fire log once', function(done) {
     var cnt = 0
-    trackerEmitter.services.test = function (obj) {
-      cnt ++
-    }
-    bInstance.b.emit(example[0])
-    bInstance.b.emit(example[1])
-    bInstance.b.emit(example[2])
-    bInstance.b.remove()
-
-    delete trackerEmitter.services.test
-    // bInstance.b.emit(example[2])
+    var logSpy = sinon.spy(trackerEmitter.services,'log')
+    a.b.emit('click')
+    expect(logSpy.calledOnce)
+    sinon.assert.calledWithMatch(console.log, "TRACKER LOGGER:")
+    done()
   })
+
 })
