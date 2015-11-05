@@ -7,9 +7,7 @@ describe('Config in node.js', function () {
   process.env.CONFIG_PARAM = 'thisIsFromEnvironment'
   var config
   it('should not crash', function () {
-    config = new Config({
-      _packageDir: __dirname
-    })
+    config = new Config()
   })
 
   it('should look for package.json at the location specified by `_packageDir`',
@@ -35,12 +33,6 @@ describe('Config in node.js', function () {
       .which.has.property('val', true)
   })
 
-  it('should look for package.json in the current working directory if `_packageDir` is not provided', function () {
-    var configTwo = new Config()
-    expect(configTwo).to.have.property('name')
-      .which.has.property('val', 'vjs')
-  })
-
   it('should have vigour settings from package', function () {
     expect(config).to.have.property('vigoursetting')
       .which.has.property('val', true)
@@ -51,4 +43,15 @@ describe('Config in node.js', function () {
     expect(config).to.have.property('inlineparam')
       .which.has.property('val', true)
   })
+
+  it('should look for package.json at `_packageDir` if provided',
+    function () {
+      var configTwo = new Config({
+        _packageDir: __dirname + '/otherFolder'
+      })
+      expect(configTwo).to.have.property('name')
+        .which.has.property('val', 'otherPackage')
+    }
+  )
+
 })
