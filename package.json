@@ -19,8 +19,7 @@
     "url": "https://github.com/vigour-io/vjs/issues"
   },
   "dependencies": {
-    "lodash": "3.10.x",
-    "murmurhash3js": "3.0.1"
+    "lodash": "3.10.x"
   },
   "homepage": "https://github.com/vigour-io/vjs",
   "directories": {
@@ -48,10 +47,6 @@
     "Michiel Van Liempt <michiel@vigour.io>"
   ],
   "license": "MIT",
-  "devDependencies": {
-    "dmd": "^1.1.1",
-    "jsdoc-to-markdown": "^1.1.1"
-  },
   "gaston": {
     "source-maps": true
   },
