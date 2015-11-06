@@ -21,17 +21,12 @@
   "dependencies": {
     "lodash": "3.10.x"
   },
-  "directories": {
-    "lib": "."
-  },
+  "main": "./lib",
   "browserify": {
     "./lib/base/iterator/": "./lib/base/iterator/browser.js"
   },
   "homepage": "https://github.com/vigour-io/vjs",
-  "directories": {
-    "example": "example",
-    "test": "test"
-  },
+
   "keywords": [
     "javascript",
     "framework",
