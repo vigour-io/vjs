@@ -46,17 +46,18 @@ describe('subscribing to single existing field', () => {
   })
 
   it('fires when field is added again', () => {
+    console.clear()
     a.set({
       aField: 3
     })
     expect(count).equals(1)
   })
 
-  it('added data listener and removed property and reference listener', () => {
-    var listeners = testListeners(subscription)
-    expect(listeners.length).equals(1)
-    expect(listeners).contains('data')
-  })
+  // it('added data listener and removed property and reference listener', () => {
+  //   var listeners = testListeners(subscription)
+  //   expect(listeners.length).equals(1)
+  //   expect(listeners).contains('data')
+  // })
 })
 
 describe('subscribing on non-existent field', () => {
