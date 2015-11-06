@@ -21,16 +21,22 @@
   "dependencies": {
     "lodash": "3.10.x"
   },
+  "directories": {
+    "lib": "."
+  },
+  "browserify": {
+    "./lib/base/iterator/": "./lib/base/iterator/browser.js"
+  },
   "homepage": "https://github.com/vigour-io/vjs",
   "directories": {
-    "example": "examples",
+    "example": "example",
     "test": "test"
   },
   "keywords": [
     "javascript",
     "framework",
     "browserify",
-    "performance",
+    "observable",
     "crossplatform"
   ],
   "contributors": [
@@ -49,9 +55,6 @@
   "license": "MIT",
   "gaston": {
     "source-maps": true
-  },
-  "browser": {
-    "./lib/base/iterator/": "./lib/base/iterator/browser.js"
   },
   "vigour": {
     "services": {
