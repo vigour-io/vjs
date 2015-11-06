@@ -1,6 +1,6 @@
 {
   "name": "vigour-js",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "Vigour.io <dev@vigour.io>",
   "repository": {
     "type": "git",
@@ -26,7 +26,6 @@
     "./lib/base/iterator/": "./lib/base/iterator/browser.js"
   },
   "homepage": "https://github.com/vigour-io/vjs",
-
   "keywords": [
     "javascript",
     "framework",
