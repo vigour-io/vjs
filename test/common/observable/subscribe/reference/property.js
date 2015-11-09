@@ -62,12 +62,12 @@ describe('subscribing to single existing field, existing reference', () => {
     expect(count).equals(1)
   })
 
-  it('fires when field is created on obj', () => {
-    b.set({
-      aField: true
-    })
-    expect(count).equals(1)
-  })
+  // it('fires when field is created on obj', () => {
+  //   b.set({
+  //     aField: true
+  //   })
+  //   expect(count).equals(1)
+  // })
 
   // it('added data listener on b.aField', () => {
   //   var listeners = testListeners(b.aField)
