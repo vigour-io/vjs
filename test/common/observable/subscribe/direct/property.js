@@ -28,6 +28,11 @@ describe('subscribing to single existing field', () => {
     expect(listeners).contains('data')
   })
 
+  it('fires when calling .run()', () => {
+    subscription.run()
+    expect(count).equals(1)
+  })
+
   it('fires when field is updated', () => {
     a.aField.val = 2
     expect(count).equals(1)
@@ -53,11 +58,11 @@ describe('subscribing to single existing field', () => {
     expect(count).equals(1)
   })
 
-  // it('added data listener and removed property and reference listener', () => {
-  //   var listeners = testListeners(subscription)
-  //   expect(listeners.length).equals(1)
-  //   expect(listeners).contains('data')
-  // })
+  it('added data listener and removed property and reference listener', () => {
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(1)
+    expect(listeners).contains('data')
+  })
 })
 
 describe('subscribing on non-existent field', () => {
@@ -80,10 +85,20 @@ describe('subscribing on non-existent field', () => {
     expect(listeners).contains('property')
   })
 
+  it('doesnt fire when calling .run()', () => {
+    subscription.run()
+    expect(count).equals(0)
+  })
+
   it('fires when field is created', () => {
     a.set({
       aField: true
     })
+    expect(count).equals(1)
+  })
+
+  it('fires when calling .run()', () => {
+    subscription.run()
     expect(count).equals(1)
   })
 
@@ -117,11 +132,11 @@ describe('subscribing on non-existent field', () => {
     expect(count).equals(1)
   })
 
-  // it('added data listener and removed property and reference listener', () => {
-  //   var listeners = testListeners(subscription)
-  //   expect(listeners.length).equals(1)
-  //   expect(listeners).contains('data')
-  // })
+  it('added data listener and removed property and reference listener', () => {
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(1)
+    expect(listeners).contains('data')
+  })
 })
 
 describe('subscribing on one non-existent field, one existing field', () => {

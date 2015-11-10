@@ -39,6 +39,11 @@ describe('subscribing to existing parent', function () {
     expect(listeners).contains('data')
   })
 
+  it('fires when calling .run()', () => {
+    subscription.run()
+    expect(count).equals(1)
+  })
+
   it('fires when parent changes', function () {
     parent.val = 1
     expect(count).equals(1)
@@ -87,6 +92,11 @@ describe('subscribing to nested field on existing parent', function () {
     expect(listeners).contains('data')
   })
 
+  it('fires when calling .run()', () => {
+    subscription.run()
+    expect(count).equals(1)
+  })
+
   it('fires when a.b changes', function () {
     a.b.val = 1
     expect(count).equals(1)
@@ -112,11 +122,11 @@ describe('subscribing to nested field on existing parent', function () {
     expect(count).equals(1)
   })
 
-  // it('added a data listener, removed other listeners', () => {
-  //   var listeners = testListeners(subscription)
-  //   expect(listeners.length).equals(1)
-  //   expect(listeners).contains('data')
-  // })
+  it('added a data listener, removed other listeners', () => {
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(1)
+    expect(listeners).contains('data')
+  })
 })
 
 describe('subscribing to non existing parent', function () {
@@ -310,49 +320,49 @@ describe('subscribing to parent from multiple subscribers, reference 2', functio
   })
 })
 
-// describe('subscribing to parent from multiple subscribers, reference, instances', function () {
-//   var count1 = 0
-//   var count2 = 0
-//   var ref = new Observable({
-//     field1: true,
-//     field2: true
-//   })
-//   var a = new Observable()
-//   var child1 = new Observable()
-//   var child2 = new Observable({
-//     nested: {}
-//   })
+describe('subscribing to parent from multiple subscribers, reference, instances', function () {
+  var count1 = 0
+  var count2 = 0
+  var ref = new Observable({
+    field1: true,
+    field2: true
+  })
+  var a = new Observable()
+  var child1 = new Observable()
+  var child2 = new Observable({
+    nested: {}
+  })
 
-//   it('subcribes to parent.field on child1 and child2', function () {
-//     child1.subscribe({
-//       parent: {
-//         field1: true
-//       }
-//     }, function (event, meta) {
-//       count1++
-//     })
-//     child2.nested.subscribe({
-//       parent: {
-//         parent: {
-//           field2: true
-//         }
-//       }
-//     }, function (event, meta) {
-//       count2++
-//     })
-//   })
+  it('subcribes to parent.field on child1 and child2', function () {
+    child1.subscribe({
+      parent: {
+        field1: true
+      }
+    }, function (event, meta) {
+      count1++
+    })
+    child2.nested.subscribe({
+      parent: {
+        parent: {
+          field2: true
+        }
+      }
+    }, function (event, meta) {
+      count2++
+    })
+  })
 
-//   it('added parent and reference listener', () => {
-//     a.set({
-//       val: ref,
-//       child1set: {
-//         useVal: new child1.Constructor()
-//       },
-//       child2set: {
-//         useVal: new child2.Constructor()
-//       }
-//     })
-//     expect(count1).equals(1)
-//     expect(count2).equals(1)
-//   })
-// })
+  it('added parent and reference listener', () => {
+    a.set({
+      val: ref,
+      child1set: {
+        useVal: new child1.Constructor()
+      },
+      child2set: {
+        useVal: new child2.Constructor()
+      }
+    })
+    expect(count1).equals(1)
+    expect(count2).equals(1)
+  })
+})

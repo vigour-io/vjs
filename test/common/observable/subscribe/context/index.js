@@ -53,7 +53,6 @@ describe('spawned listeners should not fire in context', function () {
   var TestObservable = new Observable({
     define: {
       emit: function (type) {
-        console.log('???',type)
         measure.type[type] = measure.type[type] ? measure.type[type] + 1 : 1
         return emit.apply(this, arguments)
       }

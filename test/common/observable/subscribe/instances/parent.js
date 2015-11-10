@@ -115,6 +115,7 @@ describe('subscribing to different parent with several instances', function () {
         field: true
       }
     }, function (data) {
+      console.log('FIRES', this.key, data.origin.path, data.origin.val)
       obj[this.key] = data.origin.val
       count++
     })
@@ -147,34 +148,35 @@ describe('subscribing to different parent with several instances', function () {
   })
 
   it('change one.field', function () {
+    console.log(' change onf field to 3')
     one.field.val = 3
     expect(obj.b).equals(2)
     expect(obj.a).equals(3)
   })
 
-  it('change two.field', function () {
-    two.field.val = 4
-    expect(obj.b).equals(4)
-    expect(obj.a).equals(3)
-  })
+  // it('change two.field', function () {
+  //   two.field.val = 4
+  //   expect(obj.b).equals(4)
+  //   expect(obj.a).equals(3)
+  // })
 
-  it('add another instance to parent two', function () {
-    two.set({
-      c:{
-        useVal:new a.Constructor({
-          key:'c'
-        })
-      }
-    })
-    expect(obj.c).equals(4)
-  })
+  // it('add another instance to parent two', function () {
+  //   two.set({
+  //     c:{
+  //       useVal:new a.Constructor({
+  //         key:'c'
+  //       })
+  //     }
+  //   })
+  //   expect(obj.c).equals(4)
+  // })
 
-  it('change two.field', function () {
-    two.field.val = 5
-    expect(obj.c).equals(5)
-    expect(obj.b).equals(5)
-    expect(obj.a).equals(3)
-  })
+  // it('change two.field', function () {
+  //   two.field.val = 5
+  //   expect(obj.c).equals(5)
+  //   expect(obj.b).equals(5)
+  //   expect(obj.a).equals(3)
+  // })
 
   //   new Observable({
   //     key:'two',
