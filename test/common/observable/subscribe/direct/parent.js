@@ -115,7 +115,6 @@ describe('subscribing to nested field on existing parent', function () {
   })
 
   it('fires when a.b is added again', function () {
-    console.clear()
     a.set({
       b: true
     })
@@ -289,13 +288,11 @@ describe('subscribing to parent from multiple subscribers, reference 2', functio
   })
 
   it('subcribes to parent.field on a.child1 and a.child2', function () {
-    console.clear()
     a.child1.subscribe({
       parent: {
         field1: true
       }
     }, function (event, meta) {
-      console.error('-----1')
       count1++
     })
 
@@ -306,14 +303,12 @@ describe('subscribing to parent from multiple subscribers, reference 2', functio
         }
       }
     }, function (event, meta) {
-      console.error('-----2')
       count2++
     })
 
   })
 
   it('fires for both', () => {
-    console.error('------setting ref')
     a.set(ref)
     expect(count1).equals(1)
     expect(count2).equals(1)

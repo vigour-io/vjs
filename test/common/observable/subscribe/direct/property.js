@@ -51,7 +51,6 @@ describe('subscribing to single existing field', () => {
   })
 
   it('fires when field is added again', () => {
-    console.clear()
     a.set({
       aField: 3
     })
