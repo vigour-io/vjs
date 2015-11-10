@@ -4,6 +4,7 @@
 var Config = require('../../../lib/config')
 var service_package_json = require('./service_package.json')
 var project_package_json = require('./project_package.json')
+var isEmpty = require('../../../lib/util/is/empty')
 // var ISNODE = require('../../../lib/util/isnode')
 var config
 
@@ -64,6 +65,7 @@ describe('Config', function () {
       expect(someConfig.someField.val).to.equal(value)
     })
   })
+
   describe('Merge', function () {
     it('should not crash', function () {
       config = new Config(service_package_json)
@@ -174,4 +176,16 @@ describe('Config', function () {
   //     })
   //   })
   // }
+
+  describe('Empties', function () {
+    it('should not crash', function () {
+      config = new Config(service_package_json)
+    })
+    it('should declare empty an empty object', function () {
+      expect(isEmpty(config.one)).to.equal(true)
+    })
+    it('should declare empty an object with only a description', function () {
+      expect(isEmpty(config.two)).to.equal(true)
+    })
+  })
 })
