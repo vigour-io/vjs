@@ -11,10 +11,6 @@
         "#develop": false
       }
     },
-    "one": {},
-    "two": {
-      "description": "Saves the world"
-    },
     "services": {
       "super-service": {
         "val": "{service}.{app}.{domain}",

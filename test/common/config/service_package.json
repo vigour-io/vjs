@@ -1,6 +1,10 @@
 {
   "name": "super-service",
   "vigour": {
+    "one": {},
+    "two": {
+      "_description": "Saves the world"
+    },
     "service": "super-service",
     "category": "services",
     "userdecay": {
