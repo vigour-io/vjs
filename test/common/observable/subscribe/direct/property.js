@@ -7,6 +7,29 @@ beforeEach(() => {
   count = 0
 })
 
+describe('subscribing to self', () => {
+  var subscription
+  var a = new Observable()
+
+  it('subcribes to field', () => {
+    subscription = a.subscribe(true, function (event, meta) {
+      count++
+    })
+    expect(count).equals(0)
+  })
+
+  it('added a data listener', () => {
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(1)
+    expect(listeners).contains('data')
+  })
+
+  it('fires when updated', () => {
+    a.val = 1
+    expect(count).equals(1)
+  })
+})
+
 describe('subscribing to single existing field', () => {
   var subscription
   var a = new Observable({
