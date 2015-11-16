@@ -251,7 +251,7 @@ beforeEach(() => {
 //   })
 
 //   it('subscribes to field', () => {
-//   	console.log('-----one-----')
+//    console.log('-----one-----')
 //     subscriptionOne = a.one.subscribe({
 //       upward: {
 //         title: true
@@ -266,7 +266,7 @@ beforeEach(() => {
 //         title: true
 //       }
 //     }, function (data, event) {
-//     	console.log('fun two!',countTwo)
+//      console.log('fun two!',countTwo)
 //       countTwo++
 //     })
 
@@ -274,9 +274,9 @@ beforeEach(() => {
 //   })
 
 //   it('fires when updated', () => {
-//   	console.log('-----set-----')
+//    console.log('-----set-----')
 //     parent.set({
-//     	title:'fonz',
+//      title:'fonz',
 //       child: {
 //         useVal: new a.Constructor()
 //       }
@@ -286,40 +286,114 @@ beforeEach(() => {
 //   })
 // })
 
-describe('removing reference listeners after reference switch', () => {
-  var ref1 = new Observable({
-    title: 'refOne'
-  })
-  var ref2 = new Observable({
-    title: 'refOne'
-  })
-  var a = new Observable(ref1)
+// describe('removing reference listeners after reference switch', () => {
+//   var ref1 = new Observable({
+//     title: 'refOne'
+//   })
+//   var ref2 = new Observable({
+//     title: 'refOne'
+//   })
+//   var a = new Observable(ref1)
 
-  it('subscribes to field', () => {
+//   it('subscribes to field', () => {
+//     a.subscribe({
+//       title: true
+//     }, function (data, event) {
+//       countOne++
+//     })
+//     expect(countOne).equals(0)
+//   })
+
+//   it('fires when ref1 is updated', function () {
+//     ref1.title.val = 'smur'
+//     expect(countOne).equals(1)
+//   })
+
+//   it('ref1 has listeners', function () {
+//     expect(testListeners(ref1.title).length).equals(1)
+//   })
+
+//   it('switch to ref2 => ref2 has listeners', function () {
+//    a.set(ref2)
+//     expect(testListeners(ref2.title).length).equals(1)
+//   })
+
+//   it('removed ref1 listeners', function () {
+//     expect(testListeners(ref1.title).length).equals(0)
+//   })
+// })
+
+describe('instances', function () {
+  var counter = {
+    a: 0,
+    b: 0,
+    c: 0
+  }
+  var a = new Observable({
+    key: 'a',
+    nested: {
+      title: 'aNestedTitle'
+    },
+    title: 'aTitle'
+  })
+
+  var b
+  var c
+
+  it('subscribes to field', function () {
     a.subscribe({
-      title: true
+      title: true,
+      nested: {
+        title: true
+      },
+      bField: true,
+      cField: true
     }, function (data, event) {
-      countOne++
+      console.log('fire!',this.key)
+      counter[this.key]++
     })
-    expect(countOne).equals(0)
+
+    expect(counter.a).equals(0)
   })
 
-  it('fires when ref1 is updated', function () {
-    ref1.title.val = 'smur'
-    expect(countOne).equals(1)
+  it('make some instances', function () {
+    b = new a.Constructor({
+      key: 'b'
+    })
+    c = new b.Constructor({
+      key: 'c'
+    })
+    expect(counter.a).equals(0)
+    expect(counter.b).equals(0)
+    expect(counter.c).equals(0)
   })
 
-  it('ref1 has listeners', function () {
-    expect(testListeners(ref1.title).length).equals(1)
-  })
-  
-  it('switch to ref2 => ref2 has listeners', function () {
-  	console.log('-----switch reference-----')
-  	a.set(ref2)
-    expect(testListeners(ref2.title).length).equals(1)
+  it('change on original, fires for all instances', function () {
+    a.set({
+      title:'niceTitle'
+    })
+    expect(counter.a).equals(1)
+    expect(counter.b).equals(1)
+    expect(counter.c).equals(1)
   })
 
-  it('removed ref1 listeners', function () {
-    expect(testListeners(ref1.title).length).equals(0)
+  it('change on instance, fires for all his instances', function () {
+    b.set({
+      bField:'niceField'
+    })
+    expect(counter.a).equals(1)
+    expect(counter.b).equals(2)
+    expect(counter.c).equals(2)
+  })
+
+  it('setting same on original, only fires for original', function () {
+    console.clear()
+    a.set({
+      bField:'aNiceField'
+    })
+    console.log('------>',a.bField.val,b.bField.val)
+    expect(counter.a).equals(2)
+    expect(counter.b).equals(2)
+    expect(counter.c).equals(2)
   })
 })
