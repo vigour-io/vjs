@@ -273,7 +273,6 @@ describe('base', function () {
       expect(c._parent).to.be.null
     })
   })
-
   require('./output.js')
   require('./property.js')
 })
