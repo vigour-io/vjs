@@ -18,7 +18,7 @@ describe('subscribe', function () {
     require('./context')
   })
 
-  // describe('util', function () {
-  //   require('./util')
-  // })
+  describe('combined', function () {
+    require('./combined')
+  })
 })
