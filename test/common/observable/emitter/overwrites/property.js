@@ -21,7 +21,7 @@ describe('property', function () {
     expect(cnt).to.equal(1)
   })
 
-  it('instance, block update on instance, nested, property', function () {
+  it('instance, block update on instance when removed, nested, property', function () {
     var cnt = 0
     var a = new Observable({
       key: 'a',
