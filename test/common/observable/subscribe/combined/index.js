@@ -241,47 +241,85 @@ beforeEach(() => {
 //   })
 // })
 
-describe('multiple subs on same target, upward, instance', () => {
-  var subscriptionOne
-  var subscriptionTwo
-  var parent = new Observable()
-  var a = new Observable({
-    one: {},
-    two: {}
+// describe('multiple subs on same target, upward, instance', () => {
+//   var subscriptionOne
+//   var subscriptionTwo
+//   var parent = new Observable()
+//   var a = new Observable({
+//     one: {},
+//     two: {}
+//   })
+
+//   it('subscribes to field', () => {
+//   	console.log('-----one-----')
+//     subscriptionOne = a.one.subscribe({
+//       upward: {
+//         title: true
+//       }
+//     }, function (data, event) {
+//       countOne++
+//     })
+
+//     console.log('-----two-----')
+//     subscriptionTwo = a.two.subscribe({
+//       upward: {
+//         title: true
+//       }
+//     }, function (data, event) {
+//     	console.log('fun two!',countTwo)
+//       countTwo++
+//     })
+
+//     expect(countOne).equals(0)
+//   })
+
+//   it('fires when updated', () => {
+//   	console.log('-----set-----')
+//     parent.set({
+//     	title:'fonz',
+//       child: {
+//         useVal: new a.Constructor()
+//       }
+//     })
+//     expect(countOne).equals(1)
+//     expect(countTwo).equals(1)
+//   })
+// })
+
+describe('removing reference listeners after reference switch', () => {
+  var ref1 = new Observable({
+    title: 'refOne'
   })
+  var ref2 = new Observable({
+    title: 'refOne'
+  })
+  var a = new Observable(ref1)
 
   it('subscribes to field', () => {
-  	console.log('-----one-----')
-    subscriptionOne = a.one.subscribe({
-      upward: {
-        title: true
-      }
+    a.subscribe({
+      title: true
     }, function (data, event) {
       countOne++
     })
-
-    console.log('-----two-----')
-    subscriptionTwo = a.two.subscribe({
-      upward: {
-        title: true
-      }
-    }, function (data, event) {
-    	console.log('fun two!',countTwo)
-      countTwo++
-    })
-
     expect(countOne).equals(0)
   })
 
-  it('fires when updated', () => {
-  	console.log('-----set-----')
-    parent.set({
-    	title:'fonz',
-      child: {
-        useVal: new a.Constructor()
-      }
-    })
+  it('fires when ref1 is updated', function () {
+    ref1.title.val = 'smur'
     expect(countOne).equals(1)
-    expect(countTwo).equals(1)
+  })
+
+  it('ref1 has listeners', function () {
+    expect(testListeners(ref1.title).length).equals(1)
+  })
+  
+  it('switch to ref2 => ref2 has listeners', function () {
+  	console.log('-----switch reference-----')
+  	a.set(ref2)
+    expect(testListeners(ref2.title).length).equals(1)
+  })
+
+  it('removed ref1 listeners', function () {
+    expect(testListeners(ref1.title).length).equals(0)
   })
 })
