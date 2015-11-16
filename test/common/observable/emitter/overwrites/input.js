@@ -89,9 +89,9 @@ describe('input', function () {
     expect(cnt).to.equal(0)
   })
 
-  // so why does context not have the correct data???
-  // and what are the implications?
-  // same for always emitting instances -- how much heavier does it make things
+  // // so why does context not have the correct data???
+  // // and what are the implications?
+  // // same for always emitting instances -- how much heavier does it make things
   it('context, block update on context', function () {
     // console.clear()
     var cnt = 0
@@ -113,6 +113,26 @@ describe('input', function () {
     cnt = 0
     // console.clear()
     a.b.val = 'this is b!'
+    expect(cnt).to.equal(1)
+  })
+
+  it('instance, block update on instance, nested, property', function () {
+    console.clear()
+    var cnt = 0
+    var a = new Observable({
+      key: 'a',
+      on: {
+        property (data) {
+          cnt++
+        }
+      }
+    })
+    var b = new a.Constructor({ //eslint-disable-line
+      key: 'b',
+      randomField: true
+    })
+    cnt = 0
+    a.set({ randomField: 'this is a!' })
     expect(cnt).to.equal(1)
   })
 })
