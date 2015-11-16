@@ -93,7 +93,6 @@ describe('input', function () {
   // // and what are the implications?
   // // same for always emitting instances -- how much heavier does it make things
   it('context, block update on context', function () {
-    // console.clear()
     var cnt = 0
     var a = new Observable({
       key: 'a',

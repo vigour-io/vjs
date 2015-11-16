@@ -273,13 +273,6 @@ describe('base', function () {
       expect(c._parent).to.be.null
     })
   })
-
-  it('should be able to differentiate an empty array from an empty object', function () {
-    var one = new Base({})
-    var two = new Base([])
-    expect(one).not.deep.equal(two)
-  })
-
   require('./output.js')
   require('./property.js')
 })

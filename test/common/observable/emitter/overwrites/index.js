@@ -10,4 +10,5 @@
 // this is the instances case
 describe('overwrites', function () {
   require('./input')
+  require('./property')
 })
