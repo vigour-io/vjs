@@ -3,8 +3,8 @@ var testListeners = require('../testListeners')
 var countOne
 var countTwo
 beforeEach(() => {
-	countOne = 0
-	countTwo = 0
+  countOne = 0
+  countTwo = 0
 })
 
 describe('multiple subs on same target, parent', () => {
@@ -16,7 +16,7 @@ describe('multiple subs on same target, parent', () => {
     two: {}
   })
 
-  it('subcribes to field', () => {
+  it('subscribes to field', () => {
     subscriptionOne = a.one.subscribe({
       parent: {
         title: true
@@ -34,23 +34,42 @@ describe('multiple subs on same target, parent', () => {
     expect(countOne).equals(0)
   })
 
- // it('added a data listener to one', () => {
- //    var listenersOne = testListeners(subscriptionOne)
- //    console.log('make it:',listenersOne, subscriptionOne)
- //    console.log('--->',testListeners(a.title))
+  it('fires when updated', () => {
+    a.title.val = 'bar'
+    expect(countOne).equals(1)
+    expect(countTwo).equals(1)
+  })
+})
 
- //    expect(listenersOne.length).equals(1)
- //    expect(listenersOne).contains('data')
- //  })
+describe('multiple subs on same target, upward', () => {
+  var subscriptionOne
+  var subscriptionTwo
+  var a = new Observable({
+    title: 'foo',
+    one: {},
+    two: {}
+  })
 
- //  it('added a data listener to two', () => {
- //    var listenersTwo = testListeners(subscriptionTwo)
- //    expect(listenersTwo.length).equals(1)
- //    expect(listenersTwo).contains('data')
- //  })
+  it('subscribes to field', () => {
+    subscriptionOne = a.one.subscribe({
+      upward: {
+        title: true
+      }
+    }, function (data, event) {
+      countOne++
+    })
+    subscriptionTwo = a.two.subscribe({
+      upward: {
+        title: true
+      }
+    }, function (data, event) {
+      countTwo++
+    })
+    expect(countOne).equals(0)
+  })
 
   it('fires when updated', () => {
-  	a.title.val = 'bar'
+    a.title.val = 'bar'
     expect(countOne).equals(1)
     expect(countTwo).equals(1)
   })
@@ -59,12 +78,15 @@ describe('multiple subs on same target, parent', () => {
 describe('multiple subs on same target, non-existing parent', () => {
   var subscriptionOne
   var subscriptionTwo
+
   var one = new Observable()
   var two = new Observable()
+
   var parent = new Observable({
-  	title:'Mary'
+    title: 'Mary'
   })
-  it('subcribes to field', () => {
+
+  it('subscribes to field', () => {
     subscriptionOne = one.subscribe({
       parent: {
         title: true
@@ -84,38 +106,26 @@ describe('multiple subs on same target, non-existing parent', () => {
   })
 
   it('fires for one, when added to parent', () => {
-  	console.log('---adding---')
-  	parent.set({
-  		useVal:one
-  	})
-  	expect(countOne).equals(1)
+    parent.set({
+      child1: {
+        useVal: one
+      }
+    })
+    expect(countOne).equals(1)
   })
 
-	it('fires for two, when added to parent', () => {
-  	parent.set({
-  		useVal:two
-  	})
-  	expect(countTwo).equals(1)
+  it('fires for two, when added to parent', () => {
+    parent.set({
+      child2: {
+        useVal: two
+      }
+    })
+    expect(countTwo).equals(1)
   })
 
-	// it('added a data listener to one', () => {
- //    var listenersOne = testListeners(subscriptionOne)
- //    console.log('make it:',listenersOne, subscriptionOne)
- //    console.log('--->',testListeners(a.title))
-
- //    expect(listenersOne.length).equals(1)
- //    expect(listenersOne).contains('data')
- //  })
-
- //  it('added a data listener to two', () => {
- //    var listenersTwo = testListeners(subscriptionTwo)
- //    expect(listenersTwo.length).equals(1)
- //    expect(listenersTwo).contains('data')
- //  })
-
-  // it('fires when updated', () => {
-  // 	a.title.val = 'bar'
-  //   expect(countOne).equals(1)
-  //   expect(countTwo).equals(1)
-  // })
+  it('fires when updated', () => {
+  	parent.title.val = 'Fred'
+    expect(countOne).equals(1)
+    expect(countTwo).equals(1)
+  })
 })
