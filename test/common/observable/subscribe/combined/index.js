@@ -251,7 +251,6 @@ describe('multiple subs on same target, upward, instance', () => {
   })
 
   it('subscribes to field', () => {
-   console.log('-----one-----')
     subscriptionOne = a.one.subscribe({
       upward: {
         title: true
@@ -260,13 +259,11 @@ describe('multiple subs on same target, upward, instance', () => {
       countOne++
     })
 
-    console.log('-----two-----')
     subscriptionTwo = a.two.subscribe({
       upward: {
         title: true
       }
     }, function (data, event) {
-     console.log('fun two!',countTwo)
       countTwo++
     })
 
@@ -274,7 +271,6 @@ describe('multiple subs on same target, upward, instance', () => {
   })
 
   it('fires when updated', () => {
-   console.log('-----set-----')
     parent.set({
      title:'fonz',
       child: {
