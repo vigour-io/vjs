@@ -86,27 +86,23 @@ describe('subscribe', () => {
 
   describe('bind instances', () => {
     it('subscribe it', () => {
-      console.clear()
       var Child = new Observable({
         trackInstances: true,
         key: 'a',
         $: './nested.title'
       }).Constructor
-      console.log('---son---')
       var son = new Child({
         key:'son',
         nested: {
           title: 'Johnny'
         }
       })
-      console.log('---daughter---')
       var daughter = new Child({
         key:'daughter',
         nested: {
           title: 'Amy'
         }
       })
-      console.log('------')
       expect(son.val).equals('Johnny')
       expect(daughter.val).equals('Amy')
     })
