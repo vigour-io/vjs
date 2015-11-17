@@ -82,13 +82,11 @@ describe('subscribing to single existing field, existing reference', () => {
   })
 
   it('fires when field is updated on referenced obj', () => {
-    console.log('--------fires when field is updated on referenced obj')
     a.aField.val = 2
     expect(count).equals(1)
   })
 
   it('fires when field is created on obj', () => {
-    console.log('--------fires when field is created on obj')
     b.set({
       aField: true
     })

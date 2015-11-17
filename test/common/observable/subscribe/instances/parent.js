@@ -115,7 +115,6 @@ describe('subscribing to different parent with several instances', function () {
         field: true
       }
     }, function (data) {
-      console.log('FIRES', this.key, data.origin.path, data.origin.val)
       obj[this.key] = data.origin.val
       count++
     })

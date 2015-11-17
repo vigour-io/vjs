@@ -349,7 +349,6 @@ describe('instances', function () {
       bField: true,
       cField: true
     }, function (data, event) {
-      console.log('fire!',this.key)
       counter[this.key]++
     })
 
@@ -387,11 +386,9 @@ describe('instances', function () {
   })
 
   it('setting same on original, only fires for original', function () {
-    console.clear()
     a.set({
       bField:'aNiceField'
     })
-    console.log('------>',a.bField.val,b.bField.val)
     expect(counter.a).equals(2)
     expect(counter.b).equals(2)
     expect(counter.c).equals(2)
