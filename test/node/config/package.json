@@ -19,7 +19,7 @@
     "vigoursetting": true,
     "fromEnvironment": {
       "val": "default",
-      "env": "CONFIG_PARAM"
+      "_env": "CONFIG_PARAM"
     },
     "configFiles": ["./extra_config"]
   }
