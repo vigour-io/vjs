@@ -89,23 +89,20 @@ describe('subscribe', () => {
       var Child = new Observable({
         trackInstances: true,
         key: 'a',
-        $: 'nested.title'
+        $: './nested.title'
       }).Constructor
-
       var son = new Child({
         key:'son',
         nested: {
           title: 'Johnny'
         }
       })
-
       var daughter = new Child({
         key:'daughter',
         nested: {
           title: 'Amy'
         }
       })
-
       expect(son.val).equals('Johnny')
       expect(daughter.val).equals('Amy')
     })

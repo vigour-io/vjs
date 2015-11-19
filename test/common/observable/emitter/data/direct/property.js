@@ -58,4 +58,16 @@ describe('property', function () {
       .which.has.property(0)
       .which.equals('afield')
   })
+
+  it('add multiple properties', function () {
+    a.set({
+      a: 'a',
+      b: 'b',
+      c: 'c',
+      d: 'd'
+    })
+    expect(measure.a.property)
+      .to.have.property('added')
+      .which.deep.equals(['a', 'b', 'c', 'd'])
+  })
 })

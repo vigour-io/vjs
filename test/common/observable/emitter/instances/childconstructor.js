@@ -8,7 +8,6 @@ describe('use a childconstructor listener', function () {
     on: {
       data: {
         test: function (data, event) {
-          console.log('???', data, this.path)
           cnt++
         }
       }

@@ -1,5 +1,5 @@
-[![Build Status](https://magnum.travis-ci.com/vigour-io/vjs.svg?token=qw5Jm5vzFGEcygY783sE&branch=master)](https://magnum.travis-ci.com/vigour-io/vjs)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
+[![npm version](https://badge.fury.io/js/vigour-js.svg)](https://badge.fury.io/js/vigour-js)
 
-# vjs
+# vigour-js
 - VJS Wiki - [https://github.com/vigour-io/vjs/wiki](https://github.com/vigour-io/vjs/wiki)

@@ -54,6 +54,7 @@ describe('subscribing to parent on original', function () {
   })
 
   it('fires on instance', function () {
+    console.log('-------')
     var b = new Observable({
       key: 'obsB',
       c: {
