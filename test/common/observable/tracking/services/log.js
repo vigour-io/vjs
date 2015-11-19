@@ -4,7 +4,7 @@ var tracking = require('../../../../../lib/tracking/')
 
 trackerEmitter.inject(require('../../../../../lib/tracking/service/'))
 
-describe('Log service with Array', function() {
+describe('Log', function() {
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create()
@@ -36,16 +36,7 @@ describe('Log service with Array', function() {
     var logSpy = sinon.spy(trackerEmitter.services,'log')
     a.b.emit('click')
     expect(logSpy.calledOnce)
-    done()
-  })
-
-  it('should fire log once', function(done) {
-    var cnt = 0
-    var logSpy = sinon.spy(trackerEmitter.services,'log')
-    a.b.emit('click')
-    expect(logSpy.calledOnce)
     sinon.assert.calledWithMatch(console.log, "TRACKER LOGGER:")
     done()
   })
-
 })

@@ -16,20 +16,20 @@ describe('array', function() {
 
   it('should fire all tracking info from array', function () {
     trackerEmitter.services.test = function (obj) {
-      expect(obj.eventobject.eventType.val).to.equal('new')
-      expect(obj.eventobject.eventOriginator.val).to.equal('b')
+      expect(obj.eventObject.eventType.val).to.equal('new')
+      expect(obj.eventObject.eventOriginator.val).to.equal('b')
     }
     a.b.emit(example[0])
     delete trackerEmitter.services.test
 
     trackerEmitter.services.test = function (obj) {
-      expect(obj.eventobject.eventType.val).to.equal('parent')
+      expect(obj.eventObject.eventType.val).to.equal('parent')
     }
     a.b.emit(example[1])
     delete trackerEmitter.services.test
 
     trackerEmitter.services.test = function (obj) {
-      expect(obj.eventobject.eventType.val).to.equal('click')
+      expect(obj.eventObject.eventType.val).to.equal('click')
     }
     a.b.emit(example[2])
     delete trackerEmitter.services.test

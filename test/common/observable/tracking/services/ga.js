@@ -4,11 +4,26 @@ var tracking = require('../../../../../lib/tracking/')
 
 trackerEmitter.inject(require('../../../../../lib/tracking/service/'))
 
-describe('Log service with Array', function(tracker) {
+describe('Google Analytics', function(tracker) {
   var gaCall = window.ga.q
 
+  var example = ['click', 'lol']
+  var a = new Observable({
+    b: {
+      inject: tracking,
+      on: {
+        data: function(event, meta) {}
+      },
+      track: example
+    }
+  })
+
+  var bInstance = new a.Constructor({
+
+  })
+
   it('should setup the tracker and send first pageview', function(done) {
-    expect(gaCall.length).equal(2)
+    expect(gaCall.length).equal(10)
     done()
   })
   it('should have correct tracking beacon properties', function(done) {
@@ -25,15 +40,14 @@ describe('Log service with Array', function(tracker) {
   it('should send event with correct properties', function(done) {
     ga(function(tracker) {
       tracker.set('sendHitTask', function(model) {
-        console.clear()
         var hitPayload = model.get('hitPayload')
-        expect(hitPayload).to.be.ok
+          expect(hitPayload).to.be.ok
           .and.to.contain('t=event')
-          .and.to.contain('ec=lol')
-          .and.to.contain('ea=lol')
+          .and.to.contain('ec=click')
+          .and.to.contain('ea=b._on.click')
         done()
       })
     })
-    ga('send', 'event', 'lol', 'lol')
+    a.b.emit('click')
   })
 })
