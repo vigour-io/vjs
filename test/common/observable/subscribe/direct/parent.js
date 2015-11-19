@@ -39,6 +39,11 @@ describe('subscribing to existing parent', function () {
     expect(listeners).contains('data')
   })
 
+  it('fires when calling .run()', () => {
+    subscription.run()
+    expect(count).equals(1)
+  })
+
   it('fires when parent changes', function () {
     parent.val = 1
     expect(count).equals(1)
@@ -85,6 +90,11 @@ describe('subscribing to nested field on existing parent', function () {
     var listeners = testListeners(subscription)
     expect(listeners.length).equals(1)
     expect(listeners).contains('data')
+  })
+
+  it('fires when calling .run()', () => {
+    subscription.run()
+    expect(count).equals(1)
   })
 
   it('fires when a.b changes', function () {
@@ -261,10 +271,12 @@ describe('subscribing to parent from multiple subscribers, reference', function 
 describe('subscribing to parent from multiple subscribers, reference 2', function () {
   var count1 = 0
   var count2 = 0
+
   var ref = new Observable({
     field1: true,
     field2: true
   })
+
   var a = new Observable({
     key: 'a',
     child1: {},
@@ -276,7 +288,6 @@ describe('subscribing to parent from multiple subscribers, reference 2', functio
   })
 
   it('subcribes to parent.field on a.child1 and a.child2', function () {
-
     a.child1.subscribe({
       parent: {
         field1: true
@@ -297,7 +308,7 @@ describe('subscribing to parent from multiple subscribers, reference 2', functio
 
   })
 
-  it('added parent and reference listener', () => {
+  it('fires for both', () => {
     a.set(ref)
     expect(count1).equals(1)
     expect(count2).equals(1)

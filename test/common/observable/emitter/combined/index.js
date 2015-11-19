@@ -242,3 +242,22 @@ describe('combined', function () {
     expect(c.listensOnBase[1]).to.be.ok
   })
 })
+
+describe('some tests',function(){
+  var Observable = require('../../../../../lib/observable')
+  var obs  = new Observable({key:'obs'})
+  obs.on('data',function(data){
+    console.log('data!',data, this.path)
+  })
+  obs.val = 1
+
+  var instance = new obs.Constructor({key:'instance'})
+  console.log(obs.uid, instance.uid)
+
+  console.log(new Observable().uid, obs.uid)
+
+  // instance.remove()
+  // instance.val = 2
+
+  // obs.remove()
+})

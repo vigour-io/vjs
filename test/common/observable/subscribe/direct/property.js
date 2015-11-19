@@ -7,6 +7,29 @@ beforeEach(() => {
   count = 0
 })
 
+describe('subscribing to self', () => {
+  var subscription
+  var a = new Observable()
+
+  it('subcribes to field', () => {
+    subscription = a.subscribe(true, function (event, meta) {
+      count++
+    })
+    expect(count).equals(0)
+  })
+
+  it('added a data listener', () => {
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(1)
+    expect(listeners).contains('data')
+  })
+
+  it('fires when updated', () => {
+    a.val = 1
+    expect(count).equals(1)
+  })
+})
+
 describe('subscribing to single existing field', () => {
   var subscription
   var a = new Observable({
@@ -26,6 +49,11 @@ describe('subscribing to single existing field', () => {
     var listeners = testListeners(subscription)
     expect(listeners.length).equals(1)
     expect(listeners).contains('data')
+  })
+
+  it('fires when calling .run()', () => {
+    subscription.run()
+    expect(count).equals(1)
   })
 
   it('fires when field is updated', () => {
@@ -57,6 +85,12 @@ describe('subscribing to single existing field', () => {
     expect(listeners.length).equals(1)
     expect(listeners).contains('data')
   })
+
+  it('unsubscribe => removes all listeners', function(){
+    a.unsubscribe()
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(0)
+  })
 })
 
 describe('subscribing on non-existent field', () => {
@@ -79,10 +113,20 @@ describe('subscribing on non-existent field', () => {
     expect(listeners).contains('property')
   })
 
+  it('doesnt fire when calling .run()', () => {
+    subscription.run()
+    expect(count).equals(0)
+  })
+
   it('fires when field is created', () => {
     a.set({
       aField: true
     })
+    expect(count).equals(1)
+  })
+
+  it('fires when calling .run()', () => {
+    subscription.run()
     expect(count).equals(1)
   })
 
@@ -196,7 +240,7 @@ describe('subscribing on one non-existent field, one existing field', () => {
   })
 
   it('fires when field is added again', () => {
-    
+
     a.set({
       aField: 3
     })
@@ -312,7 +356,7 @@ describe('subscribing on existent nested field', () => {
   })
 
   it('subcribes to nested field', () => {
-    
+
     subscription = a.subscribe({
       aField: {
         anotherField: true
@@ -373,6 +417,91 @@ describe('subscribing on existent nested field', () => {
     expect(listeners).contains('data')
   })
 })
+
+
+describe('subscribing on super nested field', () => {
+  var subscription
+  var a = new Observable({
+    aField: {
+      anotherField: {
+        nestedOne: {
+          nestedTwo: true
+        }
+      }
+    }
+  })
+
+  it('subcribes to nested field', () => {
+
+    subscription = a.subscribe({
+      aField: {
+        anotherField: {
+          nestedOne: {
+            nestedTwo: true
+          }
+        }
+      }
+    }, () => {
+      count++
+    })
+    expect(count).equals(0)
+  })
+
+  it('added a data listener', () => {
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(1)
+    expect(listeners).contains('data')
+  })
+
+  it('fires when nested field is updated', () => {
+    a.aField.anotherField.nestedOne.nestedTwo.val = 2
+    expect(count).equals(1)
+  })
+
+  it('fires when parent field is removed', () => {
+    a.aField.remove()
+    expect(count).equals(1)
+  })
+
+  it('added property and reference listener', () => {
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(2)
+    expect(listeners).contains('reference')
+    expect(listeners).contains('property')
+  })
+
+  it('does not fire when parent field is added again', () => {
+    a.set({
+      aField: 3
+    })
+    expect(count).equals(0)
+  })
+
+  it('moved property listener and added reference listener', () => {
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(3)
+    expect(listeners.numberOf('reference')).equals(2)
+    expect(listeners).contains('property')
+  })
+
+  it('fires when nested field is added again', () => {
+    a.aField.set({
+      anotherField: {
+        nestedOne: {
+          nestedTwo: 1
+        }
+      }
+    })
+    expect(count).equals(1)
+  })
+
+  it('added data listener, removed all other listeners', () => {
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(1)
+    expect(listeners).contains('data')
+  })
+})
+
 
 describe('subscribing on non-existent nested field in existing field', () => {
   var subscription

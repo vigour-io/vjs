@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>test</title>
+    <script type='text/javascript'>
+      var googletag = googletag || {};
+      googletag.cmd = googletag.cmd || [];
+      (function() {
+        var gads = document.createElement('script');
+        gads.async = true;
+        gads.type = 'text/javascript';
+        var useSSL = 'https:' == document.location.protocol;
+        gads.src = (useSSL ? 'https:' : 'http:') +
+          '//www.googletagservices.com/tag/js/gpt.js';
+        var node = document.getElementsByTagName('script')[0];
+        node.parentNode.insertBefore(gads, node);
+      })();
+    </script>
+
+    <script type='text/javascript'>
+      googletag.cmd.push(function() {
+        window.slot1 = googletag.defineSlot('/7869/intl_mtvplay.tv/discover', [[728, 90], [970, 90], [970, 250]], 'div-gpt-ad-1445622141110-0').setTargeting('pos', ['atf']).setTargeting('slot', ['1']).addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.pubads().collapseEmptyDivs();
+        googletag.pubads().setTargeting('show_season', ['none']).setTargeting('subject_schema', ['none']).setTargeting('content_type', ['none']).setTargeting('testmode', ['on']).setTargeting('subject', ['none']).setTargeting('show_episode', ['none']).setTargeting('section', ['discover']);
+        googletag.enableServices();
+      });
+    </script>
+  </head>
+  <body>
+    <div id='div-gpt-ad-1445622141110-0'>
+      <script type='text/javascript'>
+        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1445622141110-0'); })
+        setInterval(function(){googletag.pubads().refresh([slot1]);}, 3000)
+      </script>
+    </div>
+  </body>
+</html>
