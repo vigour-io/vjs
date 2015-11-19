@@ -29,7 +29,7 @@ describe('object', () => {
 
   it('should override id if object val is a string', () => {
     trackerEmitter.services.test = (obj) => {
-      expect(obj.eventobject.eventType.val).to.equal('click')
+      expect(obj.eventObject.eventType.val).to.equal('click')
       expect(obj.id.val).to.have.string('super')
     }
     bInstance.b.emit('click')
@@ -40,8 +40,8 @@ describe('object', () => {
     trackerEmitter.services.test = (obj) => {
       // parent has wrong id
       expect(obj.id.val).to.equal('b')
-      expect(obj.eventobject.eventType.val).to.equal('parent')
-      expect(obj.eventobject.value).to.equal(100)
+      expect(obj.eventObject.eventType.val).to.equal('parent')
+      expect(obj.eventObject.value).to.equal(100)
     }
     bInstance.b.emit('parent')
     delete trackerEmitter.services.test
@@ -50,8 +50,8 @@ describe('object', () => {
   it('should handle new correctly', () => {
     trackerEmitter.services.test = (obj) => {
       expect(obj.id.val).to.equal('b._on.new')
-      expect(obj.eventobject.eventType.val).to.equal('new')
-      expect(obj.eventobject.value).to.equal(20)
+      expect(obj.eventObject.eventType.val).to.equal('new')
+      expect(obj.eventObject.value).to.equal(20)
     }
     bInstance.b.emit('new')
     delete trackerEmitter.services.test
@@ -60,8 +60,8 @@ describe('object', () => {
   it('should handle remove correctly', () => {
     trackerEmitter.services.test = (obj) => {
       expect(obj.id.val).to.equal('b._on.remove')
-      expect(obj.eventobject.value).to.equal(10)
-      expect(obj.eventobject.eventType.val).to.equal('remove')
+      expect(obj.eventObject.value).to.equal(10)
+      expect(obj.eventObject.eventType.val).to.equal('remove')
     }
     bInstance.remove()
     delete trackerEmitter.services.test
