@@ -332,7 +332,6 @@ describe('instances', function () {
     },
     title: 'aTitle'
   })
-
   var b
   var c
 
@@ -365,7 +364,7 @@ describe('instances', function () {
 
   it('change on original, fires for all instances', function () {
     a.set({
-      title:'niceTitle'
+      title: 'niceTitle'
     })
     expect(counter.a).equals(1)
     expect(counter.b).equals(1)
@@ -374,7 +373,7 @@ describe('instances', function () {
 
   it('change on instance, fires for all his instances', function () {
     b.set({
-      bField:'niceField'
+      bField: 'niceField'
     })
     expect(counter.a).equals(1)
     expect(counter.b).equals(2)
@@ -383,10 +382,33 @@ describe('instances', function () {
 
   it('setting same on original, only fires for original', function () {
     a.set({
-      bField:'aNiceField'
+      bField: 'aNiceField'
     })
     expect(counter.a).equals(2)
     expect(counter.b).equals(2)
     expect(counter.c).equals(2)
+  })
+
+  it('setting same on instance, only fires for instance', function () {
+    c.set({
+      bField: 'cNiceField'
+    })
+    expect(counter.a).equals(2)
+    expect(counter.b).equals(2)
+    expect(counter.c).equals(3)
+  })
+
+  it('removing on instance, only fires for instance', function () {
+    b.bField.remove()
+    expect(counter.a).equals(2)
+    expect(counter.b).equals(3)
+    expect(counter.c).equals(3)
+  })
+
+  it('removing on other instance, only fires for instance', function () {
+    c.bField.remove()
+    expect(counter.a).equals(2)
+    expect(counter.b).equals(3)
+    expect(counter.c).equals(4)
   })
 })

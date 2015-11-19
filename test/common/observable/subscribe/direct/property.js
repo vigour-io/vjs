@@ -86,7 +86,7 @@ describe('subscribing to single existing field', () => {
     expect(listeners).contains('data')
   })
 
-  it('unsubscribe => removes all listeners', function(){
+  it('unsubscribe => removes all listeners', function () {
     a.unsubscribe()
     var listeners = testListeners(subscription)
     expect(listeners.length).equals(0)
