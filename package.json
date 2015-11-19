@@ -1,0 +1,71 @@
+{
+  "name": "vigour-js",
+  "version": "0.2.4",
+  "author": "Vigour.io <dev@vigour.io>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vigour-io/vjs.git"
+  },
+  "engines": {
+    "node": "^4.1.1"
+  },
+  "scripts": {
+    "test": "gaston test",
+    "test-config": "gaston test -r node -s test/node/config",
+    "doc": "node documentation.js"
+  },
+  "description": "A javascript libary created and used by Vigour",
+  "bugs": {
+    "url": "https://github.com/vigour-io/vjs/issues"
+  },
+  "dependencies": {
+    "lodash": "3.10.x"
+  },
+  "main": "./lib",
+  "browserify": {
+    "./lib/base/iterator/": "./lib/base/iterator/browser.js"
+  },
+  "homepage": "https://github.com/vigour-io/vjs",
+  "keywords": [
+    "javascript",
+    "framework",
+    "browserify",
+    "observable",
+    "crossplatform"
+  ],
+  "contributors": [
+    "Jim de beer <jim@vigour.io>",
+    "Youri Daamen <youri@vigour.io>",
+    "Marcus Besjes <marcus@vigour.io>",
+    "Rick Smit <rick@vigour.io>",
+    "Andre Padez <andre@vigour.io>",
+    "Danillo Corvalan <danillo@vigour.io>",
+    "Valerio Barilla <valerio@vigour.io>",
+    "Shawn Inder <shawn@vigour.io>",
+    "Renan Carvalho <renan@vigour.io>",
+    "Nika Tomadze <nika@vigour.io>",
+    "Michiel Van Liempt <michiel@vigour.io>"
+  ],
+  "license": "MIT",
+  "gaston": {
+    "source-maps": true
+  },
+  "vigour": {
+    "services": {
+      "sentinel": {
+        "branches": [],
+        "unignoreFolders": []
+      }
+    }
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "it",
+      "beforeEach",
+      "sinon",
+      "expect",
+      "xit"
+    ]
+  }
+}

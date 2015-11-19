@@ -21,8 +21,8 @@ describe('array', function() {
   it('should fire all tracking info from array', function () {
     trackerEmitter.services.test = function (obj) {
       expect(obj.id.val).to.equal('b._on.new')
-      expect(obj.eventobject.eventType.val).to.equal('new')
-      expect(obj.eventobject.eventOriginator.val).to.equal('b')
+      expect(obj.eventObject.eventType.val).to.equal('new')
+      expect(obj.eventObject.eventOriginator.val).to.equal('b')
     }
     bInstance.b.emit(example[0])
     delete trackerEmitter.services.test
@@ -30,20 +30,20 @@ describe('array', function() {
     trackerEmitter.services.test = function (obj) {
       // wrong object id for parent
       expect(obj.id.val).to.equal('b')
-      expect(obj.eventobject.eventType.val).to.equal('parent')
+      expect(obj.eventObject.eventType.val).to.equal('parent')
     }
     bInstance.b.emit(example[1])
     delete trackerEmitter.services.test
 
     trackerEmitter.services.test = function (obj) {
       expect(obj.id.val).to.equal('b._on.click')
-      expect(obj.eventobject.eventType.val).to.equal('click')
+      expect(obj.eventObject.eventType.val).to.equal('click')
     }
     bInstance.b.emit(example[2])
     delete trackerEmitter.services.test
     // error is giving TypeError: Cannot assign to read only property 'remove' of [object Object]
     // trackerEmitter.services.test = function (obj) {
-    //   expect(obj.eventobject.eventType.val).to.equal('remove')
+    //   expect(obj.eventObject.eventType.val).to.equal('remove')
     // }
     // a.remove()
     // delete trackerEmitter.services.test

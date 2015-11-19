@@ -27,7 +27,7 @@ describe('default', function () {
 
   it('reference (other event origin)', function (done) {
     trackerEmitter.services.test = function (obj) {
-      expect(obj.eventobject.eventOriginator.val).to.equal('aReference')
+      expect(obj.eventObject.eventOriginator.val).to.equal('aReference')
       done()
     }
     exampleReference.exampleKey.val = 'rick'
@@ -38,9 +38,9 @@ describe('default', function () {
     trackerEmitter.services.test = function (obj) {
       expect(obj.id.val).to.equal('a.b._on.data')
       expect(obj.app.val).to.equal('my app id')
-      expect(obj).to.have.deep.property('eventobject')
-      expect(obj.eventobject.eventOriginator.val).to.equal('a')
-      expect(obj.eventobject.eventType.val).to.equal('data')
+      expect(obj).to.have.deep.property('eventObject')
+      expect(obj.eventObject.eventOriginator.val).to.equal('a')
+      expect(obj.eventObject.eventType.val).to.equal('data')
       done()
     }
     bInstance.b.emit('data')
@@ -49,8 +49,8 @@ describe('default', function () {
 
   it('should track an error event correctly', function (done) {
     trackerEmitter.services.test = function (obj) {
-      expect(obj.eventobject.metaMessage).to.be.ok
-      expect(obj.eventobject.eventType.val).to.equal('error')
+      expect(obj.eventObject.metaMessage).to.be.ok
+      expect(obj.eventObject.eventType.val).to.equal('error')
       done()
     }
     bInstance.b.emit('error')
