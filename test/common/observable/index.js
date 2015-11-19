@@ -4,5 +4,4 @@ describe('observable', function () {
   require('./remove')
   require('./streams')
   require('./subscribe')
-  require('./tracking')
 })
