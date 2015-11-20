@@ -273,6 +273,17 @@ describe('base', function () {
       expect(c._parent).to.be.null
     })
   })
+
+  describe('ChildConstructor', function () {
+    it('ChildConstructor false creates normal fields', function () {
+      var a = new Base({
+        ChildConstructor: false,
+        field: true
+      })
+      expect(a.field).to.equal(true)
+    })
+  })
+
   require('./output.js')
   require('./property.js')
 })
