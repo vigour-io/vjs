@@ -1,14 +1,19 @@
 var Base = require('../../../../lib/base/')
-var LookUp = require('../../../../lib/methods/lookUp')
 
-Base.prototype.inject(LookUp)
+var Looker = new Base({
+  inject: [
+    require('../../../../lib/methods/lookUp'),
+    require('../../../../lib/methods/lookDown')
+  ],
+  ChildConstructor: 'Constructor'
+}).Constructor
 
 describe('lookUp', function () {
   var a
 
   beforeEach(function () {
-    a = new Base({
-      $key: 'b',
+    a = new Looker({
+      key: 'b',
       x: {
         y: {
           val: 'test',
