@@ -6,14 +6,12 @@ describe('subclass.plain', function () {
     var Class = new Base({}).Constructor
     Class.prototype.inject(plain)
     var Subclass = new Class({}).Constructor
-    // Object.getPrototypeOf(Subclass.prototype).inject(plain)
     var instance = new Subclass({
       prop: 'value'
     })
     var expected = {
       prop: 'value'
     }
-    console.log(instance.plain())
     expect(instance.plain()).to.eql(expected)
   })
 })
