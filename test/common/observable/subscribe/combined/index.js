@@ -583,12 +583,12 @@ describe('removing and adding on multiple instances, nested field', function () 
     expect(count.two).equals(1)
   })
 
-  // it('removing fires both instances', function () {
-  //   console.log('----removing----')
-  //   obs.content.remove()
-  //   expect(count.one).equals(2)
-  //   expect(count.two).equals(2)
-  // })
+  it('removing fires both instances', function () {
+    console.log('----removing----')
+    obs.content.remove()
+    expect(count.one).equals(2)
+    expect(count.two).equals(2)
+  })
 
   // it('adding fires both instances', function () {
   //   console.log('----adding----')
