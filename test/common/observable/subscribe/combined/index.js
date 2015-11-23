@@ -549,7 +549,9 @@ describe('removing and adding on multiple instances, nested field', function () 
   })
   subber.thing.subscribe({
     upward: {
-      content: true
+      content:{
+        nested:true
+      }
     }
   }, function (data, event) {
     count[this.parent.key]++
@@ -565,7 +567,9 @@ describe('removing and adding on multiple instances, nested field', function () 
 
   var obs = new Observable({
     key:'obs',
-    content: 'test',
+    content: {
+      nested:'test'
+    },
     one: {
       useVal:new Subber()
     },
