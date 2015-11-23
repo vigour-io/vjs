@@ -545,31 +545,29 @@ describe('removing and adding on multiple instances, nested field', function () 
     two:0
   }
   var subber = new Observable({
-    thing:{}
+    key:'subber',
+    foo:{}
   })
-  subber.thing.subscribe({
+  subber.foo.subscribe({
     upward: {
-      content:{
-        nested:true
-      }
+      content:true
     }
   }, function (data, event) {
     count[this.parent.key]++
   })
   var Subber = subber.Constructor
   var Two = new Observable({
+    key:'holderTwo',
     two:{
       useVal:new Subber()
     }
   }).Constructor
 
-  console.log('----adding Two')
-
+  // console.log('----adding One',JSON.stringify(Two.prototype._on.parentEmitter.attach['1u'][5]))
+  console.log('----adding One',JSON.stringify(Two.prototype._on.parentEmitter.attach['1u'][5]))
   var obs = new Observable({
     key:'obs',
-    content: {
-      nested:'test'
-    },
+    content: 'test',
     one: {
       useVal:new Subber()
     },
