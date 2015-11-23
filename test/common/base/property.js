@@ -103,6 +103,16 @@ describe('properties', function () {
       expect(a._something).equals('blurf')
     })
 
+    it('set observable using val', function () {
+      var marcus = new Base()
+      var aBase = new Base({
+        properties: {
+          marcus: { val: marcus }
+        }
+      })
+
+      expect(aBase).to.have.property('marcus').which.equals(marcus)
+    })
   })
 
   describe('custom overrides', function () {
