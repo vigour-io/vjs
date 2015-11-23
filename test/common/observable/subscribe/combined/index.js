@@ -499,10 +499,8 @@ describe('removing and adding on multiple instances, nested field', function () 
     thing:{}
   })
   subber.thing.subscribe({
-    parent: {
-      parent:{
-        content: true
-      }
+    upward: {
+      content: true
     }
   }, function (data, event) {
     count[this.parent.key]++
