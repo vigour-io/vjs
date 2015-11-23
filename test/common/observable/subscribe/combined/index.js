@@ -563,8 +563,6 @@ describe('removing and adding on multiple instances, nested field', function () 
     }
   }).Constructor
 
-  // console.log('----adding One',JSON.stringify(Two.prototype._on.parentEmitter.attach['1u'][5]))
-  console.log('----adding One',JSON.stringify(Two.prototype._on.parentEmitter.attach['1u'][5]))
   var obs = new Observable({
     key:'obs',
     content: 'test',
@@ -582,18 +580,17 @@ describe('removing and adding on multiple instances, nested field', function () 
   })
 
   it('removing fires both instances', function () {
-    console.log('----removing----')
     obs.content.remove()
     expect(count.one).equals(2)
     expect(count.two).equals(2)
   })
 
-  // it('adding fires both instances', function () {
-  //   console.log('----adding----')
-  //   obs.set({
-  //     content:'addedAgain'
-  //   })
-  //   expect(count.one).equals(3)
-  //   expect(count.two).equals(3)
-  // })
+  it('adding fires both instances', function () {
+    console.log('----adding----')
+    obs.set({
+      content:'addedAgain'
+    })
+    expect(count.one).equals(3)
+    expect(count.two).equals(3)
+  })
 })
