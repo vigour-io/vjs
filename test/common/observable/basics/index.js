@@ -1,3 +1,5 @@
+'use strict'
+
 describe('basics', function () {
   var Observable = require('../../../../lib/observable')
 
@@ -17,7 +19,9 @@ describe('basics', function () {
     var a = new Observable({
       a: true
     })
-    a.set({ b : a.a })
+    a.set({ b: a.a })
     expect(a.b._input).to.equal(a.a)
   })
+
+  require('./inject')
 })

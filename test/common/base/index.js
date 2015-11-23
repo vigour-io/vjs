@@ -1,6 +1,7 @@
-var Base = require('../../../lib/base')
+'use strict'
 
 describe('base', function () {
+  var Base = require('../../../lib/base')
   var a
   beforeEach(function () {
     a = new Base({
