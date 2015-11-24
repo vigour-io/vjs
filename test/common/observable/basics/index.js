@@ -22,6 +22,4 @@ describe('basics', function () {
     a.set({ b: a.a })
     expect(a.b._input).to.equal(a.a)
   })
-
-  require('./inject')
 })
