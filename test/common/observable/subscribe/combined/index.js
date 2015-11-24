@@ -430,7 +430,7 @@ describe('adding on multiple instances', function () {
   var Subber = subber.Constructor
   var obs = new Observable({
     properties: {
-      content: Observable
+      content:new Observable()
     },
     one: new Subber(),
     two: new Subber()
@@ -578,13 +578,11 @@ describe('removing and adding on multiple instances, nested field', function () 
   })
 
   it('removing fires both instances', function () {
-    obs.content.remove()
     expect(count.one).equals(2)
     expect(count.two).equals(2)
   })
 
   it('adding fires both instances', function () {
-    console.log('----adding----')
     obs.set({
       content:'addedAgain'
     })
