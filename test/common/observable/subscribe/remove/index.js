@@ -118,47 +118,100 @@ beforeEach(() => {
 //   })
 // })
 
-describe('adding prop listeners, reference, multiple', function () {
-  var count = {
-    a: 0,
-    b: 0
-  }
-  var item = new Observable()
-  var sub = item.subscribe({
-    parent: {
-      title: true
+// describe('adding prop listeners, reference, multiple', function () {
+//   var count = {
+//     a: 0,
+//     b: 0
+//   }
+//   var item = new Observable()
+//   var sub = item.subscribe({
+//     parent: {
+//       title: true
+//     }
+//   }, function () {
+//     count[this.key]++
+//   })
+//   var Item = item.Constructor
+//   var parent = new Observable(new Observable({
+//     title: 'momma'
+//   }))
+//   it('fires for 2 instances, when added to parent', function(){
+//     parent.set({
+//       a: {
+//         useVal: new Item()
+//       },
+//       b: {
+//         useVal: new Item()
+//       }
+//     })
+//     expect(count.a).equals(1)
+//     expect(count.b).equals(1)
+//   })
+
+//   it('fires when title is removed', function () {
+//     parent.val.title.remove()
+//     expect(count.a).equals(2)
+//     expect(count.b).equals(2)
+//   })
+
+//   it('fires when adding title', function () {
+//     parent.val.set({
+//       title: 'flups'
+//     })
+//     expect(count.a).equals(3)
+//     expect(count.b).equals(3)
+//   })
+// })
+
+describe('reference, simple', function () {
+  var d = new Observable({
+    title:'snur'
+  })
+  var obs = new Observable(d)
+  var cnt = 0
+  obs.subscribe({
+    title:true
+  },function(){
+    console.log('fire!')
+    cnt++
+  })
+  it('fires when removed',function(){
+    d.title.remove()
+    expect(cnt).equals(1)
+  })
+  it('fires when added',function(){
+    d.set({
+      title:'bur'
+    })
+    expect(cnt).equals(2)
+  })
+})
+
+describe('reference, simple, nested', function () {
+  var d = new Observable({
+    title:'snur'
+  })
+  var obs = new Observable({
+    val:d,
+    nested:{}
+  })
+  var cnt = 0
+  obs.nested.subscribe({
+    upward:{
+      title:true
     }
-  }, function () {
-    count[this.key]++
+  },function(){
+    console.log('fire!')
+    cnt++
   })
-  var Item = item.Constructor
-  var parent = new Observable(new Observable({
-    title: 'momma'
-  }))
-  it('fires for 2 instances, when added to parent', function(){
-    parent.set({
-      a: {
-        useVal: new Item()
-      },
-      b: {
-        useVal: new Item()
-      }
+  it('fires when removed',function(){
+    d.title.remove()
+    expect(cnt).equals(1)
+  })
+  it('fires when added',function(){
+    d.set({
+      title:'bur'
     })
-    expect(count.a).equals(1)
-    expect(count.b).equals(1)
-  })
-
-  it('fires when title is removed', function () {
-    parent.val.title.remove()
-    expect(count.a).equals(2)
-    expect(count.b).equals(2)
-  })
-
-  it('fires when adding title', function () {
-    parent.val.set({
-      title: 'flups'
-    })
-    expect(count.a).equals(3)
-    expect(count.b).equals(3)
+    expect(cnt).equals(2)
   })
 })
