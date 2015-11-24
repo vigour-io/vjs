@@ -21,4 +21,8 @@ describe('subscribe', function () {
   describe('combined', function () {
     require('./combined')
   })
+
+  describe('remove', function () {
+    require('./remove')
+  })
 })
