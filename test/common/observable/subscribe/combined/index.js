@@ -413,37 +413,40 @@ describe('instances', function () {
   })
 })
 
-// describe('adding on multiple instances', function () {
-//   var count = {
-//     one:0,
-//     two:0
-//   }
-//   var subber = new Observable()
-//   subber.subscribe({
-//     parent: {
-//       content: true
-//     }
-//   }, function (data, event) {
-//     count[this.key]++
-//     console.log('sub fires',this.key)
-//   })
-//   var Subber = subber.Constructor
-//   var obs = new Observable({
-//     properties: {
-//       content:new Observable().Constructor
-//     },
-//     one: new Subber(),
-//     two: new Subber()
-//   })
+describe('adding on multiple instances', function () {
+  var count = {
+    one:0,
+    two:0
+  }
+  var subber = new Observable()
+  subber.subscribe({
+    parent: {
+      content: true
+    }
+  }, function (data, event) {
+    count[this.key]++
+  })
+  var Subber = subber.Constructor
+  var obs = new Observable({
+    properties: {
+      content:new Observable().Constructor
+    },
+    one:{
+      useVal:new Subber()
+    },
+    two: {
+      useVal:new Subber()
+    }
+  })
 
-//   it('adding fires both instances',function(){
-//     obs.set({
-//       content:'addingIt'
-//     })
-//     expect(count.one).equals(1)
-//     expect(count.two).equals(1)
-//   })
-// })
+  it('adding fires both instances',function(){
+    obs.set({
+      content:'addingIt'
+    })
+    expect(count.one).equals(1)
+    expect(count.two).equals(1)
+  })
+})
 
 describe('removing and adding on multiple instances', function () {
   var count = {
@@ -537,56 +540,57 @@ describe('removing and adding on multiple instances, nested field', function () 
   })
 })
 
-// describe('removing and adding on multiple instances, nested field', function () {
-//   var count = {
-//     one:0,
-//     two:0
-//   }
-//   var subber = new Observable({
-//     key:'subber',
-//     foo:{}
-//   })
-//   subber.foo.subscribe({
-//     upward: {
-//       content:true
-//     }
-//   }, function (data, event) {
-//     count[this.parent.key]++
-//   })
-//   var Subber = subber.Constructor
-//   var Two = new Observable({
-//     key:'holderTwo',
-//     two:{
-//       useVal:new Subber()
-//     }
-//   }).Constructor
+describe('removing and adding on multiple instances, nested field', function () {
+  var count = {
+    one:0,
+    two:0
+  }
+  var subber = new Observable({
+    key:'subber',
+    foo:{}
+  })
+  subber.foo.subscribe({
+    upward: {
+      content:true
+    }
+  }, function (data, event) {
+    count[this.parent.key]++
+  })
+  var Subber = subber.Constructor
+  var Two = new Observable({
+    key:'holderTwo',
+    two:{
+      useVal:new Subber()
+    }
+  }).Constructor
 
-//   var obs = new Observable({
-//     key:'obs',
-//     content: 'test',
-//     one: {
-//       useVal:new Subber()
-//     },
-//     thing:{
-//       useVal:new Two()
-//     }
-//   })
+  var obs = new Observable({
+    key:'obs',
+    content: 'test',
+    one: {
+      useVal:new Subber()
+    },
+    thing:{
+      useVal:new Two()
+    }
+  })
 
-//   it('fired once for each instance', function () {
-//     expect(count.one).equals(1)
-//     expect(count.two).equals(1)
-//   })
+  it('fired once for each instance', function () {
+    expect(count.one).equals(1)
+    expect(count.two).equals(1)
+  })
 
-//   it('removing fires both instances', function () {
-//     expect(count.one).equals(2)
-//     expect(count.two).equals(2)
-//   })
+  it('removing fires both instances', function () {
+    obs.content.remove()
+    expect(count.one).equals(2)
+    expect(count.two).equals(2)
+  })
 
-//   it('adding fires both instances', function () {
-//     obs.set({
-//       content:'addedAgain'
-//     })
-//     expect(count.one).equals(3)
-//     expect(count.two).equals(3)
-//   })
-// })
+  it('adding fires both instances', function () {
+    obs.set({
+      content:'addedAgain'
+    })
+    expect(count.one).equals(3)
+    expect(count.two).equals(3)
+  })
+})
