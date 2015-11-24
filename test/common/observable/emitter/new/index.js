@@ -14,4 +14,24 @@ describe('new event', function () {
     expect(special).instanceOf(Observable)
     expect(spy).calledTwice
   })
+  it(
+    'should have its properties defined (from the setObject passed to the ' + 
+    'Constructor), when `new` eventHandlers are called', 
+    function () {
+      var Custom = new Observable({
+        prop1: {
+          nest: 3
+        },
+        on: {
+          new () {
+            var instance = this
+            expect(instance).to.have.property('prop1')
+              .which.has.property('nest')
+              .which.has.property('val', 3)
+          }
+        }
+      }).Constructor
+      var custom = new Custom()
+    }
+  )
 })
