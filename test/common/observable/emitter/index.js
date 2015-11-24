@@ -12,4 +12,5 @@ describe('emitter', function () {
   require('./error')
   require('./overwrites')
   require('./data')
+  require('./inject')
 })
