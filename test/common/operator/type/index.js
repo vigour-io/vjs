@@ -47,6 +47,69 @@ describe('type', () => {
     })
   })
 
+  describe('url', function () {
+    var Observable = require('../../../../lib/observable/')
+    var obs = new Observable({
+      inject: require('../../../../lib/operator/type'),
+      $type: 'url'
+    })
+
+    it('should cast "hello" to false', () => {
+      obs.val = 'hello'
+      expect(obs.val).to.equal(false)
+    })
+
+    it('should pass valid urls', () => {
+      var url = [
+        'https://github.com/sightmachine/SimpleCV/wiki/List-of-IP-Camera-Stream-URLs',
+        'bla.com',
+        'http://www.xxx.com',
+        'https://bla.com/hey?222',
+        'www.xxx.xxx.bla' // maybe add http?
+      ]
+      for (let i in url) {
+        obs.val = url[i]
+        expect(obs.val).ok
+      }
+    })
+
+    it('should cast empty observable to false', () => {
+      obs.val = new Observable()
+      expect(obs.val).to.equal(false)
+    })
+  })
+
+  describe('email', function () {
+    var Observable = require('../../../../lib/observable/')
+    var obs = new Observable({
+      inject: require('../../../../lib/operator/type'),
+      $type: 'email'
+    })
+
+    it('should cast "hello" to false', () => {
+      obs.val = 'hello'
+      expect(obs.val).to.equal(false)
+    })
+
+    it('should pass valid urls', () => {
+      var email = [
+        'jan@vigour.io',
+        'jan+1@vigour.io',
+        'hello@1234.com',
+        'somethingweird_ok@blabla.amsterdam'
+      ]
+      for (let i in email) {
+        obs.val = email[i]
+        expect(obs.val).ok
+      }
+    })
+
+    it('should cast empty observable to false', () => {
+      obs.val = new Observable()
+      expect(obs.val).to.equal(false)
+    })
+  })
+
   describe('number', function () {
     var Observable = require('../../../../lib/observable/')
     var obs = new Observable({
