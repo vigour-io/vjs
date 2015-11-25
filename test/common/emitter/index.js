@@ -127,5 +127,16 @@ describe('emitter', function () {
     })
   })
 
+  describe('once', function () {
+    var a = new Emitter()
+    it('fires once, function, listener gets removed', function (done) {
+      a.once(function () {
+        expect(a.fn).not.ok
+        done()
+      })
+      a.emit('data')
+    })
+  })
+
   require('./error')
 })
