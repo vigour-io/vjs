@@ -57,13 +57,6 @@ describe('Config', function () {
       })
       expect(someConfig.someField.val).to.equal(innerValue)
     })
-    it('should handle buffers', function () {
-      var value = new Buffer('boom')
-      var someConfig = new Config({
-        someField: value
-      })
-      expect(someConfig.someField.val).to.equal(value)
-    })
   })
 
   describe('Merge', function () {
