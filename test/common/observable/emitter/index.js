@@ -13,4 +13,6 @@ describe('emitter', function () {
   require('./overwrites')
   require('./data')
   require('./inject')
+  require('./once')
+  require('./is')
 })
