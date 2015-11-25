@@ -147,7 +147,6 @@ describe('subscribing to different parent with several instances', function () {
   })
 
   it('change one.field', function () {
-    console.log(' change onf field to 3')
     one.field.val = 3
     expect(obj.b).equals(2)
     expect(obj.a).equals(3)

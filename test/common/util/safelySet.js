@@ -25,7 +25,6 @@ describe('safely set on Base', function () {
 describe('safely set on Observable', function () {
   it('should store the reserved fields elsewhere', function () {
     var test = new Observable()
-    console.clear()
     test.set({
       set: 'test',
       get: 'yoyo',

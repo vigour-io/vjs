@@ -71,7 +71,6 @@ describe('object', function () {
             c:new UseValObservable('nerdje')
           }
         })
-        console.log('.....>',a.val)
         expect(a.val).equals(a._cache)
       })
 

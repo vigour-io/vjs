@@ -237,7 +237,6 @@ describe('context', function () {
     })
 
     it('sets a.b and should fire once for "a"', function () {
-      console.clear()
       test.a.set({
         b: 'a'
       })
