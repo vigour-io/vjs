@@ -36,7 +36,6 @@ describe('error emitter', function () {
     })
 
     it('returns an array as data', function () {
-      console.log(data)
       expect(data).instanceof(Array)
     })
 

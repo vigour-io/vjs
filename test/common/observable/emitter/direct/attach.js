@@ -50,4 +50,13 @@ describe('attach', function () {
     referencedObs.val = 'lets test attach, now it should fire'
     expect(measure.obs.val).to.equal(2)
   })
+
+  it('should include on falsy attach values', function () {
+    var obs2 = new Observable()
+    var obs3 = new Observable()
+    obs2.on([function () {
+      expect(arguments[3]).to.equal(0)
+    }, obs3, 0, true])
+    obs2.val = 'hello'
+  })
 })
