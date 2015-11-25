@@ -16,7 +16,7 @@
   },
   "description": "A javascript libary providing fast and memory efficient observables",
   "bugs": {
-    "url": "https://github.com/vigour-io/vjs/issues"
+    "url": "https://github.com/vigour-io/config/issues"
   },
   "dependencies": {
     "lodash": "3.10.x",
@@ -26,7 +26,7 @@
   "browserify": {
     "./lib/base/iterator/": "./lib/base/iterator/browser.js"
   },
-  "homepage": "https://github.com/vigour-io/vjs",
+  "homepage": "https://github.com/vigour-io/config",
   "keywords": [
     "javascript",
     "framework",
