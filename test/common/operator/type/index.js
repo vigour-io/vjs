@@ -1,6 +1,29 @@
 'use strict'
 
 describe('type', () => {
+  describe('string', function () {
+    var Observable = require('../../../../lib/observable/')
+    var obs = new Observable({
+      inject: require('../../../../lib/operator/type'),
+      $type: 'string'
+    })
+
+    it('should cast false to empty string', () => {
+      obs.val = false
+      expect(obs.val).to.equal('')
+    })
+
+    it('should cast 0 to "0"', () => {
+      obs.val = 0
+      expect(obs.val).to.equal('0')
+    })
+
+    it('should cast empty observable to empty string', () => {
+      obs.val = new Observable()
+      expect(obs.val).to.equal('')
+    })
+  })
+
   describe('boolean', function () {
     var Observable = require('../../../../lib/observable/')
     var obs = new Observable({
@@ -13,8 +36,13 @@ describe('type', () => {
       expect(obs.val).to.equal(true)
     })
 
-    it('should cast to false', () => {
+    it('should cast 0 to false', () => {
       obs.val = 0
+      expect(obs.val).to.equal(false)
+    })
+
+    it('should cast empty observable to false', () => {
+      obs.val = new Observable()
       expect(obs.val).to.equal(false)
     })
   })
