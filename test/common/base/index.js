@@ -37,6 +37,12 @@ describe('base', function () {
     expect(a.Constructor).to.be.a('function')
   })
 
+  it('should handle buffers', function () {
+    var buffer = new Buffer('boom')
+    var base = new Base(buffer)
+    expect(base.val).to.equal(buffer)
+  })
+
   describe('nested properties', function () {
     var a
     beforeEach(function () {
