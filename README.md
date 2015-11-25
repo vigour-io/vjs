@@ -4,4 +4,3 @@
 [![npm version](https://nodei.co/npm-dl/vigour-js.png)](https://badge.fury.io/js/vigour-js)
 
 # vigour-js
-- VJS Wiki - [https://github.com/vigour-io/vjs/wiki](https://github.com/vigour-io/vjs/wiki)

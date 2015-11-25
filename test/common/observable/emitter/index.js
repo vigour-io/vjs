@@ -14,4 +14,5 @@ describe('emitter', function () {
   require('./data')
   require('./inject')
   require('./once')
+  require('./is')
 })

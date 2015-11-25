@@ -6,6 +6,7 @@ docs/*
 .*.sw[op]
 
 *.mp4
+*.mov
 
 bundles/
 bundle.css
@@ -25,3 +26,4 @@ mocha.js
 mocha.css
 test-runner.html
 .tern-project
+resultlog.txt

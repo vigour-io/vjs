@@ -1,6 +1,6 @@
 {
   "name": "vigour-js",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "author": "Vigour.io <dev@vigour.io>",
   "repository": {
     "type": "git",
@@ -14,12 +14,13 @@
     "test-config": "gaston test -r node -s test/node/config",
     "doc": "node documentation.js"
   },
-  "description": "A javascript libary created and used by Vigour",
+  "description": "A javascript libary providing fast and memory efficient observables",
   "bugs": {
     "url": "https://github.com/vigour-io/vjs/issues"
   },
   "dependencies": {
-    "lodash": "3.10.x"
+    "lodash": "3.10.x",
+    "bluebird": "3.0.x"
   },
   "main": "./lib",
   "browserify": {
