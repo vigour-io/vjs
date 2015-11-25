@@ -1,5 +1,6 @@
 describe('instances', function () {
   var Observable = require('../../../../../../lib/observable')
+  
   it('fires condition trigger', function (done) {
     var cnt = 0
     var a = new Observable({
@@ -23,11 +24,12 @@ describe('instances', function () {
 
   it('fires for inherited condition, new listener', function (done) {
     var count = 0
+    var conditionCount = 0
     var A = new Observable({
       val: 10,
       on: {
         data: {
-          condition: function (data, cb, event) {
+          condition (data, cb, event) {
             count += 1
             setTimeout(cb, data)
           }
@@ -37,13 +39,14 @@ describe('instances', function () {
     var a = new A.Constructor({
       on: {
         data: {
-          condition: function (data, cb, event) {
+          condition (data, cb, event) {
             count += 1
             setTimeout(cb, data)
           },
-          val: function () {
+          val () {
+            conditionCount++
             expect(count).to.equal(2)
-            if (count === 2) {
+            if (count === 2 && conditionCount === 2) {
               done()
             }
           }

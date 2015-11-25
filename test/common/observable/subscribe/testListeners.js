@@ -22,7 +22,6 @@ module.exports = exports = function testListeners(obj, subs) {
       let property = storage[i]
       if (subs) {
         if (property instanceof SubsEmitter) {
-          console.log('---->',property.key)
           listeners.push(property.key)
         }
         continue
@@ -35,7 +34,7 @@ module.exports = exports = function testListeners(obj, subs) {
             listeners.push(property.key)
             let current = prop[3]
             let id = key
-            console.info(hash, '-', property.key, ':', current, '- id:', id, '- lateral:', getLateral(current), '- depth:', getDepth(current))
+            // console.info(hash, '-', property.key, ':', current, '- id:', id, '- lateral:', getLateral(current), '- depth:', getDepth(current))
             expect(id).ok
             expect(ids).not.contains(id)
             ids.push(id)
@@ -44,19 +43,19 @@ module.exports = exports = function testListeners(obj, subs) {
           property.attach.each((prop) => {
             listeners.push(property.key)
             let current = prop[3]
-            console.info(hash, '-', property.key, ':', current, '- id:', getId(current), '- lateral:', getLateral(current), '- depth:', getDepth(current))
+            // console.info(hash, '-', property.key, ':', current, '- id:', getId(current), '- lateral:', getLateral(current), '- depth:', getDepth(current))
           })
         } else if (property.key === 'parentEmitter') {
           property.attach.each((prop) => {
             listeners.push(property.key)
             let current = prop[3]
-            console.info(hash, '-', property.key, ':', current, '- id:', getId(current), '- lateral:', getLateral(current), '- depth:', getDepth(current))
+            // console.info(hash, '-', property.key, ':', current, '- id:', getId(current), '- lateral:', getLateral(current), '- depth:', getDepth(current))
           })
         } else if (property.key === 'reference') {
           property.attach.each((prop) => {
             listeners.push(property.key)
             let current = prop[3]
-            console.info(hash, '-', property.key, ':', current, '- id:', getId(current), '- lateral:', getLateral(current), '- depth:', getDepth(current))
+            // console.info(hash, '-', property.key, ':', current, '- id:', getId(current), '- lateral:', getLateral(current), '- depth:', getDepth(current))
           })
         }
       }

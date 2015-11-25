@@ -83,7 +83,6 @@ describe('adding prop listeners, no reference, multiple', function () {
       title: true
     }
   }, function () {
-    console.log('fire!',this.key)
     count[this.key]++
   })
   var Item = item.Constructor
@@ -171,8 +170,7 @@ describe('reference, simple', function () {
   var cnt = 0
   obs.subscribe({
     title:true
-  },function(){
-    console.log('fire!')
+  }, function(){
     cnt++
   })
   it('fires when removed',function(){
@@ -200,8 +198,7 @@ describe('reference, simple, nested', function () {
     upward:{
       title:true
     }
-  },function(){
-    console.log('fire!')
+  }, function(){
     cnt++
   })
   it('fires when removed',function(){

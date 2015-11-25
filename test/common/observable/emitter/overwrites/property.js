@@ -2,7 +2,6 @@
 describe('property', function () {
   var Observable = require('../../../../../lib/observable')
   it('instance, block update on instance, nested, property', function () {
-    console.clear()
     var cnt = 0
     var a = new Observable({
       key: 'a',
