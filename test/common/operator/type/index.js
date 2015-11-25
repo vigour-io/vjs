@@ -31,7 +31,7 @@ describe('type', () => {
       $type: 'boolean'
     })
 
-    it('should cast to true', () => {
+    it('should cast string to true', () => {
       obs.val = 'hello'
       expect(obs.val).to.equal(true)
     })
@@ -44,6 +44,39 @@ describe('type', () => {
     it('should cast empty observable to false', () => {
       obs.val = new Observable()
       expect(obs.val).to.equal(false)
+    })
+  })
+
+  describe('number', function () {
+    var Observable = require('../../../../lib/observable/')
+    var obs = new Observable({
+      inject: require('../../../../lib/operator/type'),
+      $type: 'number'
+    })
+
+    it('should cast string to 0', () => {
+      obs.val = 'hello'
+      expect(obs.val).to.equal(0)
+    })
+
+    it('should cast "200" to 200', () => {
+      obs.val = '200'
+      expect(obs.val).to.equal(200)
+    })
+
+    it('should cast "hello 200!" to 200', () => {
+      obs.val = '200'
+      expect(obs.val).to.equal(200)
+    })
+
+    it('should cast "hello 200.20!" to 200.20', () => {
+      obs.val = '200.20'
+      expect(obs.val).to.equal(200.20)
+    })
+
+    it('should cast empty observable to 0', () => {
+      obs.val = new Observable()
+      expect(obs.val).to.equal(0)
     })
   })
 
