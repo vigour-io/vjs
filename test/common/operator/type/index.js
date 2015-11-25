@@ -2,7 +2,7 @@
 
 var Observable = require('../../../../lib/observable/')
 
-describe('test operator type', () => {
+describe('type', () => {
   var a
   var RANGES = [0, 1]
 
@@ -29,7 +29,7 @@ describe('test operator type', () => {
       a.play.val = 'a'
     })
 
-    it('should allow type boolean', () => {
+    it('should cast to boolean', () => {
       expect(typeof a.play.val).equals('boolean')
     })
 
@@ -37,12 +37,12 @@ describe('test operator type', () => {
       expect(a.play.val).equals(true)
     })
 
-    describe('when falsy value', () => {
+    describe('falsy values', () => {
       beforeEach(() => {
         a.play.val = 0
       })
 
-      it('should allow type boolean', () => {
+      it('should cast to boolean', () => {
         expect(typeof a.play.val).equals('boolean')
       })
 
@@ -53,25 +53,22 @@ describe('test operator type', () => {
   })
 
   describe('range', () => {
-    it('should allow range type', () => {
+    it('should cast to range', () => {
       a.time.val = '0.4'
-
       expect(a.time.val).equals(0.4)
     })
 
     it('should return min range', () => {
       a.time.val = 'rahh'
-
       expect(a.time.val).equals(RANGES[0])
     })
 
     it('should return max range', () => {
       a.time.val = 100
-
       expect(a.time.val).equals(RANGES[1])
     })
 
-    describe('get mim or max depending on the approximity', () => {
+    describe('range choose min or max depending on proximity', () => {
       var newRanges = [10, 100]
 
       beforeEach(() => {
