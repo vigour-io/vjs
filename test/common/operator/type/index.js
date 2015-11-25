@@ -1,93 +1,57 @@
 'use strict'
 
-var Observable = require('../../../../lib/observable/')
-
 describe('type', () => {
-  var a
-  var RANGES = [0, 1]
-
-  beforeEach(() => {
-    var properties = {
-      play: {
-        $type: 'boolean'
-      },
-      time: {
-        $type: { range: RANGES }
-      }
-    }
-
-    a = new Observable({
-      ChildConstructor: new Observable({
-        inject: require('../../../../lib/operator/type')
-      }),
-      inject: properties
-    })
-  })
-
-  describe('boolean', () => {
-    beforeEach(() => {
-      a.play.val = 'a'
+  describe('boolean', function () {
+    var Observable = require('../../../../lib/observable/')
+    var obs = new Observable({
+      inject: require('../../../../lib/operator/type'),
+      $type: 'boolean'
     })
 
-    it('should cast to boolean', () => {
-      expect(typeof a.play.val).equals('boolean')
+    it('should cast to true', () => {
+      obs.val = 'hello'
+      expect(obs.val).to.equal(true)
     })
 
-    it('should be true', () => {
-      expect(a.play.val).equals(true)
-    })
-
-    describe('falsy values', () => {
-      beforeEach(() => {
-        a.play.val = 0
-      })
-
-      it('should cast to boolean', () => {
-        expect(typeof a.play.val).equals('boolean')
-      })
-
-      it('should be true', () => {
-        expect(a.play.val).equals(false)
-      })
+    it('should cast to false', () => {
+      obs.val = 0
+      expect(obs.val).to.equal(false)
     })
   })
 
   describe('range', () => {
+    var Observable = require('../../../../lib/observable/')
+    var obs = new Observable({
+      inject: require('../../../../lib/operator/type'),
+      $type: { range: [0, 1] }
+    })
+
     it('should cast to range', () => {
-      a.time.val = '0.4'
-      expect(a.time.val).equals(0.4)
+      obs.val = '0.4'
+      expect(obs.val).equals(0.4)
     })
 
     it('should return min range', () => {
-      a.time.val = 'rahh'
-      expect(a.time.val).equals(RANGES[0])
+      obs.val = 'rahh'
+      expect(obs.val).equals(0)
     })
 
     it('should return max range', () => {
-      a.time.val = 100
-      expect(a.time.val).equals(RANGES[1])
+      obs.val = 100
+      expect(obs.val).equals(1)
     })
 
-    describe('range choose min or max depending on proximity', () => {
-      var newRanges = [10, 100]
+    it('can change range', () => {
+      obs.$type.set({ range: [10, 100] })
+    })
 
-      beforeEach(() => {
-        a.set({
-          anotherTime: {
-            $type: { range: newRanges }
-          }
-        })
-      })
-
-      it('should return min', () => {
-        a.anotherTime.val = 1
-        expect(a.anotherTime.val).equals(newRanges[0])
-      })
-
-      it('should return max', () => {
-        a.anotherTime.val = 150
-        expect(a.anotherTime.val).equals(newRanges[1])
-      })
+    it('should return min', () => {
+      obs.val = 1
+      expect(obs.val).equals(10)
+    })
+    it('should return max', () => {
+      obs.val = 150
+      expect(obs.val).equals(100)
     })
   })
 })
