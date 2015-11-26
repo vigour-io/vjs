@@ -116,6 +116,44 @@ describe('each', function () {
       count = 0
     })
 
+    describe('set obj', function () {
+      var b = new Base({
+        a: true,
+        b: true,
+        c: true
+      })
+      it('can call each using a set object', function () {
+        b.each({
+          something: true
+        })
+        expect(b.a).to.have.property('something')
+        expect(b.b).to.have.property('something')
+        expect(b.c).to.have.property('something')
+      })
+
+      it('can call each using a string', function () {
+        b.each('hello')
+        expect(b.a.val).equals('hello')
+        expect(b.b.val).equals('hello')
+        expect(b.c.val).equals('hello')
+      })
+
+      it('can call each using base object', function () {
+        var c = new Base()
+        b.each(c)
+        expect(b.a._input).to.equal(c)
+        expect(b.b._input).to.equal(c)
+        expect(b.c._input).to.equal(c)
+      })
+
+      it('can call each using null', function () {
+        b.each(null)
+        expect(b.a).not.ok
+        expect(b.b).not.ok
+        expect(b.c).not.ok
+      })
+    })
+
     it('should filter gurk, key and _aField', function () {
       a.each(function () {
         count++
