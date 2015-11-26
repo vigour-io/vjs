@@ -45,6 +45,11 @@ describe('type', () => {
       obs.val = new Observable()
       expect(obs.val).to.equal(false)
     })
+
+    it('true should be converted by true', () => {
+      obs.val = true
+      expect(obs.val).to.equal(true)
+    })
   })
 
   describe('url', function () {
