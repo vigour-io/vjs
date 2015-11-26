@@ -1,6 +1,6 @@
 'use strict'
 var Base = require('../../../../lib/base/')
-var plain = require('vigour-js/lib/methods/plain')
+var plain = require('../../../../lib/methods/plain')
 
 describe('complex object.plain', function () {
   it('should work on regular objects with Base properties', function () {
