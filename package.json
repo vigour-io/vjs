@@ -1,6 +1,7 @@
 {
   "name": "vigour-js",
   "version": "0.2.9",
+  "version": "0.3.0",
   "author": "Vigour.io <dev@vigour.io>",
   "repository": {
     "type": "git",
@@ -16,7 +17,7 @@
   },
   "description": "A javascript libary providing fast and memory efficient observables",
   "bugs": {
-    "url": "https://github.com/vigour-io/vjs/issues"
+    "url": "https://github.com/vigour-io/config/issues"
   },
   "dependencies": {
     "lodash": "3.10.x",
@@ -24,9 +25,10 @@
   },
   "main": "./lib",
   "browserify": {
-    "./lib/base/iterator/": "./lib/base/iterator/browser.js"
+    "./lib/base/iterator/": "./lib/base/iterator/browser.js",
+    "./lib/util/uuid/": "./lib/util/uuid/browser.js"
   },
-  "homepage": "https://github.com/vigour-io/vjs",
+  "homepage": "https://github.com/vigour-io/config",
   "keywords": [
     "javascript",
     "framework",

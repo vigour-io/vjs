@@ -45,7 +45,6 @@ describe('property listener on instance', function () {
   })
 
   it('listener fires when updating class', function () {
-    console.clear()
     a.set({
       c: true
     })

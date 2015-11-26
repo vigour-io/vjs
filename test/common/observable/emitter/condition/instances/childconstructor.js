@@ -22,7 +22,7 @@ describe('ChildConstructor', function () {
     })
   })
 
-  it('should fire condition over ChildConstructors over nested fields', function (done) {
+  it('should fire condition over ChildConstructors over nested fields', function () {
     var results = []
     var b = new Observable({
       on: {

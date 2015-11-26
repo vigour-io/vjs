@@ -103,14 +103,12 @@ describe('subscribing to nested field on existing parent', function () {
   })
 
   it('fires when a.b is removed', function () {
-    console.log('------remove!')
     a.b.remove()
     expect(count).equals(1)
   })
 
   it('added a reference and property listener', () => {
     var listeners = testListeners(subscription)
-    console.log('------')
     expect(listeners.length).equals(4)
     expect(listeners.numberOf('reference')).equals(3)
     expect(listeners).contains('property')
