@@ -1,3 +1,4 @@
+'use strict'
 // add some more set checks and tests
 // nested case etc
 describe('emitter', function () {

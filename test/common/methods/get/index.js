@@ -1,3 +1,4 @@
+'use strict'
 var Base = require('../../../../lib/base/')
 var Get = require('../../../../lib/methods/get')
 

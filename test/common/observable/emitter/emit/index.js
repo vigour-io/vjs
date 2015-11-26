@@ -1,3 +1,4 @@
+'use strict'
 var Observable = require('../../../../../lib/observable/')
 var custom = new Observable({})
 describe('emit', function () {

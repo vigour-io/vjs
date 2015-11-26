@@ -1,3 +1,4 @@
+'use strict'
 /* global describe, it, expect */
 describe('getPrototypeOf', function () {
   it('should support getPrototypeOf', function () {

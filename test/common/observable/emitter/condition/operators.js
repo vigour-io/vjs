@@ -1,3 +1,4 @@
+'use strict'
 describe('operators', function () {
   var Observable = require('../../../../../lib/observable')
   it('fires condition trigger', function (done) {

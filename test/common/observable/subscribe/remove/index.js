@@ -1,3 +1,4 @@
+'use strict'
 var Observable = require('../../../../../lib/observable')
 var testListeners = require('../testListeners')
 var countOne

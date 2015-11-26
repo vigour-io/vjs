@@ -1,3 +1,4 @@
+'use strict'
 describe('object', function () {
   var Observable = require('../../../../lib/observable')
 

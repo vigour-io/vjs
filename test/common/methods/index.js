@@ -1,3 +1,4 @@
+'use strict'
 describe('methods', function () {
   require('./plain/')
   require('./flatten/')

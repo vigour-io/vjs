@@ -26,9 +26,13 @@ describe('type', () => {
 
   describe('boolean', function () {
     var Observable = require('../../../../lib/observable/')
-    var obs = new Observable({
-      inject: require('../../../../lib/operator/type'),
-      $type: 'boolean'
+    var obs
+
+    beforeEach(() => {
+      obs = new Observable({
+        inject: require('../../../../lib/operator/type'),
+        $type: 'boolean'
+      })
     })
 
     it('should cast string to true', () => {
@@ -43,6 +47,21 @@ describe('type', () => {
 
     it('should cast empty observable to false', () => {
       obs.val = new Observable()
+      expect(obs.val).to.equal(false)
+    })
+
+    it('true should be converted by true', () => {
+      obs.val = true
+      expect(obs.val).to.equal(true)
+    })
+
+    it('empty string should be converted to false', () => {
+      obs.val = ''
+      expect(obs.val).to.equal(false)
+    })
+
+    it('zero should be converted to false', () => {
+      obs.val = 0
       expect(obs.val).to.equal(false)
     })
   })

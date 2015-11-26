@@ -1,3 +1,4 @@
+'use strict'
 var Base = require('../../../../lib/base/')
 var Keys = require('../../../../lib/methods/keys')
 

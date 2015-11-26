@@ -1,3 +1,4 @@
+'use strict'
 describe('bind', function () {
   var Observable = require('../../../lib/observable')
   var Base = require('../../../lib/base')

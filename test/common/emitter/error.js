@@ -1,3 +1,4 @@
+'use strict'
 describe('error emitter', function () {
   var ErrorEmitter = require('../../../lib/emitter/error')
   var Event = require('../../../lib/event')

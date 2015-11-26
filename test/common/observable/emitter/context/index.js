@@ -1,3 +1,4 @@
+'use strict'
 describe('context', function () {
   var Observable = require('../../../../../lib/observable')
 

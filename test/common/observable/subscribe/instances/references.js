@@ -1,3 +1,4 @@
+'use strict'
 /* global expect, it, describe, beforeEach */
 var Observable = require('../../../../../lib/observable')
 var count

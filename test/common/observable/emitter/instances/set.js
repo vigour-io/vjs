@@ -1,3 +1,4 @@
+'use strict'
 describe('set on instance nested field', function () {
   var Observable = require('../../../../../lib/observable')
   var cnt = 0

@@ -1,3 +1,4 @@
+'use strict'
 describe('set', function () {
   var Observable = require('../../../../../lib/observable')
   var obs, cnt, cnt2

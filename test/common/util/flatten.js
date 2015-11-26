@@ -1,3 +1,4 @@
+'use strict'
 describe('flatten', function () {
   var flatten = require('../../../lib/util/flatten')
   var original = { a: { b: { c: { e: 1, f: 2, g: 3 } } } }

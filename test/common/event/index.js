@@ -1,3 +1,4 @@
+'use strict'
 /* global describe, it, expect, beforeEach */
 var Event = require('../../../lib/event/')
 var Emitter = require('../../../lib/emitter/')

@@ -1,3 +1,4 @@
+'use strict'
 describe('unique', function () {
   var Observable = require('../../../../../lib/observable')
   var a, b, c

@@ -1,3 +1,4 @@
+'use strict'
 var Observable = require('../../../../../lib/observable/')
 
 describe('Injecting listeners', function () {
