@@ -152,6 +152,18 @@ describe('each', function () {
         expect(b.b).not.ok
         expect(b.c).not.ok
       })
+
+      it('can call each using the each property', function () {
+        b.set({
+          x: true,
+          y: true,
+          each: {
+            bla: true
+          }
+        })
+        expect(b.x.bla).ok
+        expect(b.y.bla).ok
+      })
     })
 
     it('should filter gurk, key and _aField', function () {
