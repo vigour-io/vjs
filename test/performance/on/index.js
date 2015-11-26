@@ -1,3 +1,4 @@
+'use strict'
 var Obs = require('../../../lib/observable')
 var util = require('../../../lib/util')
 var Event = require('../../../lib/event')

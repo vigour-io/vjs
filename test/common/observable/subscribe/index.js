@@ -1,3 +1,4 @@
+'use strict'
 describe('subscribe', function () {
   describe('constructor', function () {
     require('./constructor')

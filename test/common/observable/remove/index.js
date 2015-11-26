@@ -1,3 +1,4 @@
+'use strict'
 // TODO: clean this up, split up in multiple its, describes and files
 
 describe('remove', function () {

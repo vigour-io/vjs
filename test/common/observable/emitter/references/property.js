@@ -1,3 +1,4 @@
+'use strict'
 describe('property', function () {
   var Observable = require('../../../../../lib/observable/')
   it('should add a nested listener', function () {

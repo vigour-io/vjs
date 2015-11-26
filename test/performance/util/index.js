@@ -1,3 +1,4 @@
+'use strict'
 describe('util test', function () {
   // this is buggy shit
   var util = require('../../../lib/util')

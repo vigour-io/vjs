@@ -1,3 +1,4 @@
+'use strict'
 var Observable = require('../../../../../lib/observable/')
 var ErrorEmitter = require('../../../../../lib/emitter/error')
 

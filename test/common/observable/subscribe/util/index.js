@@ -1,3 +1,4 @@
+'use strict'
 // var shared = require('../../../../../lib/observable/subscribe/shared')
 // var code = shared.code
 // var id = shared.id

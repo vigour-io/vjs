@@ -1,3 +1,4 @@
+'use strict'
 var each = require('../../../../lib/methods/each').define.each
 
 describe('each', function () {

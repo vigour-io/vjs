@@ -1,3 +1,4 @@
+'use strict'
 var Observable = require('../../../../lib/observable')
 Observable.prototype.inject(require('../../../../lib/operator/subscribe'))
 

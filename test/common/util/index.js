@@ -1,3 +1,4 @@
+'use strict'
 describe('util', function () {
   var Base = require('../../../lib/base')
   var isPlainObj = require('../../../lib/util/is/plainobj')

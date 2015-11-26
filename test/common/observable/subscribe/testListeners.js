@@ -1,3 +1,4 @@
+'use strict'
 var SubsEmitter = require('../../../../lib/observable/subscribe/constructor')
 var getId = require('../../../../lib/observable/subscribe/current/get/id')
 var getLateral = require('../../../../lib/observable/subscribe/current/get/level')

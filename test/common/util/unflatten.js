@@ -1,3 +1,4 @@
+'use strict'
 describe('unflatten', function () {
   var unflatten = require('../../../lib/util/unflatten')
 

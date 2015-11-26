@@ -1,3 +1,4 @@
+'use strict'
 describe('remove emitter', function () {
   var Observable = require('../../../../../lib/observable')
   var isRemoved = require('../../../../../lib/util/is/removed')

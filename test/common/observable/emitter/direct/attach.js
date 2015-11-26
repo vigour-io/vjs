@@ -1,3 +1,4 @@
+'use strict'
 describe('attach', function () {
   var Observable = require('../../../../../lib/observable')
   var measure = {

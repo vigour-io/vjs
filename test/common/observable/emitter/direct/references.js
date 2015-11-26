@@ -1,3 +1,4 @@
+'use strict'
 describe('references', function () {
   var Observable = require('../../../../../lib/observable')
   var measure = {
