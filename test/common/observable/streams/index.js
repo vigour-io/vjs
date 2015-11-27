@@ -1,5 +1,4 @@
 'use strict'
-var http = require('http')
 var Observable = require('../../../../lib/observable/')
 var stream = require('stream')
 
@@ -7,13 +6,13 @@ describe('streams', function () {
   this.timeout(15000)
   it('can consume a stream', function (done) {
     var readable = new stream.Readable({
-      objectMode: true
+      objectMode: true,
+      read () {}
     })
-    readable._read = function () {}
     var a = new Observable({
       key: 'a',
       on: {
-        data: function (data) {
+        data (data) {
           if (data === 'hey') {
             done()
           }
@@ -29,34 +28,32 @@ describe('streams', function () {
       key: 'a'
     })
     var writable = new stream.Writable({
-      objectMode: true
+      objectMode: true,
+      write (chunk, encoding, callback) {
+        expect(chunk.toString()).to.equal('hey')
+        done()
+      }
     })
-    writable._write = function (chunk, encoding, callback) {
-      expect(chunk.toString()).to.equal('hey')
-      done()
-    }
     a.pipe(writable)
     a.val = 'hey'
   })
 
-  xit('can be piped to', function (done) {
-    // make this test better later... needs node server
+  it('can be piped to', function (done) {
+    var readable = new stream.Readable({
+      objectMode: true,
+      read () {}
+    })
     var a = new Observable({
       key: 'a',
       on: {
-        data: function () {}
+        data (data) {
+          if (data === 'hey') {
+            done()
+          }
+        }
       }
     })
-    var largeFile = http.request({
-      hostname: 'localhost',
-      path: '',
-      method: 'GET',
-      port: 3030
-    }, function (res) {
-      res.on('data', function (chunk) {})
-      res.pipe(a.stream)
-      res.on('end', done)
-    })
-    largeFile.end()
+    readable.pipe(a.stream)
+    readable.push('hey')
   })
 })

@@ -11,3 +11,5 @@ describe('getPrototypeOf', function () {
     expect(Object.getPrototypeOf(c)).to.have.property('field')
   })
 })
+
+// has bind, etc etc nice to see the browsers that are exactly supported
