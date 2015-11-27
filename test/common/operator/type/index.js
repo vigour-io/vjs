@@ -8,31 +8,67 @@ describe('type', () => {
       $type: 'string'
     })
 
-    it('should cast false to empty string', () => {
+    it('should convert false to empty string', () => {
       obs.val = false
       expect(obs.val).to.equal('')
     })
 
-    it('should cast 0 to "0"', () => {
+    it('should convert 0 to "0"', () => {
       obs.val = 0
       expect(obs.val).to.equal('0')
     })
 
-    it('should cast empty observable to empty string', () => {
+    it('should convert empty observable to empty string', () => {
       obs.val = new Observable()
       expect(obs.val).to.equal('')
+    })
+
+    it('should convert buffer to string', () => {
+      obs.val = new Buffer('etc')
+      expect(obs.val).equals('etc')
+      // expect(obs.val)
+    })
+  })
+
+  describe('buffer', function () {
+    var Observable = require('../../../../lib/observable/')
+    var obs = new Observable({
+      inject: require('../../../../lib/operator/type'),
+      $type: 'buffer'
+    })
+
+    it('should convert empty observalbe to false', () => {
+      expect(obs.val).to.equal(false)
+    })
+
+    it('should return buffer if buffer', () => {
+      var buffer = new Buffer('something')
+      obs.val = buffer
+      expect(obs.val).to.equal(buffer)
+    })
+
+    it('should convert string to buffer', () => {
+      obs.val = 'hello'
+      expect(obs.val).instanceof(Buffer)
+    })
+
+    it('should convert number to buffer', () => {
+      obs.val = 10
+      expect(obs.val).instanceof(Buffer)
+    })
+
+    it('should convert boolean to buffer', () => {
+      obs.val = true
+      expect(obs.val).instanceof(Buffer)
     })
   })
 
   describe('boolean', function () {
     var Observable = require('../../../../lib/observable/')
-    var obs
-
-    beforeEach(() => {
-      obs = new Observable({
-        inject: require('../../../../lib/operator/type'),
-        $type: 'boolean'
-      })
+    var obs = new Observable({
+      // want to test switching as well, no beforeEach
+      inject: require('../../../../lib/operator/type'),
+      $type: 'boolean'
     })
 
     it('should cast string to true', () => {
