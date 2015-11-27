@@ -71,17 +71,17 @@ describe('type', () => {
       $type: 'boolean'
     })
 
-    it('should cast string to true', () => {
+    it('should convert string to true', () => {
       obs.val = 'hello'
       expect(obs.val).to.equal(true)
     })
 
-    it('should cast 0 to false', () => {
+    it('should convert 0 to false', () => {
       obs.val = 0
       expect(obs.val).to.equal(false)
     })
 
-    it('should cast empty observable to false', () => {
+    it('should convert empty observable to false', () => {
       obs.val = new Observable()
       expect(obs.val).to.equal(false)
     })
@@ -109,7 +109,7 @@ describe('type', () => {
       $type: 'url'
     })
 
-    it('should cast "hello" to false', () => {
+    it('should convert "hello" to false', () => {
       obs.val = 'hello'
       expect(obs.val).to.equal(false)
     })
@@ -128,7 +128,7 @@ describe('type', () => {
       }
     })
 
-    it('should cast empty observable to false', () => {
+    it('should convert empty observable to false', () => {
       obs.val = new Observable()
       expect(obs.val).to.equal(false)
     })
@@ -141,7 +141,7 @@ describe('type', () => {
       $type: 'email'
     })
 
-    it('should cast "hello" to false', () => {
+    it('should convert "hello" to false', () => {
       obs.val = 'hello'
       expect(obs.val).to.equal(false)
     })
@@ -159,7 +159,7 @@ describe('type', () => {
       }
     })
 
-    it('should cast empty observable to false', () => {
+    it('should convert empty observable to false', () => {
       obs.val = new Observable()
       expect(obs.val).to.equal(false)
     })
@@ -172,27 +172,27 @@ describe('type', () => {
       $type: 'number'
     })
 
-    it('should cast string to 0', () => {
+    it('should convert string to 0', () => {
       obs.val = 'hello'
       expect(obs.val).to.equal(0)
     })
 
-    it('should cast "200" to 200', () => {
+    it('should convert "200" to 200', () => {
       obs.val = '200'
       expect(obs.val).to.equal(200)
     })
 
-    it('should cast "hello 200!" to 200', () => {
+    it('should convert "hello 200!" to 200', () => {
       obs.val = '200'
       expect(obs.val).to.equal(200)
     })
 
-    it('should cast "hello 200.20!" to 200.20', () => {
+    it('should convert "hello 200.20!" to 200.20', () => {
       obs.val = '200.20'
       expect(obs.val).to.equal(200.20)
     })
 
-    it('should cast empty observable to 0', () => {
+    it('should convert empty observable to 0', () => {
       obs.val = new Observable()
       expect(obs.val).to.equal(0)
     })
@@ -205,7 +205,7 @@ describe('type', () => {
       $type: { range: [0, 1] }
     })
 
-    it('should cast to range', () => {
+    it('should convert to range', () => {
       obs.val = '0.4'
       expect(obs.val).equals(0.4)
     })
