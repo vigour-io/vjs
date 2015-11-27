@@ -39,4 +39,26 @@ describe('property', function () {
     a.set({ randomField: null })
     expect(cnt).to.equal(1)
   })
+
+  it('context nested, block update on context', function () {
+    var cnt = 0
+    var a = new Observable({
+      key: 'a',
+      trackInstances: true,
+      b: {
+        on: {
+          property (data) {
+            cnt++
+          }
+        }
+      }
+    })
+    var b = new a.Constructor({ //eslint-disable-line
+      key: 'b',
+      b: { c: 'b' }
+    })
+    cnt = 0
+    a.b.set({ c: 'a' })
+    expect(cnt).to.equal(1)
+  })
 })

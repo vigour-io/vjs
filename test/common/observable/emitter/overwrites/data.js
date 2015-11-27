@@ -1,5 +1,5 @@
 'use strict'
-describe('input', function () {
+describe('data', function () {
   var Observable = require('../../../../../lib/observable')
   it('instance, block update on instance', function () {
     var cnt = 0
@@ -109,8 +109,6 @@ describe('input', function () {
   })
 
   it('context, block update on context', function () {
-    console.clear()
-    console.error('ok ok ok ok')
     var cnt = 0
     var a = new Observable({
       key: 'a',
@@ -118,7 +116,6 @@ describe('input', function () {
       b: {
         on: {
           data (data) {
-            console.warn('FIRE IT!', this.path, cnt)
             cnt++
           }
         }
@@ -129,9 +126,29 @@ describe('input', function () {
       b: 'this is b!'
     })
     cnt = 0
-    console.info('should block b --- b has its own value!')
-    window.xxx = true
     a.b.val = 'this is a!'
+    expect(cnt).to.equal(1)
+  })
+
+  it('context nested, block update on context', function () {
+    var cnt = 0
+    var a = new Observable({
+      key: 'a',
+      trackInstances: true,
+      b: {
+        on: {
+          data (data) {
+            cnt++
+          }
+        }
+      }
+    })
+    var b = new a.Constructor({ //eslint-disable-line
+      key: 'b',
+      b: { c: 'b' }
+    })
+    cnt = 0
+    a.b.set({ c: 'a' })
     expect(cnt).to.equal(1)
   })
 })
