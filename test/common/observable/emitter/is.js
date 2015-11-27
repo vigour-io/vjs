@@ -33,4 +33,11 @@ describe('is', function () {
     })
     obs.val = 20
   })
+
+  it('shpuld remove promise when remvoing the observable', function () {
+    var promise = obs.is((val) => val < 10)
+    var spy = sinon.spy(promise, 'cancel')
+    obs.remove()
+    expect(spy).to.have.been.called
+  })
 })
