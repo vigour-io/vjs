@@ -110,6 +110,7 @@ describe('input', function () {
 
   it('context, block update on context', function () {
     console.clear()
+    console.error('ok ok ok ok')
     var cnt = 0
     var a = new Observable({
       key: 'a',
@@ -117,6 +118,7 @@ describe('input', function () {
       b: {
         on: {
           data (data) {
+            console.warn('FIRE IT!', this.path, cnt)
             cnt++
           }
         }
