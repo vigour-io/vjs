@@ -10,12 +10,7 @@ describe('instances', function () {
     a3: {},
     b3: {}
   }
-  var a
-  var b
-  var c
-  var a2
-  var a3
-  var b3
+  var a, b, c, a2, a3, b2, b3, d //eslint-disable-line
 
   it('create new observable --> a, add change listener "val"', function () {
     measure.a.val = { total: 0 }
@@ -314,5 +309,4 @@ describe('instances', function () {
   require('./set')
   require('./property')
   require('./childconstructor')
-
 })
