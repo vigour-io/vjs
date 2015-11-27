@@ -129,8 +129,9 @@ describe('input', function () {
       b: 'this is b!'
     })
     cnt = 0
-    console.log('should block b --- b has its own value!')
-    a.b.val = 'this is b!'
+    console.info('should block b --- b has its own value!')
+    window.xxx = true
+    a.b.val = 'this is a!'
     expect(cnt).to.equal(1)
   })
 })
