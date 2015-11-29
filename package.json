@@ -23,7 +23,7 @@
     "bluebird": "3.0.x"
   },
   "main": "./lib",
-  "browserify": {
+  "browser": {
     "./lib/base/iterator/": "./lib/base/iterator/browser.js",
     "./lib/util/uuid/": "./lib/util/uuid/browser.js"
   },
