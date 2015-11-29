@@ -269,6 +269,5 @@ describe('type', () => {
       })
       a.remove()
     })
-
   })
 })
