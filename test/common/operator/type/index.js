@@ -119,6 +119,9 @@ describe('type', () => {
         'https://github.com/sightmachine/SimpleCV/wiki/List-of-IP-Camera-Stream-URLs',
         'bla.com',
         'http://www.xxx.com',
+        'ws://localhost:3031',
+        'ws://192.168.2.1:3031',
+        'http://127.0.2.1:3031',
         'https://bla.com/hey?222',
         'www.xxx.xxx.bla' // maybe add http?
       ]
