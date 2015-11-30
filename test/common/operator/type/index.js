@@ -236,4 +236,38 @@ describe('type', () => {
       expect(obs.val).equals(100)
     })
   })
+
+  describe('remove', () => {
+    var Observable = require('../../../../lib/observable/')
+    it('returns null when _input is null', function (done) {
+      var a = new Observable({
+        x: {
+          inject: require('../../../../lib/operator/type'),
+          $type: 'number',
+          val: 0
+        }
+      })
+      var b = new a.Constructor()
+      b.x.once(() => {
+        expect(b.x.serialize()).to.deep.equal({ val: null })
+        done()
+      })
+      b.x.remove()
+    })
+
+    it('returns null when total gets removed', function (done) {
+      var a = new Observable({
+        x: {
+          inject: require('../../../../lib/operator/type'),
+          $type: 'number',
+          val: 0
+        }
+      })
+      a.once(() => {
+        expect(a.x.serialize()).to.deep.equal({ val: null })
+        done()
+      })
+      a.remove()
+    })
+  })
 })
