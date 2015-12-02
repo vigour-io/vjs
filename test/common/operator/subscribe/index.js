@@ -31,8 +31,8 @@ describe('subscribe', () => {
 
       var parent = new Observable({
         info: {
-          title:'myTitle',
-          subtitle:'mySubstitle'
+          title: 'myTitle',
+          subtitle: 'mySubstitle'
         },
         a: {
           useVal: child

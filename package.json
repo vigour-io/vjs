@@ -52,14 +52,6 @@
   "gaston": {
     "source-maps": true
   },
-  "vigour": {
-    "services": {
-      "sentinel": {
-        "branches": [],
-        "unignoreFolders": []
-      }
-    }
-  },
   "standard": {
     "globals": [
       "describe",
