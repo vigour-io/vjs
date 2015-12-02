@@ -1,6 +1,6 @@
 {
   "name": "vigour-js",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "author": "Vigour.io <dev@vigour.io>",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
     "url": "https://github.com/vigour-io/config/issues"
   },
   "dependencies": {
-    "lodash": "3.10.x",
+    "lodash": "~3.10.3",
     "bluebird": "3.0.x"
   },
   "main": "./lib",
@@ -51,6 +51,14 @@
   "license": "MIT",
   "gaston": {
     "source-maps": true
+  },
+  "vigour": {
+    "services": {
+      "sentinel": {
+        "branches": [],
+        "unignoreFolders": []
+      }
+    }
   },
   "standard": {
     "globals": [
