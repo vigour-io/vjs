@@ -19,7 +19,7 @@
     "url": "https://github.com/vigour-io/config/issues"
   },
   "dependencies": {
-    "lodash": "~3.10.3",
+    "lodash": "3.10.x",
     "bluebird": "3.0.x"
   },
   "main": "./lib",
