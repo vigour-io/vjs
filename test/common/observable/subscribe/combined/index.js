@@ -320,18 +320,116 @@ beforeEach(() => {
 //   })
 // })
 
-describe('instances', function () {
+// describe('instances', function () {
+//   var counter = {
+//     a: 0,
+//     b: 0,
+//     c: 0
+//   }
+//   var a = new Observable({
+//     key: 'a',
+//     nested: {
+//       title: 'aNestedTitle'
+//     },
+//     title: 'aTitle'
+//   })
+//   var b
+//   var c
+
+//   it('subscribes to field', function () {
+//     a.subscribe({
+//       title: true,
+//       nested: {
+//         title: true
+//       },
+//       bField: true,
+//       cField: true
+//     }, function (data, event) {
+//       counter[this.key]++
+//     })
+
+//     expect(counter.a).equals(0)
+//   })
+
+//   it('make some instances', function () {
+//     b = new a.Constructor({
+//       key: 'b'
+//     })
+//     c = new b.Constructor({
+//       key: 'c'
+//     })
+//     expect(counter.a).equals(0)
+//     expect(counter.b).equals(0)
+//     expect(counter.c).equals(0)
+//   })
+
+//   it('change on original, fires for all instances', function () {
+//     a.set({
+//       title: 'niceTitle'
+//     })
+//     expect(counter.a).equals(1)
+//     expect(counter.b).equals(1)
+//     expect(counter.c).equals(1)
+//   })
+
+//   it('change on instance, fires for all his instances', function () {
+//     b.set({
+//       bField: 'niceField'
+//     })
+//     expect(counter.a).equals(1)
+//     expect(counter.b).equals(2)
+//     expect(counter.c).equals(2)
+//   })
+
+//   it('setting same on original, only fires for original', function () {
+//     a.set({
+//       bField: 'aNiceField'
+//     })
+//     expect(counter.a).equals(2)
+//     expect(counter.b).equals(2)
+//     expect(counter.c).equals(2)
+//   })
+
+//   it('setting same on instance, only fires for instance', function () {
+//     c.set({
+//       bField: 'cNiceField'
+//     })
+//     expect(counter.a).equals(2)
+//     expect(counter.b).equals(2)
+//     expect(counter.c).equals(3)
+//   })
+
+//   it('removing on instance, only fires for instance', function () {
+//     b.bField.remove()
+//     expect(counter.a).equals(2)
+//     expect(counter.b).equals(3)
+//     expect(counter.c).equals(3)
+//   })
+
+//   it('removing on other instance, only fires for instance', function () {
+//     c.bField.remove()
+//     expect(counter.a).equals(2)
+//     expect(counter.b).equals(3)
+//     expect(counter.c).equals(4)
+//   })
+// })
+
+describe('instances, subscribe through reference', function () {
   var counter = {
     a: 0,
     b: 0,
     c: 0
   }
-  var a = new Observable({
-    key: 'a',
+  var ref = new Observable({
+    key: 'ref',
     nested: {
       title: 'aNestedTitle'
     },
     title: 'aTitle'
+  })
+  var a = new Observable({
+    key:'a',
+    val:ref
   })
   var b
   var c
@@ -364,7 +462,8 @@ describe('instances', function () {
   })
 
   it('change on original, fires for all instances', function () {
-    a.set({
+    console.log('----change field----')
+    ref.set({
       title: 'niceTitle'
     })
     expect(counter.a).equals(1)
@@ -372,33 +471,32 @@ describe('instances', function () {
     expect(counter.c).equals(1)
   })
 
-  it('change on instance, fires for all his instances', function () {
-    b.set({
-      bField: 'niceField'
-    })
-    expect(counter.a).equals(1)
-    expect(counter.b).equals(2)
-    expect(counter.c).equals(2)
-  })
+  // it('change on instance, fires for all his instances', function () {
+  //   b.set({
+  //     bField: 'niceField'
+  //   })
+  //   expect(counter.a).equals(1)
+  //   expect(counter.b).equals(2)
+  //   expect(counter.c).equals(2)
+  // })
 
-  it('setting same on original, only fires for original', function () {
-    a.set({
-      bField: 'aNiceField'
-    })
-    expect(counter.a).equals(2)
-    expect(counter.b).equals(2)
-    expect(counter.c).equals(2)
-  })
+  // it('setting same on original, only fires for original', function () {
+  //   a.set({
+  //     bField: 'aNiceField'
+  //   })
+  //   expect(counter.a).equals(2)
+  //   expect(counter.b).equals(2)
+  //   expect(counter.c).equals(2)
+  // })
 
-  it('setting same on instance, only fires for instance', function () {
-    console.log('----???----')
-    c.set({
-      bField: 'cNiceField'
-    })
-    expect(counter.a).equals(2)
-    expect(counter.b).equals(2)
-    expect(counter.c).equals(3)
-  })
+  // it('setting same on instance, only fires for instance', function () {
+  //   c.set({
+  //     bField: 'cNiceField'
+  //   })
+  //   expect(counter.a).equals(2)
+  //   expect(counter.b).equals(2)
+  //   expect(counter.c).equals(3)
+  // })
 
   // it('removing on instance, only fires for instance', function () {
   //   b.bField.remove()
