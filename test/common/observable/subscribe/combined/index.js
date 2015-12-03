@@ -577,14 +577,18 @@ describe('instances, subscribe through reference, nested', function () {
     expect(counter.c).equals(1)
   })
 
-  // it('change on instance, fires for all his instances', function () {
-  //   b.set({
-  //     bField: 'niceField'
-  //   })
-  //   expect(counter.a).equals(1)
-  //   expect(counter.b).equals(2)
-  //   expect(counter.c).equals(2)
-  // })
+  it('change on instance, fires for all his instances', function () {
+    console.log('---outlander---')
+    b.set({
+      nest:{
+        bField: 'niceField'
+      }
+    })
+    console.log('??',c.nest.bField.val)
+    expect(counter.a).equals(1)
+    expect(counter.b).equals(2)
+    expect(counter.c).equals(2)
+  })
 
   // it('setting same on original, only fires for original', function () {
   //   a.set({
