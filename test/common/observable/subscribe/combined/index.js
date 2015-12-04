@@ -548,7 +548,6 @@ describe('instances, subscribe through reference, nested', function () {
         cField: true
       }
     }, function (data, event) {
-      console.log('fires for:', this.key)
       counter[this.key]++
     })
 
@@ -568,7 +567,6 @@ describe('instances, subscribe through reference, nested', function () {
   })
 
   it('change on original, fires for all instances', function () {
-    console.log('---change something---')
     ref.set({
       title: 'niceTitle'
     })
@@ -578,54 +576,52 @@ describe('instances, subscribe through reference, nested', function () {
   })
 
   it('change on instance, fires for all his instances', function () {
-    console.log('---outlander---')
-
-    b.nest.on('property', function () {
-      console.log('property????', this.path)
-    })
-
     b.set({
       nest: {
         bField: 'niceField'
       }
     })
-    console.log('cNest??',c.nest.bField.val)
+
     expect(counter.a).equals(1)
     expect(counter.b).equals(2)
     expect(counter.c).equals(2)
   })
 
-  // it('setting same on original, only fires for original', function () {
-  //   a.set({
-  //     bField: 'aNiceField'
-  //   })
-  //   expect(counter.a).equals(2)
-  //   expect(counter.b).equals(2)
-  //   expect(counter.c).equals(2)
-  // })
+  it('setting same on original, only fires for original', function () {
+    a.set({
+      nest: {
+        bField: 'aNiceField'
+      }
+    })
+    expect(counter.a).equals(2)
+    expect(counter.b).equals(2)
+    expect(counter.c).equals(2)
+  })
 
-  // it('setting same on instance, only fires for instance', function () {
-  //   c.set({
-  //     bField: 'cNiceField'
-  //   })
-  //   expect(counter.a).equals(2)
-  //   expect(counter.b).equals(2)
-  //   expect(counter.c).equals(3)
-  // })
+  it('setting same on instance, only fires for instance', function () {
+    c.set({
+      nest: {
+        bField: 'cNiceField'
+      }
+    })
+    expect(counter.a).equals(2)
+    expect(counter.b).equals(2)
+    expect(counter.c).equals(3)
+  })
 
-  // it('removing on instance, only fires for instance', function () {
-  //   b.bField.remove()
-  //   expect(counter.a).equals(2)
-  //   expect(counter.b).equals(3)
-  //   expect(counter.c).equals(3)
-  // })
+  it('removing on instance, only fires for instance', function () {
+    b.nest.bField.remove()
+    expect(counter.a).equals(2)
+    expect(counter.b).equals(3)
+    expect(counter.c).equals(3)
+  })
 
-  // it('removing on other instance, only fires for instance', function () {
-  //   c.bField.remove()
-  //   expect(counter.a).equals(2)
-  //   expect(counter.b).equals(3)
-  //   expect(counter.c).equals(4)
-  // })
+  it('removing on other instance, only fires for instance', function () {
+    c.nest.bField.remove()
+    expect(counter.a).equals(2)
+    expect(counter.b).equals(3)
+    expect(counter.c).equals(4)
+  })
 })
 
 describe('adding on multiple instances', function () {
