@@ -17,7 +17,7 @@ describe('instances', function () {
     a = new Observable({
       key: 'a',
       on: {
-        data: function (data, event) {
+        data (data, event) {
           var keyCnt = measure.a.val[this.key]
           measure.a.val.total += 1
           measure.a.val[this.key] = keyCnt ? (keyCnt + 1) : 1
@@ -84,7 +84,7 @@ describe('instances', function () {
     b.val = {
       on: {
         data: {
-          second: function () {
+          second () {
             var keyCnt = measure.b.second[this.key]
             measure.b.second.total += 1
             measure.b.second[this.key] = keyCnt ? (keyCnt + 1) : 1
@@ -153,7 +153,7 @@ describe('instances', function () {
 
     c.val = {
       on: {
-        data: function () {
+        data () {
           var keyCnt = measure.c.val[this.key]
           measure.c.val.total += 1
           measure.c.val[this.key] = keyCnt ? (keyCnt + 1) : 1
@@ -264,7 +264,7 @@ describe('instances', function () {
 
     a2.set({
       on: {
-        data: function () {
+        data () {
           var keyCnt = measure.a.val[this.key]
           measure.a.val.total += 1
           measure.a.val[this.key] = keyCnt ? (keyCnt + 1) : 1
@@ -292,7 +292,7 @@ describe('instances', function () {
 
     a3.set({
       on: {
-        data: function () {
+        data () {
           var keyCnt = measure.a.val[this.key]
           measure.a.val.total += 1
           measure.a.val[this.key] = keyCnt ? (keyCnt + 1) : 1
@@ -304,6 +304,41 @@ describe('instances', function () {
       .msg('a3._instances has correct length').to.equal(1)
     expect(a3._instances[0])
       .msg('b3 is a3._instances.total').to.equal(b3)
+  })
+
+  describe('nested data listener on class fires on instance', function () {
+    var cnt = 0
+    var a = new Observable({
+      key: 'a',
+      trackInstances: true,
+      nested: {
+        on: {
+          data () {
+            cnt++
+          }
+        }
+      }
+    })
+
+    var aInstance = new a.Constructor({ // eslint-disable-line
+      key: 'aInstance'
+    })
+
+    it('listener fires on both class and instance when updating class, val update', function () {
+      cnt = 0
+      a.nested.set({
+        val: true
+      })
+      expect(cnt).to.equal(2)
+    })
+
+    xit('listener fires on both class and instance when updating class, property set', function () {
+      cnt = 0
+      a.nested.set({
+        c: true
+      })
+      expect(cnt).to.equal(2)
+    })
   })
 
   require('./set')

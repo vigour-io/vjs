@@ -5,7 +5,7 @@ describe('property listener', function () {
   var a = new Observable({
     key: 'a',
     on: {
-      property: function () {
+      property () {
         cnt++
       }
     }
@@ -49,5 +49,58 @@ describe('property listener on instance', function () {
       c: true
     })
     expect(cnt).to.equal(1)
+  })
+})
+
+describe('property listener on class fires on instance', function () {
+  var Observable = require('../../../../../lib/observable')
+  var cnt = 0
+  var a = new Observable({
+    key: 'a',
+    on: {
+      property () {
+        cnt++
+      }
+    }
+    // trackInstances: true
+  })
+
+  var aInstance = new a.Constructor({ // eslint-disable-line
+    key: 'aInstance'
+  })
+
+  it('listener fires on both class and instance when updating class', function () {
+    a.set({
+      c: true
+    })
+    expect(cnt).to.equal(2)
+  })
+})
+
+describe('nested property listener on class fires on instance', function () {
+  var Observable = require('../../../../../lib/observable')
+  var cnt = 0
+  var a = new Observable({
+    key: 'a',
+    trackInstances: true,
+    nested: {
+      on: {
+        property () {
+          cnt++
+        }
+      }
+    }
+  })
+
+  var aInstance = new a.Constructor({ // eslint-disable-line
+    key: 'aInstance'
+  })
+
+  xit('listener fires on both class and instance when updating class', function () {
+
+    a.nested.set({
+      c: true
+    })
+    expect(cnt).to.equal(2)
   })
 })
