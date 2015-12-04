@@ -69,7 +69,7 @@ describe('base', function () {
       expect(Object.getPrototypeOf(a.x.y.z)).to.be.equal(Base.prototype)
     })
 
-    it('should call generate context getter when get Constructor', function () {
+    xit('should call generate context getter when get Constructor', function () {
       var spyX = sinon.spy(a.x, 'createContextGetter')
       var spyXY = sinon.spy(a.x.y, 'createContextGetter')
 
