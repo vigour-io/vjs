@@ -577,8 +577,13 @@ describe('instances, subscribe through reference, nested', function () {
     expect(counter.c).equals(1)
   })
 
-  xit('change on instance, fires for all his instances', function () {
+  it('change on instance, fires for all his instances', function () {
     console.log('---outlander---')
+
+    b.nest.on('property', function () {
+      console.log('property????', this.path)
+    })
+
     b.set({
       nest: {
         bField: 'niceField'

@@ -6,7 +6,7 @@ describe('nested data listener on class fires on instance', function () {
     trackInstances: true,
     nested: {
       on: {
-        data () {
+        data(data) {
           cnt++
         }
       }
@@ -26,11 +26,43 @@ describe('nested data listener on class fires on instance', function () {
   })
 
   it('listener fires on both class and instance when updating class, property set', function () {
-    console.clear()
     cnt = 0
     a.nested.set({
       c: true
     })
     expect(cnt).to.equal(2)
+  })
+})
+
+describe('nested property listener on class fires on instance', function () {
+  var cnt = 0
+  var Observable = require('../../../../../lib/observable')
+  var paths = {}
+  var a = new Observable({
+    key: 'a',
+    trackInstances: true,
+    nested: {
+      on: {
+        property (data) {
+          var added = data.added
+          var propertyKey = added[0]
+          paths[this.parent.key] = this[propertyKey].path
+          cnt++
+        }
+      }
+    }
+  })
+
+  var aInstance = new a.Constructor({ // eslint-disable-line
+    key: 'aInstance'
+  })
+
+  xit('listener fires on both class and instance when updating class, property set', function () {
+    cnt = 0
+    a.nested.set({
+      c: true
+    })
+    expect(paths.a).deep.equals(['a', 'nested', 'c'])
+    expect(paths.aInstance).deep.equals(['aInstance', 'nested', 'c'])
   })
 })

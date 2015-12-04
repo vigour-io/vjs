@@ -96,8 +96,7 @@ describe('nested property listener on class fires on instance', function () {
     key: 'aInstance'
   })
 
-  xit('listener fires on both class and instance when updating class', function () {
-
+  it('listener fires on both class and instance when updating class', function () {
     a.nested.set({
       c: true
     })
