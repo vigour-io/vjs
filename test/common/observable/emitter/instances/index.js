@@ -325,6 +325,7 @@ describe('instances', function () {
     })
 
     it('listener fires on both class and instance when updating class, val update', function () {
+      console.log('---- do val')
       cnt = 0
       a.nested.set({
         val: true
@@ -332,7 +333,8 @@ describe('instances', function () {
       expect(cnt).to.equal(2)
     })
 
-    xit('listener fires on both class and instance when updating class, property set', function () {
+    it('listener fires on both class and instance when updating class, property set', function () {
+      console.log('---- do prop')
       cnt = 0
       a.nested.set({
         c: true
