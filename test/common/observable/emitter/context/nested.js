@@ -46,7 +46,9 @@ describe('nested property listener on class fires on instance', function () {
         property (data) {
           var added = data.added
           var propertyKey = added[0]
+          console.log(this.path, propertyKey)
           paths[this.parent.key] = this[propertyKey].path
+          console.log(this[propertyKey].path)
           cnt++
         }
       }
@@ -58,11 +60,22 @@ describe('nested property listener on class fires on instance', function () {
   })
 
   it('listener fires on both class and instance when updating class, property set', function () {
+    console.clear()
     cnt = 0
+    console.log('create c getter')
     a.nested.set({
       c: true
     })
     expect(paths.a).deep.equals(['a', 'nested', 'c'])
     expect(paths.aInstance).deep.equals(['aInstance', 'nested', 'c'])
+    console.log(aInstance.nested.c.path)
+  })
+
+  it('context set', function () {
+    a.nested.set({
+      d: true
+    })
+    aInstance.nested.d.val = 'bla'
+    expect(aInstance.nested.d).to.not.equal(a.nested.d)
   })
 })
