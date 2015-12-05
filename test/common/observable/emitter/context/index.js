@@ -477,25 +477,27 @@ describe('context', function () {
           }
         }
       })
+      console.clear()
 
       var firstUseVal = new Observable({
         key: 'firstUseVal',
         trackInstances: true,
-        // on:{data:{}},
         useVal: true,
         nest1: new a.Constructor()
       })
 
       // this one gets overwritten somewhere
-      var secondUseVal = new Observable({
+      var secondUseVal = new Observable({ //eslint-disable-line
         key: 'secondUseVal',
         nest2: new firstUseVal.Constructor()
+        // difference is it now has its own thing
       })
+      console.clear()
       a.b.val = 'rick'
-      expect(secondUseVal.nest2).instanceof(firstUseVal.Constructor)
-      expect(measure.a).to.equal(1)
-      expect(measure.firstUseVal).to.equal(1)
+      // expect(secondUseVal.nest2).instanceof(firstUseVal.Constructor)
+      expect(measure).to.have.property('a').which.equals(1)
       expect(measure).to.have.property('secondUseVal').which.equals(1)
+      expect(measure).to.have.property('firstUseVal').which.equals(1)
     })
   })
   require('./nested')
