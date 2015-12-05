@@ -43,18 +43,6 @@ describe('simple condition', function () {
 
   it('added listeners to item containing correct title', function () {
 
-    // console.clear()
-    // var test = new Observable({
-    //   properties:{
-    //     $condition:true
-    //   }
-    // })
-
-    // test.set({
-    //   $condition:['haha']
-    // })
-
-    // console.log(test.$condition)
 
     expect(testListeners(obs.nested1)).contains('data')
     expect(testListeners(obs.nested2)).not.contains('data')
