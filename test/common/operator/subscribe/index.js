@@ -148,7 +148,7 @@ describe('subscribe', () => {
     it('subscribe it', () => {
       var child = new Observable({
         key: 'a',
-        $: 'upward.title'
+        $: '$upward.title'
       })
 
       var parent = new Observable({

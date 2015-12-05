@@ -7,6 +7,6 @@ describe('property', function () {
 // 	require('./parent')
 // })
 
-// describe('upward',function(){
+// describe('$upward',function(){
 // 	require('./up')
 // })

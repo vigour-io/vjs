@@ -8,7 +8,7 @@ beforeEach(() => {
   count = 0
 })
 
-describe('subscribing to non existing upward, two levels, nested field', () => {
+describe('subscribing to non existing $upward, two levels, nested field', () => {
   var a = new Observable()
   var subscription
   var grandParent
@@ -16,7 +16,7 @@ describe('subscribing to non existing upward, two levels, nested field', () => {
 
   it('subcribes to parent on a', () => {
     subscription = a.subscribe({
-      upward: {
+      $upward: {
         field: true
       }
     }, function (event, meta) {
@@ -72,7 +72,7 @@ describe('subscribing to non existing upward, two levels, nested field', () => {
   })
 })
 
-describe('subscribing to non existing upward, two levels, multiple nested fields', () => {
+describe('subscribing to non existing $upward, two levels, multiple nested fields', () => {
   var a = new Observable()
   var subscription
   var grandParent
@@ -80,7 +80,7 @@ describe('subscribing to non existing upward, two levels, multiple nested fields
 
   it('subcribes to parent on a', () => {
     subscription = a.subscribe({
-      upward: {
+      $upward: {
         field: true,
         power: true
       }
@@ -159,7 +159,7 @@ describe('subscribing to rendered', () => {
 
   it('subcribes to parent on a', () => {
     a.subscribe({
-      upward: {
+      $upward: {
         rendered: true
       }
     }, function (event, meta) {

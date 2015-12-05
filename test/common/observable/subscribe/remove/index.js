@@ -196,7 +196,7 @@ describe('reference, simple, nested', function () {
   })
   var cnt = 0
   obs.nested.subscribe({
-    upward:{
+    $upward:{
       title:true
     }
   }, function(){
