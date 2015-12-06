@@ -477,7 +477,6 @@ describe('context', function () {
           }
         }
       })
-      console.clear()
 
       var firstUseVal = new Observable({
         key: 'firstUseVal',
@@ -492,7 +491,6 @@ describe('context', function () {
         nest2: new firstUseVal.Constructor()
         // difference is it now has its own thing
       })
-      console.clear()
       a.b.val = 'rick'
       // expect(secondUseVal.nest2).instanceof(firstUseVal.Constructor)
       expect(measure).to.have.property('a').which.equals(1)

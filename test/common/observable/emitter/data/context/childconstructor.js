@@ -81,11 +81,9 @@ describe('ChildConstructor', function () {
       key: 'f',
       val: x // should fire!!!!
     })
-    console.clear()
     lastData = []
     lastKeys = []
     x.remove()
-    console.log(lastKeys)
     expect(lastKeys).to.deep.equal(['c', 'c.bla', 'c.flurps', 'f'])
     expect(lastData).to.deep.equal([null, null, null, null])
   })
