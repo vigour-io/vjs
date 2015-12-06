@@ -68,7 +68,7 @@ describe('combined', function () {
     expect(measure.a.property.val.total).to.equal(1)
     expect(aRef._on.data.base[a.uid]).to.equal(a)
   })
-  //
+
   it('create new observable --> aO --> a --> b references - remove aRef', function () {
     // are we absolutely sure about this??
     // it is not really a property (maybe just add an extra value listener if you want to know this)
@@ -102,6 +102,9 @@ describe('combined', function () {
       val: a.aNest
     })
 
+    // this is the only spot we really need last stamp for
+    // b listens on a.aNest , and updates aNest --
+    // only way to do this is by adding laststamp on the actual listener (the fns instead of the rest)
     var b = new Observable({
       key: 'b',
       on: {
@@ -235,9 +238,6 @@ describe('combined', function () {
         data: c
       }
     })
-
-
-    
 
     expect(b.listensOnBase[1]).to.be.not.ok
     expect(c.listensOnBase[1]).to.be.ok
