@@ -6,7 +6,7 @@ describe('nested data listener on class fires on instance', function () {
     trackInstances: true,
     nested: {
       on: {
-        data(data) {
+        data (data) {
           cnt++
         }
       }

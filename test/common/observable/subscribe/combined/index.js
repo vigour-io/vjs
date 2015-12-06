@@ -43,7 +43,7 @@ describe('multiple subs on same target, parent', () => {
   })
 })
 
-describe('multiple subs on same target, upward', () => {
+describe('multiple subs on same target, $upward', () => {
   var subscriptionOne
   var subscriptionTwo
   var a = new Observable({
@@ -54,14 +54,14 @@ describe('multiple subs on same target, upward', () => {
 
   it('subscribes to field', () => {
     subscriptionOne = a.one.subscribe({
-      upward: {
+      $upward: {
         title: true
       }
     }, function (data, event) {
       countOne++
     })
     subscriptionTwo = a.two.subscribe({
-      upward: {
+      $upward: {
         title: true
       }
     }, function (data, event) {
@@ -132,7 +132,7 @@ describe('multiple subs on same target, non-existing parent', () => {
   })
 })
 
-describe('multiple subs on same target, non-existing upward', () => {
+describe('multiple subs on same target, non-existing $upward', () => {
   var subscriptionOne
   var subscriptionTwo
 
@@ -145,7 +145,7 @@ describe('multiple subs on same target, non-existing upward', () => {
 
   it('subscribes to field', () => {
     subscriptionOne = one.subscribe({
-      upward: {
+      $upward: {
         title: true
       }
     }, function (data, event) {
@@ -242,7 +242,7 @@ describe('multiple subs on same target, non-existing parent, instances', () => {
   })
 })
 
-describe('multiple subs on same target, upward, instance', () => {
+describe('multiple subs on same target, $upward, instance', () => {
   var subscriptionOne
   var subscriptionTwo
   var parent = new Observable()
@@ -253,7 +253,7 @@ describe('multiple subs on same target, upward, instance', () => {
 
   it('subscribes to field', () => {
     subscriptionOne = a.one.subscribe({
-      upward: {
+      $upward: {
         title: true
       }
     }, function (data, event) {
@@ -261,7 +261,7 @@ describe('multiple subs on same target, upward, instance', () => {
     })
 
     subscriptionTwo = a.two.subscribe({
-      upward: {
+      $upward: {
         title: true
       }
     }, function (data, event) {
@@ -713,7 +713,7 @@ describe('removing and adding on multiple instances, nested field', function () 
     thing: {}
   })
   subber.thing.subscribe({
-    upward: {
+    $upward: {
       content: true
     }
   }, function (data, event) {
@@ -761,7 +761,7 @@ describe('removing and adding on multiple instances, nested field', function () 
     foo: {}
   })
   subber.foo.subscribe({
-    upward: {
+    $upward: {
       content: true
     }
   }, function (data, event) {
@@ -819,7 +819,7 @@ describe('multiple subs render case', function () {
   })
 
   obs.child.subscribe({
-    upward: {
+    $upward: {
       rendered: true
     }
   }, function () {
@@ -827,7 +827,7 @@ describe('multiple subs render case', function () {
   })
 
   obs.child.prop.subscribe({
-    upward: {
+    $upward: {
       scrollTop: true
     }
   }, function () {
