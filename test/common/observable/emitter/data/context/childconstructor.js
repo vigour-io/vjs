@@ -2,7 +2,7 @@
 describe('ChildConstructor', function () {
   var Observable = require('../../../../../../lib/observable')
   var lastData, lastKeys
-  var Event = require('../../../../../../lib/event')
+  // var Event = require('../../../../../../lib/event')
   beforeEach(function () {
     lastData = []
     lastKeys = []
@@ -14,6 +14,7 @@ describe('ChildConstructor', function () {
         something (data) {
           lastData.push(data)
           lastKeys.push(this.path.join('.'))
+          console.log('!!!', data, this.path)
         }
       }
     },
@@ -61,18 +62,26 @@ describe('ChildConstructor', function () {
     expect(lastData).to.deep.equal([ null, null, void 0, void 0 ])
   })
 
-  it('works for multiple fields', function () {
+  it('works for multiple fields with references', function () {
     var c = new A({ key: 'c_childconstructor' }).Constructor
 
     var b = new Observable({
       ChildConstructor: c
     })
 
+    var d = new b.Constructor({
+      ChildConstructor: c
+    })
+
     var x = new b.Constructor({
       c: {
-        // ref: d,
+        ref: d,
         bla: true,
-        flurps: true,
+        flurps: {
+          on: {
+            data () {}
+          }
+        },
         val: 'c'
       }
     })
@@ -84,7 +93,7 @@ describe('ChildConstructor', function () {
     lastData = []
     lastKeys = []
     x.remove()
-    expect(lastKeys).to.deep.equal(['c', 'c.bla', 'c.flurps', 'f'])
-    expect(lastData).to.deep.equal([null, null, null, null])
+    expect(lastKeys).to.deep.equal(['c', 'c.ref', 'c.bla', 'c.flurps', 'f'])
+    expect(lastData).to.deep.equal([null, null, null, null, null])
   })
 })
