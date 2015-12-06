@@ -46,9 +46,7 @@ describe('nested property listener on class fires on instance', function () {
         property (data) {
           var added = data.added
           var propertyKey = added[0]
-          console.log(this.path, propertyKey)
           paths[this.parent.key] = this[propertyKey].path
-          console.log(this[propertyKey].path)
           cnt++
         }
       }
