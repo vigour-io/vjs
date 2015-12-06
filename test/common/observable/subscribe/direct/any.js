@@ -24,4 +24,14 @@ describe('subscribing to any field', function () {
 
     expect(count).equals(3)
   })
+
+  it('adding a field fires subscription', function(){
+    obs.set({
+      randomField: {
+        nested: true
+      }
+    })
+    expect(count).equals(1)
+  })
 })
+
