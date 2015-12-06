@@ -10,3 +10,7 @@ describe('parent', function () {
 describe('$upward', function () {
   require('./upward')
 })
+
+describe('$any', function () {
+  require('./any')
+})

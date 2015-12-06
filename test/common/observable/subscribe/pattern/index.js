@@ -11,25 +11,44 @@ beforeEach(function () {
 
 describe('support .val', function () {
   var obs = new Observable({
-    field:{
-      nested:3
+    field: {
+      nested: 3,
+      another: 1
     }
   })
+
+  var callback = function (data) {
+    console.error('=--->', data, data && data.origin.path)
+    countOne++
+  }
 
   var sub = obs.subscribe({
     field: {
       val: true,
       nested: true
     }
-  }, function (data) {
-    countOne++
-    console.log('fire!',this.path, data.origin.path)
-  })
+  }, callback)
 
-  it('should fire for both obs.field and obs.field.nested', function(){
+  it('should fire for both obs.field and obs.field.nested', function () {
     obs.field.val = 3
     obs.field.nested.val = 2
     expect(countOne).equals(2)
   })
 
+  it('adding field to the pattern', function () {
+    var sub2 = obs.subscribe({
+      field: {
+        another: true
+      }
+    }, callback)
+
+    obs.field.another.val = 3
+
+    expect(countOne).equals(1)
+  })
+
+  // it('removing field from the pattern', function () {
+  //   console.log('remove stuff from the pattern')
+  //   expect(countOne).equals(1)
+  // })
 })
