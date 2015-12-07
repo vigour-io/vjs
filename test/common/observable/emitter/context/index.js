@@ -512,6 +512,7 @@ describe('context', function () {
       expect(measure).to.have.property('firstUseVal').which.equals(1)
     })
   })
+
   require('./nested')
   // now the test for custom emits (hard case -- sets are relativly easy)
   // for this you need to do emits to contexts to contexts -- really strange

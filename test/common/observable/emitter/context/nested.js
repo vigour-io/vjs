@@ -73,3 +73,50 @@ describe('nested property listener on class fires on instance', function () {
     expect(aInstance.nested.d).to.not.equal(a.nested.d)
   })
 })
+
+
+describe('nested property listener on class fires on instance', function () {
+  console.clear()
+  var Observable = require('../../../../../lib/observable')
+  var counter = {
+    a: 0,
+    b: 0,
+    c: 0
+  }
+  
+  var a = new Observable({
+    key: 'a'
+  })
+
+  var b = new a.Constructor({
+    key: 'b'
+  })
+
+  var c = new b.Constructor({
+    key: 'c'
+  })
+
+  b.set({
+    bField: {
+      val: 'niceField',
+      on: {
+        data () {
+          console.log('B lets gooo', this.path)
+        }
+      }
+    }
+  })
+
+  a.set({
+    bField: 'aNiceField'
+  })
+
+  c.set({
+    bField: 'cNiceField'
+  })
+
+  b.set({
+    bField: 'random'
+  })
+
+})
