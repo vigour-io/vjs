@@ -16,7 +16,7 @@ describe('subscribing to same parent with multiple instances', function () {
       targetkey: true
     }
   }, function () {
-    console.log('pop dat subscription listener', this.path.join('-'))
+    console.log('-------> pop dat subscription listener', this.path.join('-'))
     count++
     paths[this.path.join('-')] = true
   })
@@ -52,6 +52,8 @@ describe('subscribing to same parent with multiple instances', function () {
   })
 
   it('create Uplooker with nested Uplookers', function () {
+    console.log('--ding4--, add looker')
+
     ding4 = new Uplooker({
       key: 'ding4',
       properties: {
@@ -61,6 +63,10 @@ describe('subscribing to same parent with multiple instances', function () {
       },
       looker: true
     })
+
+    console.log('-------------')
+    console.log('-------------')
+    console.log('--ding5--, set targetkey')
 
     ding5 = new ding4.Constructor({
       key: 'ding5',
@@ -73,7 +79,11 @@ describe('subscribing to same parent with multiple instances', function () {
     expect(paths).to.have.property('ding5-lalwex')
     expect(count).equals(7)
 
-    ding6 = new ding4.Constructor({
+    console.log('-------------')
+    console.log('-------------')
+    console.log('--ding6--')
+
+    ding6 = new ding5.Constructor({
       key: 'ding6',
       morelook: 'yes',
       targetkey: 'hats'
