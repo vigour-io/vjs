@@ -2,6 +2,7 @@
 describe('context', function () {
   var Observable = require('../../../../../../lib/observable')
   it('fires condition trigger', function (done) {
+    console.clear()
     var cnt = 0
     var dataCnt = 0
     var fired = []
@@ -10,8 +11,8 @@ describe('context', function () {
       time: 10,
       on: {
         data: {
-          condition: function (data, done, event) {
-            setTimeout(() => done(), this.time.val)
+          condition: function (data, next, event) {
+            setTimeout(() => next(), this.time.val)
           },
           val: function (data) {
             fired.push(this.path[0])
@@ -19,6 +20,7 @@ describe('context', function () {
             if (data === 'a change!') {
               dataCnt++
             }
+            console.log(cnt, dataCnt)
             if (cnt === 5 && dataCnt === 3) {
               // expect(fired).to.deep.eql(['b', 'c', 'a', 'b', 'c'])
               done()
@@ -28,7 +30,7 @@ describe('context', function () {
       }
     })
     var b = new a.Constructor({time: 200, key: 'b'})
-    var c = new b.Constructor({time: 30, key: 'c'})
+    var c = new b.Constructor({time: 30, key: 'c'}) // eslint-disable-line
     a.val = 'a change!'
   })
 

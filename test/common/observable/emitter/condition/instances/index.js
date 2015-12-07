@@ -26,7 +26,6 @@ describe('instances', function () {
   it('fires for inherited condition, new listener', function (done) {
     var count = 0
     var passed = 0
-    console.clear()
     var A = new Observable({
       val: 10,
       on: {
@@ -79,7 +78,7 @@ describe('instances', function () {
           }
         }
       })
-      var c = new a.Constructor()
+      var c = new a.Constructor() //eslint-disable-line
       b.val = 200
     })
   })
