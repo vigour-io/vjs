@@ -202,15 +202,23 @@ describe('context', function () {
 
   describe('multiple instances', function () {
     var test = contextObservable()
+    var c
 
-    var c = new test.a.Constructor({
-      key: 'c'
+    it('create new instance', function () {
+      c = new test.a.Constructor({
+        key: 'c'
+      })
     })
 
-    test.a.b.val = 'a change'
     it('should be and instance of a', function () {
       expect(c).instanceof(test.a.Constructor)
     })
+
+    it('set a.b value', function () {
+      console.clear()
+      test.a.b.val = 'a change'
+    })
+
     it('should fire once for "a" context', function () {
       expect(test.cnt.a).to.equal(1)
     })
