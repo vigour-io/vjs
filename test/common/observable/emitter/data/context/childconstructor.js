@@ -92,6 +92,7 @@ describe('ChildConstructor', function () {
     })
     lastData = []
     lastKeys = []
+    console.clear()
     x.remove()
     expect(lastKeys).to.deep.equal(['c', 'c.ref', 'c.bla', 'c.flurps', 'f'])
     expect(lastData).to.deep.equal([null, null, null, null, null])
