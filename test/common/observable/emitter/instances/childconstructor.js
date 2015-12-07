@@ -2,24 +2,22 @@
 describe('use a childconstructor listener', function () {
   var Observable = require('../../../../../lib/observable')
   var cnt = 0
-  // var Observable
+  var paths = []
   var a = new Observable({
     key: 'a',
     on: {
       data: {
         test: function (data, event) {
+          paths.push(this.path.join('.'))
           cnt++
         }
       }
     },
-    // properties: {
-    //   something:
-    // },
     ChildConstructor: 'Constructor'
     // when you use a directly it will fail, since every field is an instance!
   })
 
-  var branch = new a.Constructor({
+  var branch = new a.Constructor({ // eslint-disable-line
     key: 'branch'
   })
 
@@ -27,12 +25,16 @@ describe('use a childconstructor listener', function () {
     key: 'aInstance'
   })
 
-  var bInstance = new aInstance.Constructor({
+  var bInstance = new aInstance.Constructor({ // eslint-disable-line
     key: 'bInstance'
   })
 
-  it('set fields', function () {
+  beforeEach(function () {
     cnt = 0
+    paths = []
+  })
+
+  it('set fields', function () {
     aInstance.set({
       something: {
         b: true
@@ -42,8 +44,13 @@ describe('use a childconstructor listener', function () {
   })
 
   it('remove field', function () {
-    cnt = 0
     aInstance.something.b.remove()
-    expect(cnt).to.equal(3)
+    expect(paths).to.deep.equal([
+      'bInstance.something.b',
+      'bInstance.something',
+      'aInstance.something.b',
+      'aInstance.something'
+    ])
+    expect(cnt).to.equal(4)
   })
 })
