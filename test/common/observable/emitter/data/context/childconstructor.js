@@ -1,15 +1,21 @@
 'use strict'
 describe('ChildConstructor', function () {
   var Observable = require('../../../../../../lib/observable')
-  var lastData
+  var lastData, lastKeys
+  // var Event = require('../../../../../../lib/event')
   beforeEach(function () {
     lastData = []
+    lastKeys = []
   })
   var A = new Observable({
     key: 'a',
     on: {
-      data (data) {
-        lastData.push(data)
+      data: {
+        something (data) {
+          lastData.push(data)
+          lastKeys.push(this.path.join('.'))
+          console.log('!!!', data, this.path)
+        }
       }
     },
     ChildConstructor: 'Constructor'
@@ -54,5 +60,40 @@ describe('ChildConstructor', function () {
   it('passes null on constructor remove using set object', function () {
     b.set({ field3: null }) // order changes since now this is the last executioner
     expect(lastData).to.deep.equal([ null, null, void 0, void 0 ])
+  })
+
+  it('works for multiple fields with references', function () {
+    var c = new A({ key: 'c_childconstructor' }).Constructor
+
+    var b = new Observable({
+      ChildConstructor: c
+    })
+
+    var d = new b.Constructor({
+      ChildConstructor: c
+    })
+
+    var x = new b.Constructor({
+      c: {
+        ref: d,
+        bla: true,
+        flurps: {
+          on: {
+            data () {}
+          }
+        },
+        val: 'c'
+      }
+    })
+
+    var f = new A({ //eslint-disable-line
+      key: 'f',
+      val: x // should fire!!!!
+    })
+    lastData = []
+    lastKeys = []
+    x.remove()
+    expect(lastKeys).to.deep.equal(['c', 'c.ref', 'c.bla', 'c.flurps', 'f'])
+    expect(lastData).to.deep.equal([null, null, null, null, null])
   })
 })
