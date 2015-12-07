@@ -66,7 +66,7 @@ describe('real data stress test 1', function () {
     expect(testSubs(dataHolder).length).equals(2)
   })
 
-  it('unsubscribing using pattern', function () {
+  xit('unsubscribing using pattern', function () {
     var arr = []
     var contentsub = {
       discover_row1_free: true,
@@ -82,7 +82,7 @@ describe('real data stress test 1', function () {
     expect(testSubs(dataHolder).length).equals(1)
   })
 
-  it('unsubscribing other sub using pattern', function () {
+  xit('unsubscribing other sub using pattern', function () {
     var arr = []
     var contentsub = {
       shows: true
