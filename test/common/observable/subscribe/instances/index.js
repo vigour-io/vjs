@@ -11,6 +11,6 @@ describe('references', function () {
   require('./references')
 })
 
-// describe('$upward',function(){
-// 	require('./up')
-// })
+describe('upward', function () {
+	require('./upward')
+})
