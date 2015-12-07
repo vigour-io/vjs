@@ -39,7 +39,7 @@ describe('simple condition', function () {
       }
     }, function (data) {
       countOne++
-    })
+    }).run()
 
     expect(countOne).equals(1)
   })
@@ -86,7 +86,7 @@ describe('simple condition using any', function () {
       }
     }, function (data) {
       countOne++
-    })
+    }).run()
 
     expect(countOne).equals(2)
   })
@@ -121,7 +121,7 @@ describe('multiple conditions using any', function () {
       }
     }, function (data) {
       countOne++
-    })
+    }).run()
 
     expect(countOne).equals(3)
   })
