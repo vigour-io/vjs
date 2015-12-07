@@ -9,13 +9,14 @@ describe('subscribing to same parent with multiple instances', function () {
   var ding1, ding2, ding3
 
   var NestedLooker
-  var ding4, ding5
+  var ding4, ding5, ding6
 
   Uplooker.prototype.subscribe({
     $upward: {
       targetkey: true
     }
   }, function () {
+    console.log('pop dat subscription listener', this.path.join('-'))
     count++
     paths[this.path.join('-')] = true
   })
@@ -51,36 +52,37 @@ describe('subscribing to same parent with multiple instances', function () {
   })
 
   it('create Uplooker with nested Uplookers', function () {
-    NestedLooker = new Uplooker({
+    ding4 = new Uplooker({
+      key: 'ding4',
       properties: {
         looker: Uplooker,
         lalwex: Uplooker,
         morelook: Uplooker
-      }
-    }).Constructor
-
-    ding4 = new NestedLooker({
-      key: 'ding4',
-      looker: true,
-      lalwex: true,
-      targetkey: 'bem'
+      },
+      looker: true
     })
-
-    expect(paths).to.have.property('ding4')
-    expect(paths).to.have.property('ding4-looker')
-    expect(paths).to.have.property('ding4-lalwex')
-    expect(count).equals(7)
 
     ding5 = new ding4.Constructor({
       key: 'ding5',
-      morelook: 'yes',
-      targetkey: 'hats'
+      lalwex: true,
+      targetkey: 'bem'
     })
 
     expect(paths).to.have.property('ding5')
     expect(paths).to.have.property('ding5-looker')
     expect(paths).to.have.property('ding5-lalwex')
-    expect(paths).to.have.property('ding5-morelook')
+    expect(count).equals(7)
+
+    ding6 = new ding4.Constructor({
+      key: 'ding6',
+      morelook: 'yes',
+      targetkey: 'hats'
+    })
+
+    expect(paths).to.have.property('ding6')
+    expect(paths).to.have.property('ding6-looker')
+    expect(paths).to.have.property('ding6-lalwex')
+    expect(paths).to.have.property('ding6-morelook')
     expect(count).equals(11)
   })
 })
