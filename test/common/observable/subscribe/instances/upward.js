@@ -16,10 +16,10 @@ describe('subscribing to same parent with multiple instances', function () {
       targetkey: true
     }
   }, function () {
-    console.log('subslistener fires!', this.path.join('-'))
     count++
     paths[this.path.join('-')] = true
   })
+
   it('create Observable with 2 Uplookers', function () {
     ding1 = new Observable({
       key: 'ding1',
@@ -73,9 +73,10 @@ describe('subscribing to same parent with multiple instances', function () {
 
     ding5 = new ding4.Constructor({
       key: 'ding5',
-      targetkey: 'hats',
-      morelook: 'yes'
+      morelook: 'yes',
+      targetkey: 'hats'
     })
+
     expect(paths).to.have.property('ding5')
     expect(paths).to.have.property('ding5-looker')
     expect(paths).to.have.property('ding5-lalwex')
