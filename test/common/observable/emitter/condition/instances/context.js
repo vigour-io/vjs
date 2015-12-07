@@ -12,15 +12,19 @@ describe('context', function () {
       on: {
         data: {
           condition: function (data, next, event) {
+            console.log('fuck yu!', this.path) // wrong context!
             setTimeout(() => next(), this.time.val)
           },
           val: function (data) {
+
             fired.push(this.path[0])
             cnt++
             if (data === 'a change!') {
               dataCnt++
             }
-            console.log(cnt, dataCnt)
+            console.log('???', cnt, dataCnt, this.path)
+            // this should fire 3 times for each context!
+
             if (cnt === 5 && dataCnt === 3) {
               // expect(fired).to.deep.eql(['b', 'c', 'a', 'b', 'c'])
               done()
@@ -29,6 +33,7 @@ describe('context', function () {
         }
       }
     })
+    console.log('--------------------------')
     var b = new a.Constructor({time: 200, key: 'b'})
     var c = new b.Constructor({time: 30, key: 'c'}) // eslint-disable-line
     a.val = 'a change!'
