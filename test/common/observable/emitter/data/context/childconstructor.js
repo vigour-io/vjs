@@ -49,7 +49,7 @@ describe('ChildConstructor', function () {
 
   it('passes null on remove', function () {
     c.field2.remove() // order changes since now this is the last executioner
-    expect(lastData).to.deep.equal([ void 0, null ])
+    expect(lastData).to.deep.equal([ null, void 0 ])
   })
 
   it('passes null on remove using set object', function () {
@@ -58,6 +58,7 @@ describe('ChildConstructor', function () {
   })
 
   it('passes null on constructor remove using set object', function () {
+    console.clear()
     b.set({ field3: null }) // order changes since now this is the last executioner
     expect(lastData).to.deep.equal([ null, null, void 0, void 0 ])
   })
@@ -92,7 +93,7 @@ describe('ChildConstructor', function () {
     })
     lastData = []
     lastKeys = []
-    console.clear()
+    // console.clear()
     x.remove()
     expect(lastKeys).to.deep.equal(['c', 'c.ref', 'c.bla', 'c.flurps', 'f'])
     expect(lastData).to.deep.equal([null, null, null, null, null])

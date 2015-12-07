@@ -129,7 +129,13 @@ describe('context', function () {
 
   describe('emit on instance', function () {
     var test = contextObservable()
-    test.aInstance.b.emit('data') // = 'b change'
+    it('emit data on b', function () {
+      console.clear()
+      test.aInstance.b.emit('data') // = 'b change'
+    })
+    it('should not fire for "a"', function () {
+      expect(test.cnt.a).not.ok // and this is correct only want to emit for context
+    })
     it('should fire once for "aInstance" context', function () {
       expect(test.cnt.aInstance).to.equal(1)
     })
