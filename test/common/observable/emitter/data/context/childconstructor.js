@@ -14,7 +14,6 @@ describe('ChildConstructor', function () {
         something (data) {
           lastData.push(data)
           lastKeys.push(this.path.join('.'))
-          console.log('!!!', data, this.path)
         }
       }
     },
@@ -58,7 +57,6 @@ describe('ChildConstructor', function () {
   })
 
   it('passes null on constructor remove using set object', function () {
-    console.clear()
     b.set({ field3: null }) // order changes since now this is the last executioner
     expect(lastData).to.deep.equal([ null, null, void 0, void 0 ])
   })
@@ -93,9 +91,9 @@ describe('ChildConstructor', function () {
     })
     lastData = []
     lastKeys = []
-    console.clear()
     x.remove()
-    expect(lastKeys).to.deep.equal(['c', 'c.ref', 'c.bla', 'c.flurps', 'f'])
+    // c flurps is later since it its own isntance of the shared emitter
+    expect(lastKeys).to.deep.equal(['c.ref', 'c.bla', 'c', 'c.flurps', 'f'])
     expect(lastData).to.deep.equal([null, null, null, null, null])
   })
 })
