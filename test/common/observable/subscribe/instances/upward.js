@@ -51,8 +51,6 @@ describe('subscribing to same parent with multiple instances', function () {
   })
 
   it('create Uplooker with nested Uplookers', function () {
-    console.log('--ding4--, add looker')
-
     ding4 = new Uplooker({
       key: 'ding4',
       properties: {
@@ -191,8 +189,6 @@ describe('subscribing to same parent with multiple instances', function () {
   })
 
   it('create Uplooker with nested Uplookers', function () {
-    console.log('--ding4--, add looker')
-
     ding4 = new Uplooker({
       key: 'ding4',
       properties: {
@@ -278,7 +274,6 @@ describe('upward + any', function () {
       }
     }
   }, function () {
-    console.log('--> fire!', this.path.join('-'))
     count++
     paths[this.path.join('-')] = true
   })
@@ -320,7 +315,6 @@ describe('upward + any', function () {
         blurk: true
       }
     })
-    console.log('--- done firing ding3')
     expect(paths).to.have.property('ding3')
     expect(paths).to.have.property('ding3-looker')
     expect(paths).to.have.property('ding3-lalwex')
