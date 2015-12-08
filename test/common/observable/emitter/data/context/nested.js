@@ -1,8 +1,8 @@
 'use strict'
 
-describe('getter', function () {
+describe('nested', function () {
   var Observable = require('../../../../../../lib/observable')
-  it('resets context after emitting', function () {
+  it('correct data for nested fields', function () {
     var paths = []
     var datas = []
     var d = new Observable({
