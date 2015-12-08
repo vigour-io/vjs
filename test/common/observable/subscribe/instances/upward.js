@@ -7,8 +7,6 @@ describe('subscribing to same parent with multiple instances', function () {
   var count = 0
   var paths = {}
   var ding1, ding2, ding3
-
-  var NestedLooker
   var ding4, ding5, ding6
 
   Uplooker.prototype.subscribe({
@@ -85,6 +83,70 @@ describe('subscribing to same parent with multiple instances', function () {
     expect(paths).to.have.property('ding6-lalwex')
     expect(paths).to.have.property('ding6-morelook')
     expect(count).equals(11)
+  })
+})
+
+describe('upward + any', function () {
+  var Uplooker = new Observable().Constructor
+  var count = 0
+  var paths = {}
+  var ding1, ding2, ding3
+
+  Uplooker.prototype.subscribe({
+    $upward: {
+      nest: {
+        $any: true
+      }
+    }
+  }, function () {
+    console.log('--> fire!', this.path.join('-'))
+    count++
+    paths[this.path.join('-')] = true
+  })
+
+  it('should not fire on creating lookers without triggering patterns', function () {
+    ding1 = new Uplooker({
+      key: 'ding1',
+      properties: {
+        looker: Uplooker,
+        lalwex: Uplooker
+      },
+      looker: true,
+      nested: {
+        properties: {
+          looker: Uplooker
+        }
+      }
+    })
+    expect(count).equals(0)
+  })
+
+  it('should not fire when creating instance of ding1', function () {
+    ding2 = new ding1.Constructor({
+      key: 'ding2',
+      targetkey: 'doing it',
+      lalwex: 'hurp',
+      nested: {
+        looker: true
+      }
+    })
+    expect(count).equals(0)
+  })
+
+  it('should fire for all instances of lookers when nest.$any is set', function () {
+    ding3 = new ding2.Constructor({
+      key: 'ding3',
+      looker: true,
+      nest: {
+        blurk: true
+      }
+    })
+    console.log('--- done firing ding3')
+    expect(paths).to.have.property('ding3')
+    expect(paths).to.have.property('ding3-looker')
+    expect(paths).to.have.property('ding3-lalwex')
+    expect(paths).to.have.property('ding3-nested-looker')
+    expect(count).equals(4)
   })
 })
 
