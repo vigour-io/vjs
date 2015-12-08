@@ -117,24 +117,35 @@ describe('context', function () {
 
   describe('property', function () {
     var Foo = new Base().Constructor
-    var a = new Base({
-      key: 'a',
-      nested: {
-        properties: {
-          foo: Foo
+    var a, b, c
+
+    it('creates a, set properties', function () {
+      a = new Base({
+        key: 'a',
+        nested: {
+          properties: {
+            foo: Foo
+          }
         }
-      }
+      })
     })
 
-    var b = new a.Constructor({
-      key: 'b',
-      nested: {
-        foo: true
-      }
+    it('creates instance of b', function () {
+      b = new a.Constructor({
+        key: 'b',
+        nested: {
+          foo: true
+        }
+      })
+      expect(b.nested).to.have.property('foo').which.instanceof(Foo)
     })
 
-    var c = new b.Constructor({
-      key: 'c'
+    it('create a context getter for nested.foo', function () {
+      console.clear()
+      c = new b.Constructor({
+        key: 'c'
+      })
+      expect(b.nested).to.have.property('_foo')
     })
 
     it('nested property on c should have correct path', function () {
