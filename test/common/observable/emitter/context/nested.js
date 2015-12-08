@@ -75,8 +75,8 @@ describe('nested property listener on class fires on instance', function () {
 })
 
 describe('getter', function () {
+  var Observable = require('../../../../../lib/observable')
   it('resets context after emitting', function () {
-    console.clear()
     var paths = []
     var datas = []
     var d = new Observable({
@@ -97,6 +97,7 @@ describe('getter', function () {
       key: 'f'
     })
     expect(e).to.have.property('_field')
+    console.clear()
     e.set({ field: 'bla' })
     expect(paths).to.deep.equal([ 'e.field', 'f.field' ])
     expect(datas).to.deep.equal([ 'bla', 'bla' ])
