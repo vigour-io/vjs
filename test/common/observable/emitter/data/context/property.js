@@ -83,5 +83,6 @@ describe('property', function () {
 
     e.set({ field: 'bla' })
     expect(paths).to.deep.equal([ 'e.field', 'f.field' ])
+    expect(datas).to.deep.equal([ 'bla', 'bla' ])
   })
 })
