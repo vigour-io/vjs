@@ -87,3 +87,59 @@ describe('subscribing to same parent with multiple instances', function () {
     expect(count).equals(11)
   })
 })
+
+describe('making instances with upward using ChildConstructor', function () {
+  var child = new Observable()
+  var count = 0
+  child.subscribe({
+    $upward: {
+      field: true
+    }
+  }, function () {
+    count++
+  })
+
+  var parent = new Observable({
+    field: 'foo',
+    ChildConstructor: child
+  })
+
+  it('adding new children to parent fires sub', function () {
+    parent.set({
+      bar: true,
+      fex: true
+    })
+    expect(count).equals(2)
+  })
+})
+
+describe('making instances with upward using ChildConstructor, nested', function () {
+  var child = new Observable({
+    nested: {}
+  })
+  var count = 0
+  child.nested.subscribe({
+    $upward: {
+      field: true
+    }
+  }, function () {
+    count++
+  })
+
+  var parent = new Observable({
+    field: 'foo',
+    ChildConstructor: child
+  })
+
+  it('adding new children to parent fires sub', function () {
+    parent.set({
+      bar: {
+        nested: {
+          smuzzle: true
+        }
+      },
+      fex: true
+    })
+    expect(count).equals(2)
+  })
+})
