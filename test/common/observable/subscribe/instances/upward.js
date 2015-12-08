@@ -444,7 +444,6 @@ describe('upward + nested different order', function () {
     }
   }, function () {
     count++
-    console.log('fires:', this.path.join('-'))
     paths[this.path.join('-')] = true
   })
 
@@ -475,7 +474,6 @@ describe('upward + nested different order', function () {
       ChildConstructor: ding1.Constructor
     })
 
-    console.log('---------------------------------------------------')
     ding2.set({
       foo: true
     })
