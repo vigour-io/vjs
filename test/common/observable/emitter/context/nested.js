@@ -80,6 +80,7 @@ describe('getter', function () {
     var paths = []
     var datas = []
     var d = new Observable({
+      trackInstances: true,
       key: 'd',
       field: {
         on: {
@@ -97,9 +98,8 @@ describe('getter', function () {
       key: 'f'
     })
     expect(e).to.have.property('_field')
-    console.clear()
     e.set({ field: 'bla' })
-    expect(paths).to.deep.equal([ 'e.field', 'f.field' ])
+    expect(paths).to.deep.equal([ 'f.field', 'e.field' ])
     expect(datas).to.deep.equal([ 'bla', 'bla' ])
   })
 })
