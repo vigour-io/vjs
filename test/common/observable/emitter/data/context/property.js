@@ -56,4 +56,32 @@ describe('property', function () {
       { removed: [ 'field3' ] }
     ])
   })
+
+  it('resets context after emitting', function () {
+    console.clear()
+    var paths = []
+    var datas = []
+    var d = new Observable({
+      key: 'd',
+      field: {
+        on: {
+          data (data) {
+            datas.push(data)
+            paths.push(this.path.join('.'))
+          }
+        }
+      }
+    })
+
+    var e = new d.Constructor({
+      key: 'e'
+    })
+
+    var f = new e.Constructor({ //eslint-disable-line
+      key: 'f'
+    })
+
+    e.set({ field: 'bla' })
+    expect(paths).to.deep.equal([ 'e.field', 'f.field' ])
+  })
 })
