@@ -7,8 +7,8 @@ describe('combined', function () {
   var measure = {
     a: {}
   }
-  var a
-  var b
+  var a //eslint-disable-line
+  var b //eslint-disable-line
   var aRef
 
   it('create new observable --> a --> use references change a', function () {
@@ -72,10 +72,9 @@ describe('combined', function () {
   it('create new observable --> aO --> a --> b references - remove aRef', function () {
     // are we absolutely sure about this??
     // it is not really a property (maybe just add an extra value listener if you want to know this)
-
     var SpecialEmitter = new Emitter().Constructor
 
-    var aO = new Observable({
+    var aO = new Observable({ //eslint-disable-line
       flags: {
         on: new On({
           define: {
@@ -105,7 +104,7 @@ describe('combined', function () {
     // this is the only spot we really need last stamp for
     // b listens on a.aNest , and updates aNest --
     // only way to do this is by adding laststamp on the actual listener (the fns instead of the rest)
-    var b = new Observable({
+    var b = new Observable({ //eslint-disable-line
       key: 'b',
       on: {
         data: {
@@ -117,9 +116,7 @@ describe('combined', function () {
     })
 
     expect(a.aNest._on.data.base[aRef.uid]).to.be.ok
-
     a.aNest.val = 'x'
-
     expect(isRemoved(aRef)).to.be.true
     expect(a.aNest._on.data.base[aRef.uid]).to.be.not.ok
   })
@@ -147,7 +144,7 @@ describe('combined', function () {
     })
 
     var b = new a.Constructor({ key: 'b' })
-    var c = new b.Constructor({ key: 'c' })
+    var c = new b.Constructor({ key: 'c' }) //eslint-disable-line
     var holder = new Observable({ key: 'holder' })
 
     holder.set({
@@ -160,7 +157,6 @@ describe('combined', function () {
     expect(measure.a.new.val.c).to.equal(1)
     expect(measure.a.new.val.x).to.equal(1)
     expect(measure.a.new.val.y).to.equal(1)
-
   })
 
   it('test custom emitter base type listener', function () {
