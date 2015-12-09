@@ -85,7 +85,6 @@ describe('subscribing to non existing $upward, two levels, multiple nested field
         power: true
       }
     }, function (data, event) {
-      console.log('??',data.origin.path)
       count++
     })
     expect(count).equals(0)
@@ -119,7 +118,6 @@ describe('subscribing to non existing $upward, two levels, multiple nested field
   })
 
   it('does not fire when parent is added to grandparent', () => {
-    console.log('-----g')
     grandParent = new Observable({
       field: true,
       p: {
@@ -127,33 +125,32 @@ describe('subscribing to non existing $upward, two levels, multiple nested field
       }
     })
     expect(count).equals(0)
-    console.log('-----p')
   })
 
-  // it('added reference, parent and property listener', () => {
-  //   var listeners = testListeners(subscription)
-  //   expect(listeners.length).equals(10)
-  //   expect(listeners).contains('data')
-  //   expect(listeners.numberOf('property')).equals(3)
-  //   expect(listeners.numberOf('reference')).equals(3)
-  //   expect(listeners.numberOf('parentEmitter')).equals(3)
-  // })
+  it('added reference, parent and property listener', () => {
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(10)
+    expect(listeners).contains('data')
+    expect(listeners.numberOf('property')).equals(3)
+    expect(listeners.numberOf('reference')).equals(3)
+    expect(listeners.numberOf('parentEmitter')).equals(3)
+  })
 
-  // it('fires when power is added to grandParent',() => {
-  //   grandParent.set({
-  //     power:true
-  //   })
-  //   expect(count).equals(1)
-  // })
+  it('fires when power is added to grandParent',() => {
+    grandParent.set({
+      power:true
+    })
+    expect(count).equals(1)
+  })
 
-  // it('added data listener, removed property and reference listener', () => {
-  //   var listeners = testListeners(subscription)
-  //   expect(listeners.length).equals(9)
-  //   expect(listeners.numberOf('data')).equals(2)
-  //   expect(listeners.numberOf('property')).equals(2)
-  //   expect(listeners.numberOf('reference')).equals(2)
-  //   expect(listeners.numberOf('parentEmitter')).equals(3)
-  // })
+  it('added data listener, removed property and reference listener', () => {
+    var listeners = testListeners(subscription)
+    expect(listeners.length).equals(9)
+    expect(listeners.numberOf('data')).equals(2)
+    expect(listeners.numberOf('property')).equals(2)
+    expect(listeners.numberOf('reference')).equals(2)
+    expect(listeners.numberOf('parentEmitter')).equals(3)
+  })
 })
 
 describe('subscribing to rendered', () => {

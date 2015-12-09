@@ -26,4 +26,8 @@ describe('subscribe', function () {
   describe('remove', function () {
     require('./remove')
   })
+
+  describe('usecases', function () {
+    require('./usecases')
+  })
 })
