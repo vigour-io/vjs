@@ -22,6 +22,9 @@
     "lodash": "3.10.x",
     "bluebird": "3.0.x"
   },
+  "devDependencies": {
+    "colors-browserify": "*"
+  },
   "main": "./lib",
   "browser": {
     "./lib/base/iterator/": "./lib/base/iterator/browser.js",
