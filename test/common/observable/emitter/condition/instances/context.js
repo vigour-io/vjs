@@ -76,7 +76,7 @@ describe('context', function () {
       }, 400)
     })
 
-    it('fires condition trigger', function (done) {
+    it('fires condition trigger in context', function (done) {
       console.clear()
       var b = new Observable({
         key: 'b',
@@ -86,7 +86,13 @@ describe('context', function () {
       var c = new b.Constructor({ key: 'c' }) // eslint-disable-line
       a.val = 'a change!'
       setTimeout(function () {
-        console.log('ok ok ok', JSON.stringify(fired, false, 2))
+        expect(fired.a.time).to.deep.equal([ 100 ])
+        expect(fired.b.time).to.deep.equal([ 100 ])
+        expect(fired.c.time).to.deep.equal([ 100 ])
+        expect(fired.a.data).to.deep.equal([ 'a change!' ])
+        expect(fired.b.data).to.deep.equal([ 'a change!' ])
+        expect(fired.c.data).to.deep.equal([ 'a change!' ])
+        done()
       }, 400)
     })
   })
