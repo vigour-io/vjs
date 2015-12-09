@@ -485,59 +485,169 @@ var Observable = require('../../../../../lib/observable')
 //   })
 // })
 
-describe('upward + nested 3', function () {
-  var Uplooker = new Observable().Constructor
-  var count = 0
-  var paths = {}
-  var ding1, ding2, ding3
+// describe('upward + nested 3', function () {
+//   var Uplooker = new Observable().Constructor
+//   var count = 0
+//   var paths = {}
+//   var ding1, ding2, ding3
 
-  Uplooker.prototype.subscribe({
-    $upward: {
-      blurk: {
-        field:true
+//   Uplooker.prototype.subscribe({
+//     $upward: {
+//       blurk: {
+//         field:true
+//       }
+//     }
+//   }, function () {
+//     count++
+//     paths[this.path.join('-')] = true
+//   })
+
+//   it('should not fire on creating lookers', function () {
+//     ding1 = new Uplooker({
+//       key: 'ding1',
+//       nested: {
+//         properties: {
+//           looker: Uplooker
+//         },
+//         // looker: true
+//       }
+//     })
+//     expect(count).equals(0)
+//   })
+
+//   it('add instance with instance as property', function () {
+//     count = 0
+//     ding2 = new ding1.Constructor({
+//       key: 'ding2',
+//       nested:{
+//         looker:true
+//       },
+//       blurk: {
+//         field:'smur'
+//       },
+//       ChildConstructor: ding1.Constructor,
+//       foo:{
+//         nested:{
+//           looker:true
+//         }
+//       }
+//     })
+
+//     expect(paths).to.have.property('ding2')
+//     expect(paths).to.have.property('ding2-foo')
+//     expect(paths).to.have.property('ding2-nested-looker')
+//     expect(paths).to.have.property('ding2-foo-nested-looker')
+//     expect(count).equals(4)
+//   })
+// })
+
+describe('DOWHAP case', function () {
+  var count = 0
+  var paths = {
+
+  }
+  var DObject = new Observable({
+    define: {
+      dowhap: {
+        get: function () {
+          return this._isDowhap
+            ? this
+            : this.parent.dowhap
+        }
+      }
+    },
+    ChildConstructor: 'Constructor'
+  }).Constructor
+
+  var Routable = new DObject({
+    key: 'routable',
+    services: {
+      ChildConstructor: function ServiceConstructor (val, event, parent, key) {
+        var repoKey = val.repo || key
+        var repo = parent.dowhap.repos[repoKey]
+        var branchKey = val.branch || 'dist'
+        var branch = repo[branchKey]
+        val.branch = branchKey
+        return new branch.Constructor(val, event, parent, key)
       }
     }
-  }, function () {
+  }).Constructor
+
+  Routable.prototype.subscribe({
+    $upward: {
+      regions: {
+        // val:true,
+        AMS: true,
+        FRA: true
+      }
+    }
+  }, function (data, event) {
     count++
-    console.log('fires:', this.path.join('-'))
+    console.log('emitter fires:', this.path, '<---', data.origin.path, event.stamp)
     paths[this.path.join('-')] = true
   })
 
-  it('should not fire on creating lookers', function () {
-    ding1 = new Uplooker({
-      key: 'ding1',
-      nested: {
-        properties: {
-          looker: Uplooker
-        },
-        // looker: true
+  var Branch = new Routable({
+    properties: {
+      regional: Routable
+    },
+    regions: {
+      ChildConstructor: function RegionConstructor (val, event, parent, key) {
+        var regional = parent.parent.regional
+        var Constructor = regional ? regional.Constructor : Routable
+        return new Constructor(val, event, parent, key)
       }
-    })
-    expect(count).equals(0)
-  })
+    }
+  }).Constructor
 
-  it('add instance with instance as property', function () {
-    count = 0
-    ding2 = new ding1.Constructor({
-      key: 'ding2',
-      nested:{
-        looker:true
+  var Repo = new DObject({
+    ChildConstructor: Branch
+  }).Constructor
+
+  var Dowhap = new DObject({
+    _isDowhap: true,
+    repos: {
+      ChildConstructor: Repo
+    }
+  }).Constructor
+
+  var dowhap = new Dowhap({
+    key: 'dowhap',
+    repos: {
+      hub: {
+        dist: {
+          setting1: 'yes hub default',
+          setting2: 'yes hub default'
+        }
       },
-      blurk: {
-        field:'smur'
-      },
-      ChildConstructor: ding1.Constructor,
-      foo:{
-        nested:{
-          looker:true
+      mtvplay: {
+        dist: {
+          services: {
+            hub: {
+              regional: {
+                services: {
+                  appData: {
+                    repo: 'hub',
+                    val: 'app-data.domain.com'
+                  },
+                  userData: {
+                    repo: 'hub',
+                    val: 'user-data.domain.com'
+                  }
+                }
+              },
+              regions: {
+                AMS: {
+                  val: 'main-hub.domain.com'
+                },
+                FRA: {
+                  val: 'viva-hub.domain.com'
+                }
+              }
+            }
+          }
         }
       }
-    })
-
-    expect(paths).to.have.property('ding2')
-    expect(paths).to.have.property('ding2-foo')
-    expect(paths).to.have.property('ding2-nested-looker')
-    expect(paths).to.have.property('ding2-foo-nested-looker')
-    expect(count).equals(4)
+    }
   })
 })
