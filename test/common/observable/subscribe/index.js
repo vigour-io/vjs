@@ -30,4 +30,8 @@ describe('subscribe', function () {
   describe('usecases', function () {
     require('./usecases')
   })
+
+  describe('condition', function () {
+    require('./condition')
+  })
 })
