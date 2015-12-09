@@ -34,8 +34,6 @@ describe('DOWHAP', function () {
     }
   }).Constructor
 
-  // alert()
-
   Routable.prototype.subscribe({
     $upward: {
       regions: {
@@ -46,7 +44,7 @@ describe('DOWHAP', function () {
     }
   }, function (data, event) {
     count++
-    console.log('emitter fires:', this.path, '<---', data.origin.path, event.stamp, event)
+    console.log('emitter fires:', this.path, '<---', data[0].origin.path, event.stamp, event)
     paths[this.path.join('-')] = true
   })
 

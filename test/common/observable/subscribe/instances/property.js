@@ -313,7 +313,7 @@ describe('multiple instances, existing field', () => {
       title: true
     }
   }, function (data, event) {
-    obj[this.key] = data.origin.val
+    obj[this.key] = data[0].origin.val
   })
 
   var son = new Child({
@@ -358,7 +358,7 @@ describe('multiple instances, non-existing field', () => {
       title: true
     }
   }, function (data, event) {
-    obj[this.key] = data.origin.val
+    obj[this.key] = data[0].origin.val
   })
 
   var son = new Child({
