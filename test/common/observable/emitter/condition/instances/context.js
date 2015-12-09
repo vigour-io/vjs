@@ -77,7 +77,11 @@ describe('context', function () {
 
     it('fires condition trigger', function (done) {
       console.clear()
-      var b = new Observable({ key: 'b', nested: { useVal: new a.Constructor() } })
+      var b = new Observable({
+        key: 'b',
+        trackInstances: true,
+        nested: { useVal: new a.Constructor() }
+      })
       var c = new b.Constructor({ key: 'c' }) // eslint-disable-line
       a.val = 'a change!'
       setTimeout(function () {
