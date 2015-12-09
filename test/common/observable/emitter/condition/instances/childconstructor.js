@@ -22,7 +22,7 @@ describe('ChildConstructor', function () {
     })
   })
 
-  xit('should fire condition over ChildConstructors over nested fields', function () {
+  it('should fire condition over ChildConstructors over nested fields', function () {
     var results = []
     var b = new Observable({
       on: {
@@ -45,6 +45,6 @@ describe('ChildConstructor', function () {
     })
     d.field.nestedField.val = 'fire'
     expect(results).to.deep
-      .equal(['d.field', 'd.field.nestedField', 'd.field.nestedField'])
+      .equal(['d.field.nestedField', 'd.field', 'd.field.nestedField'])
   })
 })

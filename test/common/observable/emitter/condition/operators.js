@@ -7,7 +7,7 @@ describe('operators', function () {
       key: 'a',
       $transform: {
         order: -1,
-        val: function (val) {
+        val (val) {
           return 'hey'
         }
       },
@@ -15,16 +15,16 @@ describe('operators', function () {
         data: {
           condition: {
             inject: require('../../../../../lib/operator/all'),
-            $transform: function (val) {
+            $transform (val, next, event, data) {
               expect(val).to.equal('hey')
               return 'lol'
             },
-            val: function (val, next) {
+            val (val, next, event, data) {
               expect(val).to.equal('lol')
               next()
             }
           },
-          val: function (data) {
+          val (data) {
             done()
           }
         }
@@ -34,6 +34,7 @@ describe('operators', function () {
   })
 
   it('cancel on false', function () {
+    // replace this behaviour
     var cnt = 0
     var a = new Observable({
       key: 'a',

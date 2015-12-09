@@ -7,7 +7,7 @@ describe('basic', function () {
     var a = new Observable({
       on: {
         data: {
-          condition: function (data, done, event) {
+          condition (data, done, event) {
             setTimeout(done, 10)
           },
           val: function () {

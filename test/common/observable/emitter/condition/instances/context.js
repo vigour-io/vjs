@@ -49,11 +49,9 @@ describe('context', function () {
         on: {
           data: {
             condition (data, next, event) {
-              console.log('condition'.green.bold, ' ', data, this.path, event.stamp)
               setTimeout(() => next(), this.time.val)
             },
             val (data) {
-              console.log('trigger condition'.green.bold, ' ', data, this.path)
               var key = this.path[0]
               fired[key].time.push(timer)
               fired[key].data.push(data)
@@ -77,7 +75,6 @@ describe('context', function () {
     })
 
     it('fires condition trigger in context', function (done) {
-      console.clear()
       var b = new Observable({
         key: 'b',
         trackInstances: true,
