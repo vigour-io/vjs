@@ -43,4 +43,60 @@ describe('direct', function () {
     })
     a.val = 'aaa'
   })
+
+  it('fires base listeners', function (done) {
+    var cnt = 0
+    var timer
+    setTimeout(() => { timer = true }, 10)
+    var a = new Observable({
+      key: 'a',
+      on: {
+        data: {
+          condition: function (data, next, event) {
+            cnt++
+            expect(this.path[0]).to.equal('a')
+            setTimeout(next, 50)
+          }
+        }
+      }
+    })
+    var b = new Observable({
+      key: 'b',
+      val: a
+    })
+    b.once(function (data) {
+      expect(timer).to.equal(true)
+      expect(data).to.equal('value')
+      expect(cnt).to.equal(1)
+      done()
+    })
+    a.val = 'value'
+  })
+
+  it('fires over reference', function (done) {
+    var cnt = 0
+    var timer
+    setTimeout(() => { timer = true }, 10)
+    var b = new Observable({ key: 'b' })
+    var a = new Observable({
+      key: 'a',
+      val: b,
+      on: {
+        data: {
+          condition: function (data, next, event) {
+            cnt++
+            expect(this.path[0]).to.equal('a')
+            setTimeout(next, 50)
+          }
+        }
+      }
+    })
+    a.once(function (data) {
+      expect(timer).to.equal(true)
+      expect(data).to.equal('value')
+      expect(cnt).to.equal(1)
+      done()
+    })
+    b.val = 'value'
+  })
 })
