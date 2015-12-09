@@ -382,61 +382,11 @@ var Observable = require('../../../../../lib/observable')
 //   })
 // })
 
-// describe('upward + nested', function () {
-//   var Uplooker = new Observable().Constructor
-//   var count = 0
-//   var paths = {}
-//   var ding1, ding2, ding3
-
-//   Uplooker.prototype.subscribe({
-//     $upward: {
-//       blurk: true
-//     }
-//   }, function () {
-//     count++
-//     console.log('fires:', this.path.join('-'))
-//     paths[this.path.join('-')] = true
-//   })
-
-//   it('should not fire on creating lookers', function () {
-//     ding1 = new Uplooker({
-//       key: 'ding1',
-//       nested: {
-//         properties: {
-//           looker: Uplooker
-//         },
-//         looker: true
-//       }
-//     })
-//     expect(count).equals(0)
-//   })
-
-//   it('add instance with instance as property', function () {
-//     count = 0
-//     ding2 = new ding1.Constructor({
-//       key: 'ding2',
-//       blurk: true,
-//       ChildConstructor: ding1.Constructor,
-//       foo: true
-//     })
-
-//     expect(paths).to.have.property('ding2')
-//     expect(paths).to.have.property('ding2-foo')
-//     expect(paths).to.have.property('ding2-nested-looker')
-//     expect(paths).to.have.property('ding2-foo-nested-looker')
-//     expect(count).equals(4)
-//   })
-// })
-
-describe('upward + nested different order', function () {
+describe('upward + nested 2', function () {
   var Uplooker = new Observable().Constructor
   var count = 0
   var paths = {}
   var ding1, ding2, ding3
-
-  console.log('----------------------------------------------------')
-  console.log('----------------------- 0 --------------------------')
-  console.log('----------------------------------------------------')
 
   Uplooker.prototype.subscribe({
     $upward: {
@@ -444,13 +394,11 @@ describe('upward + nested different order', function () {
     }
   }, function () {
     count++
+    console.log('fires:', this.path.join('-'))
     paths[this.path.join('-')] = true
   })
 
   it('should not fire on creating lookers', function () {
-    console.log('----------------------------------------------------')
-    console.log('----------------------- 1 --------------------------')
-    console.log('----------------------------------------------------')
     ding1 = new Uplooker({
       key: 'ding1',
       nested: {
@@ -464,19 +412,18 @@ describe('upward + nested different order', function () {
   })
 
   it('add instance with instance as property', function () {
-    console.log('----------------------------------------------------')
-    console.log('----------------------- 2 --------------------------')
-    console.log('----------------------------------------------------')
     count = 0
     ding2 = new ding1.Constructor({
       key: 'ding2',
       blurk: true,
-      ChildConstructor: ding1.Constructor
+      ChildConstructor: ding1.Constructor,
+      foo:true
     })
 
-    ding2.set({
-      foo: true
-    })
+    // ding2.set({
+    //   foo: true
+    // })
+
     expect(paths).to.have.property('ding2')
     expect(paths).to.have.property('ding2-foo')
     expect(paths).to.have.property('ding2-nested-looker')
@@ -484,3 +431,60 @@ describe('upward + nested different order', function () {
     expect(count).equals(4)
   })
 })
+
+// describe('upward + nested different order', function () {
+//   var Uplooker = new Observable().Constructor
+//   var count = 0
+//   var paths = {}
+//   var ding1, ding2, ding3
+
+//   console.log('----------------------------------------------------')
+//   console.log('----------------------- 0 --------------------------')
+//   console.log('----------------------------------------------------')
+
+//   Uplooker.prototype.subscribe({
+//     $upward: {
+//       blurk: true
+//     }
+//   }, function () {
+//     count++
+//     paths[this.path.join('-')] = true
+//   })
+
+//   it('should not fire on creating lookers', function () {
+//     console.log('----------------------------------------------------')
+//     console.log('----------------------- 1 --------------------------')
+//     console.log('----------------------------------------------------')
+//     ding1 = new Uplooker({
+//       key: 'ding1',
+//       nested: {
+//         properties: {
+//           looker: Uplooker
+//         },
+//         looker: true
+//       }
+//     })
+//     expect(count).equals(0)
+//   })
+
+//   it('add instance with instance as property', function () {
+//     console.log('----------------------------------------------------')
+//     console.log('----------------------- 2 --------------------------')
+//     console.log('----------------------------------------------------')
+//     count = 0
+//     ding2 = new ding1.Constructor({
+//       key: 'ding2',
+//       blurk: true,
+//       ChildConstructor: ding1.Constructor
+//     })
+
+//     ding2.set({
+//       foo: true
+//     })
+//     expect(paths).to.have.property('ding2')
+//     expect(paths).to.have.property('ding2-foo')
+//     expect(paths).to.have.property('ding2-nested-looker')
+//     expect(paths).to.have.property('ding2-foo-nested-looker')
+//     expect(count).equals(4)
+//   })
+// })
