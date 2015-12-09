@@ -20,12 +20,12 @@ describe('instances', function () {
     var b = new a.Constructor({
       key: 'b'
     })
-    var c = new b.Constructor({
+    var c = new b.Constructor({ //eslint-disable-line
       key: 'c'
     })
     fired = []
     a.$add.val = 200
-    expect(fired).to.deep.equal([ 'c', 'b', 'a' ])
+    expect(fired).to.deep.equal([ 'a', 'b', 'c' ])
   })
 
   it('reference', function () {
@@ -49,14 +49,14 @@ describe('instances', function () {
     var b = new a.Constructor({
       key: 'b'
     })
-    var c = new b.Constructor({
+    var c = new b.Constructor({ //eslint-disable-line
       key: 'c'
     })
     reffed.on(a.$add)
     fired = []
     operator = []
     reffed.val = 200
-    expect(fired).to.deep.equal([ 'c', 'b', 'a' ])
-    expect(operator).to.deep.equal([ 'c', 'b', 'a' ])
+    expect(fired).to.deep.equal([ 'a', 'b', 'c' ])
+    expect(operator).to.deep.equal([ 'a', 'b', 'c' ])
   })
 })
