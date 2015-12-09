@@ -40,7 +40,8 @@ describe('context', function () {
       timer = 0
       fired = {
         a: { time: [], data: [] },
-        b: { time: [], data: [] }
+        b: { time: [], data: [] },
+        c: { time: [], data: [] }
       }
       a = new Observable({
         key: 'a',
