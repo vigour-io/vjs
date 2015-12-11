@@ -148,7 +148,7 @@ describe('on reference, switching reference multiple times', function () {
 
   var obs = new Observable({
     on: {
-      reference() {
+      reference () {
         count++
       }
     }
@@ -183,7 +183,7 @@ describe('on reference, nested multiple instances with different reference each'
   var count = 0
 
   var content = new Observable({
-    nested:{
+    nested: {
       a: {},
       b: {},
       c: {},
@@ -193,7 +193,7 @@ describe('on reference, nested multiple instances with different reference each'
 
   var Obs = new Observable({
     on: {
-      reference() {
+      reference () {
         count++
       }
     }
@@ -204,23 +204,22 @@ describe('on reference, nested multiple instances with different reference each'
   })
 
   it('a instance, fires listener', function () {
-    new Obs(content.nested.a)
+    new Obs(content.nested.a) //eslint-disable-line
     expect(count).equals(1)
   })
 
   it('b instance, fires listener', function () {
-    new Obs(content.nested.b)
+    new Obs(content.nested.b) //eslint-disable-line
     expect(count).equals(1)
   })
 
   it('c instance, fires listener', function () {
-    new Obs(content.nested.c)
+    new Obs(content.nested.c) //eslint-disable-line
     expect(count).equals(1)
   })
 
   it('d instance, fires listener', function () {
-    new Obs(content.nested.d)
+    new Obs(content.nested.d) //eslint-disable-line
     expect(count).equals(1)
   })
-
 })
