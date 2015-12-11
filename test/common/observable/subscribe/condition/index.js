@@ -31,6 +31,51 @@ describe('simple condition', function () {
         $condition: {
           nest: {
             title: true
+          }
+        }
+      }
+    }, function (data) {
+      countOne++
+    }).run()
+
+    expect(countOne).equals(1)
+  })
+
+  it('updating condition title doesnt fire subscription', function () {
+    console.log('change!')
+    obs.nested1.nest.title.val = 'bar'
+    expect(countOne).equals(0)
+  })
+
+  it('updating nested1 fires subscription', function () {
+    console.log('nested!')
+    obs.nested1.val = 'foo'
+    expect(countOne).equals(1)
+  })
+})
+
+describe('simple condition using function', function () {
+  var obs = new Observable({
+    nested1: {
+      nest: {
+        title: 'foo'
+      },
+      trouble: false
+    },
+    nested2: {
+      subtitle: 'bar'
+    },
+    nested3: {
+      subtitle: 'funk'
+    }
+  })
+
+  it('fired once', function () {
+    obs.subscribe({
+      nested1: {
+        $condition: {
+          nest: {
+            title: true
           },
           trouble (trouble) {
             return trouble.val === false
@@ -45,7 +90,7 @@ describe('simple condition', function () {
   })
 
   it('updating condition title doesnt fire subscription', function () {
-    obs.nested1.nest.title.val = 'foo'
+    obs.nested1.nest.title.val = 'bar'
     expect(countOne).equals(0)
   })
 

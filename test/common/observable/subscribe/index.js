@@ -3,8 +3,17 @@ describe('subscribe', function () {
   describe('constructor', function () {
     require('./constructor')
   })
+
   describe('direct', function () {
     require('./direct')
+  })
+
+  describe('non observable', function () {
+    require('./non-obs')
+  })
+
+  describe('data object', function () {
+    require('./dataobject')
   })
 
   describe('instances', function () {
