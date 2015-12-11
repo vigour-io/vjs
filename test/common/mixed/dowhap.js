@@ -1,7 +1,6 @@
 'use strict'
-var Observable = require('vigour-js/lib/observable')
-
-Observable.prototype.inject(require('vigour-js/lib/methods/plain'))
+var Observable = require('../../../lib/observable')
+Observable.prototype.inject(require('../../../lib/methods/plain'))
 
 describe('Dowhap usecase', function () {
   this.bail(true)

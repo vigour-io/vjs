@@ -44,7 +44,6 @@ describe('DOWHAP', function () {
     }
   }, function (data, event) {
     count++
-    console.log('emitter fires:', this.path, '<---', data[0].origin.path, event.stamp, event)
     paths[this.path.join('-')] = true
   })
 

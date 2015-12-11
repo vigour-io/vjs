@@ -251,7 +251,7 @@ describe('making instances with upward using ChildConstructor', function () {
 
   it('adding second child instance of first fires sub', function () {
     parent.set({
-      ChildConstructor (val, event, parent, key) {
+      ChildConstructor: function (val, event, parent, key) {
         return new parent.firstChild.Constructor(val, event, parent, key)
       },
       secondChild: true
@@ -394,7 +394,6 @@ describe('upward + nested 2', function () {
     }
   }, function () {
     count++
-    console.log('fires:', this.path.join('-'))
     paths[this.path.join('-')] = true
   })
 
@@ -434,10 +433,6 @@ describe('upward + nested different order', function () {
   var paths = {}
   var ding1, ding2, ding3
 
-  console.log('----------------------------------------------------')
-  console.log('----------------------- 0 --------------------------')
-  console.log('----------------------------------------------------')
-
   Uplooker.prototype.subscribe({
     $upward: {
       blurk: true
@@ -448,9 +443,6 @@ describe('upward + nested different order', function () {
   })
 
   it('should not fire on creating lookers', function () {
-    console.log('----------------------------------------------------')
-    console.log('----------------------- 1 --------------------------')
-    console.log('----------------------------------------------------')
     ding1 = new Uplooker({
       key: 'ding1',
       nested: {
@@ -464,9 +456,6 @@ describe('upward + nested different order', function () {
   })
 
   it('add instance with instance as property', function () {
-    console.log('----------------------------------------------------')
-    console.log('----------------------- 2 --------------------------')
-    console.log('----------------------------------------------------')
     count = 0
     ding2 = new ding1.Constructor({
       key: 'ding2',
