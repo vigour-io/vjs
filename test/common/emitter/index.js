@@ -11,8 +11,8 @@ describe('emitter', function () {
       dataMeasure = data
       cnt++
     })
-    emitter.emit('something')
     it('should have fired once', function () {
+      emitter.emit('something')
       expect(dataMeasure).to.equal('something')
       expect(cnt).to.equal(1)
     })

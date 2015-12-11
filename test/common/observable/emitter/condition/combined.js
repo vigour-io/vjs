@@ -7,10 +7,8 @@ describe('combined', function () {
       b: {
         on: {
           data: {
-            condition: function (data, next, event) {
-              // do we want to use this data as an entry (emitter.data[stamp] ?)
-              // maybe take it as input? we do need it for streams!
-              expect(this._on.data.getData(event, this)).to.equal('?')
+            condition (val, next, event, data) {
+              expect(data).to.equal('?')
               setTimeout(done)
             }
           }

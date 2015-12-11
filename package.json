@@ -1,6 +1,6 @@
 {
   "name": "vigour-js",
-  "version": "0.3.8",
+  "version": "0.4.0",
   "author": "Vigour.io <dev@vigour.io>",
   "repository": {
     "type": "git",
@@ -21,6 +21,9 @@
   "dependencies": {
     "lodash": "3.10.x",
     "bluebird": "3.0.x"
+  },
+  "devDependencies": {
+    "colors-browserify": "*"
   },
   "main": "./lib",
   "browser": {

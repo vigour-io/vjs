@@ -45,7 +45,6 @@ describe('use a childconstructor listener', function () {
 
   it('remove field', function () {
     aInstance.something.b.remove()
-    console.log(paths)
     expect(paths).to.deep.equal([
       'bInstance.something.b',
       'aInstance.something.b',

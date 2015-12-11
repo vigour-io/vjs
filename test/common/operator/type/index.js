@@ -149,7 +149,7 @@ describe('type', () => {
       expect(obs.val).to.equal(false)
     })
 
-    it('should pass valid urls', () => {
+    it('should pass for valid email addresses', () => {
       var email = [
         'jan@vigour.io',
         'jan+1@vigour.io',
