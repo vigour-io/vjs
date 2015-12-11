@@ -4,9 +4,6 @@ Observable.prototype.inject(require('../../../lib/methods/plain'))
 
 describe('Dowhap usecase', function () {
   this.bail(true)
-
-  var glob = typeof window !== 'undefined' ? window : global
-
   var DObject, Routable, Branch, Repo, Dowhap, dowhap
 
   it('should create the classes', function () {
@@ -125,13 +122,13 @@ describe('Dowhap usecase', function () {
 
           if (balance.path.indexOf('appdata') !== -1) {
             console.warn('this is gonna go wreng')
-            glob.logit = true
-            glob.balance = balance
+            global.logit = true
+            global.balance = balance
           }
           // this set will go wreng
           let setresult = balance.set(setObj)
           // this set went wreng
-          glob.logit = false
+          global.logit = false
 
           console.log('did dat balance set', balance.path, balance[1])
 
