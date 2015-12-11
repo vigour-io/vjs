@@ -141,7 +141,6 @@ describe('context', function () {
     })
 
     it('create a context getter for nested.foo', function () {
-      console.clear()
       c = new b.Constructor({
         key: 'c'
       })

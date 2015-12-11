@@ -130,7 +130,6 @@ describe('context', function () {
   describe('emit on instance', function () {
     var test = contextObservable()
     it('emit data on b', function () {
-      console.clear()
       test.aInstance.b.emit('data') // = 'b change'
     })
     it('should not fire for "a"', function () {
@@ -215,7 +214,6 @@ describe('context', function () {
     })
 
     it('set a.b value', function () {
-      console.clear()
       test.a.b.val = 'a change'
     })
 
