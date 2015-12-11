@@ -1,7 +1,7 @@
 'use strict'
 describe('instances', function () {
-  require('./basic')
+  // require('./basic')
   require('./references')
-  require('./childconstructor')
-  require('./context')
+  // require('./childconstructor')
+  // require('./context')
 })
