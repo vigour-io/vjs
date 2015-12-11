@@ -32,7 +32,7 @@ describe('simple condition', function () {
           nest: {
             title: true
           },
-          trouble(trouble) {
+          trouble (trouble) {
             return trouble.val === false
           }
         }
@@ -130,7 +130,7 @@ describe('multiple conditions using any', function () {
 describe('condition using upward', function () {
   var title
   var obs = new Observable({
-    key:'obs',
+    key: 'obs',
     content: {
       show: {
         title: 'Bad and Good'
