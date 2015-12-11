@@ -11,7 +11,7 @@ describe('context', function () {
       trackInstances: true,
       b: {
         on: {
-          data: function () {
+          data () {
             var key = this.path[0]
             cnt[key] = cnt[key] ? cnt[key] + 1 : 1
             cnt.total++
@@ -86,7 +86,7 @@ describe('context', function () {
         // if not trackinstances on a does not track for contexts (makes sense)
         on: {
           // if the emitter is not there it will not fire for instances!
-          data: function () {}
+          data () {}
         }
       }
     })
