@@ -1,16 +1,9 @@
 'use strict'
-/* global describe, it, expect, beforeEach */
 var Event = require('../../../lib/event/')
 var Emitter = require('../../../lib/emitter/')
 
 describe('event', function () {
-  // var currentStamp
   var theOrigin = {}
-
-  beforeEach(function () {
-    var myEvent = new Event(theOrigin)
-    // currentStamp = myEvent.stamp
-  })
 
   it('should have stamp', function () {
     var rahhEvent = new Event(theOrigin)
