@@ -43,7 +43,7 @@ describe('Dowhap usecase', function () {
         }
       },
       region: {
-        inject: require('vigour-js/lib/operator/transform'),
+        inject: require('../../../lib/operator/transform'),
         $transform (region) {
           if (typeof region !== 'string') {
             region = false
