@@ -9,15 +9,13 @@ describe('Data Object', function () {
     field2: true
   }, function (data, event) {
     res = data
-    console.log(data)
   })
 
-  it('gets correct data when adding both props', function(){
+  it('gets correct data when adding both props', function () {
     obs.set({
-      field1:1,
-      field2:2
+      field1: 1,
+      field2: 2
     })
-    
     expect(res.length).equals(2)
   })
 })
