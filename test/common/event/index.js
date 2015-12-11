@@ -17,7 +17,7 @@ describe('event', function () {
     expect(rahhEvent.stamp).to.be.ok
   })
 
-  xit('should increase stamp when there is a new event', function () {
+  it('should increase stamp when there is a new event', function () {
     var justAnotherEvent = new Event(theOrigin)
     expect(justAnotherEvent.stamp).to.be.ok
   })
