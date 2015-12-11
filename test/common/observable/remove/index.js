@@ -300,7 +300,7 @@ describe('remove', function () {
     a = new Observable({
       key: 'a',
       on: {
-        data: function () {
+        data () {
           measure.a.val.total++
         }
       }
@@ -346,7 +346,7 @@ describe('remove', function () {
     var a = new Observable({
       key: 'a',
       on: {
-        data: function () {
+        data () {
           cnt++
         }
       }
@@ -361,7 +361,7 @@ describe('remove', function () {
     var a = new Observable({
       key: 'a',
       on: {
-        data: function () {
+        data () {
           cnt++
         }
       }
@@ -390,10 +390,10 @@ describe('remove', function () {
     var a = new Observable({
       key: 'a',
       on: {
-        data: function () {
+        data () {
           change++
         },
-        property: function () {
+        property () {
           propertyChange++
         }
       },
@@ -411,10 +411,10 @@ describe('remove', function () {
     var a = new Observable({
       key: 'a',
       on: {
-        data: function () {
+        data () {
           change++
         },
-        property: function () {
+        property () {
           propertyChange++
         }
       },
@@ -448,7 +448,7 @@ describe('remove', function () {
       trackInstances: true,
       b: {
         on: {
-          data: function () {
+          data () {
             cnt[this.path[0]]++
             cnt.total++
           }
@@ -479,7 +479,7 @@ describe('remove', function () {
       c: {
         b: {
           on: {
-            data: function () {
+            data () {
               cnt[this.path[0]]++
               cnt.total++
             // make parent better from context resolves current contexts and goes up
@@ -536,7 +536,7 @@ describe('remove', function () {
       b: {
         c: {
           on: {
-            data: function (data, event) {
+            data (data, event) {
               if (data === null) {
                 dataCnt++
               }
@@ -563,7 +563,7 @@ describe('remove', function () {
         trackInstances: true,
         c: {
           on: {
-            data: function (data, event) {
+            data (data, event) {
               measure[this.path[0]] = !measure[this.path[0]] ? 1 : measure[this.path[0]] + 1
               if (data === null) {
                 dataCnt++
@@ -586,47 +586,6 @@ describe('remove', function () {
     }
   })
 
-  describe('references', function () {
-    it('reference listener fires twice', function () {
-      var cnt = 0
-      var a = new Observable({
-        key: 'a',
-        on: {
-          reference: function () {
-            cnt++
-          }
-        }
-      })
-      var b = new Observable({
-        key: 'b',
-        val: 'hello'
-      })
-      a.val = b
-      expect(cnt).to.equal(1)
-      a.remove()
-      // ref does not fire (is correct did not add yet)
-      expect(cnt).to.equal(2)
-      expect(isRemoved(a)).to.equal(true)
-      expect(b.val).to.equal('hello')
-    })
-  })
-
-  describe('nested', function () {
-    it('should emit change event when property is removed due to ' +
-    'parent / ancestor properties being removed',
-    function () {
-      var a = new Observable({
-        key: 'a',
-        b: {
-          c: true
-        }
-      })
-      var count = 0
-      a.b.c.on('data', function () {
-        count++
-      })
-      a.b.remove()
-      expect(count).to.equal(1)
-    })
-  })
+  require('./references')
+  require('./nested')
 })
