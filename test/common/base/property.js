@@ -103,7 +103,7 @@ describe('properties', function () {
       expect(a._something).equals('blurf')
     })
 
-    it('set observable using val', function () {
+    it('set base using val', function () {
       var marcus = new Base()
       var aBase = new Base({
         properties: {
@@ -112,6 +112,20 @@ describe('properties', function () {
       })
 
       expect(aBase).to.have.property('marcus').which.equals(marcus)
+    })
+
+    it('use base as a property (do not modify original base)', function () {
+      var aBase = new Base({
+        properties: {
+          marcus: Base
+        },
+        marcus: true
+      })
+      expect(Base.prototype).to.not.have.property('_useVal')
+      expect(Base.prototype).to.not.have.property('key')
+      expect(aBase).to.have.property('marcus')
+        .which.has.property('val')
+        .which.equals(true)
     })
   })
 

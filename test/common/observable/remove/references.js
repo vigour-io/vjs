@@ -28,7 +28,6 @@ describe('references', function () {
   })
 
   it('when reference gets removed, set _input to undefined', function () {
-    console.clear()
     var cnt = 0
     var a = new Observable({
       key: 'a',

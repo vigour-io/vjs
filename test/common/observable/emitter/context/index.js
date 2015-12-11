@@ -11,7 +11,7 @@ describe('context', function () {
       trackInstances: true,
       b: {
         on: {
-          data: function () {
+          data () {
             var key = this.path[0]
             cnt[key] = cnt[key] ? cnt[key] + 1 : 1
             cnt.total++
@@ -46,7 +46,7 @@ describe('context', function () {
     })
 
     xit('should fire zero times for "blurf1", should not resolve context', function () {
-      // there is no change so prob should not resolve context
+      // there is no change so should not resolve context -- need to fix this later
       test.blurf1 = new test.blurf.Constructor({
         key: 'blurf1',
         b: {
@@ -71,6 +71,7 @@ describe('context', function () {
           }
         }
       })
+      // expect(test.blurf2.b.hello).to.equal(test.blurf.b.hello)
       expect(test.cnt.blurf2).to.equal(1)
     })
   })
@@ -85,7 +86,7 @@ describe('context', function () {
         // if not trackinstances on a does not track for contexts (makes sense)
         on: {
           // if the emitter is not there it will not fire for instances!
-          data: function () {}
+          data () {}
         }
       }
     })
