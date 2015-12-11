@@ -18,7 +18,7 @@ describe('support .val', function () {
   })
 
   var callback = function (data) {
-    console.error('=--->', data, data && data.origin.path)
+    console.error('=--->', data, data && data[0].origin.path)
     countOne++
   }
 

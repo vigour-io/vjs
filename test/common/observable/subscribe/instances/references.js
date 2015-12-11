@@ -33,7 +33,7 @@ describe('multiple instances with different references', function () {
       title: true
     }, function (data) {
       targets.push(this.key)
-      origins.push(data.origin.val)
+      origins.push(data[0].origin.val)
       count++
     })
   })
@@ -108,7 +108,7 @@ describe('multiple instances with different references, with nested subscription
       }
     }, function (data) {
       targets.push(this.key)
-      origins.push(data.origin.val)
+      origins.push(data[0].origin.val)
       count++
     })
   })

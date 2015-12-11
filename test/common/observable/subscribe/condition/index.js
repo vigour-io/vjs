@@ -108,7 +108,7 @@ describe('multiple conditions using any', function () {
     }
   })
 
-  it('fired trice', function () {
+  xit('fired trice', function () {
     obs.subscribe({
       $any: {
         $condition: [{
@@ -124,5 +124,102 @@ describe('multiple conditions using any', function () {
     }).run()
 
     expect(countOne).equals(3)
+  })
+})
+
+describe('condition using upward', function () {
+  var title
+  var obs = new Observable({
+    key: 'obs',
+    content: {
+      show: {
+        title: 'Bad and Good'
+      },
+      nested: {
+        show: {
+          title: 'You know what is up'
+        },
+        nest: {
+          field: {}
+        }
+      }
+    }
+  })
+
+  it('found the correct origin', function () {
+    obs.content.nested.nest.field.subscribe({
+      $upward: {
+        show: {
+          $condition: {
+            title: true
+          }
+        }
+      }
+    }, function (data) {
+      title = data[0].origin.title.val
+      countOne++
+    }).run()
+
+    expect(title).equals('You know what is up')
+    expect(countOne).equals(1)
+  })
+
+  it('when removing that title, subscription finds next', function () {
+    obs.content.nested.show.title.remove()
+    expect(title).equals('Bad and Good')
+    expect(countOne).equals(2)
+  })
+
+  it('when adding it closer, subscription finds closer', function () {
+    obs.content.nested.show.set({
+      title: 'Murder was the case'
+    })
+
+    obs.content.show.set({
+      title: 'Not this one'
+    })
+    expect(title).equals('Murder was the case')
+    expect(countOne).equals(1)
+  })
+})
+
+describe('using parent inside of condition, upwards', function () {
+  var found
+  var obs = new Observable({
+    key: 'obs',
+    title: 'fun',
+    content: {
+      nested: {
+        nest: {
+          field: {}
+        }
+      }
+    }
+  })
+
+  it('finds observable with a parent with a title', function () {
+    obs.content.nested.nest.field.subscribe({
+      $upward: {
+        $condition: {
+          parent: {
+            title: true
+          }
+        }
+      }
+    }, function (data) {
+      found = data[data.length - 1].origin.key
+      countOne++
+    }).run()
+
+    expect(found).equals('content')
+    expect(countOne).equals(1)
+  })
+
+  it('when adding it closer, subscription finds closer', function () {
+    obs.content.set({
+      title: 'Not this one'
+    })
+    expect(found).equals('nested')
+    expect(countOne).equals(1)
   })
 })

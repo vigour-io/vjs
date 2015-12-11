@@ -84,7 +84,7 @@ describe('subscribing to non existing $upward, two levels, multiple nested field
         field: true,
         power: true
       }
-    }, function (event, meta) {
+    }, function (data, event) {
       count++
     })
     expect(count).equals(0)
