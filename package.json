@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "colors-browserify": "~0.0.6",
-    "chai-performance": "~0.0.4"
+    "chai-performance": "~0.0.5"
   },
   "main": "./lib",
   "browser": {
