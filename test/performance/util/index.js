@@ -18,7 +18,7 @@ describe('util test', function () {
         isNumberLike(i)
       }
     }).performance({
-      loop: 1e3,
+      loop: 1e4,
       method () {
         for (var i = 0; i < amount; i++) {
           isNumber('a' + i)
@@ -27,6 +27,27 @@ describe('util test', function () {
           isNumber(i)
         }
       }
+    }, done)
+  })
+
+  it('empty', function (done) {
+    this.timeout(50e3)
+    var amount = 1e3
+    var isEmpty = require('../../../lib/util/is/empty')
+
+    expect(function () {
+      var obj = { a: true }
+      var empty = {}
+      var i
+      for (i = 0; i < amount; i++) {
+        isEmpty(obj)
+      }
+      for (i = 0; i < amount; i++) {
+        isEmpty(empty)
+      }
+    }).performance({
+      loop: 1e4,
+      time: 1
     }, done)
   })
 })
