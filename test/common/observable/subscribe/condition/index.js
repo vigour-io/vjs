@@ -42,13 +42,11 @@ describe('simple condition', function () {
   })
 
   it('updating condition title doesnt fire subscription', function () {
-    console.log('change!')
     obs.nested1.nest.title.val = 'bar'
     expect(countOne).equals(0)
   })
 
   it('updating nested1 fires subscription', function () {
-    console.log('nested!')
     obs.nested1.val = 'foo'
     expect(countOne).equals(1)
   })
