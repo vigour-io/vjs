@@ -34,7 +34,7 @@ describe('is', function () {
     obs.val = 20
   })
 
-  it('should remove is listeners on promise cancel', function (done) {
+  xit('should remove is listeners on promise cancel', function (done) {
     var promise = obs.is((val) => val < 10)
     promise.cancel()
     setTimeout(function () {
@@ -44,7 +44,7 @@ describe('is', function () {
     })
   })
 
-  it('shpuld remove promise when remvoing the observable', function () {
+  xit('shpuld remove promise when remvoing the observable', function () {
     var promise = obs.is((val) => val < 10)
     var spy = sinon.spy(promise, 'cancel')
     obs.remove()
