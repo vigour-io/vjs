@@ -1,12 +1,13 @@
 'use strict'
-describe('util test', function () {
-  // this is buggy shit
-  var util = require('../../../lib/util')
+describe('Util', function () {
   var isNumberLike = require('../../../lib/util/is/numberlike')
+  var perf = require('chai-performance')
+  perf.log = true
+  chai.use(perf)
 
   it('isNumberLike vs lodash isNumber', function (done) {
     this.timeout(50e3)
-    var amount = 1e6
+    var amount = 1e3
     var isNumber = require('lodash/lang/isNumber')
 
     expect(function () {
@@ -17,8 +18,9 @@ describe('util test', function () {
         isNumberLike(i)
       }
     }).performance({
-      margin: 3,
-      method: function () {
+      loop: 1e3,
+      margin: 6,
+      method () {
         for (var i = 0; i < amount; i++) {
           isNumber('a' + i)
         }
@@ -29,26 +31,24 @@ describe('util test', function () {
     }, done)
   })
 
-  it('convertToArray vs Array.prototype.slice', function (done) {
+  it('empty', function (done) {
     this.timeout(50e3)
-    var convertToArray = util.convertToArray
-    var slice = Array.prototype.slice
-    var amount = 1e6
+    var amount = 1e3
+    var isEmpty = require('../../../lib/util/is/empty')
 
     expect(function () {
-      function fn () {
-        convertToArray(arguments)
+      var obj = { a: true }
+      var empty = {}
+      var i
+      for (i = 0; i < amount; i++) {
+        isEmpty(obj)
       }
-      for (var i = 0; i < amount; i++) {
-        fn(1, 2, 3, 4, 5, 6)
+      for (i = 0; i < amount; i++) {
+        isEmpty(empty)
       }
-    }).performance(function () {
-      function fn2 () {
-        slice.apply(arguments)
-      }
-      for (var i = 0; i < amount; i++) {
-        fn2(1, 2, 3, 4, 5, 6)
-      }
+    }).performance({
+      loop: 1e3,
+      time: 0.1 // set baseline
     }, done)
   })
 })
