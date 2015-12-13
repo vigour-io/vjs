@@ -20,16 +20,4 @@ describe('emitter', function () {
     }, done)
   })
 
-  it('Sets and listeners', function (done) {
-    this.timeout(50e3)
-    var amount = 1e3
-    expect(function () {
-      for (var i = 0; i < amount; i++) {
-        var a = new Observable()
-        a.val = i
-      }
-    }).performance({
-      time: 10
-    }, done)
-  })
 })
