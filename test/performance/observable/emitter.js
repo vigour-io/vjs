@@ -19,5 +19,4 @@ describe('emitter', function () {
       time: 10
     }, done)
   })
-
 })
