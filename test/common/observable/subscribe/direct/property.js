@@ -11,7 +11,9 @@ beforeEach(() => {
 describe('subscribing to self', () => {
   var subscription
   var a = new Observable()
-
+  var ref = new Observable({
+    key: 'ref'
+  })
   it('subcribes to field', () => {
     subscription = a.subscribe(true, function (event, meta) {
       count++
@@ -25,8 +27,13 @@ describe('subscribing to self', () => {
     expect(listeners).contains('data')
   })
 
-  it('fires when updated', () => {
-    a.val = 1
+  xit('fires when getting a ref', () => {
+    a.val = ref
+    expect(count).equals(1)
+  })
+
+  xit('fires when changing the ref', () => {
+    ref.val = 4
     expect(count).equals(1)
   })
 })
