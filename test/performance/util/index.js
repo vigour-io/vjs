@@ -1,5 +1,5 @@
 'use strict'
-describe('util test', function () {
+describe('Util', function () {
   var isNumberLike = require('../../../lib/util/is/numberlike')
   var perf = require('chai-performance')
   perf.log = true
@@ -19,7 +19,7 @@ describe('util test', function () {
       }
     }).performance({
       loop: 1e3,
-      margin: 4,
+      margin: 6,
       method () {
         for (var i = 0; i < amount; i++) {
           isNumber('a' + i)
