@@ -28,7 +28,7 @@ describe('Observable', function () {
   it('creating observables (' + amount + ')', function (done) {
     this.timeout(50e3)
     expect(observable).performance({
-      loop: 100,
+      loop: 10000,
       margin: 8,
       method: function () {
         var arr = []
@@ -50,7 +50,7 @@ describe('Observable', function () {
         a.remove()
       }
     }).performance({
-      loop: 100,
+      loop: 1000,
       method: observable,
       margin: 2
     }, done)
