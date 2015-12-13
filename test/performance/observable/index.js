@@ -25,7 +25,7 @@ describe('Observable', function () {
     }
   }
 
-  it('creating observables', function (done) {
+  it('creating observables (' + amount + ')', function (done) {
     this.timeout(50e3)
     expect(observable).performance({
       loop: 100,
@@ -42,7 +42,21 @@ describe('Observable', function () {
     }, done)
   })
 
-  it('creating observables with listeners', function (done) {
+  it('removing observables (' + amount + ')', function (done) {
+    this.timeout(50e3)
+    expect(function () {
+      for (var i = 0; i < amount; i++) {
+        var a = new Observable()
+        a.remove()
+      }
+    }).performance({
+      loop: 100,
+      method: observable,
+      margin: 2
+    }, done)
+  })
+
+  it('creating observables with listeners (' + amount + ')', function (done) {
     this.timeout(50e3)
     expect(listenerObservable).performance({
       loop: 100,
@@ -51,7 +65,7 @@ describe('Observable', function () {
     }, done)
   })
 
-  it('creating observables with listeners, fire them', function (done) {
+  it('creating observables with listeners, fire them (' + amount + ')', function (done) {
     this.timeout(50e3)
     expect(function () {
       for (var i = 0; i < amount; i++) {
@@ -63,7 +77,7 @@ describe('Observable', function () {
     }).performance({
       loop: 100,
       method: listenerObservable,
-      margin: 1.5
+      margin: 2
     }, done)
   })
 })
