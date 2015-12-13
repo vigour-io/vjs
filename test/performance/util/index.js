@@ -48,7 +48,7 @@ describe('Util', function () {
       }
     }).performance({
       loop: 1e3,
-      time: 0.08 // set baseline
+      time: 0.1 // set baseline
     }, done)
   })
 })
