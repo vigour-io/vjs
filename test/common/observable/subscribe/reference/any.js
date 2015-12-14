@@ -4,12 +4,14 @@ var Observable = require('../../../../../lib/observable')
 var testListeners = require('../testListeners')
 var count
 
-describe('subscribing to any field, toplevel', function () {
-  var obs = new Observable({
+describe('ref: subscribing to any field, toplevel', function () {
+  var ref = new Observable({
     one: {},
     two: {},
     three: {}
   })
+
+  var obs = new Observable(ref)
 
   beforeEach(function () {
     count = 0
@@ -26,14 +28,14 @@ describe('subscribing to any field, toplevel', function () {
   })
 
   it('changing existing field fires subscription', function(){
-    obs.set({
-      one: 1
+    ref.set({
+      one:1
     })
     expect(count).equals(1)
-  })
+  })  
 
   it('adding a field fires subscription', function(){
-    obs.set({
+    ref.set({
       randomField: {
         nested: true
       }
@@ -42,21 +44,23 @@ describe('subscribing to any field, toplevel', function () {
   })
 
   it('adding field with a value fires subscription', function(){
-    obs.set({
+    ref.set({
       randomField3: true
     })
     expect(count).equals(1)
   })
 })
 
-describe('subscribing to any field, nested', function () {
-  var obs = new Observable({
+describe('ref: subscribing to any field, nested', function () {
+  var ref = new Observable({
     nested: {
       one: {},
       two: {},
       three: {}
     }
   })
+
+  var obs = new Observable(ref)
 
   beforeEach(function () {
     count = 0
@@ -75,14 +79,15 @@ describe('subscribing to any field, nested', function () {
   })
 
   it('changing existing field fires subscription', function(){
-    obs.nested.set({
+    ref.nested.set({
       one: 1
     })
     expect(count).equals(1)
   })
 
-  it('adding a field fires subscription', function(){
-    obs.nested.set({
+  it('adding a field fires subscription', function () {
+    console.log('------ add prop ref nested -------')
+    ref.nested.set({
       randomField: {
         nested: true
       }
@@ -91,7 +96,7 @@ describe('subscribing to any field, nested', function () {
   })
 
   it('adding field with a value fires subscription', function(){
-    obs.nested.set({
+    ref.nested.set({
       randomField3: true
     })
     expect(count).equals(1)
