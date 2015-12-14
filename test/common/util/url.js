@@ -1,34 +1,34 @@
 var parseUrl = require('../../../lib/util/url')
 
-describe('parse url', function () {
+describe('Create Base object with parsed url properties', function () {
   var url = 'https://user:pass@host.com:8080/p/a/t/h?query=string#hash'
   var parsed = parseUrl(url)
-
+  console.log(parsed)
   it('should parse url path', function () {
-    expect(parsed.path).to.equal('/p/a/t/h?query=string')
+    expect(parsed.urlpath.val).to.equal('/p/a/t/h?query=string')
   })
   it('should parse url hash', function () {
-    expect(parsed.hash).to.equal('#hash')
+    expect(parsed.hash.val).to.equal('#hash')
   })
   it('should parse url auth info', function () {
-    expect(parsed.auth).to.equal('user:pass')
+    expect(parsed.auth.val).to.equal('user:pass')
   })
   it('should parse url pathname', function () {
-    expect(parsed.pathname).to.equal('/p/a/t/h')
+    expect(parsed.pathname.val).to.equal('/p/a/t/h')
   })
   it('should parse url port', function () {
-    expect(parsed.port).to.equal('8080')
+    expect(parsed.port.val).to.equal('8080')
   })
   it('should parse url protocol', function () {
-    expect(parsed.protocol).to.equal('https:')
+    expect(parsed.protocol.val).to.equal('https:')
   })
   it('should parse url querystring', function () {
-    expect(parsed.query).to.equal('query=string')
+    expect(parsed.query.val).to.equal('query=string')
   })
   it('should parse url return query parameter including the leading questin mark', function () {
-    expect(parsed.search).to.equal('?query=string')
+    expect(parsed.search.val).to.equal('?query=string')
   })
   it('should return true if slashes in url', function () {
-    expect(parsed.slashes).to.be.ok
+    expect(parsed.slashes.val).to.be.ok
   })
 })
