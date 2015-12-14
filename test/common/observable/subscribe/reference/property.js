@@ -286,3 +286,33 @@ describe('subscribing to single existing field, existing reference, switch refer
   })
 
 })
+
+describe('subscribe on nested field', function () {
+  var subscription
+  var ref = new Observable({
+    key: 'ref',
+    nested:{}
+  })
+  var b = new Observable({
+    key:'b',
+    val:ref
+  })
+
+  it('subscribes to field', function () {
+    subscription = b.subscribe({
+      nested:{
+        aField: true
+      }
+    }, function () {
+      count++
+    })
+    expect(count).equals(0)
+  })
+
+  it('fires when field is added on ref.nested', function () {
+    ref.nested.set({
+      aField: 'foo'
+    })
+    expect(count).equals(1)
+  })
+})
