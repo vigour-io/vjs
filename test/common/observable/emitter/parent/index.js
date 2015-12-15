@@ -203,18 +203,18 @@ describe('children with parent listeners', function () {
   var measure = {}
   var Child = new Observable({
     on: {
-      parent() {
+      parent () {
         measure[count++] = this.key
       }
     }
   }).Constructor
 
-  beforeEach(function(){
+  beforeEach(function () {
     count = 0
   })
 
   context('when children have no listeners', function(){
-    before(function(){
+    before(function () {
       var parent = new Observable({
         one: {
           useVal: new Child()
@@ -232,7 +232,7 @@ describe('children with parent listeners', function () {
   })
 
   context('when one child has data listener', function(){
-    before(function(){
+    before(function () {
       var parent = new Observable({
         one: {
           useVal: new Child()
@@ -247,14 +247,14 @@ describe('children with parent listeners', function () {
       })
     })
 
-    xit('should fire in the correct order when adding to parent', function () {
+    it('should fire in the correct order when adding to parent', function () {
       expect(measure[0]).equals('one')
       expect(measure[1]).equals('two')
     })
   })
 
   context('when one child has new listener', function(){
-    before(function(){
+    before(function () {
       var parent = new Observable({
         one: {
           useVal: new Child()
@@ -269,7 +269,7 @@ describe('children with parent listeners', function () {
       })
     })
 
-    xit('should fire in the correct order when adding to parent', function () {
+    it('should fire in the correct order when adding to parent', function () {
       expect(measure[0]).equals('one')
       expect(measure[1]).equals('two')
     })

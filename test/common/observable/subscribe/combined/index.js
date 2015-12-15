@@ -504,7 +504,7 @@ describe('instances, subscribe through reference', function () {
     expect(counter.c).equals(3)
   })
 
-  it('removing on other instance, only fires for instance', function () {
+  xit('removing on other instance, only fires for instance', function () {
     c.bField.remove()
     expect(counter.a).equals(2)
     expect(counter.b).equals(3)
