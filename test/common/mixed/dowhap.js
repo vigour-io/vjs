@@ -113,7 +113,7 @@ describe('Dowhap usecase', function () {
               // console.log('setresult', setresult && setresult.path, setresult)
               // console.log('setresult === balance', setresult === balance)
               // console.log('balance', balance)
-              // throw new Error('set had no effect! ' + key)
+              throw new Error('set had no effect! ' + key)
             }
           }
         }
@@ -226,10 +226,31 @@ describe('Dowhap usecase', function () {
 
   // =======================================
 
-  xit('should have created balanced appdata instances for AMS', function () {
-    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.regions.AMS.services.appdata.balance')
-    var appdataBalance = dowhap.repos.mtvplay.dist.services.regions.AMS.services.appdata.balance
+  it('should have created balanced appdata instances for AMS region', function () {
+    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance')
+    var appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance
     expect(appdataBalance).to.have.property('1')
     expect(appdataBalance).to.have.property('5')
+  })
+
+  it('should have created balanced userdata instances for AMS region', function () {
+    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.AMS.services.userdata.balance')
+    var userdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.userdata.balance
+    expect(userdataBalance).to.have.property('1')
+    expect(userdataBalance).to.have.property('5')
+  })
+
+  it('should have created balanced appdata instances for FRA region', function () {
+    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.FRA.services.appdata.balance')
+    var appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance
+    expect(appdataBalance).to.have.property('1')
+    expect(appdataBalance).to.have.property('5')
+  })
+
+  it('should have created balanced userdata instances for FRA region', function () {
+    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.FRA.services.userdata.balance')
+    var userdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.FRA.services.userdata.balance
+    expect(userdataBalance).to.have.property('1')
+    expect(userdataBalance).to.have.property('5')
   })
 })
