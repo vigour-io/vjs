@@ -69,7 +69,7 @@ describe('combined', function () {
     expect(aRef._on.data.base[a.uid]).to.equal(a)
   })
 
-  it('create new observable --> aO --> a --> b references - remove aRef', function () {
+  xit('create new observable --> aO --> a --> b references - remove aRef', function () {
     // are we absolutely sure about this??
     // it is not really a property (maybe just add an extra value listener if you want to know this)
     var SpecialEmitter = new Emitter().Constructor
