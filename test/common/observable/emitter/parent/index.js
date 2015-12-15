@@ -31,20 +31,22 @@ describe('parent', function () {
 
     element = new Observable({
       on: {
-        parent () {
-          var keyCnt = measure.element.parent.val[this.key]
-          measure.element.parent.val.total += 1
-          measure.element.parent.val[this.key] = keyCnt ? (keyCnt + 1) : 1
-        },
-        new () {
-          measure.element.new.val.total += 1
-        }
+        parent() {
+            var keyCnt = measure.element.parent.val[this.key]
+            measure.element.parent.val.total += 1
+            measure.element.parent.val[this.key] = keyCnt ? (keyCnt + 1) : 1
+          },
+          new() {
+            measure.element.new.val.total += 1
+          }
       },
       useVal: true
     })
     Element = element.Constructor
 
-    holder = new Element({ key: 'holder' })
+    holder = new Element({
+      key: 'holder'
+    })
 
     holder.set({
       a: new Element(),
@@ -76,7 +78,7 @@ describe('add to parent one instance', function () {
     key: 'a',
     trackInstances: true,
     on: {
-      parent () {
+      parent() {
         measure[this.key]++
       }
     }
@@ -103,7 +105,7 @@ describe('fires after set', function () {
   it('fires after nested set', function () {
     var a = new Observable({
       on: {
-        parent () {
+        parent() {
           expect(this.parent.parent.youzi).ok
         }
       }
@@ -123,7 +125,7 @@ describe('fires after set, properties', function () {
   it('fires after set', function () {
     var a = new Observable({
       on: {
-        parent () {
+        parent() {
           expect(this.parent.a.nerdje).ok
         }
       }
@@ -145,7 +147,7 @@ describe('fires for multiple instances on same parent', function () {
     var keys = []
     var a = new Observable({
       on: {
-        parent () {
+        parent() {
           keys.push(this.key)
         }
       }
@@ -154,10 +156,10 @@ describe('fires for multiple instances on same parent', function () {
     var parent = new Observable({
       key: 'uberparent',
       a: {
-        useVal:a
+        useVal: a
       },
-      b:{
-        useVal:b
+      b: {
+        useVal: b
       }
     })
     expect(keys.length).equals(2)
@@ -171,7 +173,7 @@ describe('fires for multiple instances on different parents', function () {
     var keys = []
     var a = new Observable({
       on: {
-        parent () {
+        parent() {
           keys.push(this.key)
         }
       }
@@ -180,18 +182,96 @@ describe('fires for multiple instances on different parents', function () {
     var b = new a.Constructor()
     var parent = new Observable({
       a: {
-        useVal:a
+        useVal: a
       }
     })
 
     var anotherParent = new Observable({
       b: {
-        useVal:b
+        useVal: b
       }
     })
 
     expect(keys.length).equals(2)
     expect(keys).contains('a')
     expect(keys).contains('b')
+  })
+})
+
+describe('children with parent listeners', function () {
+  var count = 0
+  var measure = {}
+  var Child = new Observable({
+    on: {
+      parent () {
+        measure[count++] = this.key
+      }
+    }
+  }).Constructor
+
+  beforeEach(function () {
+    count = 0
+  })
+
+  context('when children have no listeners', function(){
+    before(function () {
+      var parent = new Observable({
+        one: {
+          useVal: new Child()
+        },
+        two: {
+          useVal: new Child()
+        }
+      })
+    })
+
+    it('should fire in the correct order when adding to parent', function () {
+      expect(measure[0]).equals('one')
+      expect(measure[1]).equals('two')
+    })
+  })
+
+  context('when one child has data listener', function(){
+    before(function () {
+      var parent = new Observable({
+        one: {
+          useVal: new Child()
+        },
+        two: {
+          useVal: new Child({
+            on: {
+              data () {}
+            }
+          })
+        }
+      })
+    })
+
+    it('should fire in the correct order when adding to parent', function () {
+      expect(measure[0]).equals('one')
+      expect(measure[1]).equals('two')
+    })
+  })
+
+  context('when one child has new listener', function(){
+    before(function () {
+      var parent = new Observable({
+        one: {
+          useVal: new Child()
+        },
+        two: {
+          useVal: new Child({
+            on: {
+              data () {}
+            }
+          })
+        }
+      })
+    })
+
+    it('should fire in the correct order when adding to parent', function () {
+      expect(measure[0]).equals('one')
+      expect(measure[1]).equals('two')
+    })
   })
 })
