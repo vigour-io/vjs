@@ -8,9 +8,7 @@ describe('Dowhap usecase', function () {
 
   it('should create the classes', function () {
     // ---------------------------------------
-
     DObject = new Observable({
-      // has template lookup steez
       define: {
         dowhap: {
           get: function () {
@@ -28,14 +26,11 @@ describe('Dowhap usecase', function () {
     Routable = new DObject({
       services: {
         ChildConstructor: function ServiceRepoConstructor (val, event, parent, key) {
-          // console.log('----------> services ChildConstructor!', val)
-
           var repoKey = val.repo || key
           var repo = parent.dowhap.repos[repoKey]
           var branchKey = val.branch || 'dist'
           val.branch = branchKey
           var branch = repo[branchKey]
-
           return new branch.Constructor(val, event, parent, key)
         }
       },
@@ -77,7 +72,6 @@ describe('Dowhap usecase', function () {
         }
       }
     }, function (data, event) {
-      // console.log('routable subscription triggered!', this.path)
       var routable = this
       var route = routable.val
 
@@ -89,7 +83,6 @@ describe('Dowhap usecase', function () {
           }
           regional = regional.parent
         }
-        console.log('not regional', routable.path)
 
         let region = routable.region.val
 
@@ -97,54 +90,32 @@ describe('Dowhap usecase', function () {
           if (routable.key === 'redis' || routable.repo === 'redis') {
             return
           }
-
           let setObj = {}
           let balance = routable.balance
           let number = routable.balance.val
           let upperbound = number + 1
-
           while (balance[upperbound]) {
-            console.log('remove', upperbound)
             setObj[upperbound++] = null
           }
-
           while (number) {
             // balance.setKey(number,{instanceId: Math.random()})
             setObj[number] = {instanceId: Math.random()}
             number--
           }
-          console.log('\n\n\n')
-          console.log('=============>> LAUNCHTIME')
-          console.log('== route', route)
-          console.log('== region', region)
-          console.log('go set\n', setObj)
-          console.log('on', balance.path)
 
-          if (balance.path.indexOf('appdata') !== -1) {
-            console.warn('this is gonna go wreng')
-            global.logit = true
-            global.balance = balance
-          }
-          // this set will go wreng
+          console.clear()
           let setresult = balance.set(setObj)
-          // this set went wreng
-          global.logit = false
-
-          console.log('did dat balance set', balance.path, balance[1])
 
           for (let key in setObj) {
-            if (!balance[key]) {
-              console.error('+++++++++++++++++++ did not work?!')
-              console.log('setresult', setresult && setresult.path, setresult)
-              console.log('setresult === balance', setresult === balance)
-              console.log('balance', balance)
-              throw new Error('set had no effect!')
+            // console.log(setresult[1])
+            if (!setresult[key]) {
+              // console.log('+++++++++++++++++++ did not work?!'.blue, key)
+              // console.log('setresult', setresult && setresult.path, setresult)
+              // console.log('setresult === balance', setresult === balance)
+              // console.log('balance', balance)
+              throw new Error('set had no effect! ' + key)
             }
           }
-
-          console.log('=====================')
-          console.log('=====================')
-          console.log('\n\n\n')
         }
       }
     })
@@ -160,7 +131,6 @@ describe('Dowhap usecase', function () {
           var regional = parent.parent.regional
           val.region = key
           var Constructor = regional ? regional.Constructor : Routable
-
           return new Constructor(val, event, parent, key)
         }
       }
@@ -256,10 +226,31 @@ describe('Dowhap usecase', function () {
 
   // =======================================
 
-  it('should have created balanced appdata instances for AMS', function () {
-    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.regions.AMS.services.appdata.balance')
-    var appdataBalance = dowhap.repos.mtvplay.dist.services.regions.AMS.services.appdata.balance
+  it('should have created balanced appdata instances for AMS region', function () {
+    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance')
+    var appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance
     expect(appdataBalance).to.have.property('1')
     expect(appdataBalance).to.have.property('5')
+  })
+
+  it('should have created balanced userdata instances for AMS region', function () {
+    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.AMS.services.userdata.balance')
+    var userdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.userdata.balance
+    expect(userdataBalance).to.have.property('1')
+    expect(userdataBalance).to.have.property('5')
+  })
+
+  it('should have created balanced appdata instances for FRA region', function () {
+    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.FRA.services.appdata.balance')
+    var appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance
+    expect(appdataBalance).to.have.property('1')
+    expect(appdataBalance).to.have.property('5')
+  })
+
+  it('should have created balanced userdata instances for FRA region', function () {
+    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.FRA.services.userdata.balance')
+    var userdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.FRA.services.userdata.balance
+    expect(userdataBalance).to.have.property('1')
+    expect(userdataBalance).to.have.property('5')
   })
 })
