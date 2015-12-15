@@ -1,10 +1,13 @@
 'use strict'
 var Observable = require('../../../lib/observable')
 Observable.prototype.inject(require('../../../lib/methods/plain'))
-
 describe('Dowhap usecase', function () {
   this.bail(true)
   var DObject, Routable, Branch, Repo, Dowhap, dowhap
+
+  var perf = require('chai-performance')
+  perf.log = true
+  chai.use(perf)
 
   it('should create the classes', function () {
     // ---------------------------------------
@@ -41,7 +44,6 @@ describe('Dowhap usecase', function () {
             region = false
             let target = this.parent
             let parent
-
             while (!region && target) {
               region = target.region && target.region._input
               if (!region) {
@@ -68,7 +70,9 @@ describe('Dowhap usecase', function () {
       },
       $upward: {
         regions: {
-          $any: true
+          AMS:true,
+          FRA:true
+          // $any: true
         }
       }
     }, function (data, event) {
@@ -98,21 +102,14 @@ describe('Dowhap usecase', function () {
             setObj[upperbound++] = null
           }
           while (number) {
-            // balance.setKey(number,{instanceId: Math.random()})
             setObj[number] = {instanceId: Math.random()}
             number--
           }
 
-          console.clear()
           let setresult = balance.set(setObj)
 
           for (let key in setObj) {
-            // console.log(setresult[1])
             if (!setresult[key]) {
-              // console.log('+++++++++++++++++++ did not work?!'.blue, key)
-              // console.log('setresult', setresult && setresult.path, setresult)
-              // console.log('setresult === balance', setresult === balance)
-              // console.log('balance', balance)
               throw new Error('set had no effect! ' + key)
             }
           }
@@ -152,80 +149,93 @@ describe('Dowhap usecase', function () {
     }).Constructor
   })
 
-  it('should create new Dowhap instance dowhap', function () {
+  it('should create new Dowhap instance dowhap', function (done) {
     // lets make dat dowhap
-    dowhap = new Dowhap({
-      repos: {
-        redis: {
-          dist: {
-            redissetting: 'yes redissetting!'
-          }
-        },
-        hub: {
-          dist: {
-            setting1: 'yes hub default',
-            setting2: 'yes hub default'
-          }
-        },
-        mtvplay: {
-          dist: {
-            'services': {
-              'hub': {
-                'regional': {
-                  'services': {
-                    'appdata': {
-                      'repo': 'hub',
-                      'val': 'appdata-{region}.mtvplay.tv',
-                      'balance': 6,
-                      'files': [
-                        './scraper'
-                      ]
-                    },
-                    'userdata': {
-                      'repo': 'hub',
-                      'val': 'userdata-{region}.mtvplay.tv',
-                      'balance': 5,
-                      'services': {
-                        'redis': {
-                          'val': 'user-data-storage-{region}.mtvplay.tv',
-                          'cluster': 3,
-                          'redundancy': 1
+    expect(function () {
+      dowhap = new Dowhap({
+        repos: {
+          redis: {
+            dist: {
+              redissetting: 'yes redissetting!'
+            }
+          },
+          hub: {
+            dist: {
+              setting1: 'yes hub default',
+              setting2: 'yes hub default'
+            }
+          },
+          mtvplay: {
+            dist: {
+              'services': {
+                'hub': {
+                  'regional': {
+                    'services': {
+                      'appdata': {
+                        'repo': 'hub',
+                        'val': 'appdata-{region}.mtvplay.tv',
+                        'balance': 6,
+                        'files': [
+                          './scraper'
+                        ]
+                      },
+                      'userdata': {
+                        'repo': 'hub',
+                        'val': 'userdata-{region}.mtvplay.tv',
+                        'balance': 5,
+                        'services': {
+                          'redis': {
+                            'val': 'user-data-storage-{region}.mtvplay.tv',
+                            'cluster': 3,
+                            'redundancy': 1
+                          }
                         }
                       }
                     }
-                  }
-                },
-                'regions': {
-                  'AMS': {
-                    'val': 'hub-{region}.mtvplay.tv',
-                    'special': 'damsco',
-                    'balance': 30
                   },
-                  'FRA': {
-                    'val': 'hub-{region}.mtvplay.tv',
-                    'special': 'franny fur',
-                    'balance': 30
+                  'regions': {
+                    'AMS': {
+                      'val': 'hub-{region}.mtvplay.tv',
+                      'special': 'damsco',
+                      'balance': 30
+                    },
+                    'FRA': {
+                      'val': 'hub-{region}.mtvplay.tv',
+                      'special': 'franny fur',
+                      'balance': 30
+                    }
                   }
                 }
               }
             }
-          }
-        },
-        secondthing: {
-          dist: {
-            services: {
-              redis: {
-                settang: true
+          },
+          secondthing: {
+            dist: {
+              services: {
+                redis: {
+                  settang: true
+                }
               }
             }
           }
         }
-      }
-    })
+      })
+    }).performance({
+      time: 200
+    }, done)
   })
 
   // =======================================
 
+<<<<<<< HEAD
+  it('should have created balanced appdata instances for FRA and AMS', function () {
+    var appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance
+    expect(appdataBalance).to.have.property(1)
+    expect(appdataBalance).to.have.property(5)
+    appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.FRA.services.appdata.balance
+    expect(appdataBalance).to.have.property(1)
+    expect(appdataBalance).to.have.property(5)
+=======
   it('should have created balanced appdata instances for AMS region', function () {
     expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance')
     var appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance
@@ -252,5 +262,6 @@ describe('Dowhap usecase', function () {
     var userdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.FRA.services.userdata.balance
     expect(userdataBalance).to.have.property('1')
     expect(userdataBalance).to.have.property('5')
+>>>>>>> 65f9deb118b6bf453da0cf5dabfefff41196b7ab
   })
 })
