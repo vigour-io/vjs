@@ -41,7 +41,6 @@ describe('Dowhap usecase', function () {
             region = false
             let target = this.parent
             let parent
-
             while (!region && target) {
               region = target.region && target.region._input
               if (!region) {
@@ -74,7 +73,6 @@ describe('Dowhap usecase', function () {
     }, function (data, event) {
       var routable = this
       var route = routable.val
-
       if (typeof route === 'string') {
         let regional = routable
         while (regional) {
@@ -83,9 +81,7 @@ describe('Dowhap usecase', function () {
           }
           regional = regional.parent
         }
-
         let region = routable.region.val
-
         if (region) {
           if (routable.key === 'redis' || routable.repo === 'redis') {
             return
@@ -98,27 +94,10 @@ describe('Dowhap usecase', function () {
             setObj[upperbound++] = null
           }
           while (number) {
-            // balance.setKey(number,{instanceId: Math.random()})
             setObj[number] = {instanceId: Math.random()}
             number--
           }
-
-          // console.clear()
-          console.log('FIRE ----', balance.path)
-          console.clear()
-          let setresult = balance.set(setObj)
-          console.log(setresult.path, setresult === balance)
-
-          for (let key in setObj) {
-            // console.log(setresult[1])
-            if (!setresult[key]) {
-              // console.log('+++++++++++++++++++ did not work?!'.blue, key)
-              // console.log('setresult', setresult && setresult.path, setresult)
-              // console.log('setresult === balance', setresult === balance)
-              // console.log('balance', balance)
-              throw new Error('set had no effect! ' + key)
-            }
-          }
+          balance.set(setObj)
         }
       }
     })
@@ -229,12 +208,10 @@ describe('Dowhap usecase', function () {
 
   // =======================================
 
-  it('should have created balanced appdata instances for FRA', function () {
+  it('should have created balanced appdata instances for FRA and AMS', function () {
     var appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance
-
     expect(appdataBalance).to.have.property(1)
     expect(appdataBalance).to.have.property(5)
-
     appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.FRA.services.appdata.balance
     expect(appdataBalance).to.have.property(1)
     expect(appdataBalance).to.have.property(5)
