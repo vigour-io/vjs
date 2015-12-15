@@ -1,7 +1,6 @@
 'use strict'
 var Observable = require('../../../lib/observable')
 Observable.prototype.inject(require('../../../lib/methods/plain'))
-var colors = require('colors-browserify')
 
 describe('Dowhap usecase', function () {
   this.bail(true)
@@ -103,12 +102,14 @@ describe('Dowhap usecase', function () {
             setObj[number] = {instanceId: Math.random()}
             number--
           }
+
+          console.clear()
           let setresult = balance.set(setObj)
 
           for (let key in setObj) {
             // console.log(setresult[1])
             if (!setresult[key]) {
-              console.log('+++++++++++++++++++ did not work?!'.blue, key)
+              // console.log('+++++++++++++++++++ did not work?!'.blue, key)
               // console.log('setresult', setresult && setresult.path, setresult)
               // console.log('setresult === balance', setresult === balance)
               // console.log('balance', balance)
@@ -225,7 +226,7 @@ describe('Dowhap usecase', function () {
 
   // =======================================
 
-  it('should have created balanced appdata instances for AMS', function () {
+  xit('should have created balanced appdata instances for AMS', function () {
     expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.regions.AMS.services.appdata.balance')
     var appdataBalance = dowhap.repos.mtvplay.dist.services.regions.AMS.services.appdata.balance
     expect(appdataBalance).to.have.property('1')
