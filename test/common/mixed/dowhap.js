@@ -1,10 +1,13 @@
 'use strict'
 var Observable = require('../../../lib/observable')
 Observable.prototype.inject(require('../../../lib/methods/plain'))
-
 describe('Dowhap usecase', function () {
   this.bail(true)
   var DObject, Routable, Branch, Repo, Dowhap, dowhap
+
+  var perf = require('chai-performance')
+  perf.log = true
+  chai.use(perf)
 
   it('should create the classes', function () {
     // ---------------------------------------
@@ -67,39 +70,42 @@ describe('Dowhap usecase', function () {
       },
       $upward: {
         regions: {
-          $any: true
+          AMS:true,
+          FRA:true
+          // $any: true
         }
       }
     }, function (data, event) {
-      var routable = this
-      var route = routable.val
-      if (typeof route === 'string') {
-        let regional = routable
-        while (regional) {
-          if (regional.key === 'regional') {
-            return
-          }
-          regional = regional.parent
-        }
-        let region = routable.region.val
-        if (region) {
-          if (routable.key === 'redis' || routable.repo === 'redis') {
-            return
-          }
-          let setObj = {}
-          let balance = routable.balance
-          let number = routable.balance.val
-          let upperbound = number + 1
-          while (balance[upperbound]) {
-            setObj[upperbound++] = null
-          }
-          while (number) {
-            setObj[number] = {instanceId: Math.random()}
-            number--
-          }
-          balance.set(setObj)
-        }
-      }
+      console.log('magic')
+      // var routable = this
+      // var route = routable.val
+      // if (typeof route === 'string') {
+      //   let regional = routable
+      //   while (regional) {
+      //     if (regional.key === 'regional') {
+      //       return
+      //     }
+      //     regional = regional.parent
+      //   }
+      //   let region = routable.region.val
+      //   if (region) {
+      //     if (routable.key === 'redis' || routable.repo === 'redis') {
+      //       return
+      //     }
+      //     let setObj = {}
+      //     let balance = routable.balance
+      //     let number = routable.balance.val
+      //     let upperbound = number + 1
+      //     while (balance[upperbound]) {
+      //       setObj[upperbound++] = null
+      //     }
+      //     while (number) {
+      //       setObj[number] = {instanceId: Math.random()}
+      //       number--
+      //     }
+      //     balance.set(setObj)
+      //   }
+      // }
     })
 
     // ---------------------------------------
@@ -134,76 +140,80 @@ describe('Dowhap usecase', function () {
     }).Constructor
   })
 
-  it('should create new Dowhap instance dowhap', function () {
+  it('should create new Dowhap instance dowhap', function (done) {
     // lets make dat dowhap
-    dowhap = new Dowhap({
-      repos: {
-        redis: {
-          dist: {
-            redissetting: 'yes redissetting!'
-          }
-        },
-        hub: {
-          dist: {
-            setting1: 'yes hub default',
-            setting2: 'yes hub default'
-          }
-        },
-        mtvplay: {
-          dist: {
-            'services': {
-              'hub': {
-                'regional': {
-                  'services': {
-                    'appdata': {
-                      'repo': 'hub',
-                      'val': 'appdata-{region}.mtvplay.tv',
-                      'balance': 6,
-                      'files': [
-                        './scraper'
-                      ]
-                    },
-                    'userdata': {
-                      'repo': 'hub',
-                      'val': 'userdata-{region}.mtvplay.tv',
-                      'balance': 5,
-                      'services': {
-                        'redis': {
-                          'val': 'user-data-storage-{region}.mtvplay.tv',
-                          'cluster': 3,
-                          'redundancy': 1
+    expect(function () {
+      dowhap = new Dowhap({
+        repos: {
+          redis: {
+            dist: {
+              redissetting: 'yes redissetting!'
+            }
+          },
+          hub: {
+            dist: {
+              setting1: 'yes hub default',
+              setting2: 'yes hub default'
+            }
+          },
+          mtvplay: {
+            dist: {
+              'services': {
+                'hub': {
+                  'regional': {
+                    'services': {
+                      'appdata': {
+                        'repo': 'hub',
+                        'val': 'appdata-{region}.mtvplay.tv',
+                        'balance': 6,
+                        'files': [
+                          './scraper'
+                        ]
+                      },
+                      'userdata': {
+                        'repo': 'hub',
+                        'val': 'userdata-{region}.mtvplay.tv',
+                        'balance': 5,
+                        'services': {
+                          'redis': {
+                            'val': 'user-data-storage-{region}.mtvplay.tv',
+                            'cluster': 3,
+                            'redundancy': 1
+                          }
                         }
                       }
                     }
-                  }
-                },
-                'regions': {
-                  'AMS': {
-                    'val': 'hub-{region}.mtvplay.tv',
-                    'special': 'damsco',
-                    'balance': 30
                   },
-                  'FRA': {
-                    'val': 'hub-{region}.mtvplay.tv',
-                    'special': 'franny fur',
-                    'balance': 30
+                  'regions': {
+                    'AMS': {
+                      'val': 'hub-{region}.mtvplay.tv',
+                      'special': 'damsco',
+                      'balance': 30
+                    },
+                    'FRA': {
+                      'val': 'hub-{region}.mtvplay.tv',
+                      'special': 'franny fur',
+                      'balance': 30
+                    }
                   }
                 }
               }
             }
-          }
-        },
-        secondthing: {
-          dist: {
-            services: {
-              redis: {
-                settang: true
+          },
+          secondthing: {
+            dist: {
+              services: {
+                redis: {
+                  settang: true
+                }
               }
             }
           }
         }
-      }
-    })
+      })
+    }).performance({
+      time: 200
+    }, done)
   })
 
   // =======================================
