@@ -103,8 +103,11 @@ describe('Dowhap usecase', function () {
             number--
           }
 
+          // console.clear()
+          console.log('FIRE ----', balance.path)
           console.clear()
           let setresult = balance.set(setObj)
+          console.log(setresult.path, setresult === balance)
 
           for (let key in setObj) {
             // console.log(setresult[1])
@@ -113,7 +116,7 @@ describe('Dowhap usecase', function () {
               // console.log('setresult', setresult && setresult.path, setresult)
               // console.log('setresult === balance', setresult === balance)
               // console.log('balance', balance)
-              // throw new Error('set had no effect! ' + key)
+              throw new Error('set had no effect! ' + key)
             }
           }
         }
@@ -226,10 +229,14 @@ describe('Dowhap usecase', function () {
 
   // =======================================
 
-  xit('should have created balanced appdata instances for AMS', function () {
-    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.regions.AMS.services.appdata.balance')
-    var appdataBalance = dowhap.repos.mtvplay.dist.services.regions.AMS.services.appdata.balance
-    expect(appdataBalance).to.have.property('1')
-    expect(appdataBalance).to.have.property('5')
+  it('should have created balanced appdata instances for FRA', function () {
+    var appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance
+
+    expect(appdataBalance).to.have.property(1)
+    expect(appdataBalance).to.have.property(5)
+
+    appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.FRA.services.appdata.balance
+    expect(appdataBalance).to.have.property(1)
+    expect(appdataBalance).to.have.property(5)
   })
 })
