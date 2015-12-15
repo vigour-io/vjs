@@ -66,6 +66,7 @@
   },
   "standard": {
     "globals": [
+      "before",
       "describe",
       "it",
       "beforeEach",

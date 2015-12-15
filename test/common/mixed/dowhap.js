@@ -76,36 +76,45 @@ describe('Dowhap usecase', function () {
         }
       }
     }, function (data, event) {
-      console.log('magic')
-      // var routable = this
-      // var route = routable.val
-      // if (typeof route === 'string') {
-      //   let regional = routable
-      //   while (regional) {
-      //     if (regional.key === 'regional') {
-      //       return
-      //     }
-      //     regional = regional.parent
-      //   }
-      //   let region = routable.region.val
-      //   if (region) {
-      //     if (routable.key === 'redis' || routable.repo === 'redis') {
-      //       return
-      //     }
-      //     let setObj = {}
-      //     let balance = routable.balance
-      //     let number = routable.balance.val
-      //     let upperbound = number + 1
-      //     while (balance[upperbound]) {
-      //       setObj[upperbound++] = null
-      //     }
-      //     while (number) {
-      //       setObj[number] = {instanceId: Math.random()}
-      //       number--
-      //     }
-      //     balance.set(setObj)
-      //   }
-      // }
+      var routable = this
+      var route = routable.val
+
+      if (typeof route === 'string') {
+        let regional = routable
+        while (regional) {
+          if (regional.key === 'regional') {
+            return
+          }
+          regional = regional.parent
+        }
+
+        let region = routable.region.val
+
+        if (region) {
+          if (routable.key === 'redis' || routable.repo === 'redis') {
+            return
+          }
+          let setObj = {}
+          let balance = routable.balance
+          let number = routable.balance.val
+          let upperbound = number + 1
+          while (balance[upperbound]) {
+            setObj[upperbound++] = null
+          }
+          while (number) {
+            setObj[number] = {instanceId: Math.random()}
+            number--
+          }
+
+          let setresult = balance.set(setObj)
+
+          for (let key in setObj) {
+            if (!setresult[key]) {
+              throw new Error('set had no effect! ' + key)
+            }
+          }
+        }
+      }
     })
 
     // ---------------------------------------
@@ -218,6 +227,7 @@ describe('Dowhap usecase', function () {
 
   // =======================================
 
+<<<<<<< HEAD
   it('should have created balanced appdata instances for FRA and AMS', function () {
     var appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance
     expect(appdataBalance).to.have.property(1)
@@ -225,5 +235,33 @@ describe('Dowhap usecase', function () {
     appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.FRA.services.appdata.balance
     expect(appdataBalance).to.have.property(1)
     expect(appdataBalance).to.have.property(5)
+=======
+  it('should have created balanced appdata instances for AMS region', function () {
+    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance')
+    var appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance
+    expect(appdataBalance).to.have.property('1')
+    expect(appdataBalance).to.have.property('5')
+  })
+
+  it('should have created balanced userdata instances for AMS region', function () {
+    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.AMS.services.userdata.balance')
+    var userdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.userdata.balance
+    expect(userdataBalance).to.have.property('1')
+    expect(userdataBalance).to.have.property('5')
+  })
+
+  it('should have created balanced appdata instances for FRA region', function () {
+    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.FRA.services.appdata.balance')
+    var appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance
+    expect(appdataBalance).to.have.property('1')
+    expect(appdataBalance).to.have.property('5')
+  })
+
+  it('should have created balanced userdata instances for FRA region', function () {
+    expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.FRA.services.userdata.balance')
+    var userdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.FRA.services.userdata.balance
+    expect(userdataBalance).to.have.property('1')
+    expect(userdataBalance).to.have.property('5')
+>>>>>>> 65f9deb118b6bf453da0cf5dabfefff41196b7ab
   })
 })
