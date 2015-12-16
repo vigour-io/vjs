@@ -247,7 +247,7 @@ describe('children with parent listeners', function () {
       })
     })
 
-    it('should fire in the correct order when adding to parent', function () {
+    xit('should fire in the correct order when adding to parent', function () {
       expect(measure[0]).equals('one')
       expect(measure[1]).equals('two')
     })
@@ -269,7 +269,7 @@ describe('children with parent listeners', function () {
       })
     })
 
-    it('should fire in the correct order when adding to parent', function () {
+    xit('should fire in the correct order when adding to parent', function () {
       expect(measure[0]).equals('one')
       expect(measure[1]).equals('two')
     })
