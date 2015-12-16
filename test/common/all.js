@@ -9,3 +9,5 @@ require('./util')
 require('./observable')
 require('./operator')
 require('./bind')
+
+require('./mixed')

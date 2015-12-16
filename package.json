@@ -23,8 +23,8 @@
     "bluebird": "3.0.x"
   },
   "devDependencies": {
-    "colors-browserify": "~0.0.7",
-    "chai-performance": "~0.1.0"
+    "colors-browserify": "~0.0.8",
+    "chai-performance": "~0.1.1"
   },
   "main": "./lib",
   "browser": {
