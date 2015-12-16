@@ -226,16 +226,6 @@ describe('Dowhap usecase', function () {
   })
 
   // =======================================
-
-<<<<<<< HEAD
-  it('should have created balanced appdata instances for FRA and AMS', function () {
-    var appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance
-    expect(appdataBalance).to.have.property(1)
-    expect(appdataBalance).to.have.property(5)
-    appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.FRA.services.appdata.balance
-    expect(appdataBalance).to.have.property(1)
-    expect(appdataBalance).to.have.property(5)
-=======
   it('should have created balanced appdata instances for AMS region', function () {
     expect(dowhap).to.have.deep.property('repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance')
     var appdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.AMS.services.appdata.balance
@@ -262,6 +252,5 @@ describe('Dowhap usecase', function () {
     var userdataBalance = dowhap.repos.mtvplay.dist.services.hub.regions.FRA.services.userdata.balance
     expect(userdataBalance).to.have.property('1')
     expect(userdataBalance).to.have.property('5')
->>>>>>> 65f9deb118b6bf453da0cf5dabfefff41196b7ab
   })
 })
