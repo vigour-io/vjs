@@ -4,7 +4,6 @@ Observable.prototype.inject(require('../../../lib/methods/plain'))
 describe('Dowhap usecase', function () {
   this.bail(true)
   var DObject, Routable, Branch, Repo, Dowhap, dowhap
-
   var perf = require('chai-performance')
   perf.log = true
   chai.use(perf)
