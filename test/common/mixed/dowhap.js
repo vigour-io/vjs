@@ -61,16 +61,6 @@ describe('Dowhap usecase', function () {
       balance: { }
     }).Constructor
 
-
-    Routable.prototype.set({
-      on: {
-        data: [function() {
-          // console.log('yo')
-        }, new Observable()]
-      }
-    })
-
-
     Routable.prototype.subscribe({
       val: true,
       region: true,
@@ -80,8 +70,9 @@ describe('Dowhap usecase', function () {
       $upward: {
         regions: {
           AMS: true,
-          FRA: true//,
-          // $any: true
+          FRA: true
+          // DE: true
+          // $any:true
         }
       }
     }, function (data, event) {
@@ -229,8 +220,8 @@ describe('Dowhap usecase', function () {
         }
       })
     }).performance({
-      time: 200,
-      loop: 1
+      loop: 1,
+      time: 200
     }, done)
   })
 
