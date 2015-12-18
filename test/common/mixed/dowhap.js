@@ -105,6 +105,8 @@ describe('Dowhap usecase', function () {
             number--
           }
 
+          console.log( setObj )
+
           let setresult = balance.set(setObj)
 
           for (let key in setObj) {
