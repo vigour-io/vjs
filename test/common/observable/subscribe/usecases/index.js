@@ -38,7 +38,7 @@ describe('DOWHAP', function () {
     $upward: {
       regions: {
         // val:true,
-        AMS: true,
+        // AMS: true,
         FRA: true
       }
     }
