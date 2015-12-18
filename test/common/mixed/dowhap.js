@@ -61,6 +61,16 @@ describe('Dowhap usecase', function () {
       balance: { }
     }).Constructor
 
+
+    Routable.prototype.set({
+      on: {
+        data: [function() {
+          // console.log('yo')
+        }, new Observable()]
+      }
+    })
+
+
     Routable.prototype.subscribe({
       val: true,
       region: true,
@@ -77,7 +87,6 @@ describe('Dowhap usecase', function () {
     }, function (data, event) {
       var routable = this
       var route = routable.val
-
       if (typeof route === 'string') {
         let regional = routable
         while (regional) {
@@ -220,7 +229,8 @@ describe('Dowhap usecase', function () {
         }
       })
     }).performance({
-      time: 200
+      time: 200,
+      loop: 1
     }, done)
   })
 
