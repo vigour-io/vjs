@@ -70,8 +70,9 @@ describe('Dowhap usecase', function () {
       $upward: {
         regions: {
           AMS: true,
-          FRA: true//,
-          // $any: true
+          FRA: true,
+          // DE: true
+          // $any:true
         }
       }
     }, function (data, event) {
@@ -220,6 +221,7 @@ describe('Dowhap usecase', function () {
         }
       })
     }).performance({
+      loop: 1,
       time: 200
     }, done)
   })
