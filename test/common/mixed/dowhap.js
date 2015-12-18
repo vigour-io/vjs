@@ -69,8 +69,8 @@ describe('Dowhap usecase', function () {
       },
       $upward: {
         regions: {
-          AMS:true,
-          FRA:true
+          AMS: true,
+          FRA: true//,
           // $any: true
         }
       }
