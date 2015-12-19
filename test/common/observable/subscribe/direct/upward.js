@@ -28,7 +28,6 @@ describe('subscribing to non existing $upward, two levels, nested field', () => 
 
   it('added a property, reference and parent listener', () => {
     var listeners = testListeners(subscription)
-    console.log('listeners:', listeners)
     expect(listeners.length).equals(3)
     expect(listeners).contains('property')
     expect(listeners).contains('reference')
