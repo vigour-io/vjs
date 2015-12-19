@@ -3,6 +3,8 @@
 var Observable = require('../../../lib/observable/')
 var colors = require('colors-browserify')
 
+window.location.hash = '😸'
+
 describe('Observable properties should update URL', function () {
   // it('should update window location pathname when setting Observable.pathname.val', function () {
   //   url.pathname.val = '/shows/de-slimste-mens/seizoen-1/aflevering-2'
@@ -134,7 +136,7 @@ describe('Observable properties should update URL', function () {
               if (result) {
                 console.log('here?', this.output, result, result, 'vs', this.val)
                 //event.inherits && event.inherits.type === 'popstate' &&
-                if (result === this._output) {
+                if (result === this.output) {
                   console.log('block it!')
                   // next(true)
                   return;
@@ -164,35 +166,6 @@ describe('Observable properties should update URL', function () {
 
   global.rick = new theUrl.Constructor()
 
-  rick.set({
-    creepin: {
-      separator: '/',
-      indicator: '#',
-      on: {
-        data (data) {
-          if(!this.val) {
-            console.log('ok update my bitches! shit be gone!'.red)
-          } else {
-            console.log('data creepin!.'.white.bold.inverse, this.val)
-          }
-        }
-      }
-    },
-    burs: {
-      separator: ',',
-      indicator: '#',
-      on: {
-        data (data) {
-          if(!this.val) {
-            console.log('ok update my bitches! shit be gone!'.red)
-          } else {
-            console.log('data creepin! burs'.magenta.inverse, data, this.val)
-          }
-        }
-      }
-    }
-  })
-
   // if 5 or 2
 
   // // rick.val = 'http://xxxx.com/bla/?creepin=rick'
@@ -207,14 +180,40 @@ describe('Observable properties should update URL', function () {
   var b = global.bla2 = new Observable('yo2')
 
   // rick.creepin.val = a
-
   rick.set({
-    creepin: a,
-    burs: b
-    // james: b,
-    // creeping: 'yo creepin'
+    search: 'searchit!',
+    '💩': {
+      separator: '/',
+      indicator: '#',
+      on: {
+        data (data) {
+          if(!this.val) {
+            console.log('ok update my bitches! shit be gone!'.red)
+          } else {
+            console.log('data creepin!.'.white.bold.inverse, this.val)
+          }
+        }
+      },
+      val: a
+    },
+    '🍕': {
+      separator: ',',
+      indicator: '#',
+      border: '#?',
+      on: {
+        data (data) {
+          if(!this.val) {
+            console.log('ok update my bitches! shit be gone!'.red)
+          } else {
+            console.log('data creepin! burs'.magenta.inverse, data, this.val)
+          }
+        }
+      },
+      val: b
+    }
   })
 
+  console.log('http://🍕💩.ws/😸👓/'.toString())
 
 
   // rick.val = '/bla/?creepin=#'
