@@ -64,7 +64,6 @@ describe('context', function () {
     })
     c.val
     ref.val = 'hello'
-    console.log(arr)
     expect(arr).to.deep.equal([
       'c._cache.a.b',
       'c._cache.b.b',
