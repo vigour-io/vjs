@@ -177,20 +177,20 @@ describe('Observable properties should update URL', function () {
           }
         }
       }
+    },
+    burs: {
+      separator: ',',
+      indicator: '#',
+      on: {
+        data (data) {
+          if(!this.val) {
+            console.log('ok update my bitches! shit be gone!'.red)
+          } else {
+            console.log('data creepin! burs'.magenta.inverse, data, this.val)
+          }
+        }
+      }
     }
-    // burs: {
-    //   separator: ',',
-    //   indicator: '#',
-    //   on: {
-    //     data (data) {
-    //       if(!this.val) {
-    //         console.log('ok update my bitches! shit be gone!'.red)
-    //       } else {
-    //         console.log('data creepin!', data, this.val)
-    //       }
-    //     }
-    //   }
-    // }
   })
 
   // if 5 or 2
@@ -210,6 +210,7 @@ describe('Observable properties should update URL', function () {
 
   rick.set({
     creepin: a,
+    burs: b
     // james: b,
     // creeping: 'yo creepin'
   })
