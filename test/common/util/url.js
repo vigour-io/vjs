@@ -1,7 +1,7 @@
 'use strict'
 // var url = require('../../../lib/util/url/index.js')
 var Observable = require('../../../lib/observable/')
-var colors = require('colors-browserify')
+var colors = require('colors-browserify') //eslint-disable-line
 
 // window.location.hash = ',😸'
 
@@ -97,7 +97,7 @@ describe('Observable properties should update URL', function () {
             console.log('!@#!@#!@#', parsed)
           }
           if (parsed[len] === this.separator) {
-            parsed = parsed.slice(0 , len)
+            parsed = parsed.slice(0, len)
           }
           console.error('NO!!!', parsed)
           global.history.pushState(null, null, parsed)
@@ -139,21 +139,16 @@ describe('Observable properties should update URL', function () {
                   piv = match[0]
 
                   if (piv) {
-                    console.log('kill shot!', piv, match, this.indicator.val)
-                    if(piv[0] == this.indicator) {
+                    if (piv[0] == this.indicator) {
                       clearit = true
                       piv = piv.slice(1)
-                      console.log('RESOLVE!!!!!', piv)
                     }
                   }
 
                   if (val) {
                     newval = piv.replace(result, val)
-                    console.log('do it!', this.key, match, val, newval)
                   } else {
-                    console.log('yo!', match)
                     remover = true
-                    // is it the last in the chain of hash or ? or poop
                     newval = ''
                   }
                 }
@@ -161,9 +156,9 @@ describe('Observable properties should update URL', function () {
                   if (val) {
                     let index = url.indexOf(this.indicator)
                     if (index > 0) {
-                      newval = url.slice(0, index+1) + this.key + '=' + val + this.separator + url.slice(index+1)
+                      newval = url.slice(0, index + 1) + this.key + '=' + val + this.separator + url.slice(index + 1)
                     } else {
-                      newval = url += this.indicator + this.key + '=' + val
+                      newval = url + this.indicator + this.key + '=' + val
                     }
 
                     if (newval !== url) {
@@ -172,7 +167,7 @@ describe('Observable properties should update URL', function () {
                   }
                 } else {
                   let parsed
-                  if(url.indexOf(piv + this.separator) > -1 && clearit && remover) {
+                  if (url.indexOf(piv + this.separator) > -1 && clearit && remover) {
                     parsed = url.replace(piv + this.separator, newval)
                   } else {
                     parsed = url.replace(piv, newval)
@@ -187,11 +182,11 @@ describe('Observable properties should update URL', function () {
 
               if (result) {
                 console.log('here?', this.output, result, result, 'vs', this.val)
-                //event.inherits && event.inherits.type === 'popstate' &&
+                // event.inherits && event.inherits.type === 'popstate' &&
                 if (result === this.output) {
                   console.log('block it!')
                   // next(true)
-                  return;
+                  return
                 }
                 val = result
               } else if (this.output) {
@@ -238,8 +233,8 @@ describe('Observable properties should update URL', function () {
   rick.set({
     search: 'searchit!',
     'hello': {
-      // separator: ',',
-      // indicator: '#',
+      separator: ',',
+      indicator: '#',
       on: {
         data (data) {
           if(!this.val) {
@@ -266,8 +261,8 @@ describe('Observable properties should update URL', function () {
       val: b
     },
     'no': {
-      // separator: ',',
-      // indicator: '#',
+      separator: ',',
+      indicator: '#',
       on: {
         data (data) {
           if(!this.val) {
@@ -300,13 +295,13 @@ describe('Observable properties should update URL', function () {
   // window.location.hash = 'xsss'
 
   // rick.href.val = window.location.href //'/bla/?creepin=blurfs'
-  console.clear()
-  console.log('HEY HEY HEY HEY'.blue, window.location.href)
+  // console.clear()
+  // console.log('HEY HEY HEY HEY'.blue, window.location.href)
 
   // b.val = 'xxx'
 
-  console.clear()
-  console.log('HEY HEY HEY HEY'.blue, window.location.href)
+  // console.clear()
+  // console.log('HEY HEY HEY HEY'.blue, window.location.href)
   // rick.no.remove()
 
   // a.remove()
