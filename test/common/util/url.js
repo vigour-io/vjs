@@ -3,7 +3,7 @@
 var Observable = require('../../../lib/observable/')
 var colors = require('colors-browserify')
 
-window.location.hash = '😸'
+// window.location.hash = ',😸'
 
 describe('Observable properties should update URL', function () {
   // it('should update window location pathname when setting Observable.pathname.val', function () {
@@ -79,19 +79,38 @@ describe('Observable properties should update URL', function () {
         match: {
           get () {
             if (!this._match) {
-              let separator = this.separator.val
-              let indicator = this.indicator.val
+              let separator = this.separator
+              if (separator === '/') {
+                separator = '\\/'
+              }
+              let indicator = this.indicator
               let border = this.border.val
-              this._match = new RegExp('\\' + indicator + '.{0,}' + this.key + '=(([a-zA-Z/$\\d])[^' + separator + border + ']*)')
+              this._match = new RegExp('\[' + indicator + separator + ']' + this.key + '=(([a-zA-Z/$\\d])[^' + separator + border + ']*)')
             }
             return this._match
           }
+        },
+        push (parsed) {
+          let len = parsed.length - 1
+          if (parsed[len] === this.indicator) {
+            parsed = parsed.slice(0, len)
+            console.log('!@#!@#!@#', parsed)
+          }
+          if (parsed[len] === this.separator) {
+            parsed = parsed.slice(0 , len)
+          }
+          console.error('NO!!!', parsed)
+          global.history.pushState(null, null, parsed)
         }
+      },
+      properties: {
+        separator: true,
+        indicator: true
       },
       separator: '&',
       indicator: '?',
       border: function () {
-        if (this.parent.indicator.val === '?') {
+        if (this.parent.indicator === '?') {
           return '#'
         } else {
           return '?'
@@ -111,24 +130,57 @@ describe('Observable properties should update URL', function () {
               }
 
               if ((val || val === '' || val === null) && event.inherits && event.inherits.type !== 'popstate') {
-                console.log('OK PUSH IT!')
                 let newval
                 let piv
+                let clearit
+                let remover
+
                 if (result) {
                   piv = match[0]
-                  console.log(match)
-                  newval = piv.replace(result, val)
-                }
-                if (!newval) {
-                  let index = url.indexOf(this.indicator.val)
-                  if (index > 0) {
-                    newval = url.slice(0, index+1) + this.key + '=' + val + this.separator.val + url.slice(index+1)
-                  } else {
-                    newval = url += this.indicator.val + this.key + '=' + val
+
+                  if (piv) {
+                    console.log('kill shot!', piv, match, this.indicator.val)
+                    if(piv[0] == this.indicator) {
+                      clearit = true
+                      piv = piv.slice(1)
+                      console.log('RESOLVE!!!!!', piv)
+                    }
                   }
-                  global.history.pushState(null, null, newval)
+
+                  if (val) {
+                    newval = piv.replace(result, val)
+                    console.log('do it!', this.key, match, val, newval)
+                  } else {
+                    console.log('yo!', match)
+                    remover = true
+                    // is it the last in the chain of hash or ? or poop
+                    newval = ''
+                  }
+                }
+                if (newval === void 0) {
+                  if (val) {
+                    let index = url.indexOf(this.indicator)
+                    if (index > 0) {
+                      newval = url.slice(0, index+1) + this.key + '=' + val + this.separator + url.slice(index+1)
+                    } else {
+                      newval = url += this.indicator + this.key + '=' + val
+                    }
+
+                    if (newval !== url) {
+                      this.push(newval)
+                    }
+                  }
                 } else {
-                  global.history.pushState(null, null, url.replace(piv, newval))
+                  let parsed
+                  if(url.indexOf(piv + this.separator) > -1 && clearit && remover) {
+                    parsed = url.replace(piv + this.separator, newval)
+                  } else {
+                    parsed = url.replace(piv, newval)
+                  }
+
+                  if (parsed !== url) {
+                    this.push(parsed)
+                  }
                 }
                 result = val
               }
@@ -176,15 +228,18 @@ describe('Observable properties should update URL', function () {
   // console.log('HEY HEY HEY HEY'.cyan)
   // // rick.val = 'http://xxxx.com/bla/?creepin='
 
-  var a = global.bla = new Observable('yo')
+  var a = global.bla = new Observable({
+    val: 'yo'
+  })
+
   var b = global.bla2 = new Observable('yo2')
 
   // rick.creepin.val = a
   rick.set({
     search: 'searchit!',
-    '💩': {
-      separator: '/',
-      indicator: '#',
+    'hello': {
+      // separator: ',',
+      // indicator: '#',
       on: {
         data (data) {
           if(!this.val) {
@@ -196,10 +251,23 @@ describe('Observable properties should update URL', function () {
       },
       val: a
     },
-    '🍕': {
+    '💩': {
       separator: ',',
       indicator: '#',
-      border: '#?',
+      on: {
+        data (data) {
+          if(!this.val) {
+            console.log('ok update my bitches! shit be gone!'.red)
+          } else {
+            console.log('data creepin! burs'.magenta.inverse, data, this.val)
+          }
+        }
+      },
+      val: b
+    },
+    'no': {
+      // separator: ',',
+      // indicator: '#',
       on: {
         data (data) {
           if(!this.val) {
@@ -232,8 +300,16 @@ describe('Observable properties should update URL', function () {
   // window.location.hash = 'xsss'
 
   // rick.href.val = window.location.href //'/bla/?creepin=blurfs'
-
+  console.clear()
   console.log('HEY HEY HEY HEY'.blue, window.location.href)
+
+  // b.val = 'xxx'
+
+  console.clear()
+  console.log('HEY HEY HEY HEY'.blue, window.location.href)
+  // rick.no.remove()
+
+  // a.remove()
 
   // rick.creepin.val = 'yobitchez2'
 
