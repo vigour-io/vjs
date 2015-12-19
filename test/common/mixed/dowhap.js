@@ -70,7 +70,7 @@ describe('Dowhap usecase', function () {
       $upward: {
         regions: {
           AMS: true,
-          // FRA: true,
+          FRA: true
           // DE: true
           // $any:true
         }
@@ -78,7 +78,6 @@ describe('Dowhap usecase', function () {
     }, function (data, event) {
       var routable = this
       var route = routable.val
-
       if (typeof route === 'string') {
         let regional = routable
         while (regional) {
@@ -149,9 +148,9 @@ describe('Dowhap usecase', function () {
     }).Constructor
   })
 
-  it('should create new Dowhap instance dowhap', function () {
+  it('should create new Dowhap instance dowhap', function (done) {
     // lets make dat dowhap
-    // expect(function () {
+    expect(function () {
       dowhap = new Dowhap({
         repos: {
           redis: {
@@ -220,10 +219,10 @@ describe('Dowhap usecase', function () {
           }
         }
       })
-    // }).performance({
-    //   loop: 1,
-    //   time: 200
-    // }, done)
+    }).performance({
+      loop: 1,
+      time: 200
+    }, done)
   })
 
   // =======================================
