@@ -9,12 +9,13 @@ beforeEach(() => {
 })
 
 describe('subscribing to non existing $upward, two levels, nested field', () => {
-  var a = new Observable()
+  var a = new Observable({key:'a'})
   var subscription
   var grandParent
   var parent
 
   it('subcribes to parent on a', () => {
+    console.clear()
     subscription = a.subscribe({
       $upward: {
         field: true
@@ -27,6 +28,7 @@ describe('subscribing to non existing $upward, two levels, nested field', () => 
 
   it('added a property, reference and parent listener', () => {
     var listeners = testListeners(subscription)
+    console.log('listeners:', listeners)
     expect(listeners.length).equals(3)
     expect(listeners).contains('property')
     expect(listeners).contains('reference')
