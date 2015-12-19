@@ -39,7 +39,8 @@ describe('DOWHAP', function () {
       regions: {
         // val:true,
         // AMS: true,
-        FRA: true
+        // FRA: true
+        DE:true
       }
     }
   }, function (data, event) {

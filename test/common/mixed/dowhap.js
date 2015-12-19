@@ -70,7 +70,7 @@ describe('Dowhap usecase', function () {
       $upward: {
         regions: {
           AMS: true,
-          FRA: true,
+          // FRA: true,
           // DE: true
           // $any:true
         }
@@ -149,9 +149,9 @@ describe('Dowhap usecase', function () {
     }).Constructor
   })
 
-  it('should create new Dowhap instance dowhap', function (done) {
+  it('should create new Dowhap instance dowhap', function () {
     // lets make dat dowhap
-    expect(function () {
+    // expect(function () {
       dowhap = new Dowhap({
         repos: {
           redis: {
@@ -220,10 +220,10 @@ describe('Dowhap usecase', function () {
           }
         }
       })
-    }).performance({
-      loop: 1,
-      time: 200
-    }, done)
+    // }).performance({
+    //   loop: 1,
+    //   time: 200
+    // }, done)
   })
 
   // =======================================
