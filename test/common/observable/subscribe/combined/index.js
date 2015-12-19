@@ -311,6 +311,7 @@ describe('removing reference listeners after reference switch', () => {
   })
 
   it('switch to ref2 => ref2 has listeners', function () {
+    console.log('ref switch')
     a.set(ref2)
     expect(testListeners(ref2.title).length).equals(1)
   })
