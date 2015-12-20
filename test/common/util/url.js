@@ -91,15 +91,14 @@ describe('Observable properties should update URL', function () {
           }
         },
         push (parsed) {
+          // move to href
           let len = parsed.length - 1
           if (parsed[len] === this.indicator) {
             parsed = parsed.slice(0, len)
-            console.log('!@#!@#!@#', parsed)
           }
           if (parsed[len] === this.separator) {
             parsed = parsed.slice(0, len)
           }
-          console.error('NO!!!', parsed)
           global.history.pushState(null, null, parsed)
         }
       },
@@ -192,7 +191,6 @@ describe('Observable properties should update URL', function () {
               } else if (this.output) {
                 val = ''
               } else {
-                // next(true)
                 return
               }
 
@@ -232,7 +230,7 @@ describe('Observable properties should update URL', function () {
   // rick.creepin.val = a
   rick.set({
     search: 'searchit!',
-    'hello': {
+    hello: {
       separator: ',',
       indicator: '#',
       on: {
