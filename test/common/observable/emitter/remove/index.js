@@ -39,6 +39,7 @@ describe('remove listeners + multiple removes in one set', function () {
     })
 
     cnt = 0
+    console.clear()
     purk.set({
       p1: null,
       p2: null,
@@ -61,7 +62,7 @@ describe('remove listeners + multiple removes in one set', function () {
     ChildConstructor: Ding
   }).Constructor
 
-  it('should fire for every Ding removed', function () {
+  xit('should fire for every Ding removed', function () {
     var holder = new Holder({
       p1: true,
       p2: true,
