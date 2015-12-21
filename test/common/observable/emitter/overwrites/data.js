@@ -76,7 +76,7 @@ describe('data', function () {
         randomField: {
           on: {
             data (data) {
-              console.log('yo')
+              console.log('yo cnt', this.path)
               randomFieldCnt++
             }
           }
@@ -85,15 +85,21 @@ describe('data', function () {
       b = new a.Constructor({
         key: 'b'
       })
+      expect(cnt).to.equal(1)
+      expect(randomFieldCnt).to.equal(0)
     })
 
     it('fires once for instance field removal', function () {
+      console.clear()
       b.randomField.remove()
       expect(randomFieldCnt).to.equal(1)
       expect(cnt).to.equal(1)
+      expect(b.randomField).to.equal(null)
     })
 
-    it('fires once for set on origin', function () {
+    xit('fires once for set on origin', function () {
+      console.clear()
+      console.log(b.randomField)
       a.set({ randomField: 'this is a!' })
       expect(randomFieldCnt).to.equal(1)
       expect(cnt).to.equal(0)
