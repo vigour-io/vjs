@@ -59,34 +59,46 @@ describe('data', function () {
     expect(cnt).to.equal(1)
   })
 
-  it('instance, block update on instance, nested removal', function () {
+  describe('instance, block update on instance, nested removal', function () {
+    var a, b
     var cnt = 0
     var randomFieldCnt = 0
-    var a = new Observable({
-      key: 'a',
-      on: {
-        data (data) {
-          cnt++
-        }
-      },
-      randomField: {
+    beforeEach(function () {
+      cnt = 0
+      randomFieldCnt = 0
+    })
+    it('fires once for instance creation', function () {
+      a = new Observable({
+        key: 'a',
         on: {
           data (data) {
-            randomFieldCnt++
+            cnt++
+          }
+        },
+        randomField: {
+          on: {
+            data (data) {
+              randomFieldCnt++
+            }
           }
         }
-      }
+      })
+      b = new a.Constructor({
+        key: 'b'
+      })
     })
-    var b = new a.Constructor({
-      key: 'b'
+
+    it('fires once for instance field removal', function () {
+      b.randomField.remove()
+      expect(randomFieldCnt).to.equal(1)
+      expect(cnt).to.equal(1)
     })
-    randomFieldCnt = 0
-    b.randomField.remove()
-    expect(randomFieldCnt).to.equal(1)
-    cnt = 0
-    a.set({ randomField: 'this is a!' })
-    expect(randomFieldCnt).to.equal(2)
-    expect(cnt).to.equal(0)
+
+    it('fires once for set on origin', function () {
+      a.set({ randomField: 'this is a!' })
+      expect(randomFieldCnt).to.equal(1)
+      expect(cnt).to.equal(0)
+    })
   })
 
   it('instance, block update on instance, nested, property', function () {
