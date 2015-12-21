@@ -1,10 +1,10 @@
 {
-  "name": "vigour-js",
-  "version": "0.4.0",
+  "name": "vigour-router",
+  "version": "0.0.1",
   "author": "Vigour.io <dev@vigour.io>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vigour-io/vjs.git"
+    "url": "https://github.com/vigour-io/vigour-router.git"
   },
   "engines": {
     "node": "^4.1.1"
@@ -14,13 +14,12 @@
     "test-config": "gaston test -r node -s test/node/config",
     "doc": "node documentation.js"
   },
-  "description": "A javascript libary providing fast and memory efficient observables",
+  "description": "Router for vigour",
   "bugs": {
-    "url": "https://github.com/vigour-io/config/issues"
+    "url": "https://github.com/vigour-io/vigour-router/issues"
   },
   "dependencies": {
-    "lodash": "3.10.x",
-    "bluebird": "3.0.x"
+    "vigour-js": "^0.3.8"
   },
   "devDependencies": {
     "colors-browserify": "~0.0.8",
@@ -29,7 +28,8 @@
   "main": "./lib",
   "browser": {
     "./lib/base/iterator/": "./lib/base/iterator/browser.js",
-    "./lib/util/uuid/": "./lib/util/uuid/browser.js"
+    "./lib/util/uuid/": "./lib/util/uuid/browser.js",
+    "./lib/util/url/": "./lib/util/url/browser.js"
   },
   "homepage": "https://github.com/vigour-io/config",
   "keywords": [
