@@ -5,7 +5,7 @@ describe('Observable', function () {
   perf.log = true
   chai.use(perf)
 
-  require('./remove')
+  // require('./remove')
 
-  // require('./emitter')
+  require('./emitter')
 })
