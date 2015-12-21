@@ -90,16 +90,13 @@ describe('data', function () {
     })
 
     it('fires once for instance field removal', function () {
-      console.clear()
       b.randomField.remove()
       expect(randomFieldCnt).to.equal(1)
       expect(cnt).to.equal(1)
       expect(b.randomField).to.equal(null)
     })
 
-    xit('fires once for set on origin', function () {
-      console.clear()
-      console.log(b.randomField)
+    it('fires once for set on origin', function () {
       a.set({ randomField: 'this is a!' })
       expect(randomFieldCnt).to.equal(1)
       expect(cnt).to.equal(0)
