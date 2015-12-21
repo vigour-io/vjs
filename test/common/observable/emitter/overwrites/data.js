@@ -60,9 +60,7 @@ describe('data', function () {
   })
 
   describe('instance, block update on instance, nested removal', function () {
-    var a, b
-    var cnt = 0
-    var randomFieldCnt = 0
+    var a, b, cnt, randomFieldCnt
     beforeEach(function () {
       cnt = 0
       randomFieldCnt = 0
@@ -78,6 +76,7 @@ describe('data', function () {
         randomField: {
           on: {
             data (data) {
+              console.log('yo')
               randomFieldCnt++
             }
           }
