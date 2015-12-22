@@ -41,7 +41,7 @@ describe('Emitter', function () {
     this.timeout(50e3)
     expect(observableListener).performance({
       loop: 10,
-      time: 15
+      time: 60
     }, done)
   })
 

@@ -249,7 +249,8 @@ describe('type', () => {
       })
       var b = new a.Constructor()
       b.x.once(() => {
-        expect(b.x.serialize()).to.deep.equal({ val: null })
+        expect(b.x._input).to.equal(null)
+        // expect(b.x.serialize()).to.deep.equal({ val: null })
         done()
       })
       b.x.remove()
