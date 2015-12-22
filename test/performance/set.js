@@ -7,8 +7,10 @@ describe('Set and creation', function () {
   var Base = require('../../lib/base')
   var Observable = require('../../lib/observable')
   // var Event = require('../../../lib/event')
-  var amount = 10000
+  var amount = 1000
   var arr
+  var factor = 5
+  var n = 100
 
   describe('Base', function () {
     runtests(Base, 'base')
@@ -31,12 +33,12 @@ describe('Set and creation', function () {
     }
 
     // overhead factor
-    var factor = 5
+
 
     it('creating ' + name + ' (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(observable).performance({
-        loop: 10,
+        loop: n,
         time: 15
       }, done)
     })
@@ -55,7 +57,7 @@ describe('Set and creation', function () {
           arr.push(a)
         }
       }).performance({
-        loop: 10,
+        loop: n,
         method: observable
       }, done)
     })
@@ -71,7 +73,7 @@ describe('Set and creation', function () {
           arr.push(a)
         }
       }).performance({
-        loop: 10,
+        loop: n,
         method: observable,
         margin: 2 * factor
       }, done)
@@ -101,7 +103,7 @@ describe('Set and creation', function () {
           arr.push(a)
         }
       }).performance({
-        loop: 10,
+        loop: n,
         method: observable,
         margin: 2 * factor
       }, done)
@@ -121,7 +123,7 @@ describe('Set and creation', function () {
           arr.push(a)
         }
       }).performance({
-        loop: 10,
+        loop: n,
         method: observable,
         margin: 3 * factor
       }, done)
@@ -132,7 +134,7 @@ describe('Set and creation', function () {
       var A = new Target({
         properties: {
           b: new Target({
-            ChildConstructor: new Target({})
+            ChildConstructor: new Target({}).Constructor
           })
         }
       }).Constructor
@@ -145,9 +147,9 @@ describe('Set and creation', function () {
           arr.push(a)
         }
       }).performance({
-        loop: 10,
+        loop: n,
         method: observable,
-        margin: 2 * factor
+        margin: 3 * factor
       }, done)
     })
 
@@ -167,7 +169,7 @@ describe('Set and creation', function () {
           arr.push(a)
         }
       }).performance({
-        loop: 10,
+        loop: n,
         method: observable,
         margin: 4 * factor
       }, done)
@@ -192,31 +194,10 @@ describe('Set and creation', function () {
           arr.push(a)
         }
       }).performance({
-        loop: 10,
+        loop: n,
         method: observable,
         margin: 5 * factor
       }, done)
     })
   }
-
-
-
-  // function observableListener () {
-  //   arr = []
-  //   for (var i = 0; i < amount; i++) {
-  //     var a = new Target({ //eslint-disable-line
-  //       on: { data: function () {} }
-  //     })
-  //     arr.push(a)
-  //   }
-  // }
-  //
-  // xit('creating ' + name + ' with listeners (' + amount + ')', function (done) {
-  //   this.timeout(50e3)
-  //   expect(observableListener).performance({
-  //     loop: 10,
-  //     time: 60
-  //   }, done)
-  // })
-
 })
