@@ -30,6 +30,7 @@ describe('Set and creation', function () {
       }
     }
 
+    // overhead factor
     var factor = 5
 
     it('creating ' + name + ' (' + amount + ')', function (done) {
@@ -37,6 +38,25 @@ describe('Set and creation', function () {
       expect(observable).performance({
         loop: 10,
         time: 15
+      }, done)
+    })
+
+    it('creating ' + name + ' with a custom constructor (' + amount + ')', function (done) {
+      this.timeout(50e3)
+      var A = new Target().constructor
+      expect(function () {
+        // lookup overhead (closure) thats why 2
+        arr = []
+        for (var i = 0; i < amount; i++) {
+          var a = new A({ //eslint-disable-line
+            val: function () {},
+            key: 'bla'
+          })
+          arr.push(a)
+        }
+      }).performance({
+        loop: 10,
+        method: observable
       }, done)
     })
 
@@ -59,10 +79,23 @@ describe('Set and creation', function () {
 
     it('creating nested ' + name + ' (1 level with property) (' + amount + ')', function (done) {
       this.timeout(50e3)
+      var A = new Target({
+        properties: {
+          b: new Target({
+            define: {
+              generateConstructor () {
+                return function () {
+                  Base.apply(this, arguments)
+                }
+              }
+            }
+          })
+        }
+      }).Constructor
       expect(function () {
         arr = []
         for (var i = 0; i < amount; i++) {
-          var a = new Target({ //eslint-disable-line
+          var a = new A({ //eslint-disable-line
             b: function () {}
           })
           arr.push(a)
