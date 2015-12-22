@@ -85,7 +85,7 @@ describe('Set and creation', function () {
             define: {
               generateConstructor () {
                 return function () {
-                  Base.apply(this, arguments)
+                  Target.apply(this, arguments)
                 }
               }
             }
@@ -124,6 +124,30 @@ describe('Set and creation', function () {
         loop: 10,
         method: observable,
         margin: 3 * factor
+      }, done)
+    })
+
+    it('creating nested ' + name + ' (2 levels with property and ChildConstructor) (' + amount + ')', function (done) {
+      this.timeout(50e3)
+      var A = new Target({
+        properties: {
+          b: new Target({
+            ChildConstructor: new Target({})
+          })
+        }
+      }).Constructor
+      expect(function () {
+        arr = []
+        for (var i = 0; i < amount; i++) {
+          var a = new A({ //eslint-disable-line
+            b: function () {}
+          })
+          arr.push(a)
+        }
+      }).performance({
+        loop: 10,
+        method: observable,
+        margin: 2 * factor
       }, done)
     })
 
