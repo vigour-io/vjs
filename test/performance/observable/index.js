@@ -7,5 +7,5 @@ describe('Observable', function () {
 
   // require('./remove')
 
-  require('./emitter')
+  require('../set')
 })
