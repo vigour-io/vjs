@@ -33,8 +33,6 @@ describe('Set and creation', function () {
     }
 
     // overhead factor
-
-
     it('creating ' + name + ' (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(observable).performance({
