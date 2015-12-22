@@ -45,7 +45,7 @@ describe('Set and creation', function () {
       this.timeout(50e3)
       var A = new Target().constructor
       expect(function () {
-        // lookup overhead (closure) thats why 2
+        // lookup overhead (closure) thats why 1.25
         arr = []
         for (var i = 0; i < amount; i++) {
           var a = new A({ //eslint-disable-line
@@ -56,7 +56,8 @@ describe('Set and creation', function () {
         }
       }).performance({
         loop: n,
-        method: observable
+        method: observable,
+        margin: 1.25
       }, done)
     })
 
