@@ -23,7 +23,8 @@ describe('Set and creation', function () {
       arr = []
       for (var i = 0; i < amount; i++) {
         var a = new Target({ //eslint-disable-line
-          val: function () {}
+          val: function () {},
+          key: 'bla'
         })
         arr.push(a)
       }
