@@ -13,9 +13,9 @@ describe('Set and creation', function () {
   describe('Base', function () {
     runtests(Base, 'base')
   })
-  // describe('Observable', function () {
-  //   runtests(Observable, 'observable')
-  // })
+  describe('Observable', function () {
+    runtests(Observable, 'observable')
+  })
 
   // make this the set test suite
   function runtests (Target, name) {
@@ -28,6 +28,8 @@ describe('Set and creation', function () {
         arr.push(a)
       }
     }
+
+    var factor = 5
 
     it('creating ' + name + ' (' + amount + ')', function (done) {
       this.timeout(50e3)
@@ -43,13 +45,14 @@ describe('Set and creation', function () {
         arr = []
         for (var i = 0; i < amount; i++) {
           var a = new Target({ //eslint-disable-line
-            bla: function () {}
+            b: function () {}
           })
           arr.push(a)
         }
       }).performance({
         loop: 10,
-        time: 30
+        method: observable,
+        margin: 2 * factor
       }, done)
     })
 
@@ -59,13 +62,14 @@ describe('Set and creation', function () {
         arr = []
         for (var i = 0; i < amount; i++) {
           var a = new Target({ //eslint-disable-line
-            bla: function () {}
+            b: function () {}
           })
           arr.push(a)
         }
       }).performance({
         loop: 10,
-        time: 30
+        method: observable,
+        margin: 2 * factor
       }, done)
     })
 
@@ -76,15 +80,16 @@ describe('Set and creation', function () {
         // this is way to slow should not be like this!
         for (var i = 0; i < amount; i++) {
           var a = new Target({ //eslint-disable-line
-            bla: {
-              xur: function () {}
+            b: {
+              c: function () {}
             }
           })
           arr.push(a)
         }
       }).performance({
         loop: 10,
-        time: 45
+        method: observable,
+        margin: 3 * factor
       }, done)
     })
 
@@ -95,9 +100,9 @@ describe('Set and creation', function () {
         // this is way to slow should not be like this!
         for (var i = 0; i < amount; i++) {
           var a = new Target({ //eslint-disable-line
-            bla: {
-              xur: {
-                flups: function () {}
+            b: {
+              c: {
+                d: function () {}
               }
             }
           })
@@ -105,7 +110,8 @@ describe('Set and creation', function () {
         }
       }).performance({
         loop: 10,
-        time: 60
+        method: observable,
+        margin: 4 * factor
       }, done)
     })
 
@@ -117,10 +123,10 @@ describe('Set and creation', function () {
         // this is way to slow should not be like this!
         for (var i = 0; i < amount; i++) {
           var a = new Target({ //eslint-disable-line
-            bla: {
-              xur: {
-                flups: {
-                  flaps: function () {}
+            b: {
+              c: {
+                d: {
+                  e: function () {}
                 }
               }
             }
@@ -129,7 +135,8 @@ describe('Set and creation', function () {
         }
       }).performance({
         loop: 10,
-        time: 75
+        method: observable,
+        margin: 5 * factor
       }, done)
     })
   }
