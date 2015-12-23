@@ -7,7 +7,6 @@ describe('remove listeners + multiple removes in one set', function () {
       p1: {
         on: {
           remove () {
-            console.log('REMOVE p1!')
             cnt++
           }
         }
@@ -15,7 +14,6 @@ describe('remove listeners + multiple removes in one set', function () {
       p2: {
         on: {
           remove () {
-            console.log('REMOVE p2!')
             cnt++
           }
         }
@@ -23,7 +21,6 @@ describe('remove listeners + multiple removes in one set', function () {
       p3: {
         on: {
           remove () {
-            console.log('REMOVE p3!')
             cnt++
           }
         }
@@ -31,7 +28,6 @@ describe('remove listeners + multiple removes in one set', function () {
       p4: {
         on: {
           remove () {
-            console.log('REMOVE p4!')
             cnt++
           }
         }
@@ -51,7 +47,6 @@ describe('remove listeners + multiple removes in one set', function () {
   var Ding = new Observable({
     on: {
       remove () {
-        console.log('REMOVE!', this.path)
         cnt++
       }
     }
@@ -77,4 +72,6 @@ describe('remove listeners + multiple removes in one set', function () {
     })
     expect(cnt).equals(4)
   })
+
+  require('./context')
 })
