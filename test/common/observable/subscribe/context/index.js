@@ -19,7 +19,7 @@ describe('multiple instances', function () {
   a.lurf.subscribe({
     gurk: true
   }, function (data, event) {
-    
+
     measure[this.path[0]] = measure[this.path[0]] ? measure[this.path[0]] + 1 : 1
     measure.total++
   })
@@ -178,3 +178,5 @@ describe('fire for correct instance using useVal', function () {
 
   it('should fire only for b (useConstructor)')
 })
+
+require('./attach')

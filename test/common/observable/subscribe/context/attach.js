@@ -1,12 +1,8 @@
 'use strict'
 var Observable = require('../../../../../lib/observable')
 
-var colors = require('colors-browserify')
 describe('attach listeners in context', function () {
-
   it('can create attach listeners in multiple contexts', function () {
-
-
     var b = new Observable({
       key: 'b'
     })
@@ -17,10 +13,18 @@ describe('attach listeners in context', function () {
 
     var clean = new Observable({ key: 'clean' })
 
+    var measure = {
+      c: 0,
+      b: 0,
+      molly: {
+        c: 0
+      }
+    }
+
     b.subscribe({
       yuzi: true
     }, [function () {
-      console.log('power ballz'.magenta, this.path.join('.'))
+      measure[this.path[0]]++
     }, clean], 'drolly')
 
     var c = new b.Constructor({
@@ -30,13 +34,16 @@ describe('attach listeners in context', function () {
     c.subscribe({
       yuzi: true
     }, [function (data, event, thing) {
-      console.log('power ballz context boy'.magenta, this.path.join('.'), thing)
+      measure.molly[this.path[0]]++
     }, dirty], 'molly')
 
-
-    console.log(c)
     b.set({ yuzi: true })
-
+    expect(measure).to.deep.equal({
+      b: 1,
+      c: 1,
+      molly: {
+        c: 1
+      }
+    })
   })
-
 })
