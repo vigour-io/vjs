@@ -4,7 +4,7 @@ var stream = require('stream')
 
 describe('streams', function () {
   this.timeout(15000)
-  it('can consume a stream', function (done) {
+  xit('can consume a stream', function (done) {
     var readable = new stream.Readable({
       objectMode: true,
       read () {}
@@ -23,7 +23,7 @@ describe('streams', function () {
     readable.push('hey')
   })
 
-  it('can be piped from', function (done) {
+  xit('can be piped from', function (done) {
     var a = new Observable({
       key: 'a'
     })
@@ -38,7 +38,7 @@ describe('streams', function () {
     a.val = 'hey'
   })
 
-  it('can be piped to', function (done) {
+  xit('can be piped to', function (done) {
     var readable = new stream.Readable({
       objectMode: true,
       read () {}
