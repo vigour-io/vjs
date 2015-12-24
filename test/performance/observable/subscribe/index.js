@@ -6,7 +6,7 @@ describe('Subscribe', function () {
   chai.use(perf)
   var Observable = require('../../../../lib/observable')
   // var Event = require('../../../lib/event')
-  var amount = 1000
+  var amount = 10000
   var arr
 
   describe('Observable default emitters (baseline)', function () {
@@ -21,7 +21,7 @@ describe('Subscribe', function () {
             }
           }
         })
-        a.val = i
+        // a.val = i
         arr.push(a)
       }
     }
@@ -30,7 +30,7 @@ describe('Subscribe', function () {
       this.timeout(50e3)
       expect(baseline).performance({
         loop: 100,
-        time: 100
+        time: 200
       }, done)
     })
 
