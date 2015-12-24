@@ -6,7 +6,7 @@ describe('Subscribe', function () {
   chai.use(perf)
   var Observable = require('../../../../lib/observable')
   // var Event = require('../../../lib/event')
-  var amount = 10000
+  var amount = 1000
   var arr
 
   describe('Observable default emitters (baseline)', function () {
@@ -21,7 +21,7 @@ describe('Subscribe', function () {
             }
           }
         })
-        // a.val = i
+        a.val = i
         arr.push(a)
       }
     }
