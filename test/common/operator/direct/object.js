@@ -10,7 +10,7 @@ describe('object', function () {
           inject: require('../../../../lib/operator/all'),
           key: 'a',
           b: 'its b',
-          $add() {
+          $add () {
             return {
               c: 'its c'
             }
