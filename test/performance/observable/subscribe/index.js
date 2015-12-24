@@ -70,63 +70,63 @@ describe('Subscribe', function () {
     })
   })
 
-  // describe('Existing field', function () {
-  //   function observable () {
-  //     arr = []
-  //     for (var i = 0; i < amount; i++) {
-  //       var a = new Observable({ //eslint-disable-line
-  //         b: true
-  //       })
-  //       a.subscribe({
-  //         b: true
-  //       }, function () {})
-  //       arr.push(a)
-  //     }
-  //   }
-  //
-  //   it('creating observables and subscribing on existing field (' + amount + ')', function (done) {
-  //     this.timeout(50e3)
-  //     expect(observable).performance({
-  //       loop: 100,
-  //       time: 100
-  //     }, done)
-  //   })
-  //
-  //   it('firing listeners on observables and subscribing on existing field (' + amount + ')', function (done) {
-  //     this.timeout(50e3)
-  //     expect(function () {
-  //       var len = arr.length
-  //       for (let i = 0; i < len; i++) {
-  //         arr[i].b.val = i * 2
-  //       }
-  //     }).performance({
-  //       loop: 100,
-  //       time: 100,
-  //       before: observable
-  //     }, done)
-  //   })
-  //
-  //   it('creating observables subscribing using context (' + amount + ')', function (done) {
-  //     this.timeout(50e3)
-  //     var thing = new Observable({
-  //       b: true
-  //     })
-  //     thing.subscribe({
-  //       b: true
-  //     })
-  //     var Thing = thing.Constructor
-  //     expect(function () {
-  //       arr = []
-  //       for (var i = 0; i < amount; i++) {
-  //         var a = new Thing({
-  //           b: i
-  //         })
-  //         arr.push(a)
-  //       }
-  //     }).performance({
-  //       loop: 100,
-  //       time: 100
-  //     }, done)
-  //   })
-  // })
+  describe('Existing field', function () {
+    function observable () {
+      arr = []
+      for (var i = 0; i < amount; i++) {
+        var a = new Observable({ //eslint-disable-line
+          b: true
+        })
+        a.subscribe({
+          b: true
+        }, function () {})
+        arr.push(a)
+      }
+    }
+
+    it('creating observables and subscribing on existing field (' + amount + ')', function (done) {
+      this.timeout(50e3)
+      expect(observable).performance({
+        loop: 100,
+        time: 100
+      }, done)
+    })
+
+    it('firing listeners on observables and subscribing on existing field (' + amount + ')', function (done) {
+      this.timeout(50e3)
+      expect(function () {
+        var len = arr.length
+        for (let i = 0; i < len; i++) {
+          arr[i].b.val = i * 2
+        }
+      }).performance({
+        loop: 100,
+        time: 100,
+        before: observable
+      }, done)
+    })
+
+    it('creating observables subscribing using context (' + amount + ')', function (done) {
+      this.timeout(50e3)
+      var thing = new Observable({
+        b: true
+      })
+      thing.subscribe({
+        b: true
+      })
+      var Thing = thing.Constructor
+      expect(function () {
+        arr = []
+        for (var i = 0; i < amount; i++) {
+          var a = new Thing({
+            b: i
+          })
+          arr.push(a)
+        }
+      }).performance({
+        loop: 100,
+        time: 100
+      }, done)
+    })
+  })
 })
