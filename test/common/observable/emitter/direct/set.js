@@ -66,7 +66,7 @@ describe('set', function () {
   })
 
   it('extends emit to fire parents , fire correct emitters', function () {
-    var emitInternal = Observable.prototype.emitInternal
+    var emit = Observable.prototype.emit
     var valueIsSet
     var a = new Observable({
       key: 'a',
@@ -78,9 +78,9 @@ describe('set', function () {
       },
       x: {
         define: {
-          emitInternal: function (data, event, bind, key, trigger, ignore) {
+          emit: function (key, data, event, ignore) {
             var parent = this.parent
-            var ret = emitInternal.apply(this, arguments)
+            var ret = emit.apply(this, arguments)
             while (parent) {
               parent.emit(key, data, event, ignore)
               parent = parent.parent
