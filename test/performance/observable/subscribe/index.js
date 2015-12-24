@@ -92,7 +92,7 @@ describe('Subscribe', function () {
       }, done)
     })
 
-    it('firing listeners on observables and subscribing on existing field (' + amount + ')', function (done) {
+    it('firing listeners on observables when subscribing on existing field (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(function () {
         var len = arr.length
