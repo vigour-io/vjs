@@ -14,21 +14,38 @@ describe('Subscribe', function () {
       arr = []
       for (var i = 0; i < amount; i++) {
         var a = new Observable({ //eslint-disable-line
-          b: true,
           on: {
             data () {
 
             }
           }
         })
-        a.val = i
+        // a.val = i
         arr.push(a)
       }
     }
 
-    it('creating observables add listeners and fire on existing field (' + amount + ')', function (done) {
+    function baseline2 () {
+      arr = []
+      for (var i = 0; i < amount; i++) {
+        var a = new Observable()
+        a.on('data', function () {})
+        // a.val = i
+        arr.push(a)
+      }
+    }
+
+    it('creating observables with listeners using set object (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(baseline).performance({
+        loop: 10,
+        time: 200
+      }, done)
+    })
+
+    it('creating observables with listeners using on (' + amount + ')', function (done) {
+      this.timeout(50e3)
+      expect(baseline2).performance({
         loop: 10,
         time: 200
       }, done)
@@ -97,6 +114,8 @@ describe('Subscribe', function () {
 
     function onlistener () {
       for (var i = 0; i < amount; i++) {
+        // make specifics for internal every field
+        // oemitData , onData etc -- this will imporve perf a lot im sure (way less checks)
         arr[i].on('data', function () {})
       }
     }
@@ -126,12 +145,17 @@ describe('Subscribe', function () {
 
     function createReferences () {
       arr = []
-      if (target) {
-        target.remove()
-      }
+      // if (target) {
+        // target.remove()
+      // }
       target = new Observable('a')
       for (var i = 0; i < amount; i++) {
-        var a = new Observable(target)
+        var a = new Observable({
+          val: target,
+          on: {
+            data () {}
+          }
+        })
         arr.push(a)
       }
     }
@@ -139,6 +163,16 @@ describe('Subscribe', function () {
     it('create references (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(createReferences).performance({
+        loop: 10,
+        time: 500
+      }, done)
+    })
+
+    it('remove reference (' + amount + ')', function (done) {
+      this.timeout(50e3)
+      expect(function () {
+        target.remove()
+      }).performance({
         loop: 10,
         time: 500
       }, done)
