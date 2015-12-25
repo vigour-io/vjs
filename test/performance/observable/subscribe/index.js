@@ -29,7 +29,7 @@ describe('Subscribe', function () {
     it('creating observables add listeners and fire on existing field (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(baseline).performance({
-        loop: 100,
+        loop: 10,
         time: 200
       }, done)
     })
@@ -42,7 +42,7 @@ describe('Subscribe', function () {
           arr[i].val = i * 2
         }
       }).performance({
-        loop: 100,
+        loop: 10,
         time: 100,
         before: baseline
       }, done)
@@ -64,7 +64,7 @@ describe('Subscribe', function () {
           arr.push(a)
         }
       }).performance({
-        loop: 100,
+        loop: 10,
         time: 100
       }, done)
     })
@@ -75,7 +75,7 @@ describe('Subscribe', function () {
       expect(function () {
         thing.val = 'a'
       }).performance({
-        loop: 100,
+        loop: 10,
         time: 100,
         before: function () {
           arr = []
@@ -90,6 +90,35 @@ describe('Subscribe', function () {
           for (var i = 0; i < amount; i++) {
             var a = new Thing()
             arr.push(a)
+          }
+        }
+      }, done)
+    })
+
+    function onlistener () {
+      for (var i = 0; i < amount; i++) {
+        arr[i].on('data', function () {})
+      }
+    }
+
+    it ('add on listeners (basic data /w function) on existing emitters (' + amount + ')', function (done) {
+      this.timeout(50e3)
+      expect(onlistener).performance({
+        loop: 10,
+        time: 500,
+        before: baseline
+      }, done)
+    })
+
+    it ('add on listeners (basic data /w function) create new emitters (' + amount + ')', function (done) {
+      this.timeout(50e3)
+      expect(onlistener).performance({
+        loop: 10,
+        time: 500,
+        before: function () {
+          arr = []
+          for (var i = 0; i < amount; i++) {
+            arr.push(new Observable())
           }
         }
       }, done)
