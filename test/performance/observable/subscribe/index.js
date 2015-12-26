@@ -7,7 +7,7 @@ describe('Subscribe', function () {
   chai.use(perf)
   var Observable = require('../../../../lib/observable')
   // var Event = require('../../../lib/event')
-  var amount = 1000
+  var amount = 10000
 
   describe('Observable default emitters (baseline)', function () {
     function baseline () {
@@ -65,7 +65,7 @@ describe('Subscribe', function () {
       }, done)
     })
 
-    it('creating observables add listeners on contextlevel , fire on creation (' + amount + ')', function (done) {
+    xit('creating observables add listeners on contextlevel , fire on creation (' + amount + ')', function (done) {
       this.timeout(50e3)
       var thing = new Observable({
         b: true,
@@ -86,7 +86,7 @@ describe('Subscribe', function () {
       }, done)
     })
 
-    it('firing listeners on observables fire over context (' + amount + ')', function (done) {
+    xit('firing listeners on observables fire over context (' + amount + ')', function (done) {
       this.timeout(50e3)
       var thing
       expect(function () {
@@ -120,7 +120,7 @@ describe('Subscribe', function () {
       }
     }
 
-    it ('add on listeners (basic data /w function) on existing emitters (' + amount + ')', function (done) {
+    xit ('add on listeners (basic data /w function) on existing emitters (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(onlistener).performance({
         loop: 10,
@@ -129,7 +129,7 @@ describe('Subscribe', function () {
       }, done)
     })
 
-    it ('add on listeners (basic data /w function) create new emitters (' + amount + ')', function (done) {
+    xit ('add on listeners (basic data /w function) create new emitters (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(onlistener).performance({
         loop: 10,
@@ -160,7 +160,7 @@ describe('Subscribe', function () {
       }
     }
 
-    it('create references (' + amount + ')', function (done) {
+    xit('create references (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(createReferences).performance({
         loop: 10,
@@ -168,7 +168,7 @@ describe('Subscribe', function () {
       }, done)
     })
 
-    it('remove reference (' + amount + ')', function (done) {
+    xit('remove reference (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(function () {
         target.remove()
@@ -178,7 +178,7 @@ describe('Subscribe', function () {
       }, done)
     })
 
-    it('firing listeners on observables over references (' + amount + ')', function (done) {
+    xit('firing listeners on observables over references (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(function () {
         target.val = 'b'
@@ -190,63 +190,63 @@ describe('Subscribe', function () {
     })
   })
 
-  describe('Existing field', function () {
-    function observable () {
-      arr = []
-      for (var i = 0; i < amount; i++) {
-        var a = new Observable({ //eslint-disable-line
-          b: true
-        })
-        a.subscribe({
-          b: true
-        }, function () {})
-        arr.push(a)
-      }
-    }
-
-    it('creating observables and subscribing on existing field (' + amount + ')', function (done) {
-      this.timeout(50e3)
-      expect(observable).performance({
-        loop: 10,
-        time: 100
-      }, done)
-    })
-
-    it('firing listeners on observables when subscribing on existing field (' + amount + ')', function (done) {
-      this.timeout(50e3)
-      expect(function () {
-        var len = arr.length
-        for (let i = 0; i < len; i++) {
-          arr[i].b.val = i * 2
-        }
-      }).performance({
-        loop: 10,
-        time: 100,
-        before: observable
-      }, done)
-    })
-
-    it('creating observables subscribing using context (' + amount + ')', function (done) {
-      this.timeout(50e3)
-      var thing = new Observable({
-        b: true
-      })
-      thing.subscribe({
-        b: true
-      })
-      var Thing = thing.Constructor
-      expect(function () {
-        arr = []
-        for (var i = 0; i < amount; i++) {
-          var a = new Thing({
-            b: i
-          })
-          arr.push(a)
-        }
-      }).performance({
-        loop: 10,
-        time: 100
-      }, done)
-    })
-  })
+  // describe('Existing field', function () {
+  //   function observable () {
+  //     arr = []
+  //     for (var i = 0; i < amount; i++) {
+  //       var a = new Observable({ //eslint-disable-line
+  //         b: true
+  //       })
+  //       a.subscribe({
+  //         b: true
+  //       }, function () {})
+  //       arr.push(a)
+  //     }
+  //   }
+  //
+  //   it('creating observables and subscribing on existing field (' + amount + ')', function (done) {
+  //     this.timeout(50e3)
+  //     expect(observable).performance({
+  //       loop: 10,
+  //       time: 100
+  //     }, done)
+  //   })
+  //
+  //   it('firing listeners on observables when subscribing on existing field (' + amount + ')', function (done) {
+  //     this.timeout(50e3)
+  //     expect(function () {
+  //       var len = arr.length
+  //       for (let i = 0; i < len; i++) {
+  //         arr[i].b.val = i * 2
+  //       }
+  //     }).performance({
+  //       loop: 10,
+  //       time: 100,
+  //       before: observable
+  //     }, done)
+  //   })
+  //
+  //   it('creating observables subscribing using context (' + amount + ')', function (done) {
+  //     this.timeout(50e3)
+  //     var thing = new Observable({
+  //       b: true
+  //     })
+  //     thing.subscribe({
+  //       b: true
+  //     })
+  //     var Thing = thing.Constructor
+  //     expect(function () {
+  //       arr = []
+  //       for (var i = 0; i < amount; i++) {
+  //         var a = new Thing({
+  //           b: i
+  //         })
+  //         arr.push(a)
+  //       }
+  //     }).performance({
+  //       loop: 10,
+  //       time: 100
+  //     }, done)
+  //   })
+  // })
 })
