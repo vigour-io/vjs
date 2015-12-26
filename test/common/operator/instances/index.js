@@ -25,7 +25,10 @@ describe('instances', function () {
     })
     fired = []
     a.$add.val = 200
-    expect(fired).to.deep.equal([ 'a', 'b', 'c' ])
+    expect(fired).to.include('a')
+    expect(fired).to.include('b')
+    expect(fired).to.include('c')
+    expect(fired.length).to.equal(3)
   })
 
   it('reference', function () {
@@ -56,7 +59,16 @@ describe('instances', function () {
     fired = []
     operator = []
     reffed.val = 200
-    expect(fired).to.deep.equal([ 'a', 'b', 'c' ])
-    expect(operator).to.deep.equal([ 'a', 'b', 'c' ])
+    expect(fired).to.include('a')
+    expect(fired).to.include('b')
+    expect(fired).to.include('c')
+    expect(fired.length).to.equal(3)
+  })
+
+  it('should fire for correct instances', function () {
+    expect(operator).to.include('a')
+    expect(operator).to.include('b')
+    expect(operator).to.include('c')
+    expect(operator.length).to.equal(3)
   })
 })
