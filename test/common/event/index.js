@@ -35,20 +35,4 @@ describe('event', function () {
       expect(myEvent.queue).to.have.length(1)
     })
   })
-
-  describe('flavour', function () {
-    var randomObject = {}
-    Event.flavour(randomObject)
-    it('should has the push method', function () {
-      expect(randomObject.push).to.be.defined
-      expect(randomObject.push).to.be.a.function
-    })
-    it('should add an emmiter to queue array', function () {
-      var emitter = new Emitter()
-      randomObject.push(emitter)
-      expect(randomObject.queue).to.be.defined
-      expect(randomObject.queue).to.be.an.array
-      expect(randomObject.queue).to.have.length(1)
-    })
-  })
 })
