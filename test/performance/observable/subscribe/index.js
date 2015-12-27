@@ -39,7 +39,7 @@ describe('Subscribe', function () {
     it('creating observables with listeners using set object (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(baseline).performance({
-        loop: 1,
+        loop: 10,
         time: 200
       }, done)
     })
@@ -47,7 +47,7 @@ describe('Subscribe', function () {
     it('creating observables with listeners using on (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(baseline2).performance({
-        loop: 1,
+        loop: 10,
         time: 200
       }, done)
     })
@@ -61,7 +61,7 @@ describe('Subscribe', function () {
           arr[i].val = i * 2
         }
       }).performance({
-        loop: 1,
+        loop: 10,
         time: 100,
         before: baseline
       }, function () {
