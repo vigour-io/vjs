@@ -9,6 +9,7 @@ describe('Subscribe', function () {
   // var Event = require('../../../lib/event')
   var amount = 1e3
   var cnt = 0
+  var loop = 1e2
 
   describe('Observable default emitters (baseline)', function () {
     function baseline () {
@@ -39,7 +40,7 @@ describe('Subscribe', function () {
     it('creating observables with listeners using set object (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(baseline).performance({
-        loop: 10,
+        loop: loop,
         time: 200
       }, done)
     })
@@ -47,7 +48,7 @@ describe('Subscribe', function () {
     it('creating observables with listeners using on (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(baseline2).performance({
-        loop: 10,
+        loop: loop,
         time: 200
       }, done)
     })
@@ -61,7 +62,7 @@ describe('Subscribe', function () {
           arr[i].val = i * 2
         }
       }).performance({
-        loop: 10,
+        loop: loop,
         time: 100,
         before: baseline
       }, function () {

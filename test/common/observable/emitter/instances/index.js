@@ -166,10 +166,13 @@ describe('instances', function () {
       }
     }
 
+    // very annoying case have to remove val since im replacing
+    expect(measure.a.val.c).msg('c context').to.equal(6)
+
     // no update on a (since its out of the context of a)
     expect(measure.a.val.a).msg('a context').to.equal(4)
     expect(measure.a.val.b).msg('b context').to.equal(7)
-    expect(measure.a.val.c).msg('c context').to.equal(6)
+    // on is not working as exopected!
     expect(measure.a.val.d).msg('d context').to.equal(1)
     expect(measure.a.val.total).to.equal(18)
 
@@ -183,6 +186,7 @@ describe('instances', function () {
   })
 
   it('change c', function () {
+    // reset counters much better now it all 1 wrong..
     c.val = 'i am changing value to c'
 
     // no update on a (since its out of the context of a)
@@ -202,6 +206,7 @@ describe('instances', function () {
   })
 
   it('add change attach listener "attach" on c', function () {
+    console.clear()
     measure.c.attach = { total: 0 }
 
     var attachTest = new Observable({

@@ -1,13 +1,19 @@
 'use strict'
 describe('use a childconstructor listener', function () {
+
+  // do do do
+
   var Observable = require('../../../../../lib/observable')
   var cnt = 0
   var paths = []
+  var colors = require('colors-browserify')
+  console.line = false
   var a = new Observable({
     key: 'a',
     on: {
       data: {
         test: function (data, event) {
+          console.log('yo g!', this.path.join('.'))
           paths.push(this.path.join('.'))
           cnt++
         }
@@ -25,8 +31,13 @@ describe('use a childconstructor listener', function () {
     key: 'aInstance'
   })
 
+  var cInstance = new a.Constructor({
+    key: 'cInstance'
+  })
+
   var bInstance = new aInstance.Constructor({ // eslint-disable-line
-    key: 'bInstance'
+    key: 'bInstance',
+    // something: {} //totally wrong -- something.b should fire for b instance, bInstance should NOT fire this is overwrites of course
   })
 
   beforeEach(function () {
@@ -35,12 +46,17 @@ describe('use a childconstructor listener', function () {
   })
 
   it('set fields', function () {
+    console.log('YO YO YO DO IT why 5????--------'.cyan)
+
     aInstance.set({
       something: {
         b: true
       }
     })
-    expect(cnt).to.equal(4)
+
+    console.log('YO YO YO DO IT!')
+
+    expect(cnt).to.equal(6)
   })
 
   it('remove field', function () {
