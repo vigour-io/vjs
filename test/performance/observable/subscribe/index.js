@@ -17,7 +17,7 @@ describe('Subscribe', function () {
         var a = new Observable({ //eslint-disable-line
           on: {
             data () {
-              cnt++
+              // cnt++
             }
           }
         })
@@ -65,7 +65,7 @@ describe('Subscribe', function () {
         time: 100,
         before: baseline
       }, function () {
-        console.log('CNT!', cnt)
+        // console.log('CNT!', cnt)
         done()
       })
     })
