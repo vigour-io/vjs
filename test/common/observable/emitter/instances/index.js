@@ -50,74 +50,79 @@ describe('instances', function () {
     expect(measure.a.val.total).to.equal(4)
   })
 
-  // it('create new b --> c', function () {
-  //   c = new b.Constructor({
-  //     key: 'c'
-  //   })
-  //   expect(measure.a.val.a).msg('a context').to.equal(2)
-  //   expect(measure.a.val.b).msg('b context').to.equal(2)
-  //   expect(measure.a.val.c).msg('c context').to.equal(1)
-  //   expect(measure.a.val.total).to.equal(5)
-  // })
-  //
-  // it('change a', function () {
-  //   a.val = 'a changes again'
-  //   expect(measure.a.val.a).msg('a context').to.equal(3)
-  //   expect(measure.a.val.b).msg('b context').to.equal(3)
-  //   expect(measure.a.val.c).msg('c context').to.equal(2)
-  //   expect(measure.a.val.total).to.equal(8)
-  // })
-  //
-  // it('change b, add property "prop1"', function () {
-  //   b.val = {
-  //     prop1: true
-  //   }
-  //   // no update on a (since its out of the context of a)
-  //   expect(measure.a.val.a).msg('a context').to.equal(3)
-  //   expect(measure.a.val.b).msg('b context').to.equal(4)
-  //   expect(measure.a.val.c).msg('c context').to.equal(3)
-  //   expect(measure.a.val.total).to.equal(10)
-  // })
-  //
-  // it('add change listener "second" on b', function () {
-  //   measure.b.second = { total: 0 }
-  //   b.val = {
-  //     on: {
-  //       data: {
-  //         second () {
-  //           var keyCnt = measure.b.second[this.key]
-  //           measure.b.second.total += 1
-  //           measure.b.second[this.key] = keyCnt ? (keyCnt + 1) : 1
-  //         }
-  //       }
-  //     }
-  //   }
-  //
-  //   // no update on a (since its out of the context of a)
-  //   expect(measure.a.val.a).msg('a context').to.equal(3)
-  //   // updates since it has to create its own property .$on for b (and c)
-  //   // hard part here is that it has to resolve instances of b (from the instances of a)
-  //   expect(measure.a.val.b).msg('b context').to.equal(5)
-  //   expect(measure.a.val.c).msg('c context').to.equal(4)
-  //   expect(measure.a.val.total).to.equal(12)
-  //
-  //   expect(measure.b.second.total).to.equal(0)
-  // })
-  //
-  // it('change a should fire for all instances', function () {
-  //   a.val = 'again a change!'
-  //   // no update on a (since its out of the context of a)
-  //   expect(measure.a.val.a).msg('a context').to.equal(4)
-  //   expect(measure.a.val.b).msg('b context').to.equal(6)
-  //
-  //   expect(measure.a.val.c).msg('c context').to.equal(5)
-  //   expect(measure.a.val.total).to.equal(15)
-  //
-  //   expect(measure.b.second.c).msg('c context (b second)').to.equal(1)
-  //   expect(measure.b.second.b).msg('b context (b second)').to.equal(1)
-  //   expect(measure.b.second.total).to.equal(2)
-  // })
-  //
+  it('create new b --> c', function () {
+    // does not emit instances of instances...
+    c = new b.Constructor({
+      key: 'c'
+    })
+    expect(measure.a.val.a).msg('a context').to.equal(2)
+    expect(measure.a.val.b).msg('b context').to.equal(2)
+    expect(measure.a.val.c).msg('c context').to.equal(1)
+    expect(measure.a.val.total).to.equal(5)
+  })
+
+  it('change a', function () {
+    a.val = 'a changes again'
+    expect(measure.a.val.a).msg('a context').to.equal(3)
+    expect(measure.a.val.b).msg('b context').to.equal(3)
+    expect(measure.a.val.c).msg('c context').to.equal(2)
+    expect(measure.a.val.total).to.equal(8)
+  })
+
+  it('change b, add property "prop1"', function () {
+    b.val = {
+      prop1: true
+    }
+    // no update on a (since its out of the context of a)
+    expect(measure.a.val.a).msg('a context').to.equal(3)
+    expect(measure.a.val.b).msg('b context').to.equal(4)
+    expect(measure.a.val.c).msg('c context').to.equal(3)
+    expect(measure.a.val.total).to.equal(10)
+  })
+
+  it('add change listener "second" on b', function () {
+    measure.b.second = { total: 0 }
+    b.val = {
+      on: {
+        data: {
+          second () {
+            // what goes wrong here...
+            // we get an instance of the emitter and then? sort of misses out on everything else?
+            var keyCnt = measure.b.second[this.key]
+            measure.b.second.total += 1
+            measure.b.second[this.key] = keyCnt ? (keyCnt + 1) : 1
+          }
+        }
+      }
+    }
+
+    // no update on a (since its out of the context of a)
+    expect(measure.a.val.a).msg('a context').to.equal(3)
+    // updates since it has to create its own property .$on for b (and c)
+    // hard part here is that it has to resolve instances of b (from the instances of a)
+    expect(measure.a.val.b).msg('b context').to.equal(5)
+    expect(measure.a.val.c).msg('c context').to.equal(4)
+    expect(measure.a.val.total).to.equal(12)
+
+    expect(measure.b.second.total).to.equal(0)
+  })
+
+  it('change a should fire for all instances', function () {
+    console.clear()
+
+    a.val = 'again a change!'
+    // no update on a (since its out of the context of a)
+    expect(measure.a.val.a).msg('a context').to.equal(4)
+    expect(measure.a.val.b).msg('b context').to.equal(6)
+
+    expect(measure.a.val.c).msg('c context').to.equal(5)
+    expect(measure.a.val.total).to.equal(15)
+
+    expect(measure.b.second.b).msg('b context (b second)').to.equal(1)
+    expect(measure.b.second.c).msg('c context (b second)').to.equal(1)
+    expect(measure.b.second.total).to.equal(2)
+  })
+
   // it('change b, add property "prop2"', function () {
   //   b.val = {
   //     prop2: true
@@ -305,7 +310,7 @@ describe('instances', function () {
   //   expect(a3._instances[0])
   //     .msg('b3 is a3._instances.total').to.equal(b3)
   // })
-
+  //
   // require('./set')
   // require('./property')
   // require('./childconstructor')
