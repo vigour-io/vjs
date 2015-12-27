@@ -86,7 +86,9 @@ describe('context', function () {
         // if not trackinstances on a does not track for contexts (makes sense)
         on: {
           // if the emitter is not there it will not fire for instances!
-          data () {}
+          data () {
+            console.log('ok!')
+          }
         }
       }
     })
