@@ -27,7 +27,8 @@ describe('set', function () {
             return
           }
           cnt++
-          var ev = this._inprogress = new Event(event.type, event.stamp) // remove first arg going to be stamp dont have origin anymore
+          this._inprogress = event.stamp
+          var ev = new Event(event.type, this._inprogress) // remove first arg going to be stamp dont have origin anymore
           this.set({
             specialField: 'xxxx',
             letsSee: true // this fires again

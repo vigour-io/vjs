@@ -133,22 +133,33 @@ describe('context', function () {
     })
   })
 
-  // describe('emit on instance', function () {
-  //   var test = contextObservable()
-  //   it('emit data on b', function () {
-  //     test.aInstance.b.emit('data') // = 'b change'
-  //   })
-  //   it('should not fire for "a"', function () {
-  //     expect(test.cnt.a).not.ok // and this is correct only want to emit for context
-  //   })
-  //   it('should fire once for "aInstance" context', function () {
-  //     expect(test.cnt.aInstance).to.equal(1)
-  //   })
-  //   it('should fire once in total', function () {
-  //     expect(test.cnt.total).to.equal(1)
-  //   })
-  // })
-  //
+  describe('emit on instance', function () {
+    var test, cInstance
+    it('create observables', function () {
+      test = contextObservable()
+      cInstance = new test.a.Constructor({
+        key: 'cInstance'
+      })
+    })
+    it('emit data on b, directly on context', function () {
+      test.aInstance.b.emit('data') // = 'b change'
+    })
+    it('should not fire for "a"', function () {
+      expect(test.cnt.a).not.ok // and this is correct only want to emit for context
+    })
+    it('should fire once for "aInstance" context', function () {
+      expect(test.cnt.aInstance).to.equal(1)
+    })
+
+    it('should not fire for "cInstance" context', function () {
+      expect(test.cnt.cInstance).not.ok
+    })
+
+    it('should fire once in total', function () {
+      expect(test.cnt.total).to.equal(1)
+    })
+  })
+
   // describe('resolve context over multiple contexts', function () {
   //   var fired
   //   var x = new Observable()
