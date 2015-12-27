@@ -139,6 +139,7 @@ describe('references', function () {
     expect(measure.b.second.total).to.equal(3)
   })
 
+  require('./property')
   require('./unique')
 })
 
