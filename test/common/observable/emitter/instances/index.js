@@ -311,7 +311,7 @@ describe('instances', function () {
       .msg('b3 is a3._instances.total').to.equal(b3)
   })
 
-  // require('./set')
-  // require('./property')
-  // require('./childconstructor')
+  require('./set')
+  require('./property')
+  require('./childconstructor')
 })
