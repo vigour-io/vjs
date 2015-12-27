@@ -134,10 +134,10 @@ describe('context', function () {
   })
 
   describe('emit on instance', function () {
-    var test, cInstance
+    var test, cInstance //eslint-disable-line
     it('create observables', function () {
       test = contextObservable()
-      cInstance = new test.a.Constructor({
+      cInstance = new test.a.Constructor({ //eslint-disable-line
         key: 'cInstance'
       })
     })
