@@ -7,7 +7,7 @@ describe('Subscribe', function () {
   chai.use(perf)
   var Observable = require('../../../../lib/observable')
   // var Event = require('../../../lib/event')
-  var amount = 1e3
+  var amount = 1e4
   var cnt = 0 //eslint-disable-line
   var loop = 10
 
@@ -75,12 +75,13 @@ describe('Subscribe', function () {
       arr = []
       cnt = 0
       var Obs = new Observable({ //eslint-disable-line
+        key: 'a',
         b: {
           trackInstances: true,
           c: {
             on: {
               data () {
-
+                // console.log('mofo!', this.path)
               }
             }
           }
@@ -88,7 +89,7 @@ describe('Subscribe', function () {
         trackInstances: true
       }).Constructor
       for (let i = 0; i < amount; i++) {
-        arr.push(new Obs(i))
+        arr.push(new Obs({ val: i, key: i }))
       }
     }
 
@@ -103,6 +104,7 @@ describe('Subscribe', function () {
     it('firing observables over context (3 levels) listeners (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(function () {
+        // console.log('----here--- start')
         var c = arr[0].b.c
         c.clearContextUp()
         c.emit('data')
@@ -168,14 +170,14 @@ describe('Subscribe', function () {
       }
     }
 
-    it('add on listeners (basic data /w function) on existing emitters (' + amount + ')', function (done) {
-      this.timeout(50e3)
-      expect(onlistener).performance({
-        loop: 1,
-        time: 500,
-        before: baseline
-      }, done)
-    })
+    // it('add on listeners (basic data /w function) on existing emitters (' + amount + ')', function (done) {
+    //   this.timeout(50e3)
+    //   expect(onlistener).performance({
+    //     loop: 1,
+    //     time: 500,
+    //     before: baseline
+    //   }, done)
+    // })
 
     // it('add on listeners (basic data /w function) create new emitters (' + amount + ')', function (done) {
     //   this.timeout(50e3)
