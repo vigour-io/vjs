@@ -12,6 +12,7 @@ describe('context', function () {
       b: {
         on: {
           data () {
+            console.log('yo fire data on b!', this.path)
             var key = this.path[0]
             cnt[key] = cnt[key] ? cnt[key] + 1 : 1
             cnt.total++
@@ -387,7 +388,7 @@ describe('context', function () {
       console.log('ok so this guy needs to find its context (multi level fan out)')
       expect(test.cnt.total).msg('total').to.equal(0)
 
-      //so whats happening -- we need it to fire for
+      // so whats happening -- we need it to fire for
       //  test.c.nest.b (instance of a)
       //  and then for d and e
       test.c.nest.b.emit('data')
@@ -401,7 +402,7 @@ describe('context', function () {
       expect(test.cnt.a).msg('no update on a').to.be.not.ok
     })
 
-    xit('fires from context in c (second time)', function () {
+    it('fires from context in c (second time)', function () {
       test.c.nest.b.emit('data')
       expect(test.cnt.d).msg('d').to.equal(2)
       expect(test.cnt.e).msg('e').to.equal(2)
@@ -410,7 +411,7 @@ describe('context', function () {
       expect(test.cnt.a).msg('no update on a').to.be.not.ok
     })
 
-    xit('fires from resolved a.b in c', function () {
+    it('fires from resolved a.b in c', function () {
       test.c.nest.set({
         b: 'something'
       })
