@@ -1,15 +1,15 @@
 'use strict'
 
 describe('Subscribe', function () {
-  var arr, target
+  var arr, target //eslint-disable-line
   var perf = require('chai-performance')
   perf.log = true
   chai.use(perf)
   var Observable = require('../../../../lib/observable')
   // var Event = require('../../../lib/event')
   var amount = 1e5
-  var cnt = 0
-  var loop = 10
+  var cnt = 0 //eslint-disable-line
+  var loop = 1
 
   describe('Observable default emitters (baseline)', function () {
     function baseline () {
@@ -41,7 +41,7 @@ describe('Subscribe', function () {
       this.timeout(50e3)
       expect(baseline).performance({
         loop: loop,
-        time: 1000
+        time: 4000
       }, done)
     })
 
@@ -49,26 +49,69 @@ describe('Subscribe', function () {
       this.timeout(50e3)
       expect(baseline2).performance({
         loop: loop,
-        time: 1000
+        time: 4000
       }, done)
     })
 
     it('firing listeners on observables (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(function () {
-        cnt = 0
         var len = arr.length
         for (let i = 0; i < len; i++) {
           arr[i].val = i * 2
         }
       }).performance({
         loop: loop,
-        time: 1000,
+        time: 4000,
         before: baseline
       }, function () {
         // console.log('CNT!', cnt)
         done()
       })
+    })
+
+    function observablesContext () {
+      arr = []
+      cnt = 0
+      var Obs = new Observable({ //eslint-disable-line
+        key: 'a',
+        b: {
+          trackInstances: true,
+          c: {
+            on: {
+              data () {
+                // console.log('mofo!', this.path)
+              }
+            }
+          }
+        },
+        trackInstances: true
+      }).Constructor
+      for (let i = 0; i < amount; i++) {
+        arr.push(new Obs({ val: i, key: i }))
+      }
+    }
+
+    it('creating observables (3 levels) with context listeners (' + amount + ')', function (done) {
+      this.timeout(50e3)
+      expect(observablesContext).performance({
+        loop: loop,
+        time: 4000
+      }, done)
+    })
+
+    it('firing observables over context (3 levels) listeners (' + amount + ')', function (done) {
+      this.timeout(50e3)
+      expect(function () {
+        // console.log('----here--- start')
+        var c = arr[0].b.c
+        c.clearContextUp()
+        c.emit('data')
+      }).performance({
+        loop: loop,
+        before: observablesContext,
+        time: 4000
+      }, done)
     })
 
     // it('creating observables add listeners on contextlevel , fire on creation (' + amount + ')', function (done) {
@@ -126,14 +169,14 @@ describe('Subscribe', function () {
       }
     }
 
-    it('add on listeners (basic data /w function) on existing emitters (' + amount + ')', function (done) {
-      this.timeout(50e3)
-      expect(onlistener).performance({
-        loop: 1,
-        time: 1000,
-        before: baseline
-      }, done)
-    })
+    // it('add on listeners (basic data /w function) on existing emitters (' + amount + ')', function (done) {
+    //   this.timeout(50e3)
+    //   expect(onlistener).performance({
+    //     loop: 1,
+    //     time: 500,
+    //     before: baseline
+    //   }, done)
+    // })
 
     // it('add on listeners (basic data /w function) create new emitters (' + amount + ')', function (done) {
     //   this.timeout(50e3)
