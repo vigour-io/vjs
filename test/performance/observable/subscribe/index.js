@@ -1,15 +1,15 @@
 'use strict'
 
 describe('Subscribe', function () {
-  var arr, target
+  var arr, target //eslint-disable-line
   var perf = require('chai-performance')
   perf.log = true
   chai.use(perf)
   var Observable = require('../../../../lib/observable')
   // var Event = require('../../../lib/event')
   var amount = 1e3
-  var cnt = 0
-  var loop = 1e2
+  var cnt = 0 //eslint-disable-line
+  var loop = 10
 
   describe('Observable default emitters (baseline)', function () {
     function baseline () {
@@ -69,6 +69,48 @@ describe('Subscribe', function () {
         // console.log('CNT!', cnt)
         done()
       })
+    })
+
+    function observablesContext () {
+      arr = []
+      cnt = 0
+      var Obs = new Observable({ //eslint-disable-line
+        b: {
+          trackInstances: true,
+          c: {
+            on: {
+              data () {
+
+              }
+            }
+          }
+        },
+        trackInstances: true
+      }).Constructor
+      for (let i = 0; i < amount; i++) {
+        arr.push(new Obs(i))
+      }
+    }
+
+    it('creating observables (3 levels) with context listeners (' + amount + ')', function (done) {
+      this.timeout(50e3)
+      expect(observablesContext).performance({
+        loop: loop,
+        time: 200
+      }, done)
+    })
+
+    it('firing observables over context (3 levels) listeners (' + amount + ')', function (done) {
+      this.timeout(50e3)
+      expect(function () {
+        var c = arr[0].b.c
+        c.clearContextUp()
+        c.emit('data')
+      }).performance({
+        loop: loop,
+        before: observablesContext,
+        time: 200
+      }, done)
     })
 
     // it('creating observables add listeners on contextlevel , fire on creation (' + amount + ')', function (done) {
