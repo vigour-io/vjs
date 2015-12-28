@@ -7,9 +7,9 @@ describe('Subscribe', function () {
   chai.use(perf)
   var Observable = require('../../../../lib/observable')
   // var Event = require('../../../lib/event')
-  var amount = 1e3
+  var amount = 1e4
   var cnt = 0 //eslint-disable-line
-  var loop = 100
+  var loop = 10
 
   describe('Observable default emitters (baseline)', function () {
     function baseline () {
@@ -56,7 +56,6 @@ describe('Subscribe', function () {
     it('firing listeners on observables (' + amount + ')', function (done) {
       this.timeout(50e3)
       expect(function () {
-        cnt = 0
         var len = arr.length
         for (let i = 0; i < len; i++) {
           arr[i].val = i * 2
