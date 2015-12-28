@@ -7,7 +7,7 @@ describe('Subscribe', function () {
   chai.use(perf)
   var Observable = require('../../../../lib/observable')
   // var Event = require('../../../lib/event')
-  var amount = 1e4
+  var amount = 1e5
   var cnt = 0 //eslint-disable-line
   var loop = 10
 
@@ -41,7 +41,7 @@ describe('Subscribe', function () {
       this.timeout(50e3)
       expect(baseline).performance({
         loop: loop,
-        time: 200
+        time: 4000
       }, done)
     })
 
@@ -49,7 +49,7 @@ describe('Subscribe', function () {
       this.timeout(50e3)
       expect(baseline2).performance({
         loop: loop,
-        time: 200
+        time: 4000
       }, done)
     })
 
@@ -62,7 +62,7 @@ describe('Subscribe', function () {
         }
       }).performance({
         loop: loop,
-        time: 100,
+        time: 4000,
         before: baseline
       }, function () {
         // console.log('CNT!', cnt)
@@ -96,7 +96,7 @@ describe('Subscribe', function () {
       this.timeout(50e3)
       expect(observablesContext).performance({
         loop: loop,
-        time: 200
+        time: 4000
       }, done)
     })
 
@@ -110,7 +110,7 @@ describe('Subscribe', function () {
       }).performance({
         loop: loop,
         before: observablesContext,
-        time: 200
+        time: 4000
       }, done)
     })
 
