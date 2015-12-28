@@ -31,7 +31,10 @@ describe('property listener on instance', function () {
   var cnt = 0
   var a = new Observable({
     key: 'a',
-    on: {}
+    on: {} // remove track instances needs empty on object way cleaner
+    // on: {
+    //   property () {} // so this is a problem... instances but no emitter...
+    // }
     // trackInstances: true
   })
 
