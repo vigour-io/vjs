@@ -9,7 +9,7 @@ describe('Subscribe', function () {
   // var Event = require('../../../lib/event')
   var amount = 1e5
   var cnt = 0 //eslint-disable-line
-  var loop = 10
+  var loop = 1
 
   describe('Observable default emitters (baseline)', function () {
     function baseline () {
