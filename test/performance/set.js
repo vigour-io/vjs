@@ -185,7 +185,7 @@ describe('Set and creation', function () {
             b: {
               c: {
                 d: {
-                  e: function () {}
+                  e () {}
                 }
               }
             }
