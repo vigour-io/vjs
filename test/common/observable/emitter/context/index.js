@@ -12,7 +12,6 @@ describe('context', function () {
       b: {
         on: {
           data () {
-            console.log('yo fire data on b!', this.path)
             var key = this.path[0]
             cnt[key] = cnt[key] ? cnt[key] + 1 : 1
             cnt.total++
@@ -88,7 +87,6 @@ describe('context', function () {
         on: {
           // if the emitter is not there it will not fire for instances!
           data () {
-            console.log('ok!')
           }
         }
       }
@@ -111,7 +109,6 @@ describe('context', function () {
           val: b.nest,
           on: {
             data: function () {
-              console.log('---->')
               fired = this.path
             }
           }
@@ -127,8 +124,6 @@ describe('context', function () {
     })
 
     it('should fire for e', function () {
-      console.clear()
-      console.log('yo eeeeee')
       a.nest.val = 'rick' // reference fire still not work
       expect(fired).to.deep.equal(['e', 'field'])
     })
@@ -358,7 +353,6 @@ describe('context', function () {
   describe('contexts to instances updates', function () {
     var test = contextObservable()
     it('creates a new "a" --> "c" (nest observable) should not fire', function () {
-      console.clear()
       test.c = new Observable({
         key: 'c',
         trackInstances: true
@@ -384,15 +378,11 @@ describe('context', function () {
     })
 
     it('fires from context in c', function () {
-      console.clear()
-      console.log('ok so this guy needs to find its context (multi level fan out)')
       expect(test.cnt.total).msg('total').to.equal(0)
-
       // so whats happening -- we need it to fire for
       //  test.c.nest.b (instance of a)
       //  and then for d and e
       test.c.nest.b.emit('data')
-
       // orginator does not fire for some weird reason...
       // so apparently it was fired from the emitInternal /but w a context
       expect(test.cnt.c).msg('c').to.equal(1)
