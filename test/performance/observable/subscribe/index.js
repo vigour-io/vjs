@@ -7,9 +7,9 @@ describe('Subscribe', function () {
   chai.use(perf)
   var Observable = require('../../../../lib/observable')
   // var Event = require('../../../lib/event')
-  var amount = 1e4
+  var amount = 1e3
   var cnt = 0 //eslint-disable-line
-  var loop = 10
+  var loop = 100
 
   describe('Observable default emitters (baseline)', function () {
     function baseline () {
