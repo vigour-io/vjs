@@ -7,7 +7,7 @@ describe('Subscribe', function () {
   chai.use(perf)
   var Observable = require('../../../../lib/observable')
   // var Event = require('../../../lib/event')
-  var amount = 1e5
+  var amount = 1e4
   var cnt = 0 //eslint-disable-line
   var loop = 1
 
