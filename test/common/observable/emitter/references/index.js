@@ -141,6 +141,7 @@ describe('references', function () {
 
   require('./property')
   require('./unique')
+  require('./reference')
 })
 
 describe('on reference, switching reference multiple times', function () {
