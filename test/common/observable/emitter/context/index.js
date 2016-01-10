@@ -156,23 +156,91 @@ describe('context', function () {
     })
   })
 
+
+  describe('resolve context on actual emitters', function () {
+    var a = new Observable({
+      trackInstances: true,
+      b: {
+        on: {
+          data () {
+            console.log(arguments)
+          }
+        }
+      }
+    })
+
+    it('resolves context on new', function () {
+      var aInstance = new a.Constructor({
+        b: {
+          on: {
+            data () {
+              console.error('lulz')
+            }
+          }
+        }
+      })
+      expect(aInstance.b).to.not.equal(a.b)
+      expect(aInstance.b._on.data).to.not.equal(a.b._on.data)
+    })
+
+    it('resolve context for emitter with useval', function () {
+      console.log('------ know how to do ------')
+      var a = new Observable({
+        key: 'a',
+        useVal: true,
+        on: {
+          data () {
+            console.log('xxxxx do it!', this.path)
+          }
+        }
+      })
+
+      var b = new Observable({
+        on: {
+          data () {
+            console.log('its b!')
+          }
+        },
+        speshA: new a.Constructor()
+      })
+
+      var c = new b.Constructor({
+        speshA: {
+          on: {
+            data () {
+
+            }
+          }
+        }
+      })
+
+      expect(c.speshA._on).to.not.equal(a._on)
+      expect(b.speshA._on).to.equal(a._on)
+    })
+  })
+
   describe('resolve context over multiple contexts', function () {
     var fired
     var x = new Observable()
-    var y = new Observable({
-      key: 'y'
-    })
+    var y = new Observable({ key: 'y' })
+
+    // wtf us goin on
     var c = new Observable({
       useVal: true,
+      // on: {}, // wtf is happening
+      // trackinstances: true,
       val: x
     })
     var a = new Observable({
       useVal: true,
+      trackInstances: true,
       nest: c
     })
     var d = new Observable({
       key: 'd',
+      trackInstances: true,
       x: {
+        trackInstances: true,
         b: new a.Constructor()
       }
     })
@@ -180,22 +248,29 @@ describe('context', function () {
       key: 'b'
     })
 
+    // b.x.b.nest.val
+
     it('should have resolved context', function () {
+      console.log('----->')
       b.x.b.nest.set({
         val: y,
         on: {
           data: function () {
+            console.log('yo bitch', this.path)
             fired = this.path
           }
         }
       })
       expect(b.x.b.nest).msg('b.x.b.nest').to.not.equal(c)
       expect(d.x.b.nest).msg('d.x.b.nest').to.not.equal(b.x.b.nest)
+      // wtf is happening...
+
       expect(d.x.b).msg('d.x.b').to.not.equal(b.x.b)
       expect(d.x).msg('d.x').to.not.equal(b.x)
     })
 
     it('should not crash and fire once for the instance', function () {
+      console.log('!?')
       y.val = 'xxxx'
       expect(fired).to.deep.equal(['b', 'x', 'b', 'nest'])
     })
