@@ -20,19 +20,4 @@ describe('event', function () {
     var eventWithOrigin = new Event(theOrigin, myType)
     expect(eventWithOrigin.type).to.be.defined
   })
-
-  describe('push method', function () {
-    var myEvent = new Event(theOrigin)
-    it('should has the push method', function () {
-      expect(myEvent.push).to.be.defined
-      expect(myEvent.push).to.be.a.function
-    })
-    it('should add an emmiter to queue array', function () {
-      var emitter = new Emitter()
-      myEvent.push(emitter)
-      expect(myEvent.queue).to.be.defined
-      expect(myEvent.queue).to.be.an.array
-      expect(myEvent.queue).to.have.length(1)
-    })
-  })
 })

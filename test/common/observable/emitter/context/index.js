@@ -296,7 +296,12 @@ describe('context', function () {
         b.set({
           field: true
         })
-
+        expect(fired).to.deep.equal([
+          ['c', 'bSpesh'],
+          ['e', 'bSpesh'],
+          ['d', 'bSpesh'],
+          ['b']
+        ])
         // missing C -- godammint
         console.log(fired)
       })
