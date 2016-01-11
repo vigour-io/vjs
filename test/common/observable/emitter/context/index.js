@@ -198,7 +198,7 @@ describe('context', function () {
       var b = new Observable({
         on: {
           data () {
-            console.log('its b!')
+            // console.log('its b!')
           }
         },
         speshA: new a.Constructor()
@@ -216,6 +216,90 @@ describe('context', function () {
 
       expect(c.speshA._on).to.not.equal(a._on)
       expect(b.speshA._on).to.equal(a._on)
+    })
+
+    describe('double instances', function () {
+      var a, b, c, d, e, fired
+      beforeEach(function () {
+        fired = []
+      })
+      it('create, dont resolve context', function () {
+        console.clear()
+        a = new Observable({
+          key: 'a',
+          on: {
+            data () {
+              console.log('a')
+            }
+          },
+          useVal: true
+        })
+
+        b = new Observable({
+          key: 'b',
+          useVal: true,
+          on: {
+            data () {
+              console.log('yo bitch?', this.path)
+              fired.push(this.path)
+            }
+          },
+          aspesh: new a.Constructor()
+        })
+
+        // why does this not fire????
+        c = new Observable({
+          key: 'c',
+          bSpesh: new b.Constructor(),
+          on: {
+            data () {
+              fired.push(this.path)
+              console.log('top c,d,e', this.path)
+            }
+          }
+        })
+
+        d = new c.Constructor({
+          key: 'd'
+        })
+        expect(d.bSpesh._on).to.equal(b._on)
+        expect(d.bSpesh.aspesh._on).to.equal(a._on)
+      })
+
+      it('make new instance of d, resolve context till a._on', function () {
+        e = new d.Constructor({
+          key: 'e',
+          bSpesh: {
+            aspesh: {
+              on: {
+                data () {
+                  fired.push(this.path)
+                }
+              }
+            }
+          }
+        })
+        expect(e.bSpesh).to.not.equal(d.bSpesh)
+        expect(e.bSpesh.aspesh._on).to.not.equal(a._on)
+      })
+
+      it('fires for e when fired on e', function () {
+        e.bSpesh.aspesh.val = 'yoyo'
+        expect(fired).to.deep.equal([
+          [ 'e', 'bSpesh', 'aspesh' ]
+        ])
+      })
+
+      it('fires for all contexts when setting original b', function () {
+        console.clear()
+        // b.clear
+        b.set({
+          field: true
+        })
+
+        // missing C -- godammint
+        console.log(fired)
+      })
     })
   })
 
