@@ -7,6 +7,7 @@ describe('direct', function () {
       on: {
         data: {
           condition: function (data, cb, event) {
+            console.log('yo bitch!', data, cb, event)
             if (data > 0) {
               setTimeout(cb, data)
             } else {
@@ -14,6 +15,7 @@ describe('direct', function () {
             }
           },
           val: function () {
+            console.log('xxx')
             done()
           }
         }
@@ -22,47 +24,47 @@ describe('direct', function () {
     a.val = 20
   })
 
-  it('fires condition over references', function (done) {
-    var b = new Observable()
-    var a = new Observable({
-      val: b,
-      on: {
-        data: {
-          condition: function (data, cb, event) {
-            if (data > 0) {
-              setTimeout(cb, data)
-            } else {
-              cb(new Error('make number', data))
-            }
-          },
-          val: function () {
-            done()
-          }
-        }
-      }
-    })
-    b.val = 20
-  })
+  // it('fires condition over references', function (done) {
+  //   var b = new Observable()
+  //   var a = new Observable({
+  //     val: b,
+  //     on: {
+  //       data: {
+  //         condition: function (data, cb, event) {
+  //           if (data > 0) {
+  //             setTimeout(cb, data)
+  //           } else {
+  //             cb(new Error('make number', data))
+  //           }
+  //         },
+  //         val: function () {
+  //           done()
+  //         }
+  //       }
+  //     }
+  //   })
+  //   b.val = 20
+  // })
 
-  it('fires error', function (done) {
-    var a = new Observable({
-      val: 10,
-      on: {
-        error: function (data) {
-          done()
-        },
-        data: {
-          condition: function (data, cb, event) {
-            if (data > 0) {
-              setTimeout(cb, data)
-            } else {
-              // also data
-              cb(new Error('make number'))
-            }
-          }
-        }
-      }
-    })
-    a.val = 'aaa'
-  })
+  // it('fires error', function (done) {
+  //   var a = new Observable({
+  //     val: 10,
+  //     on: {
+  //       error: function (data) {
+  //         done()
+  //       },
+  //       data: {
+  //         condition: function (data, cb, event) {
+  //           if (data > 0) {
+  //             setTimeout(cb, data)
+  //           } else {
+  //             // also data
+  //             cb(new Error('make number'))
+  //           }
+  //         }
+  //       }
+  //     }
+  //   })
+  //   a.val = 'aaa'
+  // })
 })
