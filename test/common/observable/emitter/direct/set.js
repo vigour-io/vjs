@@ -2,6 +2,7 @@
 describe('set', function () {
   var Observable = require('../../../../../lib/observable')
   var obs, cnt, cnt2
+  var Event = require('../../../../../lib/event')
 
   beforeEach(function () {
     cnt = 0
@@ -14,6 +15,7 @@ describe('set', function () {
       specialField: {
         on: {
           data: function () {
+            console.log('yo why?', this._path)
             expect(this.val).msg('specialField').to.equal('hello')
             cnt2++
           }
@@ -21,14 +23,20 @@ describe('set', function () {
       },
       on: {
         data: function (data, event) {
+          if (this._inprogress === event.stamp) {
+            return
+          }
           cnt++
+          this._inprogress = event.stamp
+          var ev = new Event(event.type, this._inprogress) // remove first arg going to be stamp dont have origin anymore
           this.set({
             specialField: 'xxxx',
-            letsSee: true
-          }, event)
+            letsSee: true // this fires again
+          }, ev)
           this.set({
             specialField: 'hello'
-          }, event)
+          }, ev)
+          ev.trigger()
         }
       }
     })

@@ -12,7 +12,8 @@ describe('off', function () {
   function specialListener () {}
   function weirdListener () {}
 
-  it('create new observable --> a, overwrite different types of keys', function () {
+  // !no longer supported! (save lots of speed)
+  xit('create new observable --> a, overwrite different types of keys', function () {
     aRef = new Observable({
       key: 'aRef',
       val: 'a value for aRef'

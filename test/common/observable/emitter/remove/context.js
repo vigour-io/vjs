@@ -28,7 +28,6 @@ describe('context', function () {
   it('removes and resolves context, with a delayed event', function () {
     var b = new a.Constructor()
     var ev = new Event()
-    ev.isTriggered = true
     expect(b.b).to.equal(a.b)
     b.b.c.remove(ev)
     expect(b.b).to.not.equal(a.b)
