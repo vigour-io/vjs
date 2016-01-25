@@ -66,7 +66,7 @@ describe('Remove', function () {
       }
     }).performance({
       loop: 10,
-      time: 50,
+      time: 100,
       before: nestedObservable
     }, done)
   })

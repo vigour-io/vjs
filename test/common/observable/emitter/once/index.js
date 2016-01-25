@@ -2,7 +2,7 @@
 
 describe('once', function () {
   var Observable = require('../../../../../lib/observable')
-  it('should be bale to handle function listeners', function (done) {
+  it('should be able to handle function listeners', function (done) {
     var obs = new Observable()
     obs.once(function () {
       expect(this._on.data.fn).not.ok
@@ -12,6 +12,7 @@ describe('once', function () {
   })
 
   it('should be able to handle base listeners', function (done) {
+    // this is different ofcourse
     var obs = new Observable()
     var ref = new Observable()
     obs.once(ref)

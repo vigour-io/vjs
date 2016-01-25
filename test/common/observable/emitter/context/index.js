@@ -86,7 +86,8 @@ describe('context', function () {
         // if not trackinstances on a does not track for contexts (makes sense)
         on: {
           // if the emitter is not there it will not fire for instances!
-          data () {}
+          data () {
+          }
         }
       }
     })
@@ -123,14 +124,20 @@ describe('context', function () {
     })
 
     it('should fire for e', function () {
-      a.nest.val = 'rick'
+      a.nest.val = 'rick' // reference fire still not work
       expect(fired).to.deep.equal(['e', 'field'])
     })
   })
 
   describe('emit on instance', function () {
-    var test = contextObservable()
-    it('emit data on b', function () {
+    var test, cInstance //eslint-disable-line
+    it('create observables', function () {
+      test = contextObservable()
+      cInstance = new test.a.Constructor({ //eslint-disable-line
+        key: 'cInstance'
+      })
+    })
+    it('emit data on b, directly on context', function () {
       test.aInstance.b.emit('data') // = 'b change'
     })
     it('should not fire for "a"', function () {
@@ -139,28 +146,190 @@ describe('context', function () {
     it('should fire once for "aInstance" context', function () {
       expect(test.cnt.aInstance).to.equal(1)
     })
+
+    it('should not fire for "cInstance" context', function () {
+      expect(test.cnt.cInstance).not.ok
+    })
+
     it('should fire once in total', function () {
       expect(test.cnt.total).to.equal(1)
+    })
+  })
+
+
+  describe('resolve context on actual emitters', function () {
+    var a = new Observable({
+      trackInstances: true,
+      b: {
+        on: {
+          data () {
+            console.log(arguments)
+          }
+        }
+      }
+    })
+
+    it('resolves context on new', function () {
+      var aInstance = new a.Constructor({
+        b: {
+          on: {
+            data () {
+              console.error('lulz')
+            }
+          }
+        }
+      })
+      expect(aInstance.b).to.not.equal(a.b)
+      expect(aInstance.b._on.data).to.not.equal(a.b._on.data)
+    })
+
+    it('resolve context for emitter with useval', function () {
+      console.log('------ know how to do ------')
+      var a = new Observable({
+        key: 'a',
+        useVal: true,
+        on: {
+          data () {
+            console.log('xxxxx do it!', this.path)
+          }
+        }
+      })
+
+      var b = new Observable({
+        on: {
+          data () {
+            // console.log('its b!')
+          }
+        },
+        speshA: new a.Constructor()
+      })
+
+      var c = new b.Constructor({
+        speshA: {
+          on: {
+            data () {
+
+            }
+          }
+        }
+      })
+
+      expect(c.speshA._on).to.not.equal(a._on)
+      expect(b.speshA._on).to.equal(a._on)
+    })
+
+    describe('double instances', function () {
+      var a, b, c, d, e, fired
+      beforeEach(function () {
+        fired = []
+      })
+      it('create, dont resolve context', function () {
+        console.clear()
+        a = new Observable({
+          key: 'a',
+          on: {
+            data () {
+              console.log('a')
+            }
+          },
+          useVal: true
+        })
+
+        b = new Observable({
+          key: 'b',
+          useVal: true,
+          on: {
+            data () {
+              console.log('yo bitch?', this.path)
+              fired.push(this.path)
+            }
+          },
+          aspesh: new a.Constructor()
+        })
+
+        // why does this not fire????
+        c = new Observable({
+          key: 'c',
+          bSpesh: new b.Constructor(),
+          on: {
+            data () {
+              fired.push(this.path)
+              console.log('top c,d,e', this.path)
+            }
+          }
+        })
+
+        d = new c.Constructor({
+          key: 'd'
+        })
+        expect(d.bSpesh._on).to.equal(b._on)
+        expect(d.bSpesh.aspesh._on).to.equal(a._on)
+      })
+
+      it('make new instance of d, resolve context till a._on', function () {
+        e = new d.Constructor({
+          key: 'e',
+          bSpesh: {
+            aspesh: {
+              on: {
+                data () {
+                  fired.push(this.path)
+                }
+              }
+            }
+          }
+        })
+        expect(e.bSpesh).to.not.equal(d.bSpesh)
+        expect(e.bSpesh.aspesh._on).to.not.equal(a._on)
+      })
+
+      it('fires for e when fired on e', function () {
+        e.bSpesh.aspesh.val = 'yoyo'
+        expect(fired).to.deep.equal([
+          [ 'e', 'bSpesh', 'aspesh' ]
+        ])
+      })
+
+      it('fires for all contexts when setting original b', function () {
+        console.clear()
+        // b.clear
+        b.set({
+          field: true
+        })
+        expect(fired).to.deep.equal([
+          ['c', 'bSpesh'],
+          ['e', 'bSpesh'],
+          ['d', 'bSpesh'],
+          ['b']
+        ])
+        // missing C -- godammint
+        console.log(fired)
+      })
     })
   })
 
   describe('resolve context over multiple contexts', function () {
     var fired
     var x = new Observable()
-    var y = new Observable({
-      key: 'y'
-    })
+    var y = new Observable({ key: 'y' })
+
+    // wtf us goin on
     var c = new Observable({
       useVal: true,
+      // on: {}, // wtf is happening
+      // trackinstances: true,
       val: x
     })
     var a = new Observable({
       useVal: true,
+      trackInstances: true,
       nest: c
     })
     var d = new Observable({
       key: 'd',
+      trackInstances: true,
       x: {
+        trackInstances: true,
         b: new a.Constructor()
       }
     })
@@ -168,22 +337,29 @@ describe('context', function () {
       key: 'b'
     })
 
+    // b.x.b.nest.val
+
     it('should have resolved context', function () {
+      console.log('----->')
       b.x.b.nest.set({
         val: y,
         on: {
           data: function () {
+            console.log('yo bitch', this.path)
             fired = this.path
           }
         }
       })
       expect(b.x.b.nest).msg('b.x.b.nest').to.not.equal(c)
       expect(d.x.b.nest).msg('d.x.b.nest').to.not.equal(b.x.b.nest)
+      // wtf is happening...
+
       expect(d.x.b).msg('d.x.b').to.not.equal(b.x.b)
       expect(d.x).msg('d.x').to.not.equal(b.x)
     })
 
     it('should not crash and fire once for the instance', function () {
+      console.log('!?')
       y.val = 'xxxx'
       expect(fired).to.deep.equal(['b', 'x', 'b', 'nest'])
     })
@@ -367,14 +543,15 @@ describe('context', function () {
 
     it('fires from context in c', function () {
       expect(test.cnt.total).msg('total').to.equal(0)
-
+      // so whats happening -- we need it to fire for
+      //  test.c.nest.b (instance of a)
+      //  and then for d and e
       test.c.nest.b.emit('data')
-
       // orginator does not fire for some weird reason...
       // so apparently it was fired from the emitInternal /but w a context
+      expect(test.cnt.c).msg('c').to.equal(1)
       expect(test.cnt.d).msg('d').to.equal(1)
       expect(test.cnt.e).msg('e').to.equal(1)
-      expect(test.cnt.c).msg('c').to.equal(1)
       expect(test.cnt.total).msg('total').to.equal(3)
       expect(test.cnt.a).msg('no update on a').to.be.not.ok
     })

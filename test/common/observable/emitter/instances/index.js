@@ -51,6 +51,7 @@ describe('instances', function () {
   })
 
   it('create new b --> c', function () {
+    // does not emit instances of instances...
     c = new b.Constructor({
       key: 'c'
     })
@@ -85,6 +86,8 @@ describe('instances', function () {
       on: {
         data: {
           second () {
+            // what goes wrong here...
+            // we get an instance of the emitter and then? sort of misses out on everything else?
             var keyCnt = measure.b.second[this.key]
             measure.b.second.total += 1
             measure.b.second[this.key] = keyCnt ? (keyCnt + 1) : 1
@@ -105,6 +108,8 @@ describe('instances', function () {
   })
 
   it('change a should fire for all instances', function () {
+    console.clear()
+
     a.val = 'again a change!'
     // no update on a (since its out of the context of a)
     expect(measure.a.val.a).msg('a context').to.equal(4)
@@ -113,8 +118,8 @@ describe('instances', function () {
     expect(measure.a.val.c).msg('c context').to.equal(5)
     expect(measure.a.val.total).to.equal(15)
 
-    expect(measure.b.second.c).msg('c context (b second)').to.equal(1)
     expect(measure.b.second.b).msg('b context (b second)').to.equal(1)
+    expect(measure.b.second.c).msg('c context (b second)').to.equal(1)
     expect(measure.b.second.total).to.equal(2)
   })
 
@@ -161,10 +166,13 @@ describe('instances', function () {
       }
     }
 
+    // very annoying case have to remove val since im replacing
+    expect(measure.a.val.c).msg('c context').to.equal(6)
+
     // no update on a (since its out of the context of a)
     expect(measure.a.val.a).msg('a context').to.equal(4)
     expect(measure.a.val.b).msg('b context').to.equal(7)
-    expect(measure.a.val.c).msg('c context').to.equal(6)
+    // on is not working as exopected!
     expect(measure.a.val.d).msg('d context').to.equal(1)
     expect(measure.a.val.total).to.equal(18)
 
@@ -178,6 +186,7 @@ describe('instances', function () {
   })
 
   it('change c', function () {
+    // reset counters much better now it all 1 wrong..
     c.val = 'i am changing value to c'
 
     // no update on a (since its out of the context of a)
@@ -197,6 +206,7 @@ describe('instances', function () {
   })
 
   it('add change attach listener "attach" on c', function () {
+    console.clear()
     measure.c.attach = { total: 0 }
 
     var attachTest = new Observable({

@@ -1,5 +1,6 @@
 'use strict'
 describe('use a childconstructor listener', function () {
+  // do do do
   var Observable = require('../../../../../lib/observable')
   var cnt = 0
   var paths = []
@@ -25,6 +26,10 @@ describe('use a childconstructor listener', function () {
     key: 'aInstance'
   })
 
+  var cInstance = new a.Constructor({ //eslint-disable-line
+    key: 'cInstance'
+  })
+
   var bInstance = new aInstance.Constructor({ // eslint-disable-line
     key: 'bInstance'
   })
@@ -40,7 +45,7 @@ describe('use a childconstructor listener', function () {
         b: true
       }
     })
-    expect(cnt).to.equal(4)
+    expect(cnt).to.equal(6)
   })
 
   it('remove field', function () {
