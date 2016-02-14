@@ -16,7 +16,10 @@
   "dependencies": {
     "lodash": "3.10.x",
     "bluebird": "3.0.x",
-    "vigour-util": "0.1.x"
+    "vigour-util": "0.1.1"
+  },
+  "devDependencies": {
+    "chai-performance": "0.1.4"
   },
   "main": "./lib",
   "browser": {
