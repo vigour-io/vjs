@@ -1,6 +1,6 @@
 {
   "name": "vigour-js",
-  "version": "0.4.4",
+  "version": "0.5.2",
   "author": "Vigour.io <dev@vigour.io>",
   "repository": {
     "type": "git",
@@ -9,29 +9,23 @@
   "engines": {
     "node": "^4.1.1"
   },
-  "scripts": {
-    "test": "gaston test",
-    "test-config": "gaston test -r node -s test/node/config",
-    "doc": "node documentation.js"
-  },
-  "description": "A javascript libary providing fast and memory efficient observables",
+  "description": "A javascript libary providing fast and memory efficient observables -- will be renamed to vigour-observable",
   "bugs": {
-    "url": "https://github.com/vigour-io/config/issues"
+    "url": "https://github.com/vigour-io/vjs/issues"
   },
   "dependencies": {
     "lodash": "3.10.x",
-    "bluebird": "3.0.x"
+    "bluebird": "3.0.x",
+    "vigour-util": "0.1.1"
   },
   "devDependencies": {
-    "colors-browserify": "0.1.1",
     "chai-performance": "0.1.4"
   },
   "main": "./lib",
   "browser": {
-    "./lib/base/iterator/": "./lib/base/iterator/browser.js",
-    "./lib/util/uuid/": "./lib/util/uuid/browser.js"
+    "./lib/base/iterator/": "./lib/base/iterator/browser.js"
   },
-  "homepage": "https://github.com/vigour-io/config",
+  "homepage": "https://github.com/vigour-io/vjs",
   "keywords": [
     "javascript",
     "framework",
@@ -53,17 +47,6 @@
     "Michiel Van Liempt <michiel@vigour.io>"
   ],
   "license": "MIT",
-  "gaston": {
-    "source-maps": true
-  },
-  "vigour": {
-    "services": {
-      "sentinel": {
-        "branches": [],
-        "unignoreFolders": []
-      }
-    }
-  },
   "standard": {
     "globals": [
       "before",
