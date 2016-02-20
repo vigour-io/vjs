@@ -1,6 +1,6 @@
 {
   "name": "vigour-js",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "author": "Vigour.io <dev@vigour.io>",
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
   "dependencies": {
     "lodash": "3.10.x",
     "bluebird": "3.0.x",
-    "vigour-util": "0.1.1"
+    "vigour-util": "0.2.1"
   },
   "devDependencies": {
     "chai-performance": "0.1.4"
