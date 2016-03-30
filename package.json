@@ -1,158 +1,67 @@
 {
-  "_args": [
-    [
-      "vigour-js@^0.2.2",
-      "/Users/marcus/vigour/mtv-play/node_modules/vigour-ferry"
-    ]
-  ],
-  "_from": "vigour-js@>=0.2.2 <0.3.0",
-  "_id": "vigour-js@0.2.5",
-  "_inCache": true,
-  "_installable": true,
-  "_location": "/vigour-js",
-  "_nodeVersion": "4.2.2",
-  "_npmUser": {
-    "email": "dev@vigour.io",
-    "name": "vigour-io"
-  },
-  "_npmVersion": "3.5.0",
-  "_phantomChildren": {},
-  "_requested": {
-    "name": "vigour-js",
-    "raw": "vigour-js@^0.2.2",
-    "rawSpec": "^0.2.2",
-    "scope": null,
-    "spec": ">=0.2.2 <0.3.0",
-    "type": "range"
-  },
-  "_requiredBy": [
-    "/vigour-element",
-    "/vigour-ferry",
-    "/vigour-shutter",
-    "/vigour-wrapper"
-  ],
-  "_resolved": "https://registry.npmjs.org/vigour-js/-/vigour-js-0.2.5.tgz",
-  "_shasum": "0064c5aa7990039ab3415c0c92853100e0512e2e",
-  "_shrinkwrap": null,
-  "_spec": "vigour-js@^0.2.2",
-  "_where": "/Users/marcus/vigour/mtv-play/node_modules/vigour-ferry",
-  "author": {
-    "email": "dev@vigour.io",
-    "name": "Vigour.io"
-  },
-  "browserify": {
-    "./lib/base/iterator/": "./lib/base/iterator/browser.js"
-  },
-  "bugs": {
-    "url": "https://github.com/vigour-io/vjs/issues"
-  },
-  "contributors": [
-    {
-      "name": "Danillo Corvalan",
-      "email": "danillo@vigour.io"
-    },
-    {
-      "name": "Jim de beer",
-      "email": "jim@vigour.io"
-    },
-    {
-      "name": "Marcus Besjes",
-      "email": "marcus@vigour.io"
-    },
-    {
-      "name": "Rick Smit",
-      "email": "rick@vigour.io"
-    },
-    {
-      "name": "Andre Padez",
-      "email": "andre@vigour.io"
-    },
-    {
-      "name": "Youri Daamen",
-      "email": "youri@vigour.io"
-    },
-    {
-      "name": "Valerio Barilla",
-      "email": "valerio@vigour.io"
-    },
-    {
-      "name": "Shawn Inder",
-      "email": "shawn@vigour.io"
-    },
-    {
-      "name": "Renan Carvalho",
-      "email": "renan@vigour.io"
-    },
-    {
-      "name": "Nika Tomadze",
-      "email": "nika@vigour.io"
-    },
-    {
-      "name": "Michiel Van Liempt",
-      "email": "michiel@vigour.io"
-    }
-  ],
-  "dependencies": {
-    "lodash": "3.10.x"
-  },
-  "description": "A javascript libary created and used by Vigour",
-  "devDependencies": {},
-  "directories": {},
-  "dist": {
-    "shasum": "0064c5aa7990039ab3415c0c92853100e0512e2e",
-    "tarball": "http://registry.npmjs.org/vigour-js/-/vigour-js-0.2.5.tgz"
-  },
-  "engines": {
-    "node": "^4.1.1"
-  },
-  "gaston": {
-    "source-maps": true
-  },
-  "gitHead": "34049dc0cf9eceb96dd13137152d99b811190f5e",
-  "homepage": "https://github.com/vigour-io/vjs",
-  "keywords": [
-    "browserify",
-    "crossplatform",
-    "framework",
-    "javascript",
-    "observable"
-  ],
-  "license": "MIT",
-  "main": "./lib",
-  "maintainers": [
-    {
-      "name": "vigour-io",
-      "email": "dev@vigour.io"
-    }
-  ],
   "name": "vigour-js",
-  "optionalDependencies": {},
+  "version": "0.0.5",
+  "author": {
+    "name": "Vigour.io",
+    "email": "dev@vigour.io"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vigour-io/vjs.git"
+    "url": "https://github.com/vigour-io/V-browserfy.git"
+  },
+  "main": "./index.js",
+  "engines": {
+    "node": ">=0.10.0"
   },
   "scripts": {
-    "doc": "node documentation.js",
-    "test": "gaston test",
-    "test-config": "gaston test -r node -s test/node/config"
+    "test": "./test/test.js"
   },
-  "standard": {
-    "globals": [
-      "beforeEach",
-      "describe",
-      "expect",
-      "it",
-      "sinon",
-      "xit"
-    ]
+  "description": "A javascript framework created and used by Vigour",
+  "bugs": {
+    "url": "https://github.com/vigour-io/V-browserfy/issues"
   },
-  "version": "0.2.5",
-  "vigour": {
-    "services": {
-      "sentinel": {
-        "branches": [],
-        "unignoreFolders": []
-      }
-    }
-  }
+  "homepage": "https://github.com/vigour-io/V-browserfy",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "colors": "~0.6.2",
+    "eventemitter3": "^0.1.5",
+    "monotonic-timestamp": "0.0.9",
+    "sockjs-client-node": "^0.1.1",
+    "ws": "^0.4.32",
+    "socket.io-client": "^1.2.0",
+    "engine.io-client": "^1.4.1"
+  },
+  "optionalDependencies": {
+    "engine.io-client": "^1.4.1",
+    "sockjs-client-node": "^0.1.1",
+    "ws": "^0.4.32"
+  },
+  "devDependencies": {
+    "v8-profiler": "5.1.x",
+    "phantomjs": "1.9.x",
+    "npmlog": "0.1.x",
+    "gaston": "git://github.com/vigour-io/gaston#170be53aa04b9115ff6292a780b8879f5ff7e8a2"
+  },
+  "keywords": [
+    "javascript",
+    "framework",
+    "front",
+    "browserify",
+    "performance",
+    "footprint",
+    "cross platform"
+  ],
+  "license": "GPL",
+  "readme": "[![Bird](https://magnum.travis-ci.com/vigour-io/vigour-js.svg?token=qw5Jm5vzFGEcygY783sE)](https://magnum.travis-ci.com/vigour-io/vigour-js)\n####vigour-js, a javascript framework created and used by Vigour\n--------------\n\n##What is vigour-js?\n\nvigour-js is a libary used to create front-ends or backends that are reactive using observable objects. It also adds some neat optimization tricks to deliver close to native perfomance for front end js applications\n\n• It's small , about 15kb gzipped (with no dependencies) for most of the functionality in the browser\n\n• It's fast eveything has been profiled and we got some pretty amazing results for annoying tasks like rendering thousands of elements or handeling 100 updates per second per client on a server\n\n• Sync objects and bind data with minimal effort.\n\n• Make working with different devices a breeze, using ‘cases’ a similar system to media queries but fully implemented in Javascript. Possible to test most of your code in a browser.\n\n• vigour-js is build from the ground up as contained modules using **[browserify](http://browserify.org/)** , large parts of the functionality can be used separately. Use in node with no effort at all\n\n* Web site: http://vigour.io\n* Getting Started: http://vigour.io/#getting+started\n\n##What are the building blocks?\n\n**[base](/base)**\nOur base object, from which we create all our Class oriented objects, such as [element](/browser/element). Use [.extend](/base#extend) to add special properties to base classes.\n\n**[element](/browser/element)**\nUsed to create visual objects. element is an extension of [base](/base). This means it inherits all attributes of [base](/base), but we've added some functionalities taht are nice to have in the browser.\n\n**[object](/object)**\nUsed instead of normal objects in vigour-js. Listeners are automatically added and removed.\nWe tried to make it as easy as possible with just plain js to have [observable objects](http://en.wikipedia.org/wiki/Observer_pattern)\n\n**[value](/value)**\nA specific type of object that can use functions to return values, also has some neat  things like custom [operators](/value/#operators). \n\n**[data](/data)**\nUsed to populate objects with data. Used for data that has to be synced from and to a server and has to be queried, selected, etc.\n\n### Examples\n-------------------------\n-------------------------\n[Objects](/object)\n\n```javascript\nvar object = require('vigour-js/object')\n  , a = new object(20)\n  , b = new object(a)\n\nb.addListener(function() {\n  console.log('update b!')\n})\n\na.val = 300 //this will update b\n```\n\n-------------------------\n[Base](vigour/core/base)\n\n```javascript\nvar base = require('vigour-js/base')\n  , a = new base()\n\na.extend({\n  name:'thingy',\n  set:function(val) {\n    console.log('set my thingy with',val)\n  }\n})\n\nvar b = new a.Class({\n  thingy:'boing'\n})\n\nvar c = new b.Class();\nconsole.log(c.thingy.val)\n//this will log boing since c inherited the thingy of b\n```\n",
+  "readmeFilename": "README.md",
+  "_id": "vigour-js@0.0.5",
+  "dist": {
+    "shasum": "f90ae9bc6d9aa474e6733952944612fff488b636"
+  },
+  "_resolved": "git+ssh://git@github.com:vigour-io/vigour-js.git#8ec33b515e1989d456e43c89e2c5f7095677f238",
+  "_from": "../../../../../var/folders/9c/2f080_dn6fd8tn1w4h6sfj640000gq/T/npm-2731-d62214c7/git-cache-4c38c7001183/8ec33b515e1989d456e43c89e2c5f7095677f238",
+  "gitHead": "8ec33b515e1989d456e43c89e2c5f7095677f238",
+  "_shasum": "e7ea4aec86c39f72c6bd97f0f41cd9a4dc894f4d"
 }

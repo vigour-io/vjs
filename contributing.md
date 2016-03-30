@@ -1,112 +1,166 @@
-#Contributing
+####coding style
+We're currently using the coding style of [npm](https://www.npmjs.org/doc/misc/npm-coding-style.html).
+We use a few best pratices derived from [airbnb](https://github.com/airbnb/javascript)
 
-##Documentation Guide. (WIP)
+**Few exceptions on npm**
+We do not indent up until de end of a var/field name, but rather start our object on a new line. Also, you are allowed to write an object on a single line, if this is more clear for the reader.
 
-####How to document functions?
+For example, we write:
 
-
-```
-/**
-* A function in List (List.$handleShifted).
-* @function $handleShifted (short description)
-* @memberof List
-* @param {string} [i] [description]
-* @return {*} [description]
-*/
-$handleShifted: function(i) {
-  var item = this[i]
-  if(item._$parent === this) {
-    item.$key = i
-  } else if(item._$contextKey !== i){
-     this.$createListContextGetter(i)
+#####objects
+```javascript
+var object =
+{ a: 'a'
+, b: 
+  { c: 'c'
+  , d: 'd'
   }
- }
-```
-
-
-Depending on the function that you're writing, there are some informations that may not be necessary. e.g = `@param` , `@return`.
-
-There is just one information that cannot be avoid.
-
-- `@function` - The function name and a short description
-
-######There are also some 'special' information that we use to document a function, these are:
-
-- `@deprecated` - Use this tag to indicate that the function is being deprecated.
-
-```
-/**
-@deprecated since vjs version 2.0
-...
-*/
-function oldFunction(){
-....
 }
 ```
 
-- `@version` - Use this tag to indicate in wich version the function is available.
+```javascript
+//you may write an object on one line for convienience
 
+app.set
+(
+  { carousel:new carousel(
+    { w: 100
+    , h: 300
+    , data: 
+      [ { css: 'blue', text: 1 } 
+      , { css: 'red', text: 2 }
+      , { css: 'yellow', text: 3 }
+      , { css: 'green', text: 4 }
+      , { css: 'orange', text: 5 }
+      ]
+    })
+  }
+)
 ```
-/**
-@version 2.0
-...
-*/
-function newElement (){
-...
+Instead of in npm:
+```javascript
+app.set({
+  carousel: new carousel({ w: 100
+                        , h: 300
+                        , data: [ { css: 'blue' 
+                                   , text: 1 
+                                   }
+                                 , { css: 'red' 
+                                   , text: 2 
+                                   }
+                                 , { css: 'yellow' 
+                                   , text: 3 
+                                   }
+                                 , { css: 'green' 
+                                   , text: 4 
+                                   }
+                                 , { css: 'orange' 
+                                   , text: 5 
+                                   }
+                                 ]
+                        })
+})
+```
+
+#####_this
+```javascript
+//these cases use the word _this ( no that, no t )
+function( val ) {
+  var _this = this
+  setTimeout( function() { 
+    _this.hooray( val ) 
+  } )
 }
 ```
 
-- `@link` - If for some reason, you may use another function to explain or show a behavior
- that will help on 
-
-
-####How to document Namespaces/Class
-
-Use `@namespace` tag to document (modules, classes files ?????)
-
-```
-/**
- * List - Write some nice description abou the (file,module,class???)
- * @namespace List
- */
-
-"use strict";
-
-var Observable = require('../observable')
-var Event = require('../event')
-
-module.exports = new Observable({
-  $define: {
-    length: {
-      value: 0,
-      writable: true
-      .....
-      
+#####for loops
+```javascript
+for( var key in object )
+{
+  //use key for this variable name
+}
 ```
 
-####How to generate the documentation file?
+#####if statement
+```javascript
+if( something === true )
+{
+  //camelcase
+  doSomething() 
+}
+else
+{
+  doSomethingElse()
+}
+```
 
-All the markdown files are hosted on the VJS github wiki, and configured as a submodule of the VJS repo. Submodules are basically a repo inside another repo, it means that when you pull VJS, vjs.wiki will be pulled as well. 
+#####modules
+```javascript
+var module = require( './mymodule' )
 
-When working with submodules you need to initialize the submodule and updated it, you have two ways to do that:
+//this is allowed (overwrites the module /w a function)
+module.exports = exports = function() {}
+```
+common js modules
+• try to keep length of modules as short as possible (200-300) lines
+• try to keep modules independent of upstream modules
 
-- Specify the `--recursive` option when clone the VJS repo - `git clone --recursive git@github.com:vigour-io/vjs.git`
+####[docs](docs)
 
-- Initialize the vjs.wiki repo yourself.
+There is not a lot here yet but try to create or update docs whenever you can!
+Docs are written in [Markdown Files](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
-   (After you clone the VJS repo), go to vjs.wiki folder and type:
-   `git submodule init` (this will initialize the submodule) and then type `git submodule update`  (this will pull all the vjs.wiki content -markdown files )
+####comments
+Try to write comments as much as possible in the [JSDocs](http://usejsdoc.org/about-getting-started.html) style.
 
+Any thing that has to be done can be written lie
+```
+//TODO: have to add listener
+```
 
-Notice that the first time that you do one of the both options above, the vjs.wiki repo will be pulled on a 'crazy' repo. Just remeber to run `git checkout master`.
+####tests
 
+[tests folder](test)
+• node tests for folders in the test/node folder
+• browser test using phantomjs for the folders in test/browser 
+```
+npm test
+```
 
+[mocha](https://ci.testling.com/guide/mocha) tets
 
-Once you've completed with the coding using the style mentioned above, you don't need to touch any markdown file. Go to terminal and run `npm run doc`, this command will update the vjs.wiki repo with all the new comments that you've added. 
+Use [Travis](https://travis-ci.org/recent) for continious integration
 
-####Pushing the documentation content
+.travis.yml file
+```
+language: node_js
+install: 
+  - npm install
+node_js:
+  - 0.10
+```
 
-The VJS.wiki repo works like a normal repo, so you can commit it and push. Pushing the VJS.wiki repo will not update VJS repo. If you'd like to push the Vjs repo, go to VJS root and push it.
+Can later be replace with [testling](https://ci.testling.com/)  
 
-The main ideia of using submodules is that we have the two decoupled repo but in the same hand we have all the content centralized. If you for some reason don't need to update/create documentation, just push VJS repo.
+*note test scripts for the front end have to show the difference in processing time between the last commit*
 
+####dev-tools
+We are currently building a tool called [gaston](https://github.com/vigour-io/gaston) makes it easy to build for different devices and adds a pretty solid watch system to browserify projects.
+
+[tools docs section](docs/tools)
+
+###js-hint
+use this [.jshintrc file](http://jshint.com/docs/) for linting 
+```
+{
+  "asi": true,
+  "bitwise": true,
+  "boss": true,
+  "debug": true,
+  "expr": true,
+  "laxbreak": true,
+  "laxcomma": true,
+  "node": true,
+  "maxlen":80
+}
+```

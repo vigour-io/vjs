@@ -1,0 +1,1 @@
+var ua = window.__ua = require('./ua')
