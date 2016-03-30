@@ -1,53 +1,158 @@
 {
-  "name": "vigour-js",
-  "version": "0.7.0",
-  "author": "Vigour.io <dev@vigour.io>",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vigour-io/vjs.git"
+  "_args": [
+    [
+      "vigour-js@^0.2.2",
+      "/Users/marcus/vigour/mtv-play/node_modules/vigour-ferry"
+    ]
+  ],
+  "_from": "vigour-js@>=0.2.2 <0.3.0",
+  "_id": "vigour-js@0.2.5",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/vigour-js",
+  "_nodeVersion": "4.2.2",
+  "_npmUser": {
+    "email": "dev@vigour.io",
+    "name": "vigour-io"
+  },
+  "_npmVersion": "3.5.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "vigour-js",
+    "raw": "vigour-js@^0.2.2",
+    "rawSpec": "^0.2.2",
+    "scope": null,
+    "spec": ">=0.2.2 <0.3.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/vigour-element",
+    "/vigour-ferry",
+    "/vigour-shutter",
+    "/vigour-wrapper"
+  ],
+  "_resolved": "https://registry.npmjs.org/vigour-js/-/vigour-js-0.2.5.tgz",
+  "_shasum": "0064c5aa7990039ab3415c0c92853100e0512e2e",
+  "_shrinkwrap": null,
+  "_spec": "vigour-js@^0.2.2",
+  "_where": "/Users/marcus/vigour/mtv-play/node_modules/vigour-ferry",
+  "author": {
+    "email": "dev@vigour.io",
+    "name": "Vigour.io"
+  },
+  "browserify": {
+    "./lib/base/iterator/": "./lib/base/iterator/browser.js"
+  },
+  "bugs": {
+    "url": "https://github.com/vigour-io/vjs/issues"
+  },
+  "contributors": [
+    {
+      "name": "Danillo Corvalan",
+      "email": "danillo@vigour.io"
+    },
+    {
+      "name": "Jim de beer",
+      "email": "jim@vigour.io"
+    },
+    {
+      "name": "Marcus Besjes",
+      "email": "marcus@vigour.io"
+    },
+    {
+      "name": "Rick Smit",
+      "email": "rick@vigour.io"
+    },
+    {
+      "name": "Andre Padez",
+      "email": "andre@vigour.io"
+    },
+    {
+      "name": "Youri Daamen",
+      "email": "youri@vigour.io"
+    },
+    {
+      "name": "Valerio Barilla",
+      "email": "valerio@vigour.io"
+    },
+    {
+      "name": "Shawn Inder",
+      "email": "shawn@vigour.io"
+    },
+    {
+      "name": "Renan Carvalho",
+      "email": "renan@vigour.io"
+    },
+    {
+      "name": "Nika Tomadze",
+      "email": "nika@vigour.io"
+    },
+    {
+      "name": "Michiel Van Liempt",
+      "email": "michiel@vigour.io"
+    }
+  ],
+  "dependencies": {
+    "lodash": "3.10.x"
+  },
+  "description": "A javascript libary created and used by Vigour",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "0064c5aa7990039ab3415c0c92853100e0512e2e",
+    "tarball": "http://registry.npmjs.org/vigour-js/-/vigour-js-0.2.5.tgz"
   },
   "engines": {
     "node": "^4.1.1"
   },
-  "description": "A javascript libary providing fast and memory efficient observables -- will be renamed to vigour-observable",
-  "bugs": {
-    "url": "https://github.com/vigour-io/vjs/issues"
+  "gaston": {
+    "source-maps": true
   },
-  "dependencies": {
-    "lodash": "3.10.x",
-    "bluebird": "3.0.x",
-    "vigour-util": "0.2.3"
-  },
-  "devDependencies": {
-    "chai-performance": "0.1.4"
-  },
-  "main": "./lib",
-  "browser": {
-    "./lib/base/iterator/": "./lib/base/iterator/browser.js"
-  },
+  "gitHead": "34049dc0cf9eceb96dd13137152d99b811190f5e",
   "homepage": "https://github.com/vigour-io/vjs",
   "keywords": [
-    "javascript",
-    "framework",
     "browserify",
-    "observable",
-    "crossplatform"
-  ],
-  "contributors": [
-    "Jim de beer <jim@vigour.io>",
-    "Youri Daamen <youri@vigour.io>"
+    "crossplatform",
+    "framework",
+    "javascript",
+    "observable"
   ],
   "license": "MIT",
+  "main": "./lib",
+  "maintainers": [
+    {
+      "name": "vigour-io",
+      "email": "dev@vigour.io"
+    }
+  ],
+  "name": "vigour-js",
+  "optionalDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vigour-io/vjs.git"
+  },
+  "scripts": {
+    "doc": "node documentation.js",
+    "test": "gaston test",
+    "test-config": "gaston test -r node -s test/node/config"
+  },
   "standard": {
     "globals": [
-      "before",
-      "describe",
-      "it",
       "beforeEach",
-      "sinon",
+      "describe",
       "expect",
-      "xit",
-      "chai"
+      "it",
+      "sinon",
+      "xit"
     ]
+  },
+  "version": "0.2.5",
+  "vigour": {
+    "services": {
+      "sentinel": {
+        "branches": [],
+        "unignoreFolders": []
+      }
+    }
   }
 }
